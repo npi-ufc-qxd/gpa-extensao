@@ -26,6 +26,7 @@ public class Pessoa {
 	@ManyToMany
 	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
 	private List<Papel> papeis;
+
 	public Pessoa(String nome, String email, String cpf, List<Papel> papeis) {
 		super();
 		this.nome = nome;

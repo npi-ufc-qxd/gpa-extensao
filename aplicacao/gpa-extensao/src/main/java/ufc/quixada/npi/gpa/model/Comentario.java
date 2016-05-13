@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -16,7 +17,10 @@ public class Comentario {
 	@NotNull
 	private String conteudo;
 	private Date date;
-	
+	@ManyToOne
+	private AcaoExtensao acaoExtensao;
+	@ManyToOne
+	private Pessoa autor;
 	public Comentario(String conteudo, Date date) {
 		super();
 		this.conteudo = conteudo;
