@@ -26,6 +26,7 @@ public class AcaoExtensao {
 	private boolean prorrogavel;
 	@ManyToOne
 	private Pessoa coordenador;
+	private AcaoExtensao vinculo;
 	private Integer bolsas;
 	private Status status;
 	private Documento anexo;
@@ -61,7 +62,14 @@ public class AcaoExtensao {
 	}
 
 	
-	
+	public AcaoExtensao getVinculo() {
+		return vinculo;
+	}
+
+	public void setVinculo(AcaoExtensao vinculo) {
+		this.vinculo = vinculo;
+	}
+
 	public Integer getId() {
 		return id;
 	}
