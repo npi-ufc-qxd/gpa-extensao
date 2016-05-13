@@ -1,0 +1,260 @@
+package ufc.quixada.npi.gpa.model;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
+public class AcaoExtensao {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private String codigo;
+	private String identificador;
+	private String titulo;
+	private String resumo;
+	private Modalidade modalidade;
+	private Date inicio;
+	private Date termino;
+	private boolean prorrogavel;
+	@ManyToOne
+	private Pessoa coordenador;
+	private Integer bolsas;
+	private Status status;
+	private Documento anexo;
+	@OneToMany
+	private List<Comentario> comentarios;
+	@OneToMany
+	private List<Participacao> equipeDeTrabalho;
+	@OneToMany
+	private List<ParceriaExterna> parceriasExternas;
+	@OneToOne
+	private Parecer parecerTecnico;
+	@OneToOne
+	private Parecer parecerRelator;
+	
+	public AcaoExtensao() {
+	}
+
+	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
+			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsas, Status status,
+			Documento anexo) {
+		this.codigo = codigo;
+		this.identificador = identificador;
+		this.titulo = titulo;
+		this.resumo = resumo;
+		this.modalidade = modalidade;
+		this.inicio = inicio;
+		this.termino = termino;
+		this.prorrogavel = prorrogavel;
+		this.coordenador = coordenador;
+		this.bolsas = bolsas;
+		this.status = status;
+		this.anexo = anexo;
+	}
+
+	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getResumo() {
+		return resumo;
+	}
+
+	public void setResumo(String resumo) {
+		this.resumo = resumo;
+	}
+
+	public Modalidade getModalidade() {
+		return modalidade;
+	}
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
+	}
+
+	public Date getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Date inicio) {
+		this.inicio = inicio;
+	}
+
+	public Date getTermino() {
+		return termino;
+	}
+
+	public void setTermino(Date termino) {
+		this.termino = termino;
+	}
+
+	public boolean isProrrogavel() {
+		return prorrogavel;
+	}
+
+	public void setProrrogavel(boolean prorrogavel) {
+		this.prorrogavel = prorrogavel;
+	}
+
+	public Pessoa getCoordenador() {
+		return coordenador;
+	}
+
+	public void setCoordenador(Pessoa coordenador) {
+		this.coordenador = coordenador;
+	}
+
+	public Integer getBolsas() {
+		return bolsas;
+	}
+
+	public void setBolsas(Integer bolsas) {
+		this.bolsas = bolsas;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Documento getAnexo() {
+		return anexo;
+	}
+
+	public void setAnexo(Documento anexo) {
+		this.anexo = anexo;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public List<Participacao> getEquipeDeTrabalho() {
+		return equipeDeTrabalho;
+	}
+
+	public void setEquipeDeTrabalho(List<Participacao> equipeDeTrabalho) {
+		this.equipeDeTrabalho = equipeDeTrabalho;
+	}
+
+	public List<ParceriaExterna> getParceriasExternas() {
+		return parceriasExternas;
+	}
+
+	public void setParceriasExternas(List<ParceriaExterna> parceriasExternas) {
+		this.parceriasExternas = parceriasExternas;
+	}
+
+	public Parecer getParecerTecnico() {
+		return parecerTecnico;
+	}
+
+	public void setParecerTecnico(Parecer parecerTecnico) {
+		this.parecerTecnico = parecerTecnico;
+	}
+
+	public Parecer getParecerRelator() {
+		return parecerRelator;
+	}
+
+	public void setParecerRelator(Parecer parecerRelator) {
+		this.parecerRelator = parecerRelator;
+	}
+
+
+
+	public enum Modalidade{
+		PROGRAMA("Programa"),PROJETO("Projeto"),CURSO("Curso"),EVENTO("Evento"),PRESTACAO_DE_SERVICO("Prestação de Serviço");
+		private String descricao;
+		private Modalidade(String descricao){
+			this.descricao=descricao;
+		}
+		public String getDescricao(){
+			return this.descricao;
+		}
+	}
+	public enum Status{
+		NOVO("NOVO"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"),AGUARDANDO_PARECER_TECNICO("AGUARDANDO PARECER TÉCNICO"),
+		AGUARDANDO_PARECER_RELATOR("AGUARDANDO PARECER"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"),
+		RESOLVENDO_PENDENCIAS("RESOLVENDO PENDÊNCIAS"), RESOLVENDO_RESTRICOES("RESOLVENDO RESTRIÇÕES"),
+		AGUARDANDO_HOMOLOGACAO("AGUARDANDO HOMOLOGAÇÃO"),APROVADO("APROVADO"), REPROVADO("REPROVADO");
+		private String descricao;
+		private Status(String descricao){
+			this.descricao=descricao;
+		}
+		public String getDescricao(){
+			return this.descricao;
+		}
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AcaoExtensao other = (AcaoExtensao) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
+}
