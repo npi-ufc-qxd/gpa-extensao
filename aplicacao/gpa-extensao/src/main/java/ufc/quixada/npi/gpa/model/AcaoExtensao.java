@@ -27,7 +27,9 @@ public class AcaoExtensao {
 	@ManyToOne
 	private Pessoa coordenador;
 	private AcaoExtensao vinculo;
-	private Integer bolsas;
+	private Integer bolsasSolicitadas;
+	private Date dataDeHomologacao;
+	private int bolsasRecebidas;
 	private Status status;
 	private Documento anexo;
 	@OneToMany
@@ -45,7 +47,7 @@ public class AcaoExtensao {
 	}
 
 	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
-			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsas, Status status,
+			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas, Status status,
 			Documento anexo) {
 		this.codigo = codigo;
 		this.identificador = identificador;
@@ -56,7 +58,7 @@ public class AcaoExtensao {
 		this.termino = termino;
 		this.prorrogavel = prorrogavel;
 		this.coordenador = coordenador;
-		this.bolsas = bolsas;
+		this.bolsasSolicitadas = bolsasSolicitadas;
 		this.status = status;
 		this.anexo = anexo;
 	}
@@ -150,12 +152,12 @@ public class AcaoExtensao {
 		this.coordenador = coordenador;
 	}
 
-	public Integer getBolsas() {
-		return bolsas;
+	public Integer getBolsasSolicitadas() {
+		return bolsasSolicitadas;
 	}
 
-	public void setBolsas(Integer bolsas) {
-		this.bolsas = bolsas;
+	public void setBolsasSolicitadas(Integer bolsasSolicitadas) {
+		this.bolsasSolicitadas = bolsasSolicitadas;
 	}
 
 	public Status getStatus() {
@@ -214,6 +216,22 @@ public class AcaoExtensao {
 		this.parecerRelator = parecerRelator;
 	}
 
+	public Date getDataDeHomologacao() {
+		return dataDeHomologacao;
+	}
+
+	public void setDataDeHomologacao(Date dataDeHomologacao) {
+		this.dataDeHomologacao = dataDeHomologacao;
+	}
+
+	public int getBolsasRecebidas() {
+		return bolsasRecebidas;
+	}
+
+	public void setBolsasRecebidas(int bolsasRecebidas) {
+		this.bolsasRecebidas = bolsasRecebidas;
+	}
+
 
 
 	public enum Modalidade{
@@ -229,7 +247,7 @@ public class AcaoExtensao {
 	public enum Status{
 		NOVO("NOVO"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"),AGUARDANDO_PARECER_TECNICO("AGUARDANDO PARECER TÉCNICO"),
 		AGUARDANDO_PARECER_RELATOR("AGUARDANDO PARECER"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"),
-		RESOLVENDO_PENDENCIAS("RESOLVENDO PENDÊNCIAS"), RESOLVENDO_RESTRICOES("RESOLVENDO RESTRIÇÕES"),
+		RESOLVENDO_PENDENCIAS_PARECER("RESOLVENDO PENDÊNCIAS DO PARECER"), RESOLVENDO_PENDENCIAS_RELATO("RESOLVENDO RESTRIÇÕES DO RELATO"),
 		AGUARDANDO_HOMOLOGACAO("AGUARDANDO HOMOLOGAÇÃO"),APROVADO("APROVADO"), REPROVADO("REPROVADO");
 		private String descricao;
 		private Status(String descricao){

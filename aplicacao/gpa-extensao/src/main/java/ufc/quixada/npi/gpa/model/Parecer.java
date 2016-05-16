@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 @Entity
 public class Parecer {
@@ -27,19 +29,24 @@ public class Parecer {
 	@ManyToOne
 	@JoinColumn(name="parecerista_id")
 	private Pessoa responsavel;
-	
+	private Date prazo;
+	@OneToOne
+	private Documento arquivo;
+	private List<String> pendencias;
 	public Parecer() {
 		super();
 	}
 
 	public Parecer(Posicionamento posicionamento, String parecer, Date dataAtribuicao, Date dataRealizacao,
-			Pessoa responsavel) {
+			Pessoa responsavel, Date prazo, Documento arquivo) {
 		super();
 		this.posicionamento = posicionamento;
 		this.parecer = parecer;
 		this.dataAtribuicao = dataAtribuicao;
 		this.dataRealizacao = dataRealizacao;
 		this.responsavel = responsavel;
+		this.prazo = prazo;
+		this.arquivo = arquivo;
 	}
 
 
@@ -91,6 +98,30 @@ public class Parecer {
 		this.responsavel = responsavel;
 	}
 
+	public Date getPrazo() {
+		return prazo;
+	}
+
+	public void setPrazo(Date prazo) {
+		this.prazo = prazo;
+	}
+
+	public Documento getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Documento arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public List<String> getPendencias() {
+		return pendencias;
+	}
+
+	public void setPendencias(List<String> pendencias) {
+		this.pendencias = pendencias;
+	}
+
 	public enum Posicionamento{
 		FAVORAVEL("Favorável"), NAO_FAVORAVEL("Não Favorável");
 		private String descricao;
@@ -126,6 +157,5 @@ public class Parecer {
 			return false;
 		return true;
 	}
-	
 	
 }
