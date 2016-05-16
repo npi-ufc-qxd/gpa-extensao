@@ -30,6 +30,7 @@ public class Participacao {
 	private String nomeParticipante;
 	@CPF
 	private String cpfParticipante;
+	private boolean coordenador;
 	
 	public Participacao() {
 		super();
@@ -139,6 +140,13 @@ public class Participacao {
 		this.cpfParticipante = cpfParticipante;
 	}
 
+	public boolean isCoordenador() {
+		return coordenador;
+	}
+
+	public void setCoordenador(boolean coordenador) {
+		this.coordenador = coordenador;
+	}
 
 	public enum Funcao{
 		ALUNO_VOLUNTARIO("Aluno Voluntário"),ALUNO_BOLSISTA("Aluno Bolsista"),STA ("Servidor Técnico Administrativo"),DOCENTE("Docente"),OUTRO("Outro");
