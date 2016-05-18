@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 @Entity
@@ -32,7 +33,8 @@ public class Parecer {
 	private Date prazo;
 	@OneToOne
 	private Documento arquivo;
-	private List<String> pendencias;
+	@OneToMany
+	private List<Pendencia> pendencias;
 	public Parecer() {
 		super();
 	}
@@ -106,20 +108,20 @@ public class Parecer {
 		this.prazo = prazo;
 	}
 
+	public List<Pendencia> getPendencias() {
+		return pendencias;
+	}
+
+	public void setPendencias(List<Pendencia> pendencias) {
+		this.pendencias = pendencias;
+	}
+
 	public Documento getArquivo() {
 		return arquivo;
 	}
 
 	public void setArquivo(Documento arquivo) {
 		this.arquivo = arquivo;
-	}
-
-	public List<String> getPendencias() {
-		return pendencias;
-	}
-
-	public void setPendencias(List<String> pendencias) {
-		this.pendencias = pendencias;
 	}
 
 	public enum Posicionamento{

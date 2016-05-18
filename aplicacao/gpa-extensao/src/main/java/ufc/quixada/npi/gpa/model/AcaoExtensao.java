@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,14 @@ public class AcaoExtensao {
 	private boolean prorrogavel;
 	@ManyToOne
 	private Pessoa coordenador;
+	@ManyToOne
 	private AcaoExtensao vinculo;
 	private Integer bolsasSolicitadas;
 	private Date dataDeHomologacao;
 	private int bolsasRecebidas;
+	@Enumerated
 	private Status status;
+	@OneToOne
 	private Documento anexo;
 	@OneToMany
 	private List<Comentario> comentarios;
