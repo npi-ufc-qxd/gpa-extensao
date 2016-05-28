@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class AcaoExtensao {
 	
 	private String resumo;
 	
+	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
 	
 	private Date inicio;
@@ -47,7 +49,7 @@ public class AcaoExtensao {
 	
 	private int bolsasRecebidas;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private Status status;
 	
 	@OneToOne
