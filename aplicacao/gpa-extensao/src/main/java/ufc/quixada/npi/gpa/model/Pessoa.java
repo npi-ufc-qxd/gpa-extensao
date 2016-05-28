@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,10 +13,14 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Pessoa {
+public class Pessoa implements UserDetails {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -27,6 +32,8 @@ public class Pessoa {
 	
 	@CPF
 	private String cpf;
+	
+	private String password;
 	
 	@ManyToMany
 	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
@@ -83,6 +90,14 @@ public class Pessoa {
 		this.papeis = papeis;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,6 +120,36 @@ public class Pessoa {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.papeis;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.cpf;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
 		return true;
 	}
 	

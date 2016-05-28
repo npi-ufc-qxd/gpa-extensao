@@ -1,0 +1,52 @@
+package ufc.quixada.npi.gpa.config;
+
+import java.util.Collection;
+
+import javax.inject.Named;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.service.PessoaService;
+import ufc.quixada.npi.gpa.util.Constants;
+
+@Named
+public class AuthenticationProviderExtensao implements AuthenticationProvider {
+	
+	@Autowired
+	private PessoaService pessoaService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@Override
+	@Transactional
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String cpf = authentication.getName();
+        String password = (String) authentication.getCredentials();
+        
+        Pessoa pessoa = pessoaService.getByCpf(cpf);
+        
+        Collection<? extends GrantedAuthority> authorities = pessoa.getAuthorities();
+        
+        if (pessoaService.getByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
+            throw new BadCredentialsException(Constants.LOGIN_INVALIDO);
+        }
+        
+        return new UsernamePasswordAuthenticationToken(pessoa, password, authorities);
+	}
+
+	@Override
+	public boolean supports(Class<?> arg0) {
+		return true;
+	}
+
+}

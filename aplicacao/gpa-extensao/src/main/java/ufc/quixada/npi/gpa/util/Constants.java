@@ -10,4 +10,6 @@ public class Constants {
 	public static final String LDAP_OU = "ldap.ou";
 	public static final String BASE = "ldap.url";
 	
+	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
+	
 }
