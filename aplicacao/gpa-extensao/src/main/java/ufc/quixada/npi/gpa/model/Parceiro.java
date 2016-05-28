@@ -10,11 +10,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Parceiro {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@NotNull
 	private String nome;
+	
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
 	

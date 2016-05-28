@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import ufc.quixada.npi.gpa.model.Parecer;
 
 @Repository
-public interface ParecerRepository extends CrudRepository<Parecer, Long> {
+public interface ParecerRepository extends CrudRepository<Parecer, Integer> {
 
 }

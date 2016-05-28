@@ -15,18 +15,26 @@ import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Pessoa {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@NotNull
 	private String nome;
+	
 	private String email;
+	
 	@CPF
 	private String cpf;
+	
 	@ManyToMany
 	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
 	private List<Papel> papeis;
 
+	public Pessoa() {
+	}
+	
 	public Pessoa(String nome, String email, String cpf, List<Papel> papeis) {
 		super();
 		this.nome = nome;
@@ -34,38 +42,47 @@ public class Pessoa {
 		this.cpf = cpf;
 		this.papeis = papeis;
 	}
-	public Pessoa() {
-	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public List<Papel> getPapeis() {
 		return papeis;
 	}
+
 	public void setPapeis(List<Papel> papeis) {
 		this.papeis = papeis;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,6 +90,7 @@ public class Pessoa {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,6 +107,5 @@ public class Pessoa {
 			return false;
 		return true;
 	}
-	
 	
 }

@@ -14,45 +14,63 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class AcaoExtensao {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String codigo;
+	
 	private String identificador;
+	
 	private String titulo;
+	
 	private String resumo;
+	
 	private Modalidade modalidade;
+	
 	private Date inicio;
+	
 	private Date termino;
+	
 	private boolean prorrogavel;
+	
 	@ManyToOne
 	private Pessoa coordenador;
+	
 	@ManyToOne
 	private AcaoExtensao vinculo;
+	
 	private Integer bolsasSolicitadas;
+	
 	private Date dataDeHomologacao;
+	
 	private int bolsasRecebidas;
+	
 	@Enumerated
 	private Status status;
+	
 	@OneToOne
 	private Documento anexo;
-	@OneToMany
-	private List<Comentario> comentarios;
-	@OneToMany
+	
+	@OneToMany(mappedBy = "acaoExtensao")
 	private List<Participacao> equipeDeTrabalho;
-	@OneToMany
+	
+	@OneToMany(mappedBy = "acaoExtensao")
 	private List<ParceriaExterna> parceriasExternas;
+	
 	@OneToOne
 	private Parecer parecerTecnico;
+	
 	@OneToOne
 	private Parecer parecerRelator;
-	
+
 	public AcaoExtensao() {
 	}
 
 	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
-			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas, Status status,
-			Documento anexo) {
+			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas,
+			Status status, Documento anexo) {
 		this.codigo = codigo;
 		this.identificador = identificador;
 		this.titulo = titulo;
@@ -67,7 +85,6 @@ public class AcaoExtensao {
 		this.anexo = anexo;
 	}
 
-	
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}
@@ -180,14 +197,6 @@ public class AcaoExtensao {
 		this.anexo = anexo;
 	}
 
-	public List<Comentario> getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(List<Comentario> comentarios) {
-		this.comentarios = comentarios;
-	}
-
 	public List<Participacao> getEquipeDeTrabalho() {
 		return equipeDeTrabalho;
 	}
@@ -236,31 +245,38 @@ public class AcaoExtensao {
 		this.bolsasRecebidas = bolsasRecebidas;
 	}
 
-
-
-	public enum Modalidade{
-		PROGRAMA("Programa"),PROJETO("Projeto"),CURSO("Curso"),EVENTO("Evento"),PRESTACAO_DE_SERVICO("Prestação de Serviço");
+	public enum Modalidade {
+		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(
+				"Prestação de Serviço");
 		private String descricao;
-		private Modalidade(String descricao){
-			this.descricao=descricao;
+
+		private Modalidade(String descricao) {
+			this.descricao = descricao;
 		}
-		public String getDescricao(){
+
+		public String getDescricao() {
 			return this.descricao;
 		}
 	}
-	public enum Status{
-		NOVO("NOVO"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"),AGUARDANDO_PARECER_TECNICO("AGUARDANDO PARECER TÉCNICO"),
-		AGUARDANDO_PARECER_RELATOR("AGUARDANDO PARECER"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"),
-		RESOLVENDO_PENDENCIAS_PARECER("RESOLVENDO PENDÊNCIAS DO PARECER"), RESOLVENDO_PENDENCIAS_RELATO("RESOLVENDO RESTRIÇÕES DO RELATO"),
-		AGUARDANDO_HOMOLOGACAO("AGUARDANDO HOMOLOGAÇÃO"),APROVADO("APROVADO"), REPROVADO("REPROVADO");
+
+	public enum Status {
+		NOVO("NOVO"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), AGUARDANDO_PARECER_TECNICO(
+				"AGUARDANDO PARECER TÉCNICO"), AGUARDANDO_PARECER_RELATOR(
+						"AGUARDANDO PARECER"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"), RESOLVENDO_PENDENCIAS_PARECER(
+								"RESOLVENDO PENDÊNCIAS DO PARECER"), RESOLVENDO_PENDENCIAS_RELATO(
+										"RESOLVENDO RESTRIÇÕES DO RELATO"), AGUARDANDO_HOMOLOGACAO(
+												"AGUARDANDO HOMOLOGAÇÃO"), APROVADO("APROVADO"), REPROVADO("REPROVADO");
 		private String descricao;
-		private Status(String descricao){
-			this.descricao=descricao;
+
+		private Status(String descricao) {
+			this.descricao = descricao;
 		}
-		public String getDescricao(){
+
+		public String getDescricao() {
 			return this.descricao;
 		}
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -285,6 +301,5 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-	
-	
+
 }

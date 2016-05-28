@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Papel {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -14,7 +15,6 @@ public class Papel {
 	private Tipo nome;
 	
 	public Papel() {
-		super();
 	}
 
 	public Papel(Tipo nome) {
@@ -38,11 +38,9 @@ public class Papel {
 		this.nome = nome;
 	}
 
-
 	enum Tipo{
 		DIRECAO,USER
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -68,6 +66,5 @@ public class Papel {
 			return false;
 		return true;
 	}
-	
 	
 }

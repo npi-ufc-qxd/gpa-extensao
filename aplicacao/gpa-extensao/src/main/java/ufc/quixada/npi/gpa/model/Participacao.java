@@ -8,32 +8,49 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.br.CPF;
-@Entity
+
+@Entity(name = "equipe_de_trabalho")
 public class Participacao {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@ManyToOne
 	private Pessoa participante;
+	
 	@Enumerated(EnumType.STRING)
 	private Funcao funcao;
+	
 	private String descricaoFuncao;
+	
 	@Enumerated(EnumType.STRING)
 	private Instituicao instituicao;
+	
 	private String nomeInstituicao;
+	
 	private Integer cargaHoraria;
+	
 	private Date dataInicio;
+	
 	private Date dataTermino;
+	
 	private String nomeParticipante;
+	
 	@CPF
 	private String cpfParticipante;
+	
 	private boolean coordenador;
 	
+	@ManyToOne
+	@JoinColumn(name = "acao_id")
+	private AcaoExtensao acaoExtensao;
+	
 	public Participacao() {
-		super();
 	}
 	
 	public Participacao(Pessoa participante, Funcao funcao, String descricaoFuncao, Instituicao instituicao,
@@ -148,8 +165,16 @@ public class Participacao {
 		this.coordenador = coordenador;
 	}
 
+	public AcaoExtensao getAcaoExtensao() {
+		return acaoExtensao;
+	}
+
+	public void setAcaoExtensao(AcaoExtensao acaoExtensao) {
+		this.acaoExtensao = acaoExtensao;
+	}
+
 	public enum Funcao{
-		ALUNO_VOLUNTARIO("Aluno Voluntário"),ALUNO_BOLSISTA("Aluno Bolsista"),STA ("Servidor Técnico Administrativo"),DOCENTE("Docente"),OUTRO("Outro");
+		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRO("Outro");
 		
 		private String descricao;
 		
@@ -161,7 +186,7 @@ public class Participacao {
 		}
 	}
 	enum Instituicao{
-		UFC("Universidade Federal do Ceará"),OUTRA_IES("Outra Instituição de Ensino Superior"),OUTRA("Outra Instituição");
+		UFC("Universidade Federal do Ceará"), OUTRA_IES("Outra Instituição de Ensino Superior"), OUTRA("Outra Instituição");
 		
 		private String descricao;
 		

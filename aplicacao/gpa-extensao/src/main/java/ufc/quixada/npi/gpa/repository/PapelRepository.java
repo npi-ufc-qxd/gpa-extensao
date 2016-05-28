@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.Papel;
 @Repository
-public interface PapelRepository extends CrudRepository<Papel, Long> {
+public interface PapelRepository extends CrudRepository<Papel, Integer> {
 
 }

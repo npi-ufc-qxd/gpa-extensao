@@ -7,41 +7,66 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Pendencia {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@Column(columnDefinition="TEXT")
 	private String descricao;
+	
 	private Date dataDeSolicitacao;
+	
+	@ManyToOne
+	@JoinColumn(name = "parecer_id")
+	private Parecer parecer;
+	
+	public Pendencia() {
+	}
+	
 	public Pendencia(String descricao, Date dataDeSolicitacao) {
 		super();
 		this.descricao = descricao;
 		this.dataDeSolicitacao = dataDeSolicitacao;
 	}
-	public Pendencia() {
-		super();
-	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getDescricao() {
 		return descricao;
 	}
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
 	public Date getDataDeSolicitacao() {
 		return dataDeSolicitacao;
 	}
+
 	public void setDataDeSolicitacao(Date dataDeSolicitacao) {
 		this.dataDeSolicitacao = dataDeSolicitacao;
 	}
+
+	public Parecer getParecer() {
+		return parecer;
+	}
+
+	public void setParecer(Parecer parecer) {
+		this.parecer = parecer;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -49,6 +74,7 @@ public class Pendencia {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

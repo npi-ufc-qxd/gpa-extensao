@@ -11,63 +11,83 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Documento {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private byte[] arquivo;
+	
 	@NotNull
 	private String nome;
-	private Date date;
+	
+	private Date data;
+	
 	@ManyToOne
 	private Pessoa autor;
+	
 	private String caminho;
+	
+	public Documento() {
+	}
+	
 	public Documento(byte[] arquivo, String nome, Date date, Pessoa autor, String caminho) {
 		super();
 		this.arquivo = arquivo;
 		this.nome = nome;
-		this.date = date;
+		this.data = date;
 		this.autor = autor;
 		this.caminho = caminho;
 	}
-	public Documento() {
-		super();
-	}
+	
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public byte[] getArquivo() {
 		return arquivo;
 	}
+
 	public void setArquivo(byte[] arquivo) {
 		this.arquivo = arquivo;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getDate() {
-		return date;
+
+	public Date getData() {
+		return data;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+
+	public void setData(Date data) {
+		this.data = data;
 	}
+
 	public Pessoa getAutor() {
 		return autor;
 	}
+
 	public void setAutor(Pessoa autor) {
 		this.autor = autor;
 	}
+
 	public String getCaminho() {
 		return caminho;
 	}
+
 	public void setCaminho(String caminho) {
 		this.caminho = caminho;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -75,6 +95,7 @@ public class Documento {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,6 +112,5 @@ public class Documento {
 			return false;
 		return true;
 	}
-	
 	
 }

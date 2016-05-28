@@ -14,29 +14,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
+
 @Entity
 public class Parecer {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@Enumerated(EnumType.STRING)
 	private Posicionamento posicionamento;
-	@NotNull
+	
 	@Column(columnDefinition="TEXT")
 	private String parecer;
+	
 	private Date dataAtribuicao;
+	
 	private Date dataRealizacao;
+	
 	@ManyToOne
 	@JoinColumn(name="parecerista_id")
 	private Pessoa responsavel;
+	
 	private Date prazo;
+	
 	@OneToOne
 	private Documento arquivo;
-	@OneToMany
+	
+	@OneToMany(mappedBy = "parecer")
 	private List<Pendencia> pendencias;
+	
 	public Parecer() {
-		super();
 	}
 
 	public Parecer(Posicionamento posicionamento, String parecer, Date dataAtribuicao, Date dataRealizacao,
