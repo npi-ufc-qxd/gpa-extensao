@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<form action="#" th:action="@{/parceiro/novo}" th:object="${parceiro}" method="post" class="form-horizontal">
+	<fieldset>
+		<legend>Novo Parceiro</legend>
+		<div class="form-group">
+			<label class="col-lg-2 control-label" for="nome">Nome da Instituição:</label>
+			<div class="col-lg-10">
+				<input type="text" th:field="*{nome}" name="nome" />
+				<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label>
+			</div>
+		</div>
+		<div class="form-group">
+     			<label class="col-lg-2 control-label">Tipo da instituição:</label>
+     			<div class="col-lg-10">
+				<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
+					<label><input type="radio" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+					<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="form-group">
+	      <div class="col-lg-10 col-lg-offset-2">
+	        <button type="reset" class="btn btn-default">Cancelar</button>
+	        <button type="submit" class="btn btn-primary">Salvar</button>
+	      </div>
+	    </div>
+	    </fieldset>
+	</form>
+	<table class="table table-striped table-hover ">
+	  <thead>
+	    <tr>
+	      <th>Id</th>
+	      <th>Nome</th>
+	      <th>Tipo</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	<tr th:each="parceiro : ${parceiros}">
+	  		<td th:text="${parceiro.id}"></td>
+	  		<td th:text="${parceiro.nome}"></td>
+	  		<td th:text="${parceiro.tipo.descricao}"></td>
+	  	</tr>
+	  </tbody>
+	</table>
+
+</body>
+</html>
