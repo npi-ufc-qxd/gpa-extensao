@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="utf-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
 		<title>GPA - Extensão</title>
 		<!-- Tell the browser to be responsive to screen width -->
-		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
 		<!-- Bootstrap 3.3.6 -->
-		<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+		<link rel="stylesheet" th:href="@{css/bootstrap.min.css}"></link>
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
 		<!-- Ionicons -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+		<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>
 		<!-- Theme style -->
-		<link rel="stylesheet" href="resources/css/AdminLTE.min.css">
+		<link rel="stylesheet" th:href="@{css/AdminLTE.min.css}"></link>
 		<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-		<link rel="stylesheet" href="resources/css/skin-blue.css">
+		<link rel="stylesheet" th:href="@{css/skin-blue.css}"></link>
 		<!-- iCheck -->
-		<link rel="stylesheet" href="resources/plugins/iCheck/flat/blue.css">
+		<link rel="stylesheet" th:href="@{plugins/iCheck/flat/blue.css}"></link>
 		<!-- Date Picker -->
-		<link rel="stylesheet" href="resources/plugins/datepicker/datepicker3.css">
+		<link rel="stylesheet" th:href="@{plugins/datepicker/datepicker3.css}"></link>
 		<!-- Daterange picker -->
-		<link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+		<link rel="stylesheet" th:href="@{plugins/daterangepicker/daterangepicker-bs3.css}"></link>
 		
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,8 +34,8 @@
 	<div class="wrapper">
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="index2.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
-				<span class="logo-mini"><b>EXT</b></span> <!-- logo for regular state and mobile devices -->
+			<a th:href="@{/}" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>GPA</b></span> <!-- logo for regular state and mobile devices -->
 				<span class="logo-lg"><b>GPA</b> Extensão</span>
 			</a>
 			<!-- Header Navbar: style can be found in header.less -->
@@ -47,7 +47,7 @@
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="resources/img/user2-160x160.jpg" class="user-image" alt="User Image"> <span class="hidden-xs">Alexander Pierce</span>
+								<img th:src="@{img/user2-160x160.jpg}" class="user-image" alt="User Image"></img> <span class="hidden-xs">Alexander Pierce</span>
 							</a>
 						</li>
 						<!-- Control Sidebar Toggle Button -->
@@ -124,18 +124,18 @@
 	<!-- ./wrapper -->
 
 	<!-- jQuery 2.2.0 -->
-	<script src="resources/js/jQuery-2.2.0.min.js"></script>
+	<script th:src="@{js/jQuery-2.2.0.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
 	<!-- Bootstrap 3.3.6 -->
-	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/plugins/datepicker/bootstrap-datepicker.js"></script>
+	<script th:src="@{js/bootstrap.min.js}"></script>
+	<script th:src="@{plugins/datepicker/bootstrap-datepicker.js}"></script>
 	<!-- Slimscroll -->
-	<script src="resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<script th:src="@{plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 	<!-- AdminLTE App -->
-	<script src="resources/js/app.min.js"></script>
+	<script th:src="@{js/app.min.js}"></script>
 	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-	<script src="resources/js/dashboard.js"></script>
+	<script th:src="@{js/dashboard.js}"></script>
 
 </body>
 </html>
