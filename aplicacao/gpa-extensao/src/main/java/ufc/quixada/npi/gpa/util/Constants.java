@@ -11,5 +11,10 @@ public class Constants {
 	public static final String BASE = "ldap.url";
 	
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
+
+	//Model attributes
+	public static final String PARECERISTAS = "pareceristas";
 	
+	//Load fragments
+	public static final String LOAD_PARECERISTAS = "index :: pareceristas";
 }
