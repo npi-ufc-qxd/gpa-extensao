@@ -13,7 +13,7 @@ import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Named
 public class PessoaServiceImpl implements PessoaService {
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
