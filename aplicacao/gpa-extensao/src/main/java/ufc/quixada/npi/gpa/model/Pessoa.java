@@ -16,6 +16,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import static  ufc.quixada.npi.gpa.util.Constants.PAPEL_DIRECAO;
+
 @Entity
 public class Pessoa implements UserDetails {
 	
@@ -152,5 +154,12 @@ public class Pessoa implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+	public boolean isDirecao() {
+		for (Papel p : papeis) {
+			if (p.getNome().equals(PAPEL_DIRECAO)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
