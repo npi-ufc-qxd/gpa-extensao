@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class AcaoExtensao {
 
 	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
 			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas,
-			Status status, Documento anexo) {
+			Status status) {
 		this.codigo = codigo;
 		this.identificador = identificador;
 		this.titulo = titulo;
@@ -84,7 +85,6 @@ public class AcaoExtensao {
 		this.coordenador = coordenador;
 		this.bolsasSolicitadas = bolsasSolicitadas;
 		this.status = status;
-		this.anexo = anexo;
 	}
 
 	public AcaoExtensao getVinculo() {
@@ -211,8 +211,11 @@ public class AcaoExtensao {
 		return parceriasExternas;
 	}
 
-	public void setParceriasExternas(List<ParceriaExterna> parceriasExternas) {
-		this.parceriasExternas = parceriasExternas;
+	public void addParceriaExterna(ParceriaExterna parceria) {
+		if(this.parceriasExternas==null){
+			this.parceriasExternas = new ArrayList<>();
+		}
+		this.parceriasExternas.add(parceria);
 	}
 
 	public Parecer getParecerTecnico() {

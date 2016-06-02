@@ -12,5 +12,6 @@ public class Constants {
 	
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
-	public static final String REDIRECT_PAGINA_CRIAR_PARCERIA_EXTERNA = "redirect:/parceriaExterna";
+	public static final String REDIRECT_PAGINA_CRIAR_PARCERIA_EXTERNA = "redirect:/novaParceriaExterna";
+	
 }

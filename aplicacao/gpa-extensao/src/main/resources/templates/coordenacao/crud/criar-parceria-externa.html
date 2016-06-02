@@ -13,7 +13,7 @@
 			<section class="content">
 			<div class="col-md-6">
 				<div class="box box-primary">
-					<form action="#" class="form-horizontal" th:action="@{/parceriaExterna/novo}" th:object="${parceriaExterna}" method="post">
+					<form action="#" class="form-horizontal" th:action="@{/novaParceriaExterna/{id}(id=${acaoExtensao.id})}" th:object="${parceriaExterna}" method="post">
 						<div class="box box-body">
 							<div class="form-group">
 								<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}">
