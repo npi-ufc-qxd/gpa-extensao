@@ -3,7 +3,6 @@ package ufc.quixada.npi.gpa.model;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +15,7 @@ public class Servidor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@OneToOne(optional = false)
 	private Pessoa pessoa;
 
 	private String siape;
@@ -79,7 +78,7 @@ public class Servidor {
 	}
 
 	enum Funcao {
-		DOCENTE("Docente"), STA("Servidor Técnico Administrativo");
+		DOCENTE("Docente"), STA("Técnico Administrativo");
 
 		private String descricao;
 
@@ -93,7 +92,7 @@ public class Servidor {
 	}
 
 	enum Dedicacao {
-		EXCLUSIVA("Exclusiva"), H40("40 Horas"), H20("20 Horas");
+		EXCLUSIVA("Exclusiva"), H40("40h"), H20("20h");
 
 		private String descricao;
 
