@@ -51,7 +51,7 @@ public class Papel implements GrantedAuthority {
 	}
 
 	enum Tipo{
-		DIRECAO,USER
+		ALUNO,SERVIDOR,DIRECAO,ADMINISTRACAO;
 	}
 
 	@Override
