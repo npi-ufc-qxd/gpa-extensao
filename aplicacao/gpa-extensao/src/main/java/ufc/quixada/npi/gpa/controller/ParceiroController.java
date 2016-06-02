@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCEIRO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 
 import javax.validation.Valid;
 
@@ -19,18 +19,14 @@ import ufc.quixada.npi.gpa.service.ParceiroService;
 public class ParceiroController {
 	@Autowired
 	private ParceiroService parceiroService;
-	@RequestMapping
-	public String parceiroForm(Parceiro parceiro, Model model){
-		model.addAttribute("parceiros",parceiroService.buscarTodos());
-		return PAGINA_CRIAR_PARCEIRO;
-	}
+
 	@RequestMapping(value="/novo", method=RequestMethod.POST)
 	public String novoParceiro(@Valid Parceiro parceiro, Model model, BindingResult binding){
 		if(binding.hasErrors()){
-			return PAGINA_CRIAR_PARCEIRO;
+			return PAGINA_CRIAR_PARCERIA_EXTERNA;
 		}
 		parceiroService.salvar(parceiro);
 		model.addAttribute("parceiros",parceiroService.buscarTodos());
-		return "redirect:/parceiro";
+		return "redirect:/parceriaExterna";
 	}
 }

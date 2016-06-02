@@ -20,8 +20,8 @@ public class ParceiroServiceImpl implements ParceiroService {
 	}
 
 	@Override
-	public Parceiro salvar(Parceiro parceiro) {
-		return parceiroRepository.save(parceiro);
+	public void salvar(Parceiro parceiro) {
+		parceiroRepository.save(parceiro);
 	}
 
 	@Override

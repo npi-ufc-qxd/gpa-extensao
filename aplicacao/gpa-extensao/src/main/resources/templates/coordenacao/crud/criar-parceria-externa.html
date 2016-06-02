@@ -2,36 +2,109 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+   	<title>GPA - Extensão</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" th:href="@{css/bootstrap.min.css}"></link>
+	<!-- Font Awesome -->
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
+	<!-- Ionicons -->
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>
+	<!-- Theme style -->
+	<link rel="stylesheet" th:href="@{css/AdminLTE.min.css}"></link>
+	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+	<link rel="stylesheet" th:href="@{css/skin-blue.css}"></link>
+	<!-- iCheck -->
+	<link rel="stylesheet" th:href="@{plugins/iCheck/flat/blue.css}"></link>
+	<!-- Date Picker -->
+	<link rel="stylesheet" th:href="@{plugins/datepicker/datepicker3.css}"></link>
+	<!-- Daterange picker -->
+	<link rel="stylesheet" th:href="@{plugins/daterangepicker/daterangepicker-bs3.css}"></link>
+    
 </head>
 <body>
-	<form action="#" th:action="@{/parceiro/novo}" th:object="${parceiro}" method="post" class="form-horizontal">
-	<fieldset>
-		<legend>Novo Parceiro</legend>
-		<div class="form-group">
-			<label class="col-lg-2 control-label" for="nome">Nome da Instituição:</label>
-			<div class="col-lg-10">
-				<input type="text" th:field="*{nome}" name="nome" />
-				<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label>
+	<div class="col-md-6">
+		<div class="box box-primary">
+			<div class="box box-header">
+				<h3 class="box-title">Nova Parceria Externa</h3>
 			</div>
-		</div>
-		<div class="form-group">
-     			<label class="col-lg-2 control-label">Tipo da instituição:</label>
-     			<div class="col-lg-10">
-				<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
-					<label><input type="radio" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
-					<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+			<div class="box box-body">
+			<form action="#" class="form-horizontal" th:action="@{/parceriaExterna/novo}" th:object="${parceriaExterna}" method="post">
+				<div class="form-group">
+					<select class="form-control" id="select" th:field="${parceriaExterna.parceiro}">
+						<option value="" th:text="--SELECT--"></option>
+						<option th:each="parceiro : ${parceiros}" th:value="${parceiro.id}" th:text="${parceiro.nome}"></option>
+					</select>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3">
+					<input type="checkbox" class="col-sm-1" th:checked="${parceriaExterna.geraDemanda}" />
+					Gera Demanda</label>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3">
+					<input type="checkbox" th:checked="${parceriaExterna.definicaoAcoes}" />
+					Define Ações</label>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3">
+					<input type="checkbox" th:checked="${parceriaExterna.equipamento}" />
+					Fornece Equipamento</label>
+					
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3">
+					<input type="checkbox" th:checked="${parceriaExterna.financiamento}" />
+					Financia</label>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4">
+						<input type="checkbox" th:checked="${parceriaExterna.outrasFormas}" />
+						Outras formas
+					</label>
+				</div>
+				<div class="form-group">
+					<label></label>
+				</div>
+				<div class="form-group">
+			      <div class="col-sm-8 col-lg-offset-2">
+			        <button type="reset" class="btn btn-default">Cancelar</button>
+			        <button type="submit" class="btn btn-primary">Salvar</button>
+			      </div>
+			    </div>
+			</form>
 			</div>
 		</div>
-		<br />
-		<div class="form-group">
-	      <div class="col-lg-10 col-lg-offset-2">
-	        <button type="reset" class="btn btn-default">Cancelar</button>
-	        <button type="submit" class="btn btn-primary">Salvar</button>
-	      </div>
-	    </div>
-	    </fieldset>
-	</form>
+	</div>
+<!-- 	<form action="#" th:action="@{/parceiro/novo}" th:object="${parceiro}" method="post" class="form-horizontal"> -->
+<!-- 	<fieldset> -->
+<!-- 		<legend>Novo Parceiro</legend> -->
+<!-- 		<div class="form-group"> -->
+<!-- 			<label class="col-lg-2 control-label" for="nome">Nome da Instituição:</label> -->
+<!-- 			<div class="col-lg-10"> -->
+<!-- 				<input type="text" th:field="*{nome}" name="nome" /> -->
+<!-- 				<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<div class="form-group"> -->
+<!--      			<label class="col-lg-2 control-label">Tipo da instituição:</label> -->
+<!--      			<div class="col-lg-10"> -->
+<!-- 				<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio"> -->
+<!-- 					<label><input type="radio" th:value="${tipo}" th:field="${parceiro.tipo}" /></label> -->
+<!-- 					<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<br /> -->
+<!-- 		<div class="form-group"> -->
+<!-- 	      <div class="col-lg-10 col-lg-offset-2"> -->
+<!-- 	        <button type="reset" class="btn btn-default">Cancelar</button> -->
+<!-- 	        <button type="submit" class="btn btn-primary">Salvar</button> -->
+<!-- 	      </div> -->
+<!-- 	    </div> -->
+<!-- 	    </fieldset> -->
+<!-- 	</form> -->
 	<table class="table table-striped table-hover ">
 	  <thead>
 	    <tr>
@@ -48,6 +121,19 @@
 	  	</tr>
 	  </tbody>
 	</table>
-
+	
+	<script th:src="@{js/jQuery-2.2.0.min.js}"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script th:src="@{/js/criar-parceria-externa.js}" type="text/javascript"></script>
+	<script th:src="@{js/bootstrap.min.js}"></script>
+	<script th:src="@{plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<!-- Slimscroll -->
+	<script th:src="@{plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{js/app.min.js}"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script th:src="@{js/dashboard.js}"></script>
 </body>
 </html>

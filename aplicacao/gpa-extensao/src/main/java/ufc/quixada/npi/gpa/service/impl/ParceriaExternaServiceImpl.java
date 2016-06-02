@@ -21,8 +21,8 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 	}
 
 	@Override
-	public ParceriaExterna salvar(ParceriaExterna parceria) {
-		return parceriaExternaRepository.save(parceria);
+	public void salvar(ParceriaExterna parceria) {
+		parceriaExternaRepository.save(parceria);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 
 	@Override
 	public List<ParceriaExterna> buscarPorParceiro(Parceiro parceiro) {
-		return null;
+		return parceriaExternaRepository.findByParceiro(parceiro);
 	}
 
 }

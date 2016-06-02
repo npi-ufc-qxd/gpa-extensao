@@ -11,5 +11,5 @@ public class Constants {
 	public static final String BASE = "ldap.url";
 	
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
-	public static final String PAGINA_CRIAR_PARCEIRO = "coordenacao/crud/criar-parceria-externa";
+	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 }

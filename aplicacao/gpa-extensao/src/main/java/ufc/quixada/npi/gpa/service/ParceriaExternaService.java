@@ -8,7 +8,7 @@ import ufc.quixada.npi.gpa.model.ParceriaExterna;
 public interface ParceriaExternaService {
 	List<ParceriaExterna> buscarTodas();
 	
-	ParceriaExterna salvar(ParceriaExterna parceria);
+	void salvar(ParceriaExterna parceria);
 	
 	ParceriaExterna buscarPorId(Integer id);
 	
