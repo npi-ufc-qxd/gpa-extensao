@@ -35,7 +35,7 @@ public class Participacao {
 	
 	private Integer cargaHoraria;
 	
-	private Date dataInicio;
+	private Date dataInicio;	
 	
 	private Date dataTermino;
 	
@@ -185,7 +185,7 @@ public class Participacao {
 			return this.descricao;
 		}
 	}
-	enum Instituicao{
+	public enum Instituicao{
 		UFC("Universidade Federal do Ceará"), OUTRA_IES("Outra Instituição de Ensino Superior"), OUTRA("Outra Instituição");
 		
 		private String descricao;

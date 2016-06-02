@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Adicionar Nova Participacao</title>
+	<link rel="stylesheet" th:href="@{../css/AdminLTE.min.css}" />
+	<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{../css/select2.css}" />
+	<link rel="stylesheet" th:href="@{../css/select2-bootstrap.css}" />
+</head>
+<body>
+	<div class="container">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Adicionar Nova Participação</h3>
+			</div>
+			
+			<form method="post" th:action="@{/participacoes/1}" th:object="${participacao}" role="form">
+				<div class="box-body">
+					<div id="formFuncao" class="form-group">
+						<label for="funcao"><span>*</span>Função</label>
+						<select id="selectFuncao" class="form-control" required="required" th:field="*{funcao}">
+							<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
+						</select>
+						<div id="divDescricaoFuncao">
+							<label for="descricaoFuncao"><span>*</span>Descrição da Função</label>
+							<input id="descricaoFuncao" type="text" class="form-control" th:field="*{descricaoFuncao}"/>
+						</div>
+					</div>
+					
+					<div id="formParticipante">
+						<label for="participante">Participante</label>
+						<div id="divSelectPessoa" class="form-group">
+							<select id="selectPessoa" class="form-control" th:field="*{participante}">
+								<option id="default" value=" ">Default</option>
+								<option th:each="pessoa : ${pessoas}" th:value="${pessoa.id}" th:text="${pessoa.nome}"/>
+							</select>
+						</div>
+						<div id="divNomeCpf" class="form-group">
+							<label for="nomeParticipante"><span>*</span>Nome</label>
+							<input id="nomeParticipante" type="text" class="form-control" th:field="*{nomeParticipante}"/>
+							<label for="cpfParticipante"><span>*</span>CPF</label>
+							<input id="cpfParticipante" type="text" class="form-control" th:field="*{cpfParticipante}"/>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="instituicao"><span>*</span>Instituição</label>
+						<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
+							<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}"/>
+						</select>
+						<div id="divNomeInstituicao">
+							<label for="nomeInstituicao"><span>*</span>Nome da Instituição</label>
+							<input id="nomeInstituicao" type="text" class="form-control" th:field="*{nomeInstituicao}"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs)</label>
+						<input id="cargaHoraria" type="number" max="12" min="12" class="form-control" required="required" th:field="*{cargaHoraria}"/>
+					</div>
+				</div>
+				
+				<div class="box-footer">
+					<button type="submit" class="btn btn-primary">Adicionar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{../js/jQuery-2.2.0.min.js}"></script>
+	<script type="text/javascript" th:src="@{../js/select2.min.js}"></script>
+	<script type="text/javascript" th:src="@{../js/gpa-extensao.js}"></script>
+</body>
+</html>

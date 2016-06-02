@@ -35,6 +35,10 @@ public class Pessoa implements UserDetails {
 	
 	private String password;
 	
+	private int cargaHoraria;
+	
+	private boolean dedicacaoExclusiva;
+	
 	@ManyToMany
 	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
 	private List<Papel> papeis;
@@ -151,6 +155,22 @@ public class Pessoa implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public int getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(int cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+
+	public boolean isDedicacaoExclusiva() {
+		return dedicacaoExclusiva;
+	}
+
+	public void setDedicacaoExclusiva(boolean dedicacaoExclusiva) {
+		this.dedicacaoExclusiva = dedicacaoExclusiva;
 	}
 	
 }

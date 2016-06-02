@@ -27,4 +27,9 @@ public class PessoaServiceImpl implements PessoaService {
 		return pessoaRepository.getByCpf(cpf);
 	}
 
+	@Override
+	public List<Pessoa> findAll() {
+		return pessoaRepository.findAll();
+	}
+
 }
