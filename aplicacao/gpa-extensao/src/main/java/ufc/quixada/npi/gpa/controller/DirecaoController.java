@@ -1,5 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_HOMOLOGACAO;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.LOAD_PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 
@@ -39,11 +43,11 @@ public class DirecaoController {
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
 		List<Status> statusAguardandoHomologacao = Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO);
 
-		model.addAttribute("acoesParecer", acaoExtensaoRepository.findByStatusIn(statusParecer));
-		model.addAttribute("acoesRelato", acaoExtensaoRepository.findByStatusIn(statusRelato));
-		model.addAttribute("acoesHomologadas", acaoExtensaoRepository.findByStatusIn(statusHomologado));
-		model.addAttribute("acoesAguardandoHomologacao",
+		model.addAttribute(ACOES_PARECER, acaoExtensaoRepository.findByStatusIn(statusParecer));
+		model.addAttribute(ACOES_RELATO, acaoExtensaoRepository.findByStatusIn(statusRelato));
+		model.addAttribute(ACOES_AGUARDANDO_HOMOLOGACAO,
 				acaoExtensaoRepository.findByStatusIn(statusAguardandoHomologacao));
+		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByStatusIn(statusHomologado));
 
 		return "direcao/index";
 	}

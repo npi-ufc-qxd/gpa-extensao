@@ -14,7 +14,14 @@ public class Constants {
 
 	//Model attributes
 	public static final String PARECERISTAS = "pareceristas";
+	public static final String ACOES_PARECER = "acoesParecer";
+	public static final String ACOES_RELATO = "acoesRelato";
+	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
+	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
 	
 	//Load fragments
 	public static final String LOAD_PARECERISTAS = "index :: pareceristas";
+	
+	//Paginas
+	public static final String PAGINA_INICIAL = "principal/index";
 }
