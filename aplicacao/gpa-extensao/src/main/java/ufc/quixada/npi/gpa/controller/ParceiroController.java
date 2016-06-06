@@ -1,13 +1,13 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
-
-import javax.validation.Valid;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_CRIAR_PARCERIA_EXTERNA;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,14 +19,13 @@ import ufc.quixada.npi.gpa.service.ParceiroService;
 public class ParceiroController {
 	@Autowired
 	private ParceiroService parceiroService;
-
-	@RequestMapping(value="/novo", method=RequestMethod.POST)
-	public String novoParceiro(@Valid Parceiro parceiro, Model model, BindingResult binding){
+	
+	@RequestMapping(value="/novo/{id}", method=RequestMethod.POST)
+	public String novoParceiro(@PathVariable("id") Integer id, @ModelAttribute Parceiro parceiro, BindingResult binding){
 		if(binding.hasErrors()){
 			return PAGINA_CRIAR_PARCERIA_EXTERNA;
 		}
-		parceiroService.salvar(parceiro);
-		model.addAttribute("parceiros",parceiroService.buscarTodos());
-		return "redirect:/parceriaExterna";
+		parceiroService.salvar(new Parceiro(parceiro.getNome(), parceiro.getTipo()));
+		return REDIRECT_PAGINA_CRIAR_PARCERIA_EXTERNA + id;
 	}
 }

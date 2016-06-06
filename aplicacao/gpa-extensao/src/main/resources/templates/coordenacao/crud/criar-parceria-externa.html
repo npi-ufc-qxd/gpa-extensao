@@ -13,86 +13,101 @@
 			<section class="content">
 			<div class="col-md-6">
 				<div class="box box-primary">
-					<form action="#" class="form-horizontal" th:action="@{/novaParceriaExterna/{id}(id=${acaoExtensao.id})}" th:object="${parceriaExterna}" method="post">
+				<div id="parceriaExternaForm">
+					<form action="#" class="form-horizontal" th:action="@{/salvarParceria/__${acaoExtensaoId}__}" th:object="${parceriaExterna}" method="POST">
+
 						<div class="box box-body">
 							<div class="form-group">
-								<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}">
+								<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}" required="required">
 									<option value="">Selecionar Parceiro</option>
-									<option th:each="parceiro : ${parceiros}" th:value="${parceiro.id}" th:text="${parceiro.nome}"></option>
+									<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option>
 								</select>
+								<button class="btn btn-block btn-primary btn-xs" id="criarNovoParceiro">Criar parceiro</button>
+							</div>
+							<div class="alert alert-warning alert-dismissible" id="checkBoxAlert" style="display: none;">
+								<button type="button" class="close" data-dismiss="alert"
+									aria-hidden="true">×</button>
+								<h4>
+									<i class="icon fa fa-warning"></i> Alert!
+								</h4>
+								Necessário escolher uma das opções abaixo.
 							</div>
 							<div class="form-group">
 								<label class="col-sm-5">
-								<input type="checkbox" name="active" th:checked="${parceriaExterna.geraDemanda}" th:field="${parceriaExterna.geraDemanda}"/>
+								<input type="checkbox" id="geraDemandaFormasCheckBox" name="geraDemanda" th:checked="${parceriaExterna.geraDemanda}" th:field="${parceriaExterna.geraDemanda}"/>
 								Gera Demanda</label>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-5">
-								<input type="checkbox" name="active" th:checked="${parceriaExterna.definicaoAcoes}" th:field="${parceriaExterna.definicaoAcoes}"/>
+								<input type="checkbox" id="definicaoAcoesCheckBox" name="definicaoAcoes" th:checked="${parceriaExterna.definicaoAcoes}" th:field="${parceriaExterna.definicaoAcoes}"/>
 								Define Ações</label>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-5">
-								<input type="checkbox" name="active" th:checked="${parceriaExterna.equipamento}" th:field="${parceriaExterna.equipamento}"/>
+								<input type="checkbox" id="equipamentoFormasCheckBox" name="equipamento" th:checked="${parceriaExterna.equipamento}" th:field="${parceriaExterna.equipamento}"/>
 								Fornece Equipamento</label>
 								
 							</div>
 							<div class="form-group">
 								<label class="col-sm-5">
-								<input type="checkbox" name="active" th:checked="${parceriaExterna.financiamento}" th:field="${parceriaExterna.financiamento}"/>
+								<input type="checkbox" id="financiamentoCheckBox" name="financiamento" th:checked="${parceriaExterna.financiamento}" th:field="${parceriaExterna.financiamento}" />
 								Financia</label>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-5">
-									<input type="checkbox" id="outrasFormasCheckBox" name="active" th:checked="${parceriaExterna.outrasFormas}" th:field="${parceriaExterna.outrasFormas}"/>
+									<input type="checkbox" id="outrasFormasCheckBox" name="outrasFormas" th:checked="${parceriaExterna.outrasFormas}" th:field="${parceriaExterna.outrasFormas}"/>
 									Outras formas
 								</label>
 							</div>
 							<div class="form-group" id="divDescricaoOutrasFormas" style="display: none;">
 								<label class="col-sm-5">Descreva outras formas</label>
-								<input class="form-control" type="text" id="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+								<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
 							</div>
 							<div class="form-group">
 						      <div class="col-sm-8 col-lg-offset-2">
 						        <button type="reset" class="btn btn-default">Cancelar</button>
-						        <button type="submit" class="btn btn-primary">Salvar</button>
+						        <button type="submit" id="submitBtn" class="btn btn-primary">Salvar</button>
 						      </div>
 						    </div>
 						</div>
 					</form>
-					
+					</div>
+					<div id="parceiroForm" style="display: none;">
+						<div class="box box-body">
+						<button id="cancelarNovoParceiro" class="btn btn-default">Voltar</button>
+							<form action="#" th:action="@{/parceiro/novo/__${acaoExtensaoId}__}" th:object="${parceiro}" method="post" class="form-horizontal" >
+								
+								<legend>Novo Parceiro</legend>
+								<div class="form-group">
+									<label class="col-lg-2 control-label" for="nome">Nome da Instituição:</label>
+									<div class="col-lg-10">
+										<input class="form-control" th:field="*{nome}" type="text" name="nome" />
+	<!-- 									<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label> -->
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Tipo da instituição:</label>
+									<div class="col-lg-10">
+										<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
+											<label><input type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+											<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+							      <div class="col-lg-10 col-lg-offset-2">
+							        <button type="submit" id="submitBtnParceiro" class="btn btn-primary">Salvar</button>
+							      </div>
+							    </div>
+							
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 			</section>
 		</div>
-	<!-- 	<form action="#" th:action="@{/parceiro/novo}" th:object="${parceiro}" method="post" class="form-horizontal"> -->
-	<!-- 	<fieldset> -->
-	<!-- 		<legend>Novo Parceiro</legend> -->
-	<!-- 		<div class="form-group"> -->
-	<!-- 			<label class="col-lg-2 control-label" for="nome">Nome da Instituição:</label> -->
-	<!-- 			<div class="col-lg-10"> -->
-	<!-- 				<input type="text" th:field="*{nome}" name="nome" /> -->
-	<!-- 				<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="form-group"> -->
-	<!--      			<label class="col-lg-2 control-label">Tipo da instituição:</label> -->
-	<!--      			<div class="col-lg-10"> -->
-	<!-- 				<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio"> -->
-	<!-- 					<label><input type="radio" th:value="${tipo}" th:field="${parceiro.tipo}" /></label> -->
-	<!-- 					<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span> -->
-	<!-- 				</div> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<br /> -->
-	<!-- 		<div class="form-group"> -->
-	<!-- 	      <div class="col-lg-10 col-lg-offset-2"> -->
-	<!-- 	        <button type="reset" class="btn btn-default">Cancelar</button> -->
-	<!-- 	        <button type="submit" class="btn btn-primary">Salvar</button> -->
-	<!-- 	      </div> -->
-	<!-- 	    </div> -->
-	<!-- 	    </fieldset> -->
-	<!-- 	</form> -->
 	</div>
 </body>
 </html>
