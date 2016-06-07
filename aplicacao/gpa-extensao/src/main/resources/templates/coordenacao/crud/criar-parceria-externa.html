@@ -92,7 +92,6 @@
 								<div class="form-group">
 									<label for="nome">Nome da Instituição:</label>
 									<input class="form-control" id="nomeParceiro" th:field="*{nome}" type="text" name="nome" />
-									<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome error message</label>
 								</div>
 								<div class="alert alert-warning alert-dismissible" id="tipoInstituicaoAlert" style="display: none;">
 									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

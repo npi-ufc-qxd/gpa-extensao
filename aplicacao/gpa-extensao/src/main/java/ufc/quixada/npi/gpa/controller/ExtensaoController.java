@@ -40,11 +40,9 @@ public class ExtensaoController {
 	public String novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute ParceriaExterna parceria,
 			Model model, Authentication auth, BindingResult binding){
 		if(binding.hasErrors()){
-			System.out.println("Error");
 			return PAGINA_CRIAR_PARCERIA_EXTERNA;
 		}
 		AcaoExtensao acaoExtensao = acaoExtensaoService.buscarPorId(id);
-		System.out.println(parceria.getParceiro().getId());
 		parceria.setAcaoExtensao(acaoExtensao);
 		acaoExtensao.addParceriaExterna(parceria);
 		acaoExtensaoService.salvar(acaoExtensao);
