@@ -11,7 +11,7 @@ $(document).ready(function() {
         $(this).find(".small-box").toggleClass("bg-aqua bg-yellow");
     });
 	$(".table-acoes").DataTable({
-		filter: false
+		"filter" : false
 	});
 });
 function showNaoHomologados() {

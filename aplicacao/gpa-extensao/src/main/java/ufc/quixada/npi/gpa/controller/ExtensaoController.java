@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 
 @Controller
 public class ExtensaoController {
-	
+
 	@RequestMapping("/")
 	public String index() {
-		return "index";
+		return PAGINA_INICIAL;
 	}
 	@Inject
 	private AcaoExtensaoService acaoExtensaoService;

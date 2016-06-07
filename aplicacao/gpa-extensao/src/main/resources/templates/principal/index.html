@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="modulos/fragments :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+	
+		<header th:replace="modulos/fragments :: header"></header>
+		<aside th:replace="modulos/fragments :: menu"></aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>Nova Ação de Extensão</h1>
+			</section>
+
+			<!-- Main content -->
+			<section class="content"></section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="modulos/fragments :: footer"></footer>
+		<script th:src="@{/gpa/direcao/index.js}"></script>
+	</div>
+	<!-- ./wrapper -->
+</body>
+</html>
