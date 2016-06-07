@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class ExtensaoController {
 	
 	@RequestMapping("/")
 	public String index() {
-		return "index";
+		return PAGINA_INICIAL;
 	}
 	
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)

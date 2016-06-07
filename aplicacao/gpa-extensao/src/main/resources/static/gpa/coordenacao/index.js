@@ -64,7 +64,7 @@ $(document).ready(function() {
 					$('#selectPessoa').append(newOption);
 				}
 				if(funcao == "ALUNO_VOLUNTARIO") {
-					var newOption = $('<option value=" ">Default</option>');
+					var newOption = $('<option value=" ">A Selecionar...</option>');
 					$('#selectPessoa').append(newOption);
 				}
 			}

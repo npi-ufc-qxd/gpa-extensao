@@ -1,80 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="_csrf" th:content="${_csrf.token}"/>
-	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-	<title>Adicionar Nova Participacao</title>
-	<link rel="stylesheet" th:href="@{../css/AdminLTE.min.css}" />
-	<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{../css/select2.css}" />
-	<link rel="stylesheet" th:href="@{../css/select2-bootstrap.css}" />
-</head>
-<body>
-	<div class="container">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title">Adicionar Nova Participação</h3>
-			</div>
-			
-			<form method="post" th:action="@{/participacoes/}+${idAcao}" th:object="${participacao}" role="form">
-			
-				<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-   					 <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>    
+
+<head th:replace="modulos/fragments :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+
+		<header th:replace="modulos/fragments :: header"></header>
+		<aside th:replace="modulos/fragments :: menu"></aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="box-header with-border">
+					<h3 class="box-title">Adicionar Nova Participação</h3>
 				</div>
-				
-				<div class="box-body">
-					<div id="formFuncao" class="form-group">
-						<label for="funcao"><span>*</span>Função</label>
-						<select id="selectFuncao" class="form-control" required="required" th:field="*{funcao}">
-							<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
-						</select>
-						<div id="divDescricaoFuncao">
-							<label for="descricaoFuncao"><span>*</span>Descrição da Função</label>
-							<input id="descricaoFuncao" type="text" class="form-control" th:field="*{descricaoFuncao}"/>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-primary">
+					<form method="post" th:action="@{/participacoes/}+${idAcao}"
+						th:object="${participacao}" role="form">
+	
+						<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+							<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
 						</div>
-					</div>
-					
-					<div id="formParticipante">
-						<label for="participante"><span id="spanParticipante">*</span>Participante</label>
-						<div id="divSelectPessoa" class="form-group">
-							<select id="selectPessoa" class="form-control" th:field="*{participante}">
-								<option id="default" value=" ">Default</option>
-							</select>
+	
+						<div class="box-body">
+							<div id="formFuncao" class="form-group">
+								<label for="funcao"><span>*</span>Função</label>
+									<select id="selectFuncao" class="form-control" required="required" th:field="*{funcao}">
+										<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
+									</select>
+								<div id="divDescricaoFuncao">
+									<label for="descricaoFuncao"><span>*</span>Descrição da Função</label>
+									<input id="descricaoFuncao" class="form-control" th:field="*{descricaoFuncao}" type="text"/>
+								</div>
+							</div>
+	
+							<div id="formParticipante">
+								<label for="participante"><span id="spanParticipante">*</span>Participante</label>
+								<div id="divSelectPessoa" class="form-group">
+									<select id="selectPessoa" class="form-control" th:field="*{participante}">
+										<option id="default" value=" ">A Selecionar...</option>
+									</select>
+								</div>
+								<div id="divNomeCpf" class="form-group row">
+									<div class="col-xs-8">
+										<label for="nomeParticipante"><span>*</span>Nome</label>
+										<input id="nomeParticipante" type="text" class="form-control" th:field="*{nomeParticipante}" /> 
+									</div>
+									<div class="col-xs-4">
+										<label for="cpfParticipante"><span>*</span>CPF</label>
+										<input id="cpfParticipante" type="text" class="form-control" th:field="*{cpfParticipante}" />
+									</div>
+								</div>
+							</div>
+	
+							<div class="form-group">
+								<label for="instituicao"><span>*</span>Instituição</label>
+								<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
+									<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}" />
+								</select>
+								<div id="divNomeInstituicao">
+									<label for="nomeInstituicao"><span>*</span>Nome da Instituição</label> 
+									<input id="nomeInstituicao" type="text" class="form-control" th:field="*{nomeInstituicao}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs)</label>
+								<input id="cargaHoraria" type="number" max="12"
+									min="12" class="form-control" required="required"
+									th:field="*{cargaHoraria}" />
+							</div>
 						</div>
-						<div id="divNomeCpf" class="form-group">
-							<label for="nomeParticipante"><span>*</span>Nome</label>
-							<input id="nomeParticipante" type="text" class="form-control" th:field="*{nomeParticipante}"/>
-							<label for="cpfParticipante"><span>*</span>CPF</label>
-							<input id="cpfParticipante" type="text" class="form-control" th:field="*{cpfParticipante}"/>
+	
+						<div class="box-footer">
+							<input name="salvar" type="submit" class="btn btn-primary" value="Adicionar" />
+							<a  class="btn btn-warning back">Cancelar</a>
 						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="instituicao"><span>*</span>Instituição</label>
-						<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
-							<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}"/>
-						</select>
-						<div id="divNomeInstituicao">
-							<label for="nomeInstituicao"><span>*</span>Nome da Instituição</label>
-							<input id="nomeInstituicao" type="text" class="form-control" th:field="*{nomeInstituicao}"/>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs)</label>
-						<input id="cargaHoraria" type="number" max="12" min="12" class="form-control" required="required" th:field="*{cargaHoraria}"/>
-					</div>
+					</form>
 				</div>
-				
-				<div class="box-footer">
-					<button type="submit" class="btn btn-primary">Adicionar</button>
-				</div>
-			</form>
+			</section>
+			<!-- /.content -->
 		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
-	<script type="text/javascript" th:src="@{../js/jQuery-2.2.0.min.js}"></script>
-	<script type="text/javascript" th:src="@{../js/jQuery-mask-1.4.1.min.js}"></script>
-	<script type="text/javascript" th:src="@{../js/select2.min.js}"></script>
-	<script type="text/javascript" th:src="@{../js/gpa-extensao.js}"></script>
+	<!-- ./wrapper -->
 </body>
 </html>
