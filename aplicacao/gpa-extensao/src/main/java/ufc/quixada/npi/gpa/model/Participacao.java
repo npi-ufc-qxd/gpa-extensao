@@ -41,7 +41,6 @@ public class Participacao {
 	
 	private String nomeParticipante;
 	
-	@CPF
 	private String cpfParticipante;
 	
 	private boolean coordenador;
@@ -174,7 +173,7 @@ public class Participacao {
 	}
 
 	public enum Funcao{
-		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRO("Outro");
+		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
 		
 		private String descricao;
 		
