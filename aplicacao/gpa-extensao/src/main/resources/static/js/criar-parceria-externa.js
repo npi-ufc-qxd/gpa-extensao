@@ -10,18 +10,30 @@ $(document).ready(function() {
 			$("#descricaoOutrasFormas").prop('required',false);
 		}
 	});
-	$('#submitBtn').click(function() {
+	$("#submitBtn").click(function() {
 	      checked = $("input[type=checkbox]:checked").length;
+	      if($("#selectParceiro").val()==""){
+	    	  $("#selectAlert").show();
+	    	  setTimeout(function(){$("#selectAlert").fadeOut('slow');}, 10000);
+	    	  return false;
+	      }
 	      if(!checked) {
-	    	  var selected = $("#selectParceiro").val();
-	    	  console.log(selected);
 	    	  $("#checkBoxAlert").show();
-	        return false;
+	    	  setTimeout(function(){
+	    		  $("#checkBoxAlert").fadeOut('slow');}, 10000);
+	    	  return false;
 	      }
 	});
 	$('#submitBtnParceiro').click(function(){
+		if($("#nomeParceiro").val()==""){
+			$("#nomeParceiroAlert").show();
+	    	  setTimeout(function(){$("#nomeParceiroAlert").fadeOut('slow');}, 10000);
+	    	  return false;
+		}
 		if($("input[name=tipo]:checked").length == 0){
-			console.log("check radio");
+			$("#tipoInstituicaoAlert").show();
+	    	  setTimeout(function(){$("#tipoInstituicaoAlert").fadeOut('slow');}, 10000);
+	    	  return false;
 			return false;
 		}
 	});
