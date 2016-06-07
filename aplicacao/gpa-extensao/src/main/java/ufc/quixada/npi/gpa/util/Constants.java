@@ -14,8 +14,10 @@ public class Constants {
 
 	//Model attributes
 	public static final String PARECERISTAS = "pareceristas";
-	public static final String ACOES_PARECER = "acoesParecer";
-	public static final String ACOES_RELATO = "acoesRelato";
+	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
+	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
+	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
+	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
 	
