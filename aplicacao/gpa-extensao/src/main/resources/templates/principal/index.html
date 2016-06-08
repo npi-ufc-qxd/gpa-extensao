@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head"></head>
+<head th:replace="modulos/fragments :: head"></head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 	
-		<div th:replace="fragments :: header"></div>
-		<div th:replace="fragments :: menu"></div>
+		<header th:replace="modulos/fragments :: header"></header>
+		<aside th:replace="modulos/fragments :: menu"></aside>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -21,7 +21,8 @@
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
-		<footer th:replace="fragments :: footer"></footer>
+		<footer th:replace="modulos/fragments :: footer"></footer>
+		<script th:src="@{/gpa/direcao/index.js}"></script>
 	</div>
 	<!-- ./wrapper -->
 </body>

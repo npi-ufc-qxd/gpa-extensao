@@ -14,6 +14,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 public interface ParecerRepository extends CrudRepository<Parecer, Integer> {
 
 	@Query("SELECT pe FROM Pessoa pe WHERE pe NOT IN (SELECT pa.participante FROM AcaoExtensao ae, equipe_de_trabalho pa WHERE pa.acaoExtensao.id = :idAcao AND pa MEMBER OF ae.equipeDeTrabalho)")
-	List<Pessoa> getPareceristas(@Param("idAcao")Integer idAcao);
+	List<Pessoa> getPossiveisPareceristas(@Param("idAcao")Integer idAcao);
 
 }

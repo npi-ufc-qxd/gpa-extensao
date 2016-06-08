@@ -18,30 +18,30 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 public class Pessoa implements UserDetails {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@NotNull
 	private String nome;
-	
+
 	private String email;
-	
+
 	@CPF
 	private String cpf;
-	
+
 	private String password;
-	
+
 	@ManyToMany
-	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
+	@JoinTable(name = "papel_pessoa", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
 	private List<Papel> papeis;
 
 	public Pessoa() {
 	}
-	
+
 	public Pessoa(String nome, String email, String cpf, List<Papel> papeis) {
 		super();
 		this.nome = nome;
@@ -152,5 +152,4 @@ public class Pessoa implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
 }
