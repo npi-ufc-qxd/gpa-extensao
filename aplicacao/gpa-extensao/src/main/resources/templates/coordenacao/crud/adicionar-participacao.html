@@ -24,7 +24,7 @@
 					<form method="post" th:action="@{/participacoes/}+${idAcao}"
 						th:object="${participacao}" role="form">
 	
-						<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+						<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasErrors('*')}">
 							<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
 						</div>
 	
@@ -79,7 +79,7 @@
 	
 						<div class="box-footer">
 							<input name="salvar" type="submit" class="btn btn-primary" value="Adicionar" />
-							<a  class="btn btn-warning back">Cancelar</a>
+							<a href="/gpa-extensao" class="btn btn-warning back">Cancelar</a>
 						</div>
 					</form>
 				</div>

@@ -63,15 +63,10 @@ public class ExtensaoController {
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
 	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model, HttpSession session) {
 		
-		List<Funcao> funcoes = new ArrayList<Funcao>();
-		for(Funcao funcao: Funcao.values()) {
-			if(funcao != Funcao.ALUNO_BOLSISTA) {
-				funcoes.add(funcao);
-			}
-		}
+		
 		model.addAttribute("idAcao", id);
 		model.addAttribute("participacao", new Participacao());
-		model.addAttribute("funcoes", funcoes);
+		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
 		
 		return "coordenacao/crud/adicionar-participacao";
@@ -92,6 +87,10 @@ public class ExtensaoController {
 		participacaoValidator.validate(participacao, result);
 		
 		if(result.hasErrors()) {
+			model.addAttribute("idAcao", idAcao);
+			model.addAttribute("participacao", participacao);
+			model.addAttribute("funcoes", listaDeFuncoes());
+			model.addAttribute("instituicoes", Instituicao.values());
 			return "coordenacao/crud/adicionar-participacao";
 		}
 		
@@ -116,5 +115,15 @@ public class ExtensaoController {
 	@RequestMapping("/buscarAlunos")
 	public @ResponseBody List<Aluno> buscarAlunos() {
 		return alunoRepository.findAll();
+	}
+	
+	private List<Funcao> listaDeFuncoes() {
+		List<Funcao> funcoes = new ArrayList<Funcao>();
+		for(Funcao funcao: Funcao.values()) {
+			if(funcao != Funcao.ALUNO_BOLSISTA) {
+				funcoes.add(funcao);
+			}
+		}
+		return funcoes;
 	}
 }
