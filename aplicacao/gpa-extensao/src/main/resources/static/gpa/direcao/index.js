@@ -2,13 +2,13 @@ $(document).ready(function() {
 
 	$(".card").click(function() {
 		$(".card").find("i").removeClass("fa-folder-open-o");
-		$(".card").find(".small-box").removeClass("bg-aqua");
+		$(".card").find(".small-box").removeClass("bg-blue");
 
 		$(".card").find("i").addClass("fa-folder-o");
-		$(".card").find(".small-box").addClass("bg-yellow");
+		$(".card").find(".small-box").addClass("bg-aqua");
 
 		$(this).find("i").toggleClass("fa-folder-open-o fa-folder-o");
-		$(this).find(".small-box").toggleClass("bg-aqua bg-yellow");
+		$(this).find(".small-box").toggleClass("bg-blue bg-aqua");
 	});
 	
 	$("#parecer-card").on("click", function(){
@@ -39,13 +39,21 @@ $(document).ready(function() {
 		$(".homologado").show();
 	})
 
+	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
+	
 	$(".table-direcao").DataTable({
 		"filter" : false,
-		"paginate" : false
+		"paginate" : false,
+		"language" : {
+			"url": ptBR_url
+		}
 	});
 	
 	$(".table-direcao-homologadas").DataTable({
-		"filter" : false
+		"filter" : false,
+		"language" : {
+			"url": ptBR_url
+		}
 	});
 
 });
