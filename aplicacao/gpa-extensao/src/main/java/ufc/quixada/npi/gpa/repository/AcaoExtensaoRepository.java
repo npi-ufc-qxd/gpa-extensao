@@ -11,7 +11,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
 	
-	AcaoExtensao getById(Long id);
+	AcaoExtensao getById(int id);
 	
 	
 }

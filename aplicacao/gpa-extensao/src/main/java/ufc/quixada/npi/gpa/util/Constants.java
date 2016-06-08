@@ -18,12 +18,12 @@ public class Constants {
 	
 	
 	public static final String PAGINA_LISTAR_ACAO_EXTENSAO = "acaoextensao/listar";
-	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "acaoextensao/detalhes";
+	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhe/acao/detalhes";
 	
 	
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	
-	public static final String ACAO_EXTENSAO = "Acao extensao";
+	public static final String ACAO_EXTENSAO = "acaoextensao";
 	
 	public static final String PERMISSAO_COORDENADOR = "coordenador";
 	public static final String PERMISSAO_DIRETOR = "diretor";

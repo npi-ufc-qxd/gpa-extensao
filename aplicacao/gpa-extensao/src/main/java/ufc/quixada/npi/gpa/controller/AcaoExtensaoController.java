@@ -16,22 +16,17 @@ import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Participacao;
-
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_COORDENADOR;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_PARECERISTA;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_RELATOR;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
 
+
 @Controller
-@RequestMapping("acaoextensao")
+@RequestMapping("detalhe")
 public class AcaoExtensaoController {
 	
 
@@ -40,43 +35,42 @@ public class AcaoExtensaoController {
 	@Autowired
 	private PessoaService pessoaService;
 	
-	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
-	public String verDetalhes(@PathVariable("id") Long id, Model model, HttpSession session,
+	@RequestMapping(value = "/acao/{id}", method = RequestMethod.GET)
+	public String verDetalhes(@PathVariable("id") int id, Model model, HttpSession session,
 			RedirectAttributes redirectAttributes, Authentication authentication){
 		AcaoExtensao acao = acaoService.getById(id);
-		
+		System.out.println("passou aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
 		
-		model.addAttribute(ACAO_EXTENSAO, acao);
 		Pessoa pessoa = pessoaService.getByCpf(authentication.getName());
 		
 		if(acao.getCoordenador().equals(pessoa)){
-			model.addAttribute(PERMISSAO,PERMISSAO_COORDENADOR);
+			model.addAttribute(ACAO_EXTENSAO,acaoService.getById(id));
 			return PAGINA_DETALHES_ACAO_EXTENSAO;	
 		}
 		
 		if (pessoa.isDirecao()) {
-			model.addAttribute("permissao", "direcao");
+			model.addAttribute(ACAO_EXTENSAO, acaoService.getById(id));
 			return PAGINA_DETALHES_ACAO_EXTENSAO;
 		}
 		
 		if (acao.getParecerTecnico().getResponsavel().equals(pessoa)
 				&& acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
-			model.addAttribute(PERMISSAO, PERMISSAO_PARECERISTA);
+			model.addAttribute(ACAO_EXTENSAO, acaoService.getById(id));
 			return PAGINA_DETALHES_ACAO_EXTENSAO;
 		}
 		if(acao.getParecerRelator().getResponsavel().equals(pessoa)
 				&& acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
-				model.addAttribute(PERMISSAO, PERMISSAO_RELATOR);
+				model.addAttribute(ACAO_EXTENSAO, acaoService.getById(id));
 				return PAGINA_DETALHES_ACAO_EXTENSAO;
 		}
 		if (acao.getStatus().equals(Status.APROVADO)) {
 			for (Participacao participacao : acao.getEquipeDeTrabalho()) {
 				if (pessoa.equals(participacao.getParticipante())) {
-					model.addAttribute(PERMISSAO, PERMISSAO_PARTICIPANTE);
+					model.addAttribute(ACAO_EXTENSAO, acaoService.getById(id));
 					return PAGINA_DETALHES_ACAO_EXTENSAO;
 				}
 			}

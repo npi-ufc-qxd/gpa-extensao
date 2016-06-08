@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+	
+		<div th:replace="fragments :: header"></div>
+		<div th:replace="fragments :: menu"></div>
+		
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1> Detalhes Ação Extensão</h1>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+            	
+      			<div class="box box-widget">
+      				<div class="box-header with-border">
+      					<ul class="list-inline col-sm-5">
+      						<li>
+      							<label>Título:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.titulo}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="list-inline col-sm-5">
+      						<li>
+      							<label>Coordenador:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.coordenador}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="list-inline col-sm-2 border-right">
+      						<li>
+      							<label>Status:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.status}"></h4>
+      						</li>
+      					</ul>
+      				</div>
+      			</div>
+    			
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="fragments :: footer"></footer>
+	</div>
+	<!-- ./wrapper -->
+</body>
+</html>
