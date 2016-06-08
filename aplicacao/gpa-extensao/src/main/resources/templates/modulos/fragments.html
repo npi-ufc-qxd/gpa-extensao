@@ -8,6 +8,8 @@
 		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 		name="viewport">
 	</meta>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
 	<!-- Font Awesome -->
@@ -28,6 +30,9 @@
 	<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker-bs3.css}"></link>
 	<!-- Data Tables -->
 	<link rel="stylesheet" th:href="@{/plugins/datatables/dataTables.bootstrap.css}"></link>
+	<!-- Select2 -->
+	<link rel="stylesheet" th:href="@{/css/select2.css}" />
+	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
 </head>
 <!-- Fim do head -->
 
@@ -111,8 +116,11 @@
 	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
+	<!-- jQuery Mask -->
+	<script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
 	<!-- Script da página inicial da direção -->
 	<script th:src="@{/gpa/direcao/index.js}"></script>
+	<script th:src="@{/gpa/coordenacao/index.js}"></script>
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
@@ -125,6 +133,8 @@
 	<!-- Data Tables -->
 	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+	<!-- Select 2 -->
+	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
 	
 </footer>
 <!-- Fim do rodapé -->

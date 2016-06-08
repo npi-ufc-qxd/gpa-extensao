@@ -28,10 +28,16 @@ public class Constants {
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
+	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhe/acao/";
-
+	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+	
 	// Exception Messages
-	public static final String ERRO_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+	
+	//Errors
+	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
+
 }
