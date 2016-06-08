@@ -26,4 +26,9 @@ public class Constants {
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
+	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
+	
+	//errors
+	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
 }

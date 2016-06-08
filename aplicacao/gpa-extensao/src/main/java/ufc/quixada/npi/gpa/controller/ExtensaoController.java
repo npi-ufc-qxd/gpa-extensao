@@ -1,12 +1,13 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,28 +33,28 @@ import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.PessoaService;
-import ufc.quixada.npi.gpa.service.validation.ParticipacaoValidator;
+import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
 public class ExtensaoController {
 	
 	@Autowired
-	ServidorRepository servirdorRepository;
+	private ServidorRepository servirdorRepository;
 	
 	@Autowired
-	ParticipacaoRepository participacaoRepository;
+	private ParticipacaoRepository participacaoRepository;
 	
 	@Autowired
-	AlunoRepository alunoRepository;
+	private AlunoRepository alunoRepository;
 	
 	@Autowired
-	AcaoExtensaoRepository AcaoExtensaoRepository;
+	private AcaoExtensaoRepository AcaoExtensaoRepository;
 	
 	@Inject
-	PessoaService pessoaService;
+	private PessoaService pessoaService;
 	
 	@Inject
-	ParticipacaoValidator participacaoValidator;
+	private ParticipacaoValidator participacaoValidator;
 	
 	@RequestMapping("/")
 	public String index() {
@@ -61,7 +62,7 @@ public class ExtensaoController {
 	}
 	
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
-	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model, HttpSession session) {
+	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model) {
 		
 		
 		model.addAttribute("idAcao", id);
@@ -69,20 +70,20 @@ public class ExtensaoController {
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
 		
-		return "coordenacao/crud/adicionar-participacao";
+		return PAGINA_ADICIONAR_PARTICIPACAO;
 	}
 	
 	@RequestMapping(value="/participacoes/{idAcao}", method=RequestMethod.POST)
-	public String AdicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
-			BindingResult result, Model model, HttpSession session, RedirectAttributes redirectAttributes, Authentication authentication) {
+	public String adicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
+			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 		
-		Pessoa usuario = pessoaService.getByCpf(authentication.getName());
 		AcaoExtensao acao = AcaoExtensaoRepository.findOne(idAcao);
 		
 		if(acao == null) {
 			redirectAttributes.addFlashAttribute("erro", "Projeto inexistente");
 			return "/";
 		}
+		
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 		
@@ -91,8 +92,10 @@ public class ExtensaoController {
 			model.addAttribute("participacao", participacao);
 			model.addAttribute("funcoes", listaDeFuncoes());
 			model.addAttribute("instituicoes", Instituicao.values());
-			return "coordenacao/crud/adicionar-participacao";
+			return PAGINA_ADICIONAR_PARTICIPACAO;
 		}
+		
+		Pessoa usuario = pessoaService.getByCpf(authentication.getName());
 		
 		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == usuario.getId()) {
 			participacao.setCoordenador(true);
@@ -103,7 +106,7 @@ public class ExtensaoController {
 		
 		participacaoRepository.save(participacao);
 		
-		return "redirect:/participacoes/"+idAcao;
+		return REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO+idAcao;
 	}
 	
 	
