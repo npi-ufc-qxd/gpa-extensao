@@ -21,23 +21,78 @@
             	
       			<div class="box box-widget">
       				<div class="box-header with-border">
-      					<ul class="list-inline col-sm-5">
+      					<ul class=" col-sm-6 list-inline">
+      							<li>
+      								<label>Título:</label>
+      							</li>
+      							<li>
+      								<h4 th:text="${acaoextensao.titulo}"></h4>
+      							</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      							<li>
+      								<label>Coordenador:</label>
+      							</li>
+      							<li>
+      								<h4 th:text="${acaoextensao.coordenador.nome}"></h4>
+      							</li>
+      					</ul>
+      					<ul class="col-sm-6 list-inline">
       						<li>
-      							<label>Título:</label>
+      							<label>Código:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.titulo}"></h4>
+      							<h4 th:text="${acaoextensao.codigo}"></h4>
       						</li>
       					</ul>
-      					<ul class="list-inline col-sm-5">
+      					<ul class="col-sm-6 list-inline">
       						<li>
-      							<label>Coordenador:</label>
-      						</li>
-      						<li>
-      							<h4 th:text="${acaoextensao.coordenador}"></h4>
+ 	     						<label>Identificador:</label>
+ 	     					</li>
+ 	     					<li>
+      							<h4 th:text="${acaoextensao.identificador}"></h4>
       						</li>
       					</ul>
-      					<ul class="list-inline col-sm-2 border-right">
+      					<ul class="col-sm-12 list-inline">
+      						<li>
+      							<label>Resumo:</label>
+      						</li>
+      						<li>	
+      							<h4 th:text="${acaoextensao.resumo}"></h4>
+      						</li>
+      					</ul>
+      					
+      				</div>
+      				<div class="box-body with-border">
+      					<ul class="col-sm-3 list-inline">
+      						<li>
+      							<label>Início:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.inicio, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="col-sm-3 list-inline">
+      						<li>
+      							<label>Término:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.termino, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="col-sm-3 list-inline" >
+      						<li>
+      							<label>Prorrogável:</label>
+      						</li>
+      						<li>
+      							<div th:switch="${acaoextensao.prorrogavel}">
+      								<h4 th:case="true">Sim</h4>
+      								<h4 th:case="false">Não</h4>
+      							</div>
+      							
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-3 list-inline">
       						<li>
       							<label>Status:</label>
       						</li>
@@ -45,7 +100,70 @@
       							<h4 th:text="${acaoextensao.status}"></h4>
       						</li>
       					</ul>
+      					<ul class=" col-sm-3 list-inline">
+      						<li>
+      							<label>Vinculo:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-3 list-inline">
+      						<li>
+      							<label>Bolsas solicitadas:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.bolsasSolicitadas}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-3 list-inline">
+      						<li>
+      							<label>Bolsas recebidas:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.bolsasRecebidas}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-3 list-inline">
+      						<li>
+      							<label>Data de homologação:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					
+      					
       				</div>
+      				<div class="box-footer">
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Anexo:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.anexo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Parecer técnico:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.parecerTecnico.arquivo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Parecer relator:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.parecerRelator.arquivo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					
+      				</div>
+      				
+      				
       			</div>
     			
 			</section>
