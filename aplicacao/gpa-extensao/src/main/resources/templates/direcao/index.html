@@ -76,18 +76,17 @@
 					</div>
 
 				</div>
-				
-				
+
 				<div class="row parecer">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Aguardando Parecerista</h3>
 							</div>
 
-							<div class="box-body">
-								<table class="table-direcao-acoes table table-striped table-bordered">
+							<div class="box-body table-responsive">
+								<table class="table-direcao table table-striped table-bordered">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -95,23 +94,17 @@
 											<th>Coordenador</th>
 											<th>Modalidade</th>
 											<th>Status</th>
-											<th></th>
 										</tr>
 									</thead>
 									
 									<tbody>
 										
 										<tr th:each="acao: ${acoesAguardandoParecerista}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
-											<td class="acoes" align="center">
-												<a id="atribuir-parecerista" title="Atribuir parecerista" href="#atribuir-parecerista-form">
-													<button class="btn btn-primary btn-xs"><i class="fa fa-user"></i></button>
-												</a>
-											</td>
 										</tr>
 										
 									</tbody>
@@ -124,13 +117,13 @@
 
 				<div class="row parecer">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Aguardando Parecer</h3>
 							</div>
 
-							<div class="box-body">
+							<div class="box-body table-responsive">
 								<table class="table-direcao table table-striped table-bordered">
 									<thead>
 										<tr>
@@ -145,8 +138,8 @@
 									<tbody>
 
 										<tr th:each="acao: ${acoesAguardandoParecer}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -161,16 +154,16 @@
 				</div>
 				<!-- /.tabela aguardando parecer -->
 
-				<div class="row relato hidden">
+				<div class="row relato" style="display: none">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Aguardando Relator</h3>
 							</div>
 
-							<div class="box-body">
-								<table class="table-direcao-acoes table table-striped table-bordered">
+							<div class="box-body table-responsive">
+								<table class="table-direcao table table-striped table-bordered">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -178,23 +171,17 @@
 											<th>Coordenador</th>
 											<th>Modalidade</th>
 											<th>Status</th>
-											<th></th>
 										</tr>
 									</thead>
 
 									<tbody>
 
 										<tr th:each="acao: ${acoesAguardandoRelator}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
-											<td class="acoes" align="center">
-												<a id="atribuir-relator" title="Atribuir relator" href="#atribuir-relator-form">
-													<button class="btn btn-primary btn-xs"><i class="fa fa-user"></i></button>
-												</a>
-											</td>
 										</tr>
 
 									</tbody>
@@ -206,15 +193,15 @@
 				</div>
 				<!-- /.tabela aguardando relator -->
 
-				<div class="row relato hidden">
+				<div class="row relato" style="display: none">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Aguardando Relato</h3>
 							</div>
 
-							<div class="box-body">
+							<div class="box-body table-responsive">
 								<table class="table-direcao table table-striped table-bordered">
 									<thead>
 										<tr>
@@ -229,8 +216,8 @@
 									<tbody>
 
 										<tr th:each="acao: ${acoesAguardandoRelato}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -245,15 +232,15 @@
 				</div>
 				<!-- /.tabela aguardando relato -->
 
-				<div class="row homologacao hidden">
+				<div class="row homologacao" style="display: none">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Aguardando Homologação</h3>
 							</div>
 
-							<div class="box-body">
+							<div class="box-body table-responsive">
 								<table class="table-direcao table table-striped table-bordered">
 									<thead>
 										<tr>
@@ -268,8 +255,8 @@
 									<tbody>
 
 										<tr th:each="acao: ${acoesAguardandoHomologacao}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -284,16 +271,16 @@
 				</div>
 				<!-- /.tabela aguardando homologacao -->
 
-				<div class="row homologado hidden">
+				<div class="row homologado" style="display: none">
 					<div class="col-xs-12">
-						<div class="box">
+						<div class="box box-info">
 
 							<div class="box-header">
 								<h3>Ações Homologadas</h3>
 							</div>
 
-							<div class="box-body">
-								<table class="table-direcao table table-striped table-bordered">
+							<div class="box-body table-responsive">
+								<table class="table-direcao-homologadas table table-striped table-bordered">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -307,8 +294,8 @@
 									<tbody>
 
 										<tr th:each="acao: ${acoesHomologadas}">
-											<td th:text="${acao.id}"></td>
-											<td th:text="${acao.titulo}"></td>
+											<td class="vcenter" th:text="${acao.identificador}"></td>
+											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>

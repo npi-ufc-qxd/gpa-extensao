@@ -12,42 +12,40 @@ $(document).ready(function() {
 	});
 	
 	$("#parecer-card").on("click", function(){
-		$(".parecer").removeClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").show();
+		$(".relato").hide();
+		$(".homologacao").hide();
+		$(".homologado").hide();
 	})
 	
 	$("#relato-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").removeClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").hide();
+		$(".relato").show();
+		$(".homologacao").hide();
+		$(".homologado").hide();
 	})
 	
 	$("#homologacao-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").removeClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").hide();
+		$(".relato").hide();
+		$(".homologacao").show();
+		$(".homologado").hide();
 	})
 	
 	$("#homologado-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").removeClass("hidden");
+		$(".parecer").hide();
+		$(".relato").hide();
+		$(".homologacao").hide();
+		$(".homologado").show();
 	})
 
 	$(".table-direcao").DataTable({
-		"filter" : false
+		"filter" : false,
+		"paginate" : false
 	});
 	
-	$(".table-direcao-acoes").DataTable({
-		"filter" : false,
-		"columnDefs": [
-		    {"targets": 5, "orderable": false}
-		]
+	$(".table-direcao-homologadas").DataTable({
+		"filter" : false
 	});
 
 });
