@@ -39,7 +39,6 @@ public class AcaoExtensaoController {
 	public String verDetalhes(@PathVariable("id") int id, Model model, HttpSession session,
 			RedirectAttributes redirectAttributes, Authentication authentication){
 		AcaoExtensao acao = acaoService.getById(id);
-		System.out.println("passou aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
