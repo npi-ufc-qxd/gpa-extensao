@@ -1,13 +1,19 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -59,6 +65,20 @@ public class ExtensaoController {
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
+	}
+	@RequestMapping(value = "detalhe/acao/{id}", method = RequestMethod.GET)
+	public String verDetalhes(@PathVariable("id") int id, Model model, HttpSession session,
+			RedirectAttributes redirectAttributes, Authentication authentication){
+		AcaoExtensao acao = AcaoExtensaoRepository.getById(id);
+		if(acao == null){
+			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
+		}
+		
+		model.addAttribute(ACAO_EXTENSAO,AcaoExtensaoRepository.getById(id));
+		return PAGINA_DETALHES_ACAO_EXTENSAO;	
+		
+		
 	}
 	
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
