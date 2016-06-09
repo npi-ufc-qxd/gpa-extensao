@@ -25,6 +25,8 @@
 						th:object="${participacao}" role="form">
 	
 						<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasErrors('*')}">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-ban"></i> ERRO!</h4>
 							<p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
 						</div>
 	

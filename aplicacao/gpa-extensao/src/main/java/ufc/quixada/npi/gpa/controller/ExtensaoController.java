@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class ExtensaoController {
 	private AlunoRepository alunoRepository;
 	
 	@Autowired
-	private AcaoExtensaoRepository AcaoExtensaoRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Inject
 	private PessoaService pessoaService;
@@ -77,13 +78,14 @@ public class ExtensaoController {
 	public String adicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 		
-		AcaoExtensao acao = AcaoExtensaoRepository.findOne(idAcao);
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		
 		if(acao == null) {
 			redirectAttributes.addFlashAttribute("erro", "Projeto inexistente");
 			return "/";
 		}
 		
+		participacao.setCpfParticipante(participacao.getCpfParticipante().replaceAll("[^0-9]", ""));
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 		
@@ -107,6 +109,14 @@ public class ExtensaoController {
 		participacaoRepository.save(participacao);
 		
 		return REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO+idAcao;
+	}
+	
+	@RequestMapping(value="/listar-participacoes/{id}", method=RequestMethod.GET)
+	public String listarParticipacoes(@PathVariable("id") Integer id, Model model) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
+		
+		return PAGINA_LISTAR_PARTICIPACOES;
 	}
 	
 	
