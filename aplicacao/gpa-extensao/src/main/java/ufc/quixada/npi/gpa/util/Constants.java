@@ -20,6 +20,15 @@ public class Constants {
 	public static final String PAGINA_LISTAR_ACAO_EXTENSAO = "acaoextensao/listar";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhe/acao/detalhes";
 	
+
+	//Model attributes
+	public static final String PARECERISTAS = "pareceristas";
+	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
+	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
+	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
+	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
+	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
+	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
 	
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	
@@ -33,4 +42,14 @@ public class Constants {
 	public static final String PERMISSAO = "permissao";
 	
 	public static final String PAPEL_DIRECAO = "direcao";
+	//Load fragments
+	public static final String LOAD_PARECERISTAS = "index :: pareceristas";
+	
+	//Paginas
+	public static final String PAGINA_INICIAL = "principal/index";
+	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
+	
+	//errors
+	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
 }
