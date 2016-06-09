@@ -1,5 +1,8 @@
 package ufc.quixada.npi.gpa.repository;
 
+
+
+
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +15,10 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
+	
+	AcaoExtensao getById(int id);
+	
+	
 	 List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
 	 
 	 List<AcaoExtensao> findByStatusIn (Collection<Status> status);
