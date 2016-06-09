@@ -29,6 +29,9 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	
+	//Exceptions
+	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
+	
 	//errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
 }
