@@ -10,15 +10,13 @@ public class Constants {
 	public static final String LDAP_OU = "ldap.ou";
 	public static final String BASE = "ldap.url";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
-	public static final String ERRO = "erro";
 	
 	
+	//Mensagens
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	
 	
-	public static final String PAGINA_LISTAR_ACAO_EXTENSAO = "acaoextensao/listar";
-	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhe/acao/detalhes";
 	
 
 	//Model attributes
@@ -29,8 +27,6 @@ public class Constants {
 	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
-	
-	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	
 	public static final String ACAO_EXTENSAO = "acaoextensao";
 	
@@ -49,7 +45,12 @@ public class Constants {
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
+	public static final String PAGINA_LISTAR_ACAO_EXTENSAO = "acaoextensao/listar";
+	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhe/acao/detalhes";
+	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
+	
 	
 	//errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
+	public static final String ERRO = "erro";
 }
