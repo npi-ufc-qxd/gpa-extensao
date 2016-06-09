@@ -23,6 +23,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
@@ -34,6 +35,9 @@ public class DirecaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	
+	@Autowired
+	private ParecerRepository parecerRepository;
 
 	@RequestMapping("/listagem")
 	public String listagem(Model model, Authentication authentication) {
@@ -57,7 +61,7 @@ public class DirecaoController {
 
 	@RequestMapping(value = "/parecerista", method = RequestMethod.GET)
 	public String atribuirPareceristaForm(AcaoExtensao acaoExtensao, Model model) {
-		model.addAttribute(PARECERISTAS, direcaoService.getPossiveisPareceristas(acaoExtensao));
+		model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(acaoExtensao.getId()));
 		return LOAD_PARECERISTAS;
 	}
 
