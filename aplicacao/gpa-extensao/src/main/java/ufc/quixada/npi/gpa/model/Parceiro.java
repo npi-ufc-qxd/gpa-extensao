@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Parceiro {
@@ -16,9 +17,11 @@ public class Parceiro {
 	private Integer id;
 	
 	@NotNull
+	@Size(min=2,message="Nome deve ter mais de 2 caracteres")
 	private String nome;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Tipo tipo;
 	
 	public Parceiro() {

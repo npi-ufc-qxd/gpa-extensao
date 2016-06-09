@@ -1,6 +1,8 @@
 <head th:fragment="head">
 	<meta charset="utf-8"></meta>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<title>GPA - Extensão</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta

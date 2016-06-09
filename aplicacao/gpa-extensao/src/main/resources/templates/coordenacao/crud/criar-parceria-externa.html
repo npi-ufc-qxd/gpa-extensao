@@ -11,11 +11,12 @@
 				<h3>Nova Parceria Externa</h3>
 			</section>
 			<section class="content">
+			<input th:value="${acaoExtensaoId}" id="acaoExtensaoId" style="display: none;"/>
 			<div class="col-md-6">
 				<div class="box box-primary" id="parceriaExternaForm">
-					<form role="form" th:action="@{/salvarParceria/__${acaoExtensaoId}__}" th:object="${parceriaExterna}" method="POST">
+					<form role="form" th:object="${parceriaExterna}" method="POST" id="parceriaExternaForm2">
 						<div class="box-body">
-								<div class="alert alert-warning alert-dismissible" id="selectAlert" style="display: none;">
+								<div class="alert alert-warning alert-dismissible" id="error-parceiro" style="display: none;">
 									<button type="button" class="close" data-dismiss="alert"
 										aria-hidden="true">×</button>
 									<h4>
@@ -74,7 +75,7 @@
 							</div>
 							<div class="box-footer">
 								<button type="reset" class="btn btn-default pull-left">Cancelar</button>
-							    <button type="submit" id="submitBtn" class="btn btn-primary pull-right">Salvar</button>
+							    <button id="submitBtn" class="btn btn-primary pull-right">Salvar</button>
 							</div>
 						</form>
 					</div>
@@ -82,18 +83,18 @@
 						<div style="padding-top: 10px;padding-left: 10px;">
 							<button id="cancelarNovoParceiro" class="btn btn-default">Voltar</button>
 						</div>
-						<form role="form" th:action="@{/parceiro/novo/__${acaoExtensaoId}__}" th:object="${parceiro}" method="post">
+<!-- 						th:action="@{/parceiro/novo/__${acaoExtensaoId}__}" -->
+						<form id="parceiroForm2" role="form" th:object="${parceiro}" method="POST">
 							<div class="box-body">
-								<div class="alert alert-warning alert-dismissible" id="nomeParceiroAlert" style="display: none;">
+								<div class="alert alert-warning alert-dismissible" id="error-nome" style="display: none;">
 									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 									<h4> <i class="icon fa fa-warning"></i> Atenção! </h4>
-									<p>Preencher campo com nome</p>
 								</div>
 								<div class="form-group">
 									<label for="nome">Nome da Instituição:</label>
 									<input class="form-control" id="nomeParceiro" th:field="*{nome}" type="text" name="nome" />
 								</div>
-								<div class="alert alert-warning alert-dismissible" id="tipoInstituicaoAlert" style="display: none;">
+								<div class="alert alert-warning alert-dismissible" id="error-tipo" style="display: none;">
 									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 									<h4><i class="icon fa fa-warning"></i> Atenção!</h4>
 									<p>Escolher tipo de instituição!</p>
@@ -101,14 +102,14 @@
 								<div class="form-group">
 									<label>Tipo da instituição:</label>
 									<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
-										<label><input type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+										<label><input id="satanRadio" type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
 										<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
 									</div>
 								</div>
 								<br />
 								<div class="form-group">
 								   	<div class="col-lg-10 col-lg-offset-2">
-								       	<button type="submit" id="submitBtnParceiro" class="btn btn-primary pull-right">Salvar</button>
+								       	<button id="submitBtnParceiro" class="btn btn-primary pull-right">Salvar</button>
 								   	</div>
 								</div>
 							</div>
