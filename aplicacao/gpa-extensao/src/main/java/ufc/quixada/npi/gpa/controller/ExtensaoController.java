@@ -54,7 +54,7 @@ public class ExtensaoController {
 	private AlunoRepository alunoRepository;
 	
 	@Autowired
-	private AcaoExtensaoRepository AcaoExtensaoRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Inject
 	private PessoaService pessoaService;
@@ -69,13 +69,13 @@ public class ExtensaoController {
 	@RequestMapping(value = "detalhe/acao/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") int id, Model model, HttpSession session,
 			RedirectAttributes redirectAttributes, Authentication authentication){
-		AcaoExtensao acao = AcaoExtensaoRepository.getById(id);
+		AcaoExtensao acao = acaoExtensaoRepository.getById(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
 		
-		model.addAttribute(ACAO_EXTENSAO,AcaoExtensaoRepository.getById(id));
+		model.addAttribute(ACAO_EXTENSAO,acaoExtensaoRepository.getById(id));
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 		
 		
@@ -97,7 +97,7 @@ public class ExtensaoController {
 	public String adicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 		
-		AcaoExtensao acao = AcaoExtensaoRepository.findOne(idAcao);
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		
 		if(acao == null) {
 			redirectAttributes.addFlashAttribute("erro", "Projeto inexistente");
