@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,6 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
-import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -58,8 +56,7 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-	@Autowired
-	private AcaoExtensaoService acaoExtensaoService;
+
 	@Autowired
 	private ServidorRepository servirdorRepository;
 	@Autowired
@@ -73,7 +70,7 @@ public class ExtensaoController {
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
-	@Inject
+	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
 	@RequestMapping("/")
@@ -179,10 +176,10 @@ public class ExtensaoController {
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
-		AcaoExtensao acaoExtensao = acaoExtensaoService.buscarPorId(id);
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findById(id);
 		parceria.setAcaoExtensao(acaoExtensao);
 		acaoExtensao.addParceriaExterna(parceria);
-		acaoExtensaoService.salvar(acaoExtensao);
+		acaoExtensaoRepository.save(acaoExtensao);
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
