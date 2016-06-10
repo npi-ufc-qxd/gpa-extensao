@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 @Entity(name = "equipe_de_trabalho")
 public class Participacao {
 	

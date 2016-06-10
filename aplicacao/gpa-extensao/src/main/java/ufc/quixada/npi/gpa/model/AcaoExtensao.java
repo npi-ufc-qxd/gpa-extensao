@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -49,7 +48,7 @@ public class AcaoExtensao {
 	
 	private Date dataDeHomologacao;
 	
-	private int bolsasRecebidas;
+	private Integer bolsasRecebidas;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -60,7 +59,7 @@ public class AcaoExtensao {
 	@OneToMany(mappedBy = "acaoExtensao")
 	private List<Participacao> equipeDeTrabalho;
 	
-	@OneToMany(mappedBy = "acaoExtensao",cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+	@OneToMany(mappedBy = "acaoExtensao")
 	private List<ParceriaExterna> parceriasExternas;
 	
 	@OneToOne
@@ -74,7 +73,7 @@ public class AcaoExtensao {
 
 	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
 			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas,
-			Status status) {
+			Status status, Documento anexo) {
 		this.codigo = codigo;
 		this.identificador = identificador;
 		this.titulo = titulo;
@@ -86,6 +85,7 @@ public class AcaoExtensao {
 		this.coordenador = coordenador;
 		this.bolsasSolicitadas = bolsasSolicitadas;
 		this.status = status;
+		this.anexo = anexo;
 	}
 
 	public AcaoExtensao getVinculo() {
@@ -122,7 +122,7 @@ public class AcaoExtensao {
 
 	public String getTitulo() {
 		return titulo;
-	}
+		}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -212,11 +212,11 @@ public class AcaoExtensao {
 		return parceriasExternas;
 	}
 
-	public void addParceriaExterna(ParceriaExterna parceria) {
-		if(this.parceriasExternas==null){
+	public void addParceriaExterna(ParceriaExterna parceriasExterna) {
+		if(this.parceriasExternas == null){
 			this.parceriasExternas = new ArrayList<>();
 		}
-		this.parceriasExternas.add(parceria);
+		this.parceriasExternas.add(parceriasExterna);
 	}
 
 	public Parecer getParecerTecnico() {
@@ -243,11 +243,11 @@ public class AcaoExtensao {
 		this.dataDeHomologacao = dataDeHomologacao;
 	}
 
-	public int getBolsasRecebidas() {
+	public Integer getBolsasRecebidas() {
 		return bolsasRecebidas;
 	}
 
-	public void setBolsasRecebidas(int bolsasRecebidas) {
+	public void setBolsasRecebidas(Integer bolsasRecebidas) {
 		this.bolsasRecebidas = bolsasRecebidas;
 	}
 
