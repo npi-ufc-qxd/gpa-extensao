@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head"></head>
+<head th:replace="modulos/fragments :: head"></head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 	
-		<div th:replace="fragments :: header"></div>
-		<div th:replace="fragments :: menu"></div>
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
 		
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -42,7 +42,7 @@
       							<label>Código:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.codigo}"></h4>
+      							<h4 th:if="${acaoextensao.codigo} != null" th:text="${acaoextensao.codigo}"></h4>
       						</li>
       					</ul>
       					<ul class="col-sm-6 list-inline">
@@ -58,7 +58,7 @@
       							<label>Resumo:</label>
       						</li>
       						<li>	
-      							<h4 th:text="${acaoextensao.resumo}"></h4>
+      							<h4 th:if="${acaoextensao.resumo} !=null" th:text="${acaoextensao.resumo}"></h4>
       						</li>
       					</ul>
       					
@@ -69,7 +69,7 @@
       							<label>Início:</label>
       						</li>
       						<li>
-      							<h4 th:text="${#dates.format(acaoextensao.inicio, 'dd/MM/yyyy')}"></h4>
+      							<h4 th:if="${acaoextensao.inicio} != null" th:text="${#dates.format(acaoextensao.inicio, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
       					<ul class="col-sm-3 list-inline">
@@ -77,7 +77,7 @@
       							<label>Término:</label>
       						</li>
       						<li>
-      							<h4 th:text="${#dates.format(acaoextensao.termino, 'dd/MM/yyyy')}"></h4>
+      							<h4 th:if="${acaoextensao.termino} != null" th:text="${#dates.format(acaoextensao.termino, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
       					<ul class="col-sm-3 list-inline" >
@@ -85,11 +85,10 @@
       							<label>Prorrogável:</label>
       						</li>
       						<li>
-      							<div th:switch="${acaoextensao.prorrogavel}">
+      							<div th:if="${acaoextensao.prorrogavel} != null" th:switch="${acaoextensao.prorrogavel}">
       								<h4 th:case="true">Sim</h4>
       								<h4 th:case="false">Não</h4>
       							</div>
-      							
       						</li>
       					</ul>
       					<ul class=" col-sm-3 list-inline">
@@ -105,7 +104,7 @@
       							<label>Vinculo:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      							<h4 th:if="${acaoextensao.vinculo} != null" th:text="${acaoextensao.vinculo}"></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-3 list-inline">
@@ -113,7 +112,7 @@
       							<label>Bolsas solicitadas:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.bolsasSolicitadas}"></h4>
+      							<h4 th:if="${acaoextensao.bolsasSolicitadas} != null" th:text="${acaoextensao.bolsasSolicitadas}"></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-3 list-inline">
@@ -121,7 +120,7 @@
       							<label>Bolsas recebidas:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.bolsasRecebidas}"></h4>
+      							<h4 th:if="${acaoextensao.bolsasRecebidas} != null" th:text="${acaoextensao.bolsasRecebidas}"></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-3 list-inline">
@@ -129,7 +128,7 @@
       							<label>Data de homologação:</label>
       						</li>
       						<li>
-      							<h4 th:text="${#dates.format(acaoextensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
+      							<h4 th:if="${acaoextensao.dataDeHomologacao} != null" th:text="${#dates.format(acaoextensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
       					
@@ -141,7 +140,7 @@
       							<label>Anexo:</label>
       						</li>
       						<li>
-      							<a><h4 th:text="${acaoextensao.anexo.nome}"></h4></a>
+      							<h4 th:if="${acaoextensao.anexo} != null"><a th:text="${acaoextensao.anexo.nome}"></a></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-4 list-inline">
@@ -149,7 +148,7 @@
       							<label>Parecer técnico:</label>
       						</li>
       						<li>
-      							<a><h4 th:text="${acaoextensao.parecerTecnico.arquivo.nome}"></h4></a>
+      							<h4 th:if="${acaoextensao.parecerTecnico} != null"><a th:text="${acaoextensao.parecerTecnico.arquivo.nome}"></a></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-4 list-inline">
@@ -157,7 +156,7 @@
       							<label>Parecer relator:</label>
       						</li>
       						<li>
-      							<a><h4 th:text="${acaoextensao.parecerRelator.arquivo.nome}"></h4></a>
+      							<h4 th:if="${acaoextensao.parecerRelator} != null"><a th:text="${acaoextensao.parecerRelator.arquivo.nome}"></a></h4>
       						</li>
       					</ul>
       					
@@ -170,7 +169,7 @@
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
-		<footer th:replace="fragments :: footer"></footer>
+		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
 	<!-- ./wrapper -->
 </body>
