@@ -20,10 +20,10 @@ import ufc.quixada.npi.gpa.service.DirecaoService;
 public class DirecaoServiceImpl implements DirecaoService {
 
 	@Autowired
-	private ParecerRepository parecerRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 
 	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
+	private ParecerRepository parecerRepository;
 
 	@Override
 	public List<Pessoa> getPossiveisPareceristas(Integer idAcaoExtensao) {
