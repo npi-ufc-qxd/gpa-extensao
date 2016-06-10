@@ -1,8 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,12 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
-import ufc.quixada.npi.gpa.service.ParceiroService;
+import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 @Controller
 @RequestMapping("/parceiro")
 public class ParceiroController {
 	@Autowired
-	private ParceiroService parceiroService;
+	private ParceiroRepository parceiroRepository;
 	
 	@RequestMapping(value="/novo/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novoParceiro(@PathVariable("id") Integer id, @ModelAttribute @Valid Parceiro parceiro,
@@ -35,7 +36,7 @@ public class ParceiroController {
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
-		parceiroService.salvar(new Parceiro(parceiro.getNome(), parceiro.getTipo()));
+		parceiroRepository.save(new Parceiro(parceiro.getNome(), parceiro.getTipo()));
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;

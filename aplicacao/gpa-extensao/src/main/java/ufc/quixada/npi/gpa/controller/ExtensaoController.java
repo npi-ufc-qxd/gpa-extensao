@@ -47,10 +47,10 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
-import ufc.quixada.npi.gpa.service.ParceiroService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
@@ -58,7 +58,7 @@ import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 public class ExtensaoController {
 	
 	@Autowired
-	private ParceiroService parceiroService;
+	private ParceriaExternaRepository parceriaExternaRepository;
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
 	@Autowired
@@ -172,7 +172,7 @@ public class ExtensaoController {
 		model.addAttribute(ACAO_EXTENSAO_ID, id);
 		model.addAttribute("parceiro",new Parceiro());
 		model.addAttribute("parceriaExterna",new ParceriaExterna());
-		model.addAttribute(PARCEIROS,parceiroService.buscarTodos());
+		model.addAttribute(PARCEIROS,parceriaExternaRepository.findAll());
 		return PAGINA_CRIAR_PARCERIA_EXTERNA;
 	}
 
