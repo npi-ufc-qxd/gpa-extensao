@@ -15,14 +15,14 @@ import org.springframework.security.core.GrantedAuthority;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.service.PessoaService;
+import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.util.Constants;
 
 @Named
 public class AuthenticationProviderExtensao implements AuthenticationProvider {
 	
 	@Autowired
-	private PessoaService pessoaService;
+	private PessoaRepository pessoaRepository;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -33,11 +33,11 @@ public class AuthenticationProviderExtensao implements AuthenticationProvider {
 		String cpf = authentication.getName();
         String password = (String) authentication.getCredentials();
         
-        Pessoa pessoa = pessoaService.getByCpf(cpf);
+        Pessoa pessoa = pessoaRepository.getByCpf(cpf);
         
         Collection<? extends GrantedAuthority> authorities = pessoa.getAuthorities();
         
-        if (pessoaService.getByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
+        if (pessoaRepository.getByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
             throw new BadCredentialsException(Constants.LOGIN_INVALIDO);
         }
         

@@ -13,7 +13,6 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXT
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +37,8 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
+import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
-import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -57,16 +56,17 @@ public class ExtensaoController {
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
-	@Inject
-	private PessoaService pessoaService;
+	@Autowired
+	private PessoaRepository pessoaRepository;
 	
-	@Inject
+	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
 	}
+
 	@RequestMapping(value = "detalhe/acao/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model, HttpSession session,
 			RedirectAttributes redirectAttributes, Authentication authentication){
@@ -83,8 +83,6 @@ public class ExtensaoController {
 	
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
 	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model) {
-		
-		
 		model.addAttribute("idAcao", id);
 		model.addAttribute("participacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
@@ -116,7 +114,7 @@ public class ExtensaoController {
 			return PAGINA_ADICIONAR_PARTICIPACAO;
 		}
 		
-		Pessoa usuario = pessoaService.getByCpf(authentication.getName());
+		Pessoa usuario = pessoaRepository.getByCpf(authentication.getName());
 		
 		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == usuario.getId()) {
 			participacao.setCoordenador(true);

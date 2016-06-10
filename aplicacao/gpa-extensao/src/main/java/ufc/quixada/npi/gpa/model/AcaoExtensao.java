@@ -47,7 +47,7 @@ public class AcaoExtensao {
 	
 	private Date dataDeHomologacao;
 	
-	private int bolsasRecebidas;
+	private Integer bolsasRecebidas;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -239,11 +239,11 @@ public class AcaoExtensao {
 		this.dataDeHomologacao = dataDeHomologacao;
 	}
 
-	public int getBolsasRecebidas() {
+	public Integer getBolsasRecebidas() {
 		return bolsasRecebidas;
 	}
 
-	public void setBolsasRecebidas(int bolsasRecebidas) {
+	public void setBolsasRecebidas(Integer bolsasRecebidas) {
 		this.bolsasRecebidas = bolsasRecebidas;
 	}
 

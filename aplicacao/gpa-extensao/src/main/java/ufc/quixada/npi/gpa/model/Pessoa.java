@@ -1,9 +1,12 @@
 package ufc.quixada.npi.gpa.model;
 
+import static  ufc.quixada.npi.gpa.util.Constants.PAPEL_DIRECAO;
+
 import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,8 +18,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import static  ufc.quixada.npi.gpa.util.Constants.PAPEL_DIRECAO;
 
 @Entity
 public class Pessoa implements UserDetails {
@@ -36,8 +37,8 @@ public class Pessoa implements UserDetails {
 	private String cpf;
 	
 	private String password;
-	
-	@ManyToMany
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="papel_pessoa", joinColumns=@JoinColumn(name="pessoa_id"), inverseJoinColumns=@JoinColumn(name="papel_id"))
 	private List<Papel> papeis;
 

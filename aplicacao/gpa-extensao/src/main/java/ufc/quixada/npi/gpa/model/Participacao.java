@@ -10,9 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity(name = "equipe_de_trabalho")
 public class Participacao {
@@ -42,7 +39,6 @@ public class Participacao {
 	
 	private String nomeParticipante;
 	
-	@Size(max=11)
 	private String cpfParticipante;
 	
 	private boolean coordenador;
@@ -224,6 +220,4 @@ public class Participacao {
 			return false;
 		return true;
 	}
-	
-	
 }
