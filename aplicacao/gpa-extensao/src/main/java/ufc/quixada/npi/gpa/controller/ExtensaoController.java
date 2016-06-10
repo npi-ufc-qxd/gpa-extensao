@@ -10,6 +10,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
@@ -78,16 +79,17 @@ public class ExtensaoController {
 		return PAGINA_INICIAL;
 	}
 
-	@RequestMapping(value = "/detalhe/{id}", method = RequestMethod.GET)
-	public String verDetalhes(@PathVariable("id") int id, Model model,
+	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
+	public String verDetalhes(@PathVariable("id") Integer id, Model model,
 			RedirectAttributes redirectAttributes){
-		AcaoExtensao acao = acaoExtensaoRepository.findById(id);
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
-		
-		model.addAttribute(ACAO_EXTENSAO,acaoExtensaoRepository.findById(id));
+
+		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
+
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
 	
@@ -112,6 +114,7 @@ public class ExtensaoController {
 			return "/";
 		}
 		
+		participacao.setCpfParticipante(participacao.getCpfParticipante().replaceAll("[^0-9]", ""));
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 		
@@ -135,6 +138,14 @@ public class ExtensaoController {
 		participacaoRepository.save(participacao);
 		
 		return REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO+idAcao;
+	}
+	
+	@RequestMapping(value="/listar-participacoes/{id}", method=RequestMethod.GET)
+	public String listarParticipacoes(@PathVariable("id") Integer id, Model model) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
+		
+		return PAGINA_LISTAR_PARTICIPACOES;
 	}
 	
 	
@@ -176,7 +187,7 @@ public class ExtensaoController {
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findById(id);
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
 		parceria.setAcaoExtensao(acaoExtensao);
 		acaoExtensao.addParceriaExterna(parceria);
 		acaoExtensaoRepository.save(acaoExtensao);
