@@ -1,16 +1,26 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,6 +36,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Parceiro;
+import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
@@ -33,6 +45,7 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
@@ -42,8 +55,12 @@ import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 public class ExtensaoController {
 	
 	@Autowired
+	private ParceiroRepository parceiroRepository;
+
+	@Autowired
 	private ServidorRepository servirdorRepository;
-	
+	@Autowired
+	private PessoaRepository pessoaRepository;
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 	
@@ -54,26 +71,23 @@ public class ExtensaoController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
-	private PessoaRepository pessoaRepository;
-	
-	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
 	}
-	
+
 	@RequestMapping(value = "/detalhe/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") int id, Model model,
 			RedirectAttributes redirectAttributes){
-		AcaoExtensao acao = acaoExtensaoRepository.getById(id);
+		AcaoExtensao acao = acaoExtensaoRepository.findById(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
 		
-		model.addAttribute(ACAO_EXTENSAO,acaoExtensaoRepository.getById(id));
+		model.addAttribute(ACAO_EXTENSAO,acaoExtensaoRepository.findById(id));
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
 	
@@ -142,5 +156,32 @@ public class ExtensaoController {
 			}
 		}
 		return funcoes;
+	}
+	
+	@RequestMapping(value="/novaParceria/{id}",method=RequestMethod.GET)
+	public String novaParceriaExternaForm(@PathVariable("id") Integer id, Model model){
+		model.addAttribute(ACAO_EXTENSAO_ID, id);
+		model.addAttribute("parceiro",new Parceiro());
+		model.addAttribute("parceriaExterna",new ParceriaExterna());
+		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
+		return PAGINA_CRIAR_PARCERIA_EXTERNA;
+	}
+
+	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
+			Model model, Authentication auth, BindingResult binding){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(binding.hasErrors()){
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
+			map.put(RESPONSE_DATA, binding.getFieldErrors());
+			return map;
+		}
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findById(id);
+		parceria.setAcaoExtensao(acaoExtensao);
+		acaoExtensao.addParceriaExterna(parceria);
+		acaoExtensaoRepository.save(acaoExtensao);
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		return map;
 	}
 }

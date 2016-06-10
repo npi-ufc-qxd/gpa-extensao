@@ -38,6 +38,7 @@ public class Constants {
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
+	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_LISTAR_ACAO_EXTENSAO = "acaoextensao/listar";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhe/acao/detalhes";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
@@ -48,4 +49,11 @@ public class Constants {
 	//Mensagens
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
 	public static final String ERRO = "erro";
+	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
+	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
+	public static final String MESSAGE_STATUS_RESPONSE = "status";
+	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
+	public static final String PARCEIROS = "parceiros";
+	
+	public static final String RESPONSE_DATA = "result";
 }
