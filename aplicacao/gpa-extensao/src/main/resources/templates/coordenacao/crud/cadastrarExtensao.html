@@ -156,7 +156,7 @@
                 </div>
             <!-- Datepicker -->
             <label>Data</label>
-			<div class="row">
+			<div class="form-group row">
                 <div class="col-lg-6">
                   <div class="input-group date">
                         <span class="input-group-addon">
@@ -175,7 +175,6 @@
                </div>
 			</div>
               <!-- fim do datepicker -->
-              <br/>
                 <div class="form-group">
                   <label for="vinculo">Vínculo</label>
                   <input class="form-control" id="vinculo" th:field="${acaoExtensao.vinculo}" placeholder="Escreva o vinculo..." type="text" />
@@ -211,6 +210,35 @@
                   </select>
                  </div>
               </div>
+              <div id="cargaHorarias">
+	            <label>Carga Horária</label>
+				<div class="form-group row">
+	                <div class="col-lg-6">
+	                  <div class="input-group date">
+	                        <span class="input-group-addon">
+	                          <label>Aulas Práticas:</label>
+	                        </span>
+	                    <input id="horasPraticas" th:field="${acaoExtensao.horasPraticas}" type="number" min="0" class="form-control" />
+	                  </div>
+	                </div>
+	                <div class="col-lg-6">
+	                  <div class="input-group">
+	                        <span class="input-group-addon">
+	                          <label>Aulas Teóricas:</label>
+	                        </span>
+	                    <input id="horasTeoricas" th:field="${acaoExtensao.horasTeoricas}" type="number" min="0" class="form-control" />
+	                  </div>
+	               </div>
+				</div>
+				<div class="form-group" id="ementa">
+                  <label>Ementa/Conteúdo programático</label>
+                  <textarea class="form-control"  th:field="${acaoExtensao.ementa}" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
+                </div>
+                <div class="form-group" id="programacao">
+                  <label>Programação</label>
+                  <textarea class="form-control"  th:field="${acaoExtensao.programacao}" placeholder="Escreva a programação..."></textarea>
+                </div>
+            </div>
              
                 <div class="form-group">
                   <label for="anexoAcao">Anexos</label>
