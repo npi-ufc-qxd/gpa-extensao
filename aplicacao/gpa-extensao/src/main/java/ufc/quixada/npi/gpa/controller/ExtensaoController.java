@@ -47,6 +47,7 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
+import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
@@ -57,7 +58,8 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-
+	@Autowired
+	private ParceriaExternaRepository parceriaExternaRepository;
 	@Autowired
 	private ServidorRepository servirdorRepository;
 	@Autowired
@@ -87,7 +89,10 @@ public class ExtensaoController {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
-
+		model.addAttribute(ACAO_EXTENSAO_ID, id);
+		model.addAttribute("parceiro",new Parceiro());
+		model.addAttribute("parceriaExterna",new ParceriaExterna());
+		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
@@ -189,8 +194,7 @@ public class ExtensaoController {
 		}
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
 		parceria.setAcaoExtensao(acaoExtensao);
-		acaoExtensao.addParceriaExterna(parceria);
-		acaoExtensaoRepository.save(acaoExtensao);
+		parceriaExternaRepository.save(parceria);
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;

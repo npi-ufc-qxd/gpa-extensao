@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$("#descricaoOutrasFormas").prop('required',false);
 		}
 	});
-	$("#submitBtn").click(function(e) {
+	$("#submitBtnParceriaExternaForm").click(function(e) {
 		checked = $("input[type=checkbox]:checked").length;
 		if($("#selectParceiro").val()==""){
 			$("#error-parceiro").show();
@@ -35,7 +35,7 @@ $(document).ready(function() {
 		    },
 			type : 'POST',
 			async: false,
-			data : $("#parceriaExternaForm2").serialize(),
+			data : $("#formParceriaExterna").serialize(),
 			error: function(){
 		        return false;
 		    },
@@ -55,9 +55,9 @@ $(document).ready(function() {
 				}
 				
 			}
-});
+		});
 	});
-	$('#submitBtnParceiro').click(function(e){
+	$("#submitBtnParceiroForm").click(function(e){
 		if($("#nomeParceiro").val()==""){
 			$("#error-nome").show();
 			$("#error-nome").append("<p>Nome de instituição não pode ficar vazio!</p>");
@@ -80,7 +80,7 @@ $(document).ready(function() {
             },
 			type : 'POST',
 			async: false,
-			data : $("#parceiroForm2").serialize(),
+			data : $("#formParceiro").serialize(),
 			error: function(){
 	            return false;
 	        },
@@ -103,12 +103,19 @@ $(document).ready(function() {
 		});
 	});
 	$("#criarNovoParceiro").click(function(e){
-		$("#parceriaExternaForm").hide();
-		$("#parceiroForm").show();
+		$("#parceria-externa-form-div").hide();
+		$("#parceiro-form-div").show(500);
 	});
-	$("#cancelarNovoParceiro").click(function(){
-		$("#parceiroForm").hide();
-		$("#parceriaExternaForm").show();
+	$("#cancelarAdicaoParceiro").click(function(){
+		$("#parceiro-form-div").hide();
+		$("#parceria-externa-form-div").show(500);
+	});
+	$("#adicionarNovaParceriaExterna").click(function(){
+		$("#parceria-externa-form-div").show(500);
+	});
+	$("#cancelarAdicaoParceriaExterna").click(function(){
+		$("#parceria-externa-form-div").hide(500);
 	});
 	$(".selectParceiro").select2();
+	$(".table-parceria-externa").DataTable();
 });
