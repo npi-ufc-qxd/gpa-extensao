@@ -220,6 +220,4 @@ public class Participacao {
 			return false;
 		return true;
 	}
-	
-	
 }
