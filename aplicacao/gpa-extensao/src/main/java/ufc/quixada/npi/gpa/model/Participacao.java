@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 @Entity(name = "equipe_de_trabalho")
 public class Participacao {
 	
@@ -35,13 +33,12 @@ public class Participacao {
 	
 	private Integer cargaHoraria;
 	
-	private Date dataInicio;
+	private Date dataInicio;	
 	
 	private Date dataTermino;
 	
 	private String nomeParticipante;
 	
-	@CPF
 	private String cpfParticipante;
 	
 	private boolean coordenador;
@@ -174,7 +171,7 @@ public class Participacao {
 	}
 
 	public enum Funcao{
-		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRO("Outro");
+		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
 		
 		private String descricao;
 		
@@ -185,7 +182,7 @@ public class Participacao {
 			return this.descricao;
 		}
 	}
-	enum Instituicao{
+	public enum Instituicao{
 		UFC("Universidade Federal do Ceará"), OUTRA_IES("Outra Instituição de Ensino Superior"), OUTRA("Outra Instituição");
 		
 		private String descricao;
@@ -223,6 +220,4 @@ public class Participacao {
 			return false;
 		return true;
 	}
-	
-	
 }
