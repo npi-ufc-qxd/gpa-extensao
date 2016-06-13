@@ -94,4 +94,16 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	$(".table-participacoes").DataTable({
+		"filter" : false,
+		"columnDefs": [
+		    {className: "dt-center", "targets": [ 1, 4]},
+		    {"targets": 4, "orderable": false}
+		],
+		"language": {
+            "url": "/gpa-extensao/js/Portuguese-Brasil.json"
+        },
+        "paging":false,
+	});
 });
