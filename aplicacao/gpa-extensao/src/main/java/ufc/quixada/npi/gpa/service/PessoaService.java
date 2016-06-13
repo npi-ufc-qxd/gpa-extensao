@@ -10,5 +10,5 @@ public interface PessoaService {
 	List<Papel> getPapeisByCpf(String cpf);
 	
 	Pessoa getByCpf(String cpf);
-
+	
 }
