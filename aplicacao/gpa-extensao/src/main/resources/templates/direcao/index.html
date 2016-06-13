@@ -101,7 +101,7 @@
 										
 										<tr th:each="acao: ${acoesAguardandoParecerista}">
 											<td th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -139,7 +139,7 @@
 
 										<tr th:each="acao: ${acoesAguardandoParecer}">
 											<td th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -178,7 +178,7 @@
 
 										<tr th:each="acao: ${acoesAguardandoRelator}">
 											<td th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -217,7 +217,7 @@
 
 										<tr th:each="acao: ${acoesAguardandoRelato}">
 											<td th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -256,7 +256,7 @@
 
 										<tr th:each="acao: ${acoesAguardandoHomologacao}">
 											<td th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>
@@ -295,7 +295,7 @@
 
 										<tr th:each="acao: ${acoesHomologadas}">
 											<td class="vcenter" th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhe/acao/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
+											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td th:text="${acao.status.descricao}"></td>

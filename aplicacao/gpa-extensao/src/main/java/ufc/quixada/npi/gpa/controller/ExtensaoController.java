@@ -64,7 +64,7 @@ public class ExtensaoController {
 		return PAGINA_INICIAL;
 	}
 	
-	@RequestMapping(value = "/detalhe/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") int id, Model model,
 			RedirectAttributes redirectAttributes){
 		AcaoExtensao acao = acaoExtensaoRepository.getById(id);
