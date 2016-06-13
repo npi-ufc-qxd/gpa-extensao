@@ -26,12 +26,14 @@ public class ExtensaoController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
-	@RequestMapping("/listagem")
+	@RequestMapping("/coordenacao/listagem")
 	public String listagem(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
 		model.addAttribute("acoesTramitacao", acaoExtensaoService.getTramitacao(pessoa.getId()));
 		model.addAttribute("acoesNovas", acaoExtensaoService.getNovos(pessoa.getId()));
 		model.addAttribute("acoesHomologadas", acaoExtensaoService.getHomologados(pessoa.getId()));
+		model.addAttribute("acoesParecer", acaoExtensaoService.getParecer(pessoa.getId()));
+		model.addAttribute("acoesParticipacao", acaoExtensaoService.getParticipacao(pessoa.getId()));
 		return "coordenacao/listagem/listagem";
 	}
 }

@@ -9,5 +9,6 @@ public interface AcaoExtensaoService {
 	List<AcaoExtensao> getTramitacao(Integer id);
 	List<AcaoExtensao> getNovos(Integer id);
 	List<AcaoExtensao> getHomologados(Integer id);
-
+	List<AcaoExtensao> getParecer(Integer id);
+	List<AcaoExtensao> getParticipacao(Integer id);
 }

@@ -25,5 +25,11 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.status = :aprovado OR ac.status = :reprovado) AND (ac.coordenador.id = :id)")
 	List<AcaoExtensao> getHomologados(@Param("id") Integer id, @Param("aprovado") Status aprovado, @Param("reprovado") Status reprovado);
 	
+	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
+	List<AcaoExtensao> getParecer(@Param("id") Integer id);
+	
+	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id")
+	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);
+	
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 }

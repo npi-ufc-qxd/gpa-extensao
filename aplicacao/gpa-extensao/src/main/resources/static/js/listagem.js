@@ -1,5 +1,9 @@
 $(document).ready(function() {
+	$(".RESOLVENDO_PENDENCIAS_PARECER").addClass("bg-yellow");
+	$(".RESOLVENDO_PENDENCIAS_RELATO").addClass("bg-yellow");
 	$(".homologados").hide();
+	$(".parecer").hide();
+	$(".participacao").hide();
 	$(".card").click(function() {
         $(".card").find("i").removeClass("fa-folder-open-o");
         $(".card").find(".small-box").removeClass("bg-blue");

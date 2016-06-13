@@ -28,4 +28,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public List<AcaoExtensao> getHomologados(Integer id) {
 		return acaoExtensaoRepository.getHomologados(id, Status.APROVADO, Status.REPROVADO);
 	}
+	@Override
+	public List<AcaoExtensao> getParecer(Integer id) {
+		return acaoExtensaoRepository.getParecer(id);
+	}
+	@Override
+	public List<AcaoExtensao> getParticipacao(Integer id) {
+		return acaoExtensaoRepository.getParticipacao(id);
+	}
 }
