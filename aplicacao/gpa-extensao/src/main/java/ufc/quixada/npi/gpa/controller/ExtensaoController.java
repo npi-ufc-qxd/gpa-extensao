@@ -15,6 +15,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class ExtensaoController {
 		model.addAttribute("acoesHomologadas", acaoExtensaoService.getHomologados(pessoa.getId()));
 		model.addAttribute("acoesParecer", acaoExtensaoService.getParecer(pessoa.getId()));
 		model.addAttribute("acoesParticipacao", acaoExtensaoService.getParticipacao(pessoa.getId()));
-		return "coordenacao/listagem/listagem";
+		return PAGINA_LISTAR_ACOES_COORDENACAO;
 	}
 
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
