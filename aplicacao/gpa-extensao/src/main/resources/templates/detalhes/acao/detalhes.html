@@ -45,11 +45,13 @@
       						</li>
       						<li>
       							<h4 id="codigo-acao" th:text="${acaoextensao.codigo}"></h4>
-      							<input type="text" id="input-codigo"/>
+      							<form action="#" th:action="@{/salvarcodigo/}+${acaoextensao.id}"  method="post" id="codigo-form">
+      								<input type="text" id="input-codigo" name="codigoAcao"/>
+      							</form>
+      							
       						</li>
       						<li th:switch="${acaoextensao.status.descricao}">
       							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
-      							<i id="salvar-codigo" class="fa fa-floppy-o" aria-hidden="true" data-toggle="tooltip" title="Salvar"></i>
       							
       						</li>
       					</ul>
@@ -114,11 +116,13 @@
       						</li>
       						<li>
       							<h4 id="bolsas-recebidas" th:text="${acaoextensao.bolsasRecebidas}"></h4>
-      							<input id="input-bolsas" type="number" min="0"/>
+      							<form action="#" th:action="@{/salvarbolsas/}+${acaoextensao.id}"  method="post" id="bolsas-form">
+      								<input id="input-bolsas" type="number" min="0" name="bolsasRecebidas" pattern="[0-9]+"/>
+      							</form>
+      							
       						</li>
       						<li th:switch="${acaoextensao.status.descricao}">
       							<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
-      							<i id="salvar-bolsas" class="fa fa-floppy-o" aria-hidden="true" data-toggle="tooltip" title="Salvar"></i>
       						</li>
       					</ul>
       					<ul class=" col-sm-6 list-inline">
