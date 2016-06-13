@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+	
+</head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -42,7 +44,13 @@
       							<label>Código:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.codigo}"></h4>
+      							<h4 id="codigo-acao" th:text="${acaoextensao.codigo}"></h4>
+      							<input type="text" id="input-codigo"/>
+      						</li>
+      						<li th:switch="${acaoextensao.status.descricao}">
+      							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
+      							<i id="salvar-codigo" class="fa fa-floppy-o" aria-hidden="true" data-toggle="tooltip" title="Salvar"></i>
+      							
       						</li>
       					</ul>
       					<ul class="col-sm-6 list-inline">
@@ -64,7 +72,7 @@
       					
       				</div>
       				<div class="box-body with-border">
-      					<ul class="col-sm-3 list-inline">
+      					<ul class="col-sm-6 list-inline">
       						<li>
       							<label>Início:</label>
       						</li>
@@ -72,7 +80,7 @@
       							<h4 th:text="${#dates.format(acaoextensao.inicio, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
-      					<ul class="col-sm-3 list-inline">
+      					<ul class="col-sm-6 list-inline">
       						<li>
       							<label>Término:</label>
       						</li>
@@ -80,7 +88,7 @@
       							<h4 th:text="${#dates.format(acaoextensao.termino, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
-      					<ul class="col-sm-3 list-inline" >
+      					<ul class="col-sm-6 list-inline" >
       						<li>
       							<label>Prorrogável:</label>
       						</li>
@@ -92,7 +100,7 @@
       							
       						</li>
       					</ul>
-      					<ul class=" col-sm-3 list-inline">
+      					<ul class=" col-sm-6 list-inline">
       						<li>
       							<label>Status:</label>
       						</li>
@@ -100,15 +108,20 @@
       							<h4 th:text="${acaoextensao.status}"></h4>
       						</li>
       					</ul>
-      					<ul class=" col-sm-3 list-inline">
+      					<ul class=" col-sm-6 list-inline">
       						<li>
-      							<label>Vinculo:</label>
+      							<label>Bolsas recebidas:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      							<h4 id="bolsas-recebidas" th:text="${acaoextensao.bolsasRecebidas}"></h4>
+      							<input id="input-bolsas" type="number" min="0"/>
+      						</li>
+      						<li th:switch="${acaoextensao.status.descricao}">
+      							<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
+      							<i id="salvar-bolsas" class="fa fa-floppy-o" aria-hidden="true" data-toggle="tooltip" title="Salvar"></i>
       						</li>
       					</ul>
-      					<ul class=" col-sm-3 list-inline">
+      					<ul class=" col-sm-6 list-inline">
       						<li>
       							<label>Bolsas solicitadas:</label>
       						</li>
@@ -116,15 +129,7 @@
       							<h4 th:text="${acaoextensao.bolsasSolicitadas}"></h4>
       						</li>
       					</ul>
-      					<ul class=" col-sm-3 list-inline">
-      						<li>
-      							<label>Bolsas recebidas:</label>
-      						</li>
-      						<li>
-      							<h4 th:text="${acaoextensao.bolsasRecebidas}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-3 list-inline">
+      					<ul class=" col-sm-6 list-inline">
       						<li>
       							<label>Data de homologação:</label>
       						</li>
@@ -132,8 +137,14 @@
       							<h4 th:text="${#dates.format(acaoextensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
       						</li>
       					</ul>
-      					
-      					
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Vinculo:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      						</li>
+      					</ul>	
       				</div>
       				<div class="box-footer">
       					<ul class=" col-sm-4 list-inline">
