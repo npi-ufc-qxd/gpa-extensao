@@ -32,6 +32,7 @@ public class Constants {
 	public static final String PERMISSAO_PARTICIPANTE = "participante";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
+	public static final String PARECER_TECNICO = "parecerTecnico";
 	
 	//Load fragments
 	public static final String PAGE_LOAD_PARECERISTAS = "index :: pareceristas";
@@ -46,7 +47,7 @@ public class Constants {
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	public static final String PAGINA_LISTAR_PARTICIPACOES = "coordenacao/crud/listar-participacoes";
-	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhe/acao/";
+	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";

@@ -7,20 +7,18 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGE_LOAD_PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import java.util.Arrays;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -32,6 +30,7 @@ import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
 @RequestMapping("direcao")
+@Transactional
 public class DirecaoController {
 
 	@Autowired
@@ -60,15 +59,8 @@ public class DirecaoController {
 		return PAGINA_INICIAL_DIRECAO;
 	}
 
-	@RequestMapping(value = "/parecerista/{id}", method = RequestMethod.GET)
-	public String atribuirPareceristaForm(@PathParam("id") Integer idAcaoExtensao, Model model) {
-		model.addAttribute(PARECERISTAS, direcaoService.getPossiveisPareceristas(idAcaoExtensao));
-		return PAGE_LOAD_PARECERISTAS;
-
-	}
-
-	@RequestMapping(value = "/parecerista{id}", method = RequestMethod.POST)
-	public String atribuirParecerista(@PathParam("id") Integer idAcaoExtensao, Parecer parecerTecnico, Model model) {
+	@RequestMapping(value = "/parecerista/{idAcao}", method = RequestMethod.POST)
+	public String atribuirParecerista(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerTecnico, Model model) {
 		try {
 			direcaoService.atribuirParecerista(idAcaoExtensao, parecerTecnico);
 		} catch (GpaExtensaoException e) {

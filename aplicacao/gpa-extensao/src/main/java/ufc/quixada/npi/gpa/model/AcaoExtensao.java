@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -62,7 +63,7 @@ public class AcaoExtensao {
 	@OneToMany(mappedBy = "acaoExtensao")
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Parecer parecerTecnico;
 	
 	@OneToOne
