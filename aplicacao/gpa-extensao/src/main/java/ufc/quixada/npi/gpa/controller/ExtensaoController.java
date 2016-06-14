@@ -2,6 +2,11 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
@@ -10,14 +15,15 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +44,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
@@ -72,22 +79,28 @@ public class ExtensaoController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
+	@Inject
+	private AcaoExtensaoService acaoExtensaoService;
 	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
 	}
-	@Inject
-	private AcaoExtensaoService acaoExtensaoService;
 	
 	@RequestMapping("/coordenacao/listagem")
 	public String listagem(Model model, Authentication authentication) {
+		
 		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
-		model.addAttribute("acoesTramitacao", acaoExtensaoService.getTramitacao(pessoa.getId()));
-		model.addAttribute("acoesNovas", acaoExtensaoService.getNovos(pessoa.getId()));
-		model.addAttribute("acoesHomologadas", acaoExtensaoService.getHomologados(pessoa.getId()));
-		model.addAttribute("acoesParecer", acaoExtensaoService.getParecer(pessoa.getId()));
-		model.addAttribute("acoesParticipacao", acaoExtensaoService.getParticipacao(pessoa.getId()));
+		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
+		List<Status> statusNovo = Arrays.asList(Status.NOVO);
+		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
+		
+		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
+		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
+		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
+		model.addAttribute(ACOES_PARECER, acaoExtensaoService.getParecer(pessoa.getId()));
+		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoService.getParticipacao(pessoa.getId()));
+		
 		return PAGINA_LISTAR_ACOES_COORDENACAO;
 	}
 

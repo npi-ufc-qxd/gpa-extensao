@@ -14,14 +14,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.status != :aprovado AND ac.status != :reprovado AND ac.status != :novo) AND (ac.coordenador.id = :id)")
-	List<AcaoExtensao> getTramitacao(@Param("id") Integer id, @Param("aprovado") Status aprovado, @Param("reprovado") Status reprovado, @Param("novo") Status novo);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.status = :novo) AND (ac.coordenador.id = :id)")
-	List<AcaoExtensao> getNovos(@Param("id") Integer id, @Param("novo") Status novo);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.status = :aprovado OR ac.status = :reprovado) AND (ac.coordenador.id = :id)")
-	List<AcaoExtensao> getHomologados(@Param("id") Integer id, @Param("aprovado") Status aprovado, @Param("reprovado") Status reprovado);
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
 	List<AcaoExtensao> getParecer(@Param("id") Integer id);
