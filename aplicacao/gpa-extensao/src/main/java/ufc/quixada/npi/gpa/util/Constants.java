@@ -17,7 +17,7 @@ public class Constants {
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 
 	//Model attributes
-	public static final String PARECERISTAS = "pareceristas";
+	public static final String PARECERISTAS = "pareceristas";	
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -33,6 +33,13 @@ public class Constants {
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String PARECER_TECNICO = "parecerTecnico";
+
+	//Coordenacao
+	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
+	public static final String ACOES_NOVAS = "acoesNovas";
+	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
+	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
+	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	
 	//Load fragments
 	public static final String PAGE_LOAD_PARECERISTAS = "index :: pareceristas";
@@ -47,7 +54,8 @@ public class Constants {
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	public static final String PAGINA_LISTAR_PARTICIPACOES = "coordenacao/crud/listar-participacoes";
-	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
+	public static final String PAGINA_LISTAR_ACOES_COORDENACAO = "coordenacao/listagem/listagem";
+	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";

@@ -8,7 +8,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,7 @@ public class DirecaoController {
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
-
+		
 		List<Status> statusAguardandoParecer = Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER);
 		List<Status> statusAguardandoParecerista = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.RESOLVENDO_PENDENCIAS_PARECER);
 		List<Status> statusAguardandoRelato = Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO);
@@ -66,6 +66,6 @@ public class DirecaoController {
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
 	}
 }
