@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+
 
 @Entity
 public class AcaoExtensao {
@@ -34,11 +37,11 @@ public class AcaoExtensao {
 	private int horas_praticas;
 	
 	private int horas_teoricas;
-	
+		
 	private String ementa;
-	
+		
 	private String programacao;
-
+	
 	private Date inicio;
 	
 	private Date termino;
@@ -55,7 +58,7 @@ public class AcaoExtensao {
 	
 	private Date dataDeHomologacao;
 	
-	private int bolsasRecebidas;
+	private Integer bolsasRecebidas;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -129,7 +132,7 @@ public class AcaoExtensao {
 
 	public String getTitulo() {
 		return titulo;
-	}
+		}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -166,7 +169,7 @@ public class AcaoExtensao {
 	public void setHorasTeoricas(int horasTeoricas) {
 		this.horas_teoricas = horasTeoricas;
 	}
-	
+
 	public String getEmenta() {
 		return ementa;
 	}
@@ -251,8 +254,11 @@ public class AcaoExtensao {
 		return parceriasExternas;
 	}
 
-	public void setParceriasExternas(List<ParceriaExterna> parceriasExternas) {
-		this.parceriasExternas = parceriasExternas;
+	public void addParceriaExterna(ParceriaExterna parceriasExterna) {
+		if(this.parceriasExternas == null){
+			this.parceriasExternas = new ArrayList<>();
+		}
+		this.parceriasExternas.add(parceriasExterna);
 	}
 
 	public Parecer getParecerTecnico() {
@@ -279,11 +285,11 @@ public class AcaoExtensao {
 		this.dataDeHomologacao = dataDeHomologacao;
 	}
 
-	public int getBolsasRecebidas() {
+	public Integer getBolsasRecebidas() {
 		return bolsasRecebidas;
 	}
 
-	public void setBolsasRecebidas(int bolsasRecebidas) {
+	public void setBolsasRecebidas(Integer bolsasRecebidas) {
 		this.bolsasRecebidas = bolsasRecebidas;
 	}
 

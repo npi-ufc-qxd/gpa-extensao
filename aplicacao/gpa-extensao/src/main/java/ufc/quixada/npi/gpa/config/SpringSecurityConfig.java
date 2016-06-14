@@ -16,6 +16,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Qualifier("authenticationProviderExtensao")
 	private AuthenticationProvider provider;
+	
+//	@Autowired
+//	private UserDetailsService userDetailsService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -31,6 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(provider);
+//		auth.userDetailsService(userDetailsService);
 	}
 
 }
