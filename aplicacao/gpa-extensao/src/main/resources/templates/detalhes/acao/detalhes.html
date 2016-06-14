@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head">
+	
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+	
+		<div th:replace="fragments :: header"></div>
+		<div th:replace="fragments :: menu"></div>
+		
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1> Detalhes Ação Extensão</h1>
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+            	
+      			<div class="box box-widget">
+      				<div class="box-header with-border">
+      					<ul class=" col-sm-6 list-inline">
+      							<li>
+      								<label>Título:</label>
+      							</li>
+      							<li>
+      								<h4 th:text="${acaoextensao.titulo}"></h4>
+      							</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      							<li>
+      								<label>Coordenador:</label>
+      							</li>
+      							<li>
+      								<h4 th:text="${acaoextensao.coordenador.nome}"></h4>
+      							</li>
+      					</ul>
+      					<ul class="col-sm-6 list-inline">
+      						<li>
+      							<label>Código:</label>
+      						</li>
+      						<li>
+      							<h4 id="codigo-acao" th:text="${acaoextensao.codigo}"></h4>
+      							<form action="#" th:action="@{/salvarcodigo/}+${acaoextensao.id}"  method="post" id="codigo-form">
+      								<input type="text" id="input-codigo" name="codigoAcao"/>
+      							</form>
+      							
+      						</li>
+      						<li th:switch="${acaoextensao.status.descricao}">
+      							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
+      							
+      						</li>
+      					</ul>
+      					<ul class="col-sm-6 list-inline">
+      						<li>
+ 	     						<label>Identificador:</label>
+ 	     					</li>
+ 	     					<li>
+      							<h4 th:text="${acaoextensao.identificador}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="col-sm-12 list-inline">
+      						<li>
+      							<label>Resumo:</label>
+      						</li>
+      						<li>	
+      							<h4 th:text="${acaoextensao.resumo}"></h4>
+      						</li>
+      					</ul>
+      					
+      				</div>
+      				<div class="box-body with-border">
+      					<ul class="col-sm-6 list-inline">
+      						<li>
+      							<label>Início:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.inicio, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="col-sm-6 list-inline">
+      						<li>
+      							<label>Término:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.termino, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					<ul class="col-sm-6 list-inline" >
+      						<li>
+      							<label>Prorrogável:</label>
+      						</li>
+      						<li>
+      							<div th:switch="${acaoextensao.prorrogavel}">
+      								<h4 th:case="true">Sim</h4>
+      								<h4 th:case="false">Não</h4>
+      							</div>
+      							
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Status:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.status}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Bolsas recebidas:</label>
+      						</li>
+      						<li>
+      							<h4 id="bolsas-recebidas" th:text="${acaoextensao.bolsasRecebidas}"></h4>
+      							<form action="#" th:action="@{/salvarbolsas/}+${acaoextensao.id}"  method="post" id="bolsas-form">
+      								<input id="input-bolsas" type="number" min="0" name="bolsasRecebidas" pattern="[0-9]+"/>
+      							</form>
+      							
+      						</li>
+      						<li th:switch="${acaoextensao.status.descricao}">
+      							<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Bolsas solicitadas:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.bolsasSolicitadas}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Data de homologação:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${#dates.format(acaoextensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-6 list-inline">
+      						<li>
+      							<label>Vinculo:</label>
+      						</li>
+      						<li>
+      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      						</li>
+      					</ul>	
+      				</div>
+      				<div class="box-footer">
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Anexo:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.anexo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Parecer técnico:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.parecerTecnico.arquivo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					<ul class=" col-sm-4 list-inline">
+      						<li>
+      							<label>Parecer relator:</label>
+      						</li>
+      						<li>
+      							<a><h4 th:text="${acaoextensao.parecerRelator.arquivo.nome}"></h4></a>
+      						</li>
+      					</ul>
+      					
+      				</div>
+      				
+      				
+      			</div>
+    			
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="fragments :: footer"></footer>
+	</div>
+	<!-- ./wrapper -->
+</body>
+</html>

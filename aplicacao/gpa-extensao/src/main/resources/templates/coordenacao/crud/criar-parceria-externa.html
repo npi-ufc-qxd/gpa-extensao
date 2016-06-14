@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+</head>   
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div th:replace="fragments :: header"></div>
+		<div th:replace="fragments :: menu"></div>
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h3>Nova Parceria Externa</h3>
+			</section>
+			<section class="content">
+			<input th:value="${acaoExtensaoId}" id="acaoExtensaoId" style="display: none;"/>
+			<div class="col-md-6">
+				<div class="box box-primary" id="parceriaExternaForm">
+					<form role="form" th:object="${parceriaExterna}" method="POST" id="parceriaExternaForm2">
+						<div class="box-body">
+								<div class="alert alert-warning alert-dismissible" id="error-parceiro" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Selecionar parceiro</p>
+								</div>
+								<div class="form-group">
+									<label>Instituição Parceira: </label>
+									<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}" required="required">
+										<option value="">Selecionar Parceiro</option>
+										<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option>
+									</select>
+									<br/>
+									<button class="btn btn-block btn-primary btn-xs" id="criarNovoParceiro">Criar parceiro</button>
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="checkBoxAlert" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Necessário escolher uma das opções abaixo.</p>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="geraDemandaFormasCheckBox" name="geraDemanda" th:checked="${parceriaExterna.geraDemanda}" th:field="${parceriaExterna.geraDemanda}"/>
+									Gera Demanda</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="definicaoAcoesCheckBox" name="definicaoAcoes" th:checked="${parceriaExterna.definicaoAcoes}" th:field="${parceriaExterna.definicaoAcoes}"/>
+									Define Ações</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="equipamentoFormasCheckBox" name="equipamento" th:checked="${parceriaExterna.equipamento}" th:field="${parceriaExterna.equipamento}"/>
+									Fornece Equipamento</label>
+									
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="financiamentoCheckBox" name="financiamento" th:checked="${parceriaExterna.financiamento}" th:field="${parceriaExterna.financiamento}" />
+									Financia</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+										<input type="checkbox" id="outrasFormasCheckBox" name="outrasFormas" th:checked="${parceriaExterna.outrasFormas}" th:field="${parceriaExterna.outrasFormas}"/>
+										Outras formas
+									</label>
+								</div>
+								<div class="form-group" id="divDescricaoOutrasFormas" style="display: none;">
+									<label class="col-sm-5">Descreva outras formas</label>
+									<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button type="reset" class="btn btn-default pull-left">Cancelar</button>
+							    <button id="submitBtn" class="btn btn-primary pull-right">Salvar</button>
+							</div>
+						</form>
+					</div>
+					<div class="box box-primary" id="parceiroForm" style="display: none;">
+						<div style="padding-top: 10px;padding-left: 10px;">
+							<button id="cancelarNovoParceiro" class="btn btn-default">Voltar</button>
+						</div>
+<!-- 						th:action="@{/parceiro/novo/__${acaoExtensaoId}__}" -->
+						<form id="parceiroForm2" role="form" th:object="${parceiro}" method="POST">
+							<div class="box-body">
+								<div class="alert alert-warning alert-dismissible" id="error-nome" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4> <i class="icon fa fa-warning"></i> Atenção! </h4>
+								</div>
+								<div class="form-group">
+									<label for="nome">Nome da Instituição:</label>
+									<input class="form-control" id="nomeParceiro" th:field="*{nome}" type="text" name="nome" />
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="error-tipo" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+									<p>Escolher tipo de instituição!</p>
+								</div>
+								<div class="form-group">
+									<label>Tipo da instituição:</label>
+									<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
+										<label><input id="satanRadio" type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+										<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+								   	<div class="col-lg-10 col-lg-offset-2">
+								       	<button id="submitBtnParceiro" class="btn btn-primary pull-right">Salvar</button>
+								   	</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</body>
+</html>
