@@ -25,6 +25,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +73,7 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
+	
 	@Autowired
 	private ServidorRepository servirdorRepository;
 	
@@ -80,10 +82,13 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
+	
 	@Autowired
 	private AlunoRepository alunoRepository;
+	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
@@ -249,5 +254,10 @@ public class ExtensaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
+	}
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 }

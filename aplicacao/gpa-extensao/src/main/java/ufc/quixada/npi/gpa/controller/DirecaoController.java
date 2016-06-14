@@ -5,6 +5,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,5 +69,10 @@ public class DirecaoController {
 			model.addAttribute(ERRO, e.getMessage());
 		}
 		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+	}
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 }
