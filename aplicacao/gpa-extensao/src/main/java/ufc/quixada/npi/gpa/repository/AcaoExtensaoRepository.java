@@ -16,7 +16,10 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
-	List<AcaoExtensao> getParecer(@Param("id") Integer id);
+	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
+	
+	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerTecnico.responsavel.id = :id)")
+	List<AcaoExtensao> getParecerTecnico(@Param("id") Integer id);
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id")
 	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);

@@ -4,7 +4,8 @@ import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
@@ -100,7 +101,8 @@ public class ExtensaoController {
 		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
 		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
 		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
-		model.addAttribute(ACOES_PARECER, acaoExtensaoService.getParecer(pessoa.getId()));
+		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoService.getParecerRelator(pessoa.getId()));
+		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoService.getParecerTecnico(pessoa.getId()));
 		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoService.getParticipacao(pessoa.getId()));
 		
 		return PAGINA_LISTAR_ACOES_COORDENACAO;

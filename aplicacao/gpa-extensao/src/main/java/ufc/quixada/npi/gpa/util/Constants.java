@@ -34,7 +34,8 @@ public class Constants {
 	//Coordenacao
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
 	public static final String ACOES_NOVAS = "acoesNovas";
-	public static final String ACOES_PARECER = "acoesParecer";
+	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
+	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	
 	//Load fragments

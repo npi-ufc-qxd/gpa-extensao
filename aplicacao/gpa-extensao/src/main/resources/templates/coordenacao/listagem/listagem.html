@@ -46,7 +46,7 @@
         				<div class="col-lg-3 col-xs-6 card">
           					<div class="small-box bg-aqua cursor-pointer">
             					<div class="inner">
-              						<h3 th:text="${acoesParecer.size()}"></h3>
+              						<h3 th:text="${acoesParecerRelator.size() + acoesParecerTecnico.size()}"></h3>
               						<p>Parecer</p>
             					</div>
             					<div class="icon">
@@ -163,11 +163,11 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row parecer">
+	  			<div class="row parecerRelator">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
-                                <h3>Parecer</h3>
+                                <h3>Parecer Relator</h3>
                             </div>
                             <div class="box-body">
       							<table border="1" class="table-acoes table table-striped table-bordered">
@@ -181,7 +181,38 @@
 	    							</tr>
 	  							</thead>
 	  							<tbody>
-	  								<tr th:each="acao : ${acoesParecer}">
+	  								<tr th:each="acao : ${acoesParecerRelator}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row parecerTecnico">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Parecer Técnico</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesParecerTecnico}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>

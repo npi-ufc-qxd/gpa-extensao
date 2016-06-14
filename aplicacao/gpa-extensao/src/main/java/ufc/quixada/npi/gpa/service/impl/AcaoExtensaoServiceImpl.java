@@ -16,8 +16,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Override
-	public List<AcaoExtensao> getParecer(Integer id) {
-		return acaoExtensaoRepository.getParecer(id);
+	public List<AcaoExtensao> getParecerRelator(Integer id) {
+		return acaoExtensaoRepository.getParecerRelator(id);
+	}
+	@Override
+	public List<AcaoExtensao> getParecerTecnico(Integer id) {
+		return acaoExtensaoRepository.getParecerTecnico(id);
 	}
 	@Override
 	public List<AcaoExtensao> getParticipacao(Integer id) {

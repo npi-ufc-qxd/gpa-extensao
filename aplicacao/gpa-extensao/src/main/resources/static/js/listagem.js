@@ -2,7 +2,8 @@ $(document).ready(function() {
 	$(".RESOLVENDO_PENDENCIAS_PARECER").addClass("bg-yellow");
 	$(".RESOLVENDO_PENDENCIAS_RELATO").addClass("bg-yellow");
 	$(".homologados").hide();
-	$(".parecer").hide();
+	$(".parecerRelator").hide();
+	$(".parecerTecnico").hide();
 	$(".participacao").hide();
 	$(".card").click(function() {
         $(".card").find("i").removeClass("fa-folder-open-o");
@@ -22,27 +23,31 @@ function showNaoHomologados() {
 	$(".tramitacao").show();
 	$(".novos").show();
 	$(".homologados").hide();
-	$(".parecer").hide();
+	$(".parecerRelator").hide();
+	$(".parecerTecnico").hide();
 	$(".participacao").hide();
 }
 function showHomologados() {
 	$(".tramitacao").hide();
 	$(".novos").hide();
 	$(".homologados").show();
-	$(".parecer").hide();
+	$(".parecerRelator").hide();
+	$(".parecerTecnico").hide();
 	$(".participacao").hide();
 }
 function showParecer() {
 	$(".tramitacao").hide();
 	$(".novos").hide();
 	$(".homologados").hide();
-	$(".parecer").show();
+	$(".parecerRelator").show();
+	$(".parecerTecnico").show();
 	$(".participacao").hide();
 }
 function showParticipacao() {
 	$(".tramitacao").hide();
 	$(".novos").hide();
 	$(".homologados").hide();
-	$(".parecer").hide();
+	$(".parecerRelator").hide();
+	$(".parecerTecnico").hide();
 	$(".participacao").show();
 }
