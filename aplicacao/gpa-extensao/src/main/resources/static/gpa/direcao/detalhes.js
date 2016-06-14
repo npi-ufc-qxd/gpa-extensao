@@ -6,7 +6,8 @@ $(document).ready(function(){
 	    format: "dd/mm/yyyy",
 	    startDate: "+1d",
 	    clearBtn: true,
-	    language: "pt-BR"
+	    language: "pt-BR",
+	    autoclose: true
 	});
 	
 });
