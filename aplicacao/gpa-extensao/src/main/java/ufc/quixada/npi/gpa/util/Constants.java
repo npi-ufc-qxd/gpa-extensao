@@ -26,19 +26,39 @@ public class Constants {
 	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
-	public static final String ACAO_EXTENSAO = "acaoExtensao";
-	public static final String PAPEL_DIRECAO = "direcao";
 
 	// Load fragments
 	public static final String PAGE_LOAD_PARECERISTAS = "detalhe/acao/detalhes :: pareceristas";
 
 	// Paginas
+
+	public static final String ACAO_EXTENSAO = "acaoextensao";
+	public static final String PERMISSAO_COORDENADOR = "coordenador";
+	public static final String PERMISSAO_DIRETOR = "diretor";
+	public static final String PERMISSAO_PARECERISTA = "parecerista";
+	public static final String PERMISSAO_RELATOR = "relator";
+	public static final String PERMISSAO_PARTICIPANTE = "participante";
+	public static final String PERMISSAO = "permissao";
+	public static final String PAPEL_DIRECAO = "direcao";
+	//Coordenacao
+	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
+	public static final String ACOES_NOVAS = "acoesNovas";
+	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
+	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
+	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
+	
+	//Load fragments
+	public static final String LOAD_PARECERISTAS = "index :: pareceristas";
+	
+	//Paginas
+
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
 	public static final String PAGINA_LISTAR_PARTICIPACOES = "coordenacao/crud/listar-participacoes";
+
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 
 	// Redirects
@@ -47,6 +67,12 @@ public class Constants {
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+
+	public static final String PAGINA_LISTAR_ACOES_COORDENACAO = "coordenacao/listagem/listagem";
+	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
+	
+	//Exceptions
+
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	
 	//Mensagens

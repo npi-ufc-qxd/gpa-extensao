@@ -51,7 +51,7 @@ public class DirecaoController {
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
-
+		
 		List<Status> statusAguardandoParecer = Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER);
 		List<Status> statusAguardandoParecerista = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.RESOLVENDO_PENDENCIAS_PARECER);
 		List<Status> statusAguardandoRelato = Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO);
