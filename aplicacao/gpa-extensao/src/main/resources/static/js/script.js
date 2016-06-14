@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	//$("#cadastrar").attr("disabled","disabled");
 	$("#message").hide();
 	$("#cargaHorarias").hide();
 	
@@ -20,13 +19,14 @@ $(document).ready(function() {
     	dataTermino.dia = +Termino.val().substring(0,2);
     	dataTermino.mes = +Termino.val().substring(3,5);
     	dataTermino.ano = +Termino.val().substring(6);
-    	dataInicio.Total = (dataInicio.dia)+((dataInicio.mes)*30)+((dataInicio.ano)*365);
-		dataTermino.Total = (dataTermino.dia)+((dataTermino.mes)*30)+((dataTermino.ano)*365);
-		if(dataTermino.Total >= dataInicio.Total){
-			return true;
-    	}else{
+    	
+    	if(dataTermino.ano < dataInicio.ano){
     		return false;
-    	}
+    	}else if(dataTermino.mes < dataInicio.mes){
+    		return false;
+    	}else if(dataTermino.dia < dataInicio.dia){
+    		return false;
+    	}else return true;
 	};
 	
     $("#dataTermino").change(function() {

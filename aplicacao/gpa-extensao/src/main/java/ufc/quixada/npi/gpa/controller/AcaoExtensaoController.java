@@ -21,7 +21,6 @@ import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
-import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @RequestMapping("extensao")
@@ -35,7 +34,7 @@ public class AcaoExtensaoController {
 	private DocumentoRepository documentoRepository;
 	
 	@Autowired
-	private PessoaService pessoaService;
+	private PessoaRepository pessoaRepository;
 	
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
@@ -52,7 +51,7 @@ public class AcaoExtensaoController {
 			acaoExtensao.setAnexo(documento);
 		}
 		
-		Pessoa coordenador = pessoaService.getByCpf(authentication.getName());
+		Pessoa coordenador = pessoaRepository.getByCpf(authentication.getName());
 		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setBolsasRecebidas(1);
 		acaoExtensao.setStatus(Status.NOVO);

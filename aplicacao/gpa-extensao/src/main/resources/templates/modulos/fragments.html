@@ -33,6 +33,13 @@
 	<!-- Select2 -->
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
+	
+	<!-- jQuery 2.2.0 -->
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js}"></script>
+	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
 </head>
 <!-- Fim do head -->
 
@@ -75,7 +82,7 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header">COORDENAÇÃO</li>
-			<li class="active"><a href="#"> <i class="fa fa-plus"></i>
+			<li class="active"><a th:href="@{/paginaCadastro}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
 			<li><a th:href="@{/coordenacao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
