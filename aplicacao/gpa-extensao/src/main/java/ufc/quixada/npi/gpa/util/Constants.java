@@ -32,7 +32,7 @@ public class Constants {
 
 	// Paginas
 
-	public static final String ACAO_EXTENSAO = "acaoextensao";
+	public static final String ACAO_EXTENSAO = "acaoExtensao";
 	public static final String PERMISSAO_COORDENADOR = "coordenador";
 	public static final String PERMISSAO_DIRETOR = "diretor";
 	public static final String PERMISSAO_PARECERISTA = "parecerista";

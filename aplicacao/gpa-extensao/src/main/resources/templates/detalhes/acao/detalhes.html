@@ -45,13 +45,13 @@
       						</li>
       						<li>
 
-      							<h4 id="codigo-acao" th:text="${acaoextensao.codigo}"></h4>
-      							<form action="#" th:action="@{/salvarcodigo/}+${acaoextensao.id}"  method="post" id="codigo-form">
+      							<h4 id="codigo-acao" th:text="${acaoExtensao.codigo}"></h4>
+      							<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}"  method="post" id="codigo-form">
       								<input type="text" id="input-codigo" name="codigoAcao"/>
       							</form>
       							
       						</li>
-      						<li th:switch="${acaoextensao.status.descricao}">
+      						<li th:switch="${acaoExtensao.status.descricao}">
       							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
       							
       						</li>
@@ -132,13 +132,13 @@
       							<label>Bolsas recebidas:</label>
       						</li>
       						<li>
-      							<h4 id="bolsas-recebidas" th:text="${acaoextensao.bolsasRecebidas}"></h4>
-      							<form action="#" th:action="@{/salvarbolsas/}+${acaoextensao.id}"  method="post" id="bolsas-form">
+      							<h4 id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}"></h4>
+      							<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}"  method="post" id="bolsas-form">
       								<input id="input-bolsas" type="number" min="0" name="bolsasRecebidas" pattern="[0-9]+"/>
       							</form>
       							
       						</li>
-      						<li th:switch="${acaoextensao.status.descricao}">
+      						<li th:switch="${acaoExtensao.status.descricao}">
       							<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
       						</li>
       					</ul>
@@ -147,7 +147,7 @@
       							<label>Bolsas solicitadas:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.bolsasSolicitadas}"></h4>
+      							<h4 th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
       						</li>
       					</ul>
       					<ul class=" col-sm-6 list-inline">
@@ -163,7 +163,7 @@
       							<label>Vinculo:</label>
       						</li>
       						<li>
-      							<h4 th:text="${acaoextensao.vinculo}"></h4>
+      							<h4 th:text="${acaoExtensao.vinculo}"></h4>
       						</li>
       					</ul>	
       				</div>
@@ -176,23 +176,6 @@
       							<h4 th:if="${acaoExtensao.anexo} != null"><a th:text="${acaoExtensao.anexo.nome}"></a></h4>
       						</li>
       					</ul>
-      					<ul class=" col-sm-4 list-inline">
-      						<li>
-      							<label>Parecer técnico:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.parecerTecnico} != null"><a th:text="${acaoExtensao.parecerTecnico.arquivo.nome}"></a></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-4 list-inline">
-      						<li>
-      							<label>Parecer relator:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.parecerRelator} != null"><a th:text="${acaoExtensao.parecerRelator.arquivo}"></a></h4>
-      						</li>
-      					</ul>
-      					
       				</div>
       				
       				
