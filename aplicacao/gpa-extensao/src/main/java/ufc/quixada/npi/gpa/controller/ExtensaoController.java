@@ -19,10 +19,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,6 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
-import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -82,9 +80,6 @@ public class ExtensaoController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
-	@Inject
-	private AcaoExtensaoService acaoExtensaoService;
-	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
@@ -101,9 +96,9 @@ public class ExtensaoController {
 		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
 		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
 		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
-		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoService.getParecerRelator(pessoa.getId()));
-		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoService.getParecerTecnico(pessoa.getId()));
-		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoService.getParticipacao(pessoa.getId()));
+		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoRepository.getParecerRelator(pessoa.getId()));
+		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
+		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoRepository.getParticipacao(pessoa.getId()));
 		
 		return PAGINA_LISTAR_ACOES_COORDENACAO;
 	}
