@@ -21,6 +21,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -116,6 +118,22 @@ public class ExtensaoController {
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
+	}
+	
+	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)
+	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acao.setCodigo(codigo);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + id;
+	}
+	
+	@RequestMapping(value = "/salvarbolsas/{id}", method=RequestMethod.POST)
+	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acao.setBolsasRecebidas(numeroBolsas);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + id;
 	}
 	
 	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
