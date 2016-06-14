@@ -18,15 +18,20 @@
 		<link rel="stylesheet" th:href="@{css/skin-blue.css}"></link>
 		<!-- iCheck -->
 		<link rel="stylesheet" th:href="@{plugins/iCheck/flat/blue.css}"></link>
-		<!-- Date Picker -->
-		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>
-		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker3.min.css}"></link>
+		<!-- jQuery 2.2.2 Externo -->
 		<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js}"></script>
 		<!-- jQuery 2.2.0 -->
 		<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
+		<!-- Bootstrap Datapicker -->
+		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>
+		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker3.min.css}"></link>
 		<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
 		<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
+		<!-- Jquery Validation -->
+		<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
+		<!-- Script da pagina -->
 		<script th:src="@{/js/script.js}"></script>
+		
 		<!-- jQuery UI 1.11.4 -->
 		
 		<!-- Bootstrap 3.3.6 -->
@@ -147,7 +152,7 @@
             <form role="form" th:action="@{extensao/cadastrar}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
               <div class="box-body">
                 <div class="form-group">
-                  <label for="titulo">Título</label>
+                  <label for="titulo">*Título</label>
                   <input class="form-control" id="titulo" th:field="${acaoExtensao.titulo}" placeholder="Escreva o título..." type="text" required="true"/>
                 </div>
                 <div class="form-group">
@@ -181,7 +186,7 @@
                 </div>
                 <div class="row">
 	                <label class="col-lg-8">Prorrogável?</label>
-	                <label class="col-lg-2">Modalidade</label>
+	                <label class="col-lg-2">*Modalidade</label>
                 </div>
                 <div class="form-group row">
 	                <div class="col-lg-4">
