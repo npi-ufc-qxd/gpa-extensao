@@ -4,6 +4,7 @@
 <head th:replace="modulos/fragments :: head"></head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+	<input th:value="${acaoExtensaoId}" id="acaoExtensaoId" style="display: none;"/>
 	<div class="wrapper">
 	
 		<div th:replace="modulos/fragments :: header"></div>
@@ -281,6 +282,7 @@
 									<th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
 									<th data-toogle="tooltip" title="Outras formas">OF</th>
 									<th data-toogle="tooltip" title="Gera Demanda">Descrição de outras formas</th>
+									<th></th>
 								</tr>
 							</thead>
 							
@@ -309,6 +311,14 @@
 									</td>
 									<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
 									<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
+									<td data-toogle="tooltip" title="Excluir">
+										<a id="excluir-parceria-externa"
+											data-toggle="modal"
+											data-target="#confirm-delete-parceria-externa"
+											th:attr="data-href=${parceria.id}">
+											<i class="glyphicon glyphicon-trash"></i>
+										</a>
+                            		</td>
 								</tr>
 							</tbody>
 						</table>
@@ -317,6 +327,27 @@
 			</section>
 			<!-- /.content -->
 		</div>
+		<div class="modal fade" id="confirm-delete-parceria-externa">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Excluir Parceria Externa</h4>
+              </div>
+              <div class="modal-body">
+              	<p>Tem certeza que deseja excluir essa parceria?</p>
+              </div>
+              <div class="modal-footer">
+              	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
+                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary btn-ok" id="deleteParceriaHiddenBtn">Confirmar</a>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 		<!-- /.content-wrapper -->
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>

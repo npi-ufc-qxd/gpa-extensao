@@ -15,6 +15,8 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO_EXTENSAO;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -198,5 +200,14 @@ public class ExtensaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
+	}
+	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
+	public @ResponseBody String deleteParceriaExterna(@PathVariable("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
+		acao.getParceriasExternas().remove(parceria);
+		parceriaExternaRepository.delete(idParceriaExterna);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO_EXTENSAO;
 	}
 }
