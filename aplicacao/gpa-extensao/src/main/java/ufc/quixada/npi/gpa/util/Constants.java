@@ -19,13 +19,14 @@ public class Constants {
 		
 	// Model attributes
 	public static final String PARECERISTAS = "pareceristas";
+	public static final String RELATORES = "relatores";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
 	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
-	public static final String ACAO_EXTENSAO = "acaoextensao";
+	public static final String ACAO_EXTENSAO = "acaoExtensao";
 	public static final String PAPEL_DIRECAO = "direcao";
 
 	// Load fragments
@@ -41,7 +42,7 @@ public class Constants {
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 
 	// Redirects
-	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhe/acao/";
+	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	
 	// Exception Messages

@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Parecer {
 	
@@ -36,6 +38,7 @@ public class Parecer {
 	@JoinColumn(name="parecerista_id")
 	private Pessoa responsavel;
 	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
 	@OneToOne

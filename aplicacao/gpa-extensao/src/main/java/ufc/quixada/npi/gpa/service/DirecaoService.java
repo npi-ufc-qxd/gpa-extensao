@@ -12,4 +12,6 @@ public interface DirecaoService {
 	List<Pessoa> getPossiveisPareceristas(Integer idAcaoExtensao);
 
 	void atribuirParecerista(Integer idAcaoExtensao, Parecer parecerTecnico) throws GpaExtensaoException;
+	
+	void atribuirRelator(Integer idAcaoExtensao, Parecer parecerRelator) throws GpaExtensaoException;
 }

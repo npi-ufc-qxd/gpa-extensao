@@ -15,6 +15,8 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,9 +38,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
@@ -50,6 +54,7 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -74,6 +79,9 @@ public class ExtensaoController {
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
+	@Autowired
+	private DirecaoService direcaoService; 
+	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
@@ -88,6 +96,11 @@ public class ExtensaoController {
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
 
+		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
+			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
+			model.addAttribute("parecerRelator", new Parecer());
+		}
+		
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
