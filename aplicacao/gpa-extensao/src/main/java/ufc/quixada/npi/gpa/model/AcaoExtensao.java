@@ -66,7 +66,7 @@ public class AcaoExtensao {
 	@OneToOne
 	private Parecer parecerTecnico;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Parecer parecerRelator;
 
 	public AcaoExtensao() {
