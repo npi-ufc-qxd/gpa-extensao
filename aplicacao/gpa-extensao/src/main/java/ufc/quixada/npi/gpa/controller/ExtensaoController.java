@@ -25,6 +25,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTI
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -52,6 +54,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Participacao;
@@ -61,10 +64,12 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -83,6 +88,10 @@ public class ExtensaoController {
 	private AlunoRepository alunoRepository;
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	@Autowired
+	private DocumentoRepository documentoRepository;
+	@Autowired
+	private AcaoExtensaoService acaoExtensaoService;
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	@RequestMapping("/")
@@ -224,8 +233,8 @@ public class ExtensaoController {
 		return PAGINA_CRIAR_PARCERIA_EXTERNA;
 	}
 
-	@RequestMapping("/paginaCadastro")
-	public String index2(Model model, AcaoExtensao acaoExtensao) {
+	@RequestMapping("/cadastrar")
+	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
 		model.addAttribute("modalidades", Modalidade.values());
 		return "coordenacao/crud/cadastrarExtensao";
 	}
@@ -246,4 +255,17 @@ public class ExtensaoController {
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}
+	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
+	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+			Authentication authentication, Model model) throws IOException {
+		
+		Pessoa coordenador = pessoaRepository.getByCpf(authentication.getName());
+		
+		acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,coordenador);
+		
+		return "redirect:/";		
+	}
+	
+	
+	
 }

@@ -88,7 +88,7 @@
 				<ul class="sidebar-menu">
 					<li class="header">COORDENAÇÃO</li>
 					<li class="active">
-						<a th:href="@{/paginaCadastro}" >
+						<a th:href="@{/cadastrar}" >
 							<i class="fa fa-plus"></i>
 							<span>Nova Ação</span>
 						</a>
@@ -146,7 +146,7 @@
             <!-- /.box-header -->
             <!-- form start -->
             
-            <form role="form" th:action="@{extensao/cadastrar}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
+            <form role="form" th:action="@{/cadastrarAcao}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
               <div class="box-body">
                 <div class="form-group">
                   <label for="titulo">*Título</label>
@@ -252,7 +252,7 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button id="cadastrar" type="submit" class="btn btn-primary">Cadastrar</button>
+                <button id="botaoCadastrar" type="submit" class="btn btn-primary">Cadastrar</button>
               </div>
               
             </form>

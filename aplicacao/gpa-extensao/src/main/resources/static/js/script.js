@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$("#message").hide();
 	$("#cargaHorarias").hide();
+	$("#botaoCadastrar").attr("disabled","disabled");
 	
     $('#dataInicio,#dataTermino').datepicker({
         format: "dd/mm/yyyy",
@@ -35,11 +36,12 @@ $(document).ready(function() {
     		$("#message").removeClass("alert alert-success alert-dismissible");
     		$("#message").addClass("alert alert-danger alert-dismissible");
     		$("#message").html("A data de início não pode ser posterior a data de Término.").slideDown("slow");
-    		
+    		$("#botaoCadastrar").attr("disabled",true);
     	}else{
     		$("#message").removeClass("alert alert-danger alert-dismissible");
     		$("#message").addClass("alert alert-success alert-dismissible");
     		$("#message").html("Data Válida.").slideUp("slow");
+    		$("#botaoCadastrar").attr("disabled",false);
     	}
     });
     
