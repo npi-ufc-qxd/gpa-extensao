@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head">
+<head th:replace="modulos/fragments :: head">
 </head>   
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
-		<div th:replace="fragments :: header"></div>
-		<div th:replace="fragments :: menu"></div>
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
 		<div class="content-wrapper">
 			<section class="content-header">
 				<h3>Nova Parceria Externa</h3>
@@ -102,7 +102,7 @@
 								<div class="form-group">
 									<label>Tipo da instituição:</label>
 									<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
-										<label><input id="satanRadio" type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+										<label><input type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
 										<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
 									</div>
 								</div>
@@ -118,6 +118,7 @@
 				</div>
 			</section>
 		</div>
+		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
 </body>
 </html>

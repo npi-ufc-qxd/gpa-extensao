@@ -90,8 +90,8 @@
 			</a></li>
 
 			<li class="header">DIREÇÃO</li>
-			<li><a th:href="@{/direcao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
-					<span class="label label-primary pull-right">10</span>
+			<li><a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+					<span class="label label-primary pull-right" th:text="${acoesDirecaoSize}"></span>
 			</a></li>
 			<li><a href="#"> <i class="fa fa-file-text-o"></i> <span>Relatórios</span>
 			</a></li>
@@ -119,16 +119,21 @@
 	<![endif]-->
 	
 	<!-- jQuery 2.2.0 -->
+	<!-- script th:src="@{/js/jQuery-2.2.0.min.js}"></script-->
 	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
 	<!-- jQuery Mask -->
 	<script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
-	<!-- Script da página inicial da direção -->
+	<!-- Scripts GPA -->
 	<script th:src="@{/gpa/direcao/index.js}"></script>
 	<!-- Script da listagem de ações da coordenação -->
 	<script th:src="@{/js/listagem.js}"></script>
 	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
+	<!-- Para página de detalhes -->
+	<script th:src="@{/js/parceria-externa.js}"></script>
+	<script th:src="@{/js/detalheAcao.js}"></script>
+	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
