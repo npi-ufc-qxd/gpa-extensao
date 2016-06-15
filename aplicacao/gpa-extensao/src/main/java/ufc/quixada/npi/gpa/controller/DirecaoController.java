@@ -75,4 +75,16 @@ public class DirecaoController {
 	public Long acoesDirecaoSize(){
 		return acaoExtensaoRepository.count();
 	}
+	
+	@RequestMapping(value = "/relator/{idAcao}", method = RequestMethod.POST)
+	public String atribuirRelator(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerRelator, Model model) {
+		try {
+			
+			direcaoService.atribuirRelator(idAcaoExtensao, parecerRelator);
+			
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+		}
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+	}
 }

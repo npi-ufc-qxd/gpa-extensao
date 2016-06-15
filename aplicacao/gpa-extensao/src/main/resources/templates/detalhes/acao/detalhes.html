@@ -44,6 +44,7 @@
       							<label>Código:</label>
       						</li>
       						<li>
+
       							<h4 id="codigo-acao" th:text="${acaoExtensao.codigo}"></h4>
       							<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}"  method="post" id="codigo-form">
       								<input type="text" id="input-codigo" name="codigoAcao"/>
@@ -125,7 +126,7 @@
       							<h4 th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
       						</li>
       					</ul>
-      					<ul class=" col-sm-6 list-inline">
+      					<ul class=" col-sm-3 list-inline">
       						<li>
       							<label>Bolsas recebidas:</label>
       						</li>
@@ -174,7 +175,6 @@
       							<h4 th:if="${acaoExtensao.anexo} != null"><a th:text="${acaoExtensao.anexo.nome}"></a></h4>
       						</li>
       					</ul>
-      					
       				</div>
       				
       				
@@ -253,16 +253,72 @@
 					</div><!-- Parecer técnico -->
 
 
-					<div class="col-md-6 col-xs-12">
-						<div class="box box-info">
-							<div class="box-header with-border">
-								<h3 class="box-title">Parecer do Relator</h3>
-							</div>
-							<div class="box-body"></div>
-						</div>
-					</div>
-				</div><!-- Parecer do relator -->
-    			
+                    <div class="col-md-6 col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Parecer do Relator</h3>
+                            </div>
+                            <div class="box-body">
+                            	<div th:if="${acaoExtensao.parecerRelator != null}">
+                                    <dl class="dl-horizontal">
+                                        <dt>Parecerista:</dt>
+                                        <dd th:text="${acaoExtensao.parecerRelator.responsavel.nome}"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Data da atribuição:</dt>
+                                        <dd
+                                            th:text="${acaoExtensao.parecerRelator.dataAtribuicao} ? ${#dates.format(acaoExtensao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></dd>
+
+                                        <dt>Prazo estimado:</dt>
+                                        <dd
+                                            th:text="${acaoExtensao.parecerRelator.prazo} ? ${#dates.format(acaoExtensao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"></dd>
+
+                                        <dt>Data da realização:</dt>
+                                        <dd
+                                            th:text="${acaoExtensao.parecerRelator.dataRealizacao} ? ${#dates.format(acaoExtensao.parecerRelator.dataRealizacao, 'dd/MM/yyyy')} : '-'"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Posicionamento:</dt>
+                                        <dd
+                                            th:text="${acaoExtensao.parecerRelator.posicionamento} ? ${acaoExtensao.parecerRelator.posicionamento.descricao} : '-'"></dd>
+
+                                        <dt>Parecer:</dt>
+                                        <dd th:text="${acaoExtensao.parecerRelator.parecer} ? ${acaoExtensao.parecerRelator.parecer} : '-'"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Arquivo:</dt>
+                                        <dd th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo} : '-'"></dd>
+                                    </dl>
+                                </div>
+                                <div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'}">
+                                	<div class="alert alert-warning alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <i class="icon fa fa-warning"></i>
+                                        <span>Nenhum relator atribuído.</span>
+                                    </div>
+	                                	<form class="form-horizontal" th:object="${parecerRelator}" th:action="@{/direcao/relator/} + ${acaoExtensao.id}" method="post">
+	                                		<div class="col md-12">
+		                                		<div class="form-group">
+		                                			<label class="control-label col-md-5" for="select-relatores"> Selecione um relator:</label>
+		                                        	<select id="select-relatores" th:field="*{responsavel}" required="required">
+		                                            	<option th:each="relator : ${relatores}" th:value="${relator.id}" th:text="${relator.nome}"/>
+		                                        	</select>
+		                                        </div>
+		                                        <div class="form-group">
+		                                        	<label class="control-label col-md-5" for="prazo-relator"> Prazo para o parecer:</label>
+		                                        	<input type="date" id="prazo-relator" class="prazo-parecer" required="required" th:field="*{prazo}" />
+		                                        </div>
+		                                        <div class="form-group">
+		                                        	<input type="submit" class="btn btn-info center-block" value="Atribuir" title="Atribuir relator"/>
+		                                    	</div>
+	                                    	</div>
+	                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Parecer do relator -->
+                </div>
+                
 			</section>
 			<!-- /.content -->
 		</div>

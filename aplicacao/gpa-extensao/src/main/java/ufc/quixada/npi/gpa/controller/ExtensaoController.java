@@ -25,7 +25,12 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
+
+import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +71,7 @@ import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -94,6 +100,9 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParecerRepository parecerRepository;
+
+	@Autowired
+	private DirecaoService direcaoService; 
 	
 	@RequestMapping("/")
 	public String index() {
@@ -132,6 +141,11 @@ public class ExtensaoController {
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(PARECER_TECNICO, new Parecer());
+		}
+
+		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
+			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
+			model.addAttribute("parecerRelator", new Parecer());
 		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
