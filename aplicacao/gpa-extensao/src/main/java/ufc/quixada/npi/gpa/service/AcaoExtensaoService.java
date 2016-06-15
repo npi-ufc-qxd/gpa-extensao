@@ -9,5 +9,5 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 public interface AcaoExtensaoService {
 
-	Void salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, Pessoa coordenador) throws IOException;
+	void salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws IOException;
 }

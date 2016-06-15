@@ -24,6 +24,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,8 +96,7 @@ public class ExtensaoController {
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	@RequestMapping("/")
-	public String index(Model model, AcaoExtensao acaoExtensao) {
-		model.addAttribute("modalidades", Modalidade.values());
+	public String index() {
 		return PAGINA_INICIAL;
 	}
 	
@@ -236,7 +236,7 @@ public class ExtensaoController {
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
 		model.addAttribute("modalidades", Modalidade.values());
-		return "coordenacao/crud/cadastrarExtensao";
+		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
 	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
@@ -257,13 +257,16 @@ public class ExtensaoController {
 	}
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
 	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-			Authentication authentication, Model model) throws IOException {
+			Authentication authentication, Model model) {
 		
-		Pessoa coordenador = pessoaRepository.getByCpf(authentication.getName());
+		try {
+			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
+		} catch (IOException e) {
+			System.out.println("Ocorreu um erro em salvar a ação de extensão "+e.getMessage());
+			e.printStackTrace();
+		}
 		
-		acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,coordenador);
-		
-		return "redirect:/";		
+		return PAGINA_INICIAL;		
 	}
 	
 	

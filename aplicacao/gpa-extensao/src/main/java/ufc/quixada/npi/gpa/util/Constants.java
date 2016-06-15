@@ -43,6 +43,7 @@ public class Constants {
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
+	public static final String PAGINA_CADASTRAR_ACAO_EXTENSAO = "coordenacao/crud/cadastrarExtensao";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";

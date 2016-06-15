@@ -24,13 +24,12 @@
 		<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
 		<!-- Bootstrap Datapicker -->
 		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>
-		<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker3.min.css}"></link>
 		<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
-		<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
+		<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
 		<!-- Jquery Validation -->
 		<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
 		<!-- Script da pagina -->
-		<script th:src="@{/js/script.js}"></script>
+		<script th:src="@{/js/cadastrarAcao.js}"></script>
 		<!-- Bootstrap 3.3.6 -->
 		<script th:src="@{/js/bootstrap.min.js}"></script>
 		<!-- Slimscroll -->
@@ -203,9 +202,6 @@
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <!-- <select class="form-control" required="true"  name="modalidade">
-                    <option th:each="modalidade : ${modalidades}" th:value="modalidade" th:text="${modalidade.descricao}"></option>
-                  </select> -->
                   <select class="form-control" id="modalidade" th:field="${acaoExtensao.modalidade}" required="required">
                         <option value="">Selecionar Modalidade</option>
                         <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
