@@ -2,15 +2,18 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
+import static ufc.quixada.npi.gpa.util.Constants.ALERTA;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
@@ -19,15 +22,12 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.PARECER_TECNICO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,12 +139,11 @@ public class ExtensaoController {
 		model.addAttribute("parceiro",new Parceiro());
 		model.addAttribute("parceriaExterna",new ParceriaExterna());
 		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
-
-		model.addAttribute(ACAO_EXTENSAO, acao);
 		
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
-			model.addAttribute(PARECER_TECNICO, new Parecer());
+			model.addAttribute(ALERTA, MESSAGE_PARECERISTA_NAO_ATRIBUIDO);
+			acao.setParecerTecnico(new Parecer());
 		}
 
 		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
@@ -153,16 +152,6 @@ public class ExtensaoController {
 		}
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
-		
-		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
-			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
-			model.addAttribute(PARECER_TECNICO, new Parecer());
-		}
-
-		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
-			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
-			model.addAttribute("parecerRelator", new Parecer());
-		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}

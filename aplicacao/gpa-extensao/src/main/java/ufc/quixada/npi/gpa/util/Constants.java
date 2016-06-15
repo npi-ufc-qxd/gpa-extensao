@@ -61,6 +61,8 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
+	public static final String ALERTA = "alerta";
+	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";

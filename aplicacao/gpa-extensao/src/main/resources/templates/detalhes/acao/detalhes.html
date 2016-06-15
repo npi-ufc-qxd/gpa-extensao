@@ -352,7 +352,7 @@
 								<h3 class="box-title">Parecer Técnico</h3>
 							</div>
 							<div class="box-body">
-								<div th:if="${acaoExtensao.parecerTecnico != null}">
+								<div th:style="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'} ? 'display: none'">
 									<dl class="dl-horizontal">
 										<dt>Parecerista:</dt>
 										<dd th:text="${acaoExtensao.parecerTecnico.responsavel} ? ${acaoExtensao.parecerTecnico.responsavel.nome} : '-'"></dd>
@@ -384,17 +384,18 @@
 									</dl>
 								</div>
 								
-								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}">
+								<div th:style="${acaoExtensao.status.descricao != 'AGUARDANDO PARECERISTA'} ? 'display: none'">
 									<div class="alert alert-warning alert-dismissible">
 										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 										<i class="icon fa fa-warning"></i>
-										<span>Nenhum parecerista atribuído.</span>
+										<span th:if="${alerta}" th:text="${alerta}"></span>
 									</div>
-									<form class="form-horizontal" th:object="${parecerTecnico}" th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
+									<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
+										<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
 										<div class="col-md-12">
 											<div class="form-group">
 											<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
-											<select id="select-pareceristas" class="form-control col-md-	" th:field="*{responsavel}" required="required">
+											<select id="select-pareceristas" class="form-control col-md-	" th:field="*{parecerTecnico.responsavel}" required="required">
 												<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
 											</select>
 										</div>
@@ -404,7 +405,7 @@
 												<div class="input-group-addon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{prazo}" />
+												<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{parecerTecnico.prazo}" />
 											</div>
 										</div>
 										<div class="form-group">
