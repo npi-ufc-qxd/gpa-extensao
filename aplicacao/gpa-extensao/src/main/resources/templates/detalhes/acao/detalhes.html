@@ -181,7 +181,6 @@
       				
       				
       			</div>
-<<<<<<< HEAD
     			<div class="box box-widget">
     				<div class="box-header with-border">
     					<table style="width:100%;">
@@ -308,8 +307,8 @@
 							
 							<tbody>
 								
-								<tr th:each="parceria: ${acaoextensao.parceriasExternas}">
-									<td th:text="${parceria.id}"></td>
+								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}">
+									<td th:text="${rowStat.count}"></td>
 									<td th:text="${parceria.parceiro.nome}"></td>
 									<td>
 										<span th:if="${parceria.geraDemanda}" class="glyphicon glyphicon-ok"></span>
@@ -335,7 +334,8 @@
 										<a id="excluir-parceria-externa"
 											data-toggle="modal"
 											data-target="#confirm-delete-parceria-externa"
-											th:attr="data-href=${parceria.id}">
+											th:attr="data-href=${parceria.id}"
+											th:attrappend="data-row=${rowStat.index}">
 											<i class="glyphicon glyphicon-trash"></i>
 										</a>
                             		</td>
@@ -344,7 +344,6 @@
 						</table>
     				</div>
     			</div>
-=======
     			
     			<div class="row">
                     <div class="col-md-6 col-xs-12">
@@ -462,7 +461,6 @@
                     </div><!-- Parecer do relator -->
                 </div>
                 
->>>>>>> refs/heads/master
     			<div class="row">
                     <div class="col-md-6 col-xs-12">
                         <div class="box box-info">
@@ -595,6 +593,7 @@
               </div>
               <div class="modal-footer">
               	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
+              	<input type="hidden" id="deleteParceriaTableIndex" name="deleteParceriaTableIndex" value="" />
                 <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
                 <a class="btn btn-primary btn-ok" id="deleteParceriaHiddenBtn">Confirmar</a>
               </div>

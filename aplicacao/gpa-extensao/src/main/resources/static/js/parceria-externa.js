@@ -125,13 +125,16 @@ $(document).ready(function() {
 	
 	$("#confirm-delete-parceria-externa").on("show.bs.modal", function(e) {
 		$(this).find(".btn-ok").attr("href",$(e.relatedTarget).data("href"));
+		$("#deleteParceriaTableIndex").val($(e.relatedTarget).data("row"));
 		$("#deleteParceriaHiddenId").val($(this).find(".btn-ok").attr("href"));
 	});
 	$("#deleteParceriaHiddenBtn").click(function(e) {
 		e.preventDefault();
 		var parceriaId = $("#deleteParceriaHiddenId").val();
+		var tableRowIndex = $("#deleteParceriaTableIndex").val();
 		var token = $("meta[name='_csrf']").attr("content");
 	    var header = $("meta[name='_csrf_header']").attr("content");
+	    $("#confirm-delete-parceria-externa").modal('hide');
 		$.ajax({
 			url : '/gpa-extensao/excluir/' + acaoExtensaoId + '/parceriaExterna/'+parceriaId,
 			beforeSend: function (request)
@@ -140,7 +143,7 @@ $(document).ready(function() {
             },
 			type : 'GET',
 			complete: function(){
-				window.location.replace(acaoExtensaoId);
+				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex);
 			}
 		});
 	});
