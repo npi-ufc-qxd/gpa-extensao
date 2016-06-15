@@ -6,6 +6,7 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+	<input th:value="${acaoExtensaoId}" id="acaoExtensaoId" style="display: none;"/>
 	<div class="wrapper">
 	
 		<div th:replace="modulos/fragments :: header"></div>
@@ -179,6 +180,170 @@
       				
       				
       			</div>
+
+    			<div class="box box-widget">
+    				<div class="box-header with-border">
+    					<table style="width:100%;">
+    						<tr>
+    							<th class="col-xs-12"><h3>Parcerias Externas</h3></th>
+    							<th class="col-xs-2"><button class="btn btn-primary" id="adicionarNovaParceriaExterna">Adicionar Nova</button></th>
+    						</tr>
+    					</table>
+    				</div>
+    				<div class="box-body with-border" id="parceria-externa-form-div" style="display:none;">
+    					<form class="col-md-6" role="form" th:object="${parceriaExterna}" method="POST" id="formParceriaExterna">
+							<div class="box-body with-border">
+								<div class="alert alert-warning alert-dismissible" id="error-parceiro" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Selecionar parceiro</p>
+								</div>
+								<div class="form-group">
+									<label>Instituição Parceira: </label>
+									<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}" required="required">
+										<option value="">Selecionar Parceiro</option>
+										<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option>
+									</select>
+									<br/>
+									<button class="btn btn-block btn-primary btn-xs" id="criarNovoParceiro">Criar parceiro</button>
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="checkBoxAlert" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Necessário escolher uma das opções abaixo.</p>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="geraDemandaFormasCheckBox" name="geraDemanda" th:checked="${parceriaExterna.geraDemanda}" th:field="${parceriaExterna.geraDemanda}"/>
+									Gera Demanda</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="definicaoAcoesCheckBox" name="definicaoAcoes" th:checked="${parceriaExterna.definicaoAcoes}" th:field="${parceriaExterna.definicaoAcoes}"/>
+									Define Ações</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="equipamentoFormasCheckBox" name="equipamento" th:checked="${parceriaExterna.equipamento}" th:field="${parceriaExterna.equipamento}"/>
+									Fornece Equipamento</label>
+									
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="financiamentoCheckBox" name="financiamento" th:checked="${parceriaExterna.financiamento}" th:field="${parceriaExterna.financiamento}" />
+									Financia</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+										<input type="checkbox" id="outrasFormasCheckBox" name="outrasFormas" th:checked="${parceriaExterna.outrasFormas}" th:field="${parceriaExterna.outrasFormas}"/>
+										Outras formas
+									</label>
+								</div>
+								<div class="form-group" id="divDescricaoOutrasFormas" style="display: none;">
+									<label class="col-sm-5">Descreva outras formas</label>
+									<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button id="cancelarAdicaoParceriaExterna" class="btn btn-default pull-left">Cancelar</button>
+							    <button id="submitBtnParceriaExternaForm" class="btn btn-primary pull-right">Salvar</button>
+							</div>
+						</form>
+    				</div>
+    				<div class="box-body with-border" id="parceiro-form-div" style="display:none;">
+						<form class="col-md-6" id="formParceiro" role="form" th:object="${parceiro}" method="POST">
+							<div class="box-body with-border">
+								<div class="alert alert-warning alert-dismissible" id="error-nome" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4> <i class="icon fa fa-warning"></i> Atenção! </h4>
+								</div>
+								<div class="form-group">
+									<label for="nome">Nome da Instituição:</label>
+									<input class="form-control" id="nomeParceiro" th:field="*{nome}" type="text" name="nome" />
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="error-tipo" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+									<p>Escolher tipo de instituição!</p>
+								</div>
+								<div class="form-group">
+									<label>Tipo da instituição:</label>
+									<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
+										<label><input type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+										<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+								   	<div class="col-lg-10 col-lg-offset-2">
+								   		<button id="cancelarAdicaoParceiro" class="btn btn-default pull-left">Cancelar</button>
+								       	<button id="submitBtnParceiroForm" class="btn btn-primary pull-right">Salvar</button>
+								   	</div>
+								</div>
+							</div>
+						</form>
+    				</div>
+    				<div class="box-body with-border">
+    					<table class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nome da Instituição</th>
+									<th data-toogle="tooltip" title="Gera Demanda">GD</th>
+									<th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
+									<th data-toogle="tooltip" title="Fornece Instalações e/ou Equipamentos">IE</th>
+									<th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
+									<th data-toogle="tooltip" title="Outras formas">OF</th>
+									<th data-toogle="tooltip" title="Gera Demanda">Descrição de outras formas</th>
+									<th></th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								
+								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}">
+									<td th:text="${rowStat.count}"></td>
+									<td th:text="${parceria.parceiro.nome}"></td>
+									<td>
+										<span th:if="${parceria.geraDemanda}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.geraDemanda}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td>
+										<span th:if="${parceria.definicaoAcoes}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.definicaoAcoes}" class="glyphicon glyphicon-remove"></span></td>
+									<td>
+										<span th:if="${parceria.equipamento}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.equipamento}" class="glyphicon glyphicon-remove"></span></td>
+									<td>
+										<span th:if="${parceria.financiamento}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.financiamento}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td>
+										<span th:if="${parceria.outrasFormas}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.outrasFormas}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
+									<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
+									<td data-toogle="tooltip" title="Excluir">
+										<a id="excluir-parceria-externa"
+											data-toggle="modal"
+											data-target="#confirm-delete-parceria-externa"
+											th:attr="data-href=${parceria.id}"
+											th:attrappend="data-row=${rowStat.index}">
+											<i class="glyphicon glyphicon-trash"></i>
+										</a>
+                            		</td>
+								</tr>
+							</tbody>
+						</table>
+    				</div>
+    			</div>
       			
       			<div class="row">
 					<div class="col-md-6 col-xs-12">
@@ -322,6 +487,28 @@
 			</section>
 			<!-- /.content -->
 		</div>
+		<div class="modal fade" id="confirm-delete-parceria-externa">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Excluir Parceria Externa</h4>
+              </div>
+              <div class="modal-body">
+              	<p>Tem certeza que deseja excluir essa parceria?</p>
+              </div>
+              <div class="modal-footer">
+              	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
+              	<input type="hidden" id="deleteParceriaTableIndex" name="deleteParceriaTableIndex" value="" />
+                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary btn-ok" id="deleteParceriaHiddenBtn">Confirmar</a>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 		<!-- /.content-wrapper -->
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
