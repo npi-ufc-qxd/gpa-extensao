@@ -5,34 +5,29 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGE_LOAD_PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
-import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
@@ -45,9 +40,6 @@ public class DirecaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
-	private ParecerRepository parecerRepository;
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
@@ -69,14 +61,19 @@ public class DirecaoController {
 		return PAGINA_INICIAL_DIRECAO;
 	}
 
-	@RequestMapping(value = "/parecerista{id}", method = RequestMethod.POST)
-	public String atribuirParecerista(@PathParam("id") Integer idAcaoExtensao, Parecer parecerTecnico, Model model) {
+	@RequestMapping(value = "/parecerista/{idAcao}", method = RequestMethod.POST)
+	public String atribuirParecerista(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerTecnico, Model model) {
 		try {
 			direcaoService.atribuirParecerista(idAcaoExtensao, parecerTecnico);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+	}
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 	
 	@RequestMapping(value = "/relator/{idAcao}", method = RequestMethod.POST)
@@ -88,6 +85,6 @@ public class DirecaoController {
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
 	}
 }

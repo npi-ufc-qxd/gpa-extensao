@@ -84,7 +84,7 @@
 
 			<li class="header">DIREÇÃO</li>
 			<li><a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
-					<span class="label label-primary pull-right">10</span>
+					<span class="label label-primary pull-right" th:text="${acoesDirecaoSize}"></span>
 			</a></li>
 			<li><a href="#"> <i class="fa fa-file-text-o"></i> <span>Relatórios</span>
 			</a></li>
@@ -118,7 +118,7 @@
 	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
 	<!-- jQuery Mask -->
 	<script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
-	<!-- Script da página inicial da direção -->
+	<!-- Scripts GPA -->
 	<script th:src="@{/gpa/direcao/index.js}"></script>
 	<!-- Script da listagem de ações da coordenação -->
 	<script th:src="@{/js/listagem.js}"></script>
