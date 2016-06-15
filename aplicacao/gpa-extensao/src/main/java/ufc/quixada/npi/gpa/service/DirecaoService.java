@@ -4,8 +4,8 @@ import java.util.List;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.Parecer;
-
 import ufc.quixada.npi.gpa.model.Pessoa;
+
 
 public interface DirecaoService {
 

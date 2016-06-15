@@ -63,7 +63,7 @@ public class AcaoExtensao {
 	@OneToMany(mappedBy = "acaoExtensao")
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Parecer parecerTecnico;
 	
 	@OneToOne(cascade = CascadeType.MERGE)

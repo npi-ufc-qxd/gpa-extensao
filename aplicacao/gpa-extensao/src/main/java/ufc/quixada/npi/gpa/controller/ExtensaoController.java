@@ -19,11 +19,17 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
+import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PARECER_TECNICO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
+
 import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
+
 
 
 import java.util.ArrayList;
@@ -61,6 +67,7 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
@@ -72,19 +79,28 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
+	
 	@Autowired
 	private ServidorRepository servirdorRepository;
+	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
+	
 	@Autowired
 	private AlunoRepository alunoRepository;
+	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
+	@Autowired
+	private ParecerRepository parecerRepository;
+
 	@Autowired
 	private DirecaoService direcaoService; 
 	
@@ -120,12 +136,17 @@ public class ExtensaoController {
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
 
+		model.addAttribute(ACAO_EXTENSAO, acao);
+		
+		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
+			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
+			model.addAttribute(PARECER_TECNICO, new Parecer());
+		}
+
 		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
 			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
 			model.addAttribute("parecerRelator", new Parecer());
 		}
-		
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
@@ -247,5 +268,10 @@ public class ExtensaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
+	}
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 }

@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.ATRIBUIR_PARECERISTA_EXCEPTION;
 
 import java.util.Date;
 import java.util.List;
@@ -15,14 +15,13 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Service
 @Transactional
 public class DirecaoServiceImpl implements DirecaoService {
-	
+
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
@@ -39,11 +38,13 @@ public class DirecaoServiceImpl implements DirecaoService {
 		AcaoExtensao acaoExtensao = carregarAcaoExtensao(idAcaoExtensao);
 
 		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)) {
+			parecerTecnico.setDataAtribuicao(new Date());
 			acaoExtensao.setParecerTecnico(parecerTecnico);
 
+			acaoExtensao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
 			acaoExtensaoRepository.save(acaoExtensao);
 		} else {
-			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
+			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
 
 	}
@@ -60,7 +61,7 @@ public class DirecaoServiceImpl implements DirecaoService {
 			acaoExtensao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
 			acaoExtensaoRepository.save(acaoExtensao);
 		} else {
-			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
+			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
 	}
 

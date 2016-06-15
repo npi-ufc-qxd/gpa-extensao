@@ -53,7 +53,6 @@
       						</li>
       						<li th:switch="${acaoExtensao.status.descricao}">
       							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
-      							
       						</li>
       					</ul>
       					<ul class="col-sm-6 list-inline">
@@ -180,55 +179,78 @@
       				
       				
       			</div>
-    			
-    			<div class="row">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="box box-info">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Parecer Técnico</h3>
-                            </div>
-                            <div class="box-body">
-                                <div th:if="${acaoExtensao.parecerTecnico != null}">
-                                    <dl class="dl-horizontal">
-                                        <dt>Parecerista:</dt>
-                                        <dd th:text="${acaoExtensao.parecerTecnico.responsavel.nome}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Data da atribuição:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')}"></dd>
+      			
+      			<div class="row">
+					<div class="col-md-6 col-xs-12">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Parecer Técnico</h3>
+							</div>
+							<div class="box-body">
+								<div th:if="${acaoExtensao.parecerTecnico != null}">
+									<dl class="dl-horizontal">
+										<dt>Parecerista:</dt>
+										<dd th:text="${acaoExtensao.parecerTecnico.responsavel} ? ${acaoExtensao.parecerTecnico.responsavel.nome} : '-'"></dd>
+									</dl>
+									<dl class="dl-horizontal">
+										<dt>Data da atribuição:</dt>
+										<dd
+											th:text="${acaoExtensao.parecerTecnico.dataAtribuicao} ? ${#dates.format(acaoExtensao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></dd>
 
-                                        <dt>Prazo estimado:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.prazo, 'dd/MM/yyyy')}"></dd>
+										<dt>Prazo estimado:</dt>
+										<dd
+											th:text="${acaoExtensao.parecerTecnico.prazo} ? ${#dates.format(acaoExtensao.parecerTecnico.prazo, 'dd/MM/yyyy')} : '-'"></dd>
 
-                                        <dt>Data da realização:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Posicionamento:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerTecnico.posicionamento.descricao}"></dd>
+										<dt>Data da realização:</dt>
+										<dd
+											th:text="${acaoExtensao.parecerTecnico.dataRealizacao} ? ${#dates.format(acaoExtensao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')} : '-'"></dd>
+									</dl>
+									<dl class="dl-horizontal">
+										<dt>Posicionamento:</dt>
+										<dd
+											th:text="${acaoExtensao.parecerTecnico.posicionamento} ? ${acaoExtensao.parecerTecnico.posicionamento.descricao} : '-'"></dd>
 
-                                        <dt>Parecer:</dt>
-                                        <dd th:text="${acaoExtensao.parecerTecnico.parecer}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Arquivo:</dt>
-                                    </dl>
-                                </div>
-                                
-                                <div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}">
-                                    <form th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
-                                        <select id="select-pareceristas" required="required">
-                                            <option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- Parecer técnico -->
+										<dt>Parecer:</dt>
+										<dd th:text="${acaoExtensao.parecerTecnico.parecer} ? ${acaoExtensao.parecerTecnico.parecer} : '-'"></dd>
+									</dl>
+									<dl class="dl-horizontal">
+										<dt>Arquivo:</dt>
+										<dd th:text="${acaoExtensao.parecerTecnico.arquivo} ? ${acaoExtensao.parecerTecnico.arquivo.nome} : '-'"></dd>
+									</dl>
+								</div>
+								
+								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}">
+									<div class="alert alert-warning alert-dismissible">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+										<i class="icon fa fa-warning"></i>
+										<span>Nenhum parecerista atribuído.</span>
+									</div>
+									<form class="form-horizontal" th:object="${parecerTecnico}" th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
+										<div class="col-md-12">
+											<div class="form-group">
+											<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
+											<select id="select-pareceristas" class="form-control col-md-	" th:field="*{responsavel}" required="required">
+												<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="prazo-parecer-tecnico" class="control-label">Prazo para emitir parecer:</label>
+											<div class="input-group date">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{prazo}" />
+											</div>
+										</div>
+										<div class="form-group">
+											<input value="Atribuir" class="btn btn-info center-block" title="Atribuir parecerista técnico" type="submit" />
+										</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div><!-- Parecer técnico -->
 
 
                     <div class="col-md-6 col-xs-12">
