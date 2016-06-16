@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -59,13 +60,13 @@ public class AcaoExtensao {
 	@OneToMany(mappedBy = "acaoExtensao")
 	private List<Participacao> equipeDeTrabalho;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade=CascadeType.MERGE)
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Parecer parecerTecnico;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Parecer parecerRelator;
 
 	public AcaoExtensao() {

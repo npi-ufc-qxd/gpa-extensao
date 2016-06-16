@@ -2,6 +2,12 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
@@ -9,11 +15,25 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
+
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
+
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
+
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PARECER_TECNICO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
+
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
+import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +49,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
@@ -44,9 +67,12 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
+import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -54,11 +80,15 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-
+	
+	@Autowired
+	private ParceriaExternaRepository parceriaExternaRepository;
 	@Autowired
 	private ServidorRepository servirdorRepository;
+	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 	
@@ -71,26 +101,82 @@ public class ExtensaoController {
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
 	
+	@Autowired
+	private ParecerRepository parecerRepository;
+
+	@Autowired
+	private DirecaoService direcaoService; 
+	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
+	}
+	
+	@RequestMapping("/coordenacao/listagem")
+	public String listagem(Model model, Authentication authentication) {
+		
+		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
+		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
+		List<Status> statusNovo = Arrays.asList(Status.NOVO);
+		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
+		
+		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
+		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
+		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
+		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoRepository.getParecerRelator(pessoa.getId()));
+		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
+		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoRepository.getParticipacao(pessoa.getId()));
+		
+		return PAGINA_LISTAR_ACOES_COORDENACAO;
 	}
 
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model,
 			RedirectAttributes redirectAttributes){
+		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
+		
+		model.addAttribute("parceiro",new Parceiro());
+		model.addAttribute("parceriaExterna",new ParceriaExterna());
+		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
 
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
+
+		model.addAttribute(ACAO_EXTENSAO, acao);
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
+		
+		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
+			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
+			model.addAttribute(PARECER_TECNICO, new Parecer());
+		}
+
+		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
+			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
+			model.addAttribute("parecerRelator", new Parecer());
+		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
+	}
+	
+	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)
+	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acao.setCodigo(codigo);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+	}
+	
+	@RequestMapping(value = "/salvarbolsas/{id}", method=RequestMethod.POST)
+	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acao.setBolsasRecebidas(numeroBolsas);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
 	@RequestMapping(value="/participacoes/{idAcao}", method=RequestMethod.POST)
@@ -174,10 +260,22 @@ public class ExtensaoController {
 		}
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
 		parceria.setAcaoExtensao(acaoExtensao);
-		acaoExtensao.addParceriaExterna(parceria);
-		acaoExtensaoRepository.save(acaoExtensao);
+		parceriaExternaRepository.save(parceria);
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
+	}
+	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
+	public void deleteParceriaExterna(@PathVariable("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
+		acao.getParceriasExternas().remove(parceria);
+		parceriaExternaRepository.delete(idParceriaExterna);
+		acaoExtensaoRepository.save(acao);
+	}	
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 }
