@@ -3,6 +3,7 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
@@ -14,24 +15,21 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTE
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECER_TECNICO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,11 +52,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
-import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Parecer;
@@ -69,7 +67,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
-import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
@@ -103,9 +100,6 @@ public class ExtensaoController {
 	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
-	private DocumentoRepository documentoRepository;
 	
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
@@ -307,14 +301,13 @@ public class ExtensaoController {
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
 	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			Authentication authentication, Model model) {
-		
 		try {
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
-		} catch (IOException e) {
-			System.out.println("Ocorreu um erro em salvar a ação de extensão "+e.getMessage());
-			e.printStackTrace();
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO,e.getMessage());
+			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
-		
+		model.addAttribute(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return PAGINA_INICIAL;		
 	}
 	
