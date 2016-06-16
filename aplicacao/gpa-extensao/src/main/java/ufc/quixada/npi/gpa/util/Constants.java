@@ -23,7 +23,7 @@ public class Constants {
 	public static final String ACOES_AGUARDANDO_RELATOR = "acoesAguardandoRelator";
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
-	public static final String ACAO_EXTENSAO = "acaoextensao";
+	public static final String ACAO_EXTENSAO = "acaoExtensao";
 	public static final String PERMISSAO_COORDENADOR = "coordenador";
 	public static final String PERMISSAO_DIRETOR = "diretor";
 	public static final String PERMISSAO_PARECERISTA = "parecerista";
@@ -49,7 +49,7 @@ public class Constants {
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	
 	//Mensagens
-	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
+	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "O Usuário já participa desse projeto";
 	public static final String ERRO = "erro";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";

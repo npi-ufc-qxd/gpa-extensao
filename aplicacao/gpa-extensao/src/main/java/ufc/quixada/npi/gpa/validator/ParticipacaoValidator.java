@@ -30,14 +30,14 @@ public class ParticipacaoValidator implements org.springframework.validation.Val
 		if (p.getParticipante() != null) {
 			for (Participacao participacao : participacoes) {
 				if (p.getParticipante().equals(participacao.getParticipante())) {
-					errors.reject(ERROR_PESSOA_JA_PARTICIPANTE, ERROR_PESSOA_JA_PARTICIPANTE);
+					errors.rejectValue("participante", ERROR_PESSOA_JA_PARTICIPANTE);
 					continue;
 				}
 			}
 		} else if (p.getCpfParticipante() != null) {
 			for (Participacao participacao : participacoes) {
 				if (p.getCpfParticipante().equals(participacao.getCpfParticipante())) {
-					errors.reject(ERROR_PESSOA_JA_PARTICIPANTE, ERROR_PESSOA_JA_PARTICIPANTE);
+					errors.reject("cpfParticipante", ERROR_PESSOA_JA_PARTICIPANTE);
 					continue;
 				}
 			}

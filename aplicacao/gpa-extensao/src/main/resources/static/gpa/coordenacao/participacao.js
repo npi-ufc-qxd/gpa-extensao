@@ -1,10 +1,23 @@
 $(document).ready(function() {
 	
+	var acaoExtensaoId = $("#acaoExtensaoId").val();
+	carregarTable(acaoExtensaoId);
+	
+	$("#formAdicionarParticipacao").hide();
+	
+	$("#buttonAdicionarParticipacao").click(function() {
+		$("#formAdicionarParticipacao").show(1500);
+		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
+	});
+	
+	$("#cancelarNovaParticipacao").click(function() {
+		$("#formAdicionarParticipacao").hide(1500);
+		$("#buttonAdicionarParticipacao").removeAttr("disabled");
+	});
+	
 	$("#selectFuncao, #selectPessoa, #selectInstituicao").select2();
 	
-	$("#divNomeCpf, #divDescricaoFuncao ,#divNomeInstituicao, #spanParticipante").hide();
-	
-	buscaPessoas("ALUNO_VOLUNTARIO");
+	$("#divNomeCpf, #divDescricaoFuncao ,#divNomeInstituicao").hide();
 	
 	$("#cpfParticipante").mask("999.999.999-99");
 	
@@ -14,24 +27,24 @@ $(document).ready(function() {
 		
 		if(funcao == "OUTRA") {
 			reset();
-			$("#selectPessoa").val("");
+			$("#selectPessoa").attr("selectedIndex", -1);
 			$("#divSelectPessoa").hide(1000);
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
 			$("#divNomeCpf, #divDescricaoFuncao").show(1000);
+			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "ALUNO_VOLUNTARIO") {
 			reset();
 			$("#cargaHoraria").attr({"max" : "12", "min" : "12"});
 			buscaPessoas(funcao);
 		} else if(funcao == "STA" || funcao == "DOCENTE") {
 			reset();
-			$("#spanParticipante").show();
 			buscaPessoas(funcao);
 		}
 	});
 	
 	function reset() {
 		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$("#divNomeCpf, #divDescricaoFuncao, #spanParticipante").hide(1000);
+		$("#divNomeCpf, #divDescricaoFuncao").hide(1000);
 		$("#divSelectPessoa").show(1000);
 		$("#cargaHoraria").removeAttr('max').removeAttr('min');
 	}
@@ -57,14 +70,12 @@ $(document).ready(function() {
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectPessoa').empty();
+				var newOption = $('<option value="" selected="selected">A Selecionar...</option>');
+				$('#selectPessoa').append(newOption);
 				for (var i = 0; i < data.length; i++) {
-					var newOption = $('<option value=' + data[i].id + ' id="' + data[i].dedicacao + '">'
+					var newOption = $('<option value=' + data[i].pessoa.id + ' id="' + data[i].dedicacao + '">'
 							+ data[i].pessoa.nome
 							+ '</option>');
-					$('#selectPessoa').append(newOption);
-				}
-				if(funcao == "ALUNO_VOLUNTARIO") {
-					var newOption = $('<option value=" ">A Selecionar...</option>');
 					$('#selectPessoa').append(newOption);
 				}
 			}
@@ -95,15 +106,47 @@ $(document).ready(function() {
 		}
 	});
 	
-	$(".table-participacoes").DataTable({
-		"filter" : false,
-		"columnDefs": [
-		    {className: "dt-center", "targets": [ 1, 4]},
-		    {"targets": 4, "orderable": false}
-		],
-		"language": {
-            "url": "/gpa-extensao/js/Portuguese-Brasil.json"
-        },
-        "paging":false,
+	$("#submitParticipacao").click(function(e) {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		var baseURL = '/gpa-extensao/participacoes/';
+		$.ajax({
+			url : baseURL + acaoExtensaoId,
+			beforeSend: function (request)
+		    {
+				 request.setRequestHeader(header, token);
+		    },
+			type : 'POST',
+			async: false,
+			data : $("#formNovaParticipacao").serialize(),
+			error: function(){
+		        return false;
+		    },
+			success : function(data) {
+				if(data.status=="OK"){
+					var alertDiv = $("#divSucesso");
+					alertDiv.show();
+					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					carregarTable(acaoExtensaoId);
+					e.preventDefault();
+				}else{
+					for (var i = 0; i < data.result.length; i++) {
+						var alertDiv = $("#divError");
+						alertDiv.append("<p>"+data.result[i].code+"</p>");
+						alertDiv.show();
+				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					}
+					e.preventDefault();
+					return false;
+				}
+				
+			}
+		});
 	});
+	
+	function carregarTable(acaoExtensaoId) {
+		var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;;
+	    
+	    $("#resultsBlock").load(url);
+	}
 });

@@ -6,13 +6,10 @@ import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
@@ -89,41 +86,28 @@ public class ExtensaoController {
 		}
 
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
+		model.addAttribute("novaParticipacao", new Participacao());
+		model.addAttribute("funcoes", listaDeFuncoes());
+		model.addAttribute("instituicoes", Instituicao.values());
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
 	
-	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
-	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("idAcao", id);
-		model.addAttribute("participacao", new Participacao());
-		model.addAttribute("funcoes", listaDeFuncoes());
-		model.addAttribute("instituicoes", Instituicao.values());
-		
-		return PAGINA_ADICIONAR_PARTICIPACAO;
-	}
-	
 	@RequestMapping(value="/participacoes/{idAcao}", method=RequestMethod.POST)
-	public String adicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
+	public @ResponseBody Map<String, Object> adicionarParticipacao(@Valid @ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		
-		if(acao == null) {
-			redirectAttributes.addFlashAttribute("erro", "Projeto inexistente");
-			return "/";
-		}
 		
 		participacao.setCpfParticipante(participacao.getCpfParticipante().replaceAll("[^0-9]", ""));
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result.hasErrors()) {
-			model.addAttribute("idAcao", idAcao);
-			model.addAttribute("participacao", participacao);
-			model.addAttribute("funcoes", listaDeFuncoes());
-			model.addAttribute("instituicoes", Instituicao.values());
-			return PAGINA_ADICIONAR_PARTICIPACAO;
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
+			map.put(RESPONSE_DATA, result.getFieldErrors());
+			return map;
 		}
 		
 		Pessoa usuario = pessoaRepository.getByCpf(authentication.getName());
@@ -137,18 +121,11 @@ public class ExtensaoController {
 		
 		participacaoRepository.save(participacao);
 		
-		return REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO+idAcao;
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		return map;
 	}
-	
-	@RequestMapping(value="/listar-participacoes/{id}", method=RequestMethod.GET)
-	public String listarParticipacoes(@PathVariable("id") Integer id, Model model) {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-		
-		return PAGINA_LISTAR_PARTICIPACOES;
-	}
-	
-	
+
 	@RequestMapping("/buscarServidores")
 	public @ResponseBody List<Servidor> buscarServidores() {
 		return servirdorRepository.findAll();
@@ -157,6 +134,14 @@ public class ExtensaoController {
 	@RequestMapping("/buscarAlunos")
 	public @ResponseBody List<Aluno> buscarAlunos() {
 		return alunoRepository.findAll();
+	}
+	
+	@RequestMapping(value = "/buscarParticipacoes/{id}", method = RequestMethod.GET)
+	public String buscaParticipacoes(Model model, @PathVariable("id") Integer id) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
+	    
+	    return "coordenacao/crud/results :: resultsList";
 	}
 	
 	private List<Funcao> listaDeFuncoes() {
