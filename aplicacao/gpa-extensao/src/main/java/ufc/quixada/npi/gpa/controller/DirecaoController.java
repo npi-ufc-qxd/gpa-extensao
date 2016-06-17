@@ -10,8 +10,6 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.LOAD_PARECER_TECNICO_FORM;
-import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,16 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
@@ -44,9 +39,6 @@ public class DirecaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
-	private ParecerRepository parecerRepository;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Long acoesDirecaoSize(){
@@ -72,12 +64,6 @@ public class DirecaoController {
 
 		return PAGINA_INICIAL_DIRECAO;
 	}
-	
-	@RequestMapping(value = "/parecerista", method = RequestMethod.GET)
-	public String alterarPareceristaForm(AcaoExtensao acaoExtensao, Model model){
-		model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(acaoExtensao.getId()));
-		return LOAD_PARECER_TECNICO_FORM;
-	}
 
 	@RequestMapping(value = "/parecerista", method = RequestMethod.POST)
 	public String atribuirParecerista(AcaoExtensao acaoExtensao, Model model) {
@@ -89,15 +75,13 @@ public class DirecaoController {
 		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
 	}
 	
-	@RequestMapping(value = "/relator/{idAcao}", method = RequestMethod.POST)
-	public String atribuirRelator(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerRelator, Model model) {
+	@RequestMapping(value = "/relator", method = RequestMethod.POST)
+	public String atribuirRelator(AcaoExtensao acaoExtensao, Model model) {
 		try {
-			
-			direcaoService.atribuirRelator(idAcaoExtensao, parecerRelator);
-			
+			direcaoService.atribuirRelator(acaoExtensao);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
 	}
 }
