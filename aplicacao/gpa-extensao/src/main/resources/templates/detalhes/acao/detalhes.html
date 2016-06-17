@@ -352,10 +352,15 @@
 								<h3 class="box-title">Parecer Técnico</h3>
 							</div>
 							<div class="box-body">
-								<div th:if="${acaoExtensao.parecerTecnico != null}">
+								<div id="parecer-tecnico-info" th:style="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'} ? 'display: none'">
 									<dl class="dl-horizontal">
 										<dt>Parecerista:</dt>
-										<dd th:text="${acaoExtensao.parecerTecnico.responsavel} ? ${acaoExtensao.parecerTecnico.responsavel.nome} : '-'"></dd>
+										<dd>
+											<span th:text="${acaoExtensao.parecerTecnico.responsavel} ? ${acaoExtensao.parecerTecnico.responsavel.nome} : '-'"></span>
+											<a id="alterar-parecerista-button" class="btn btn-xs btn-warning" title="Alterar Parecerista" th:attr="data-id=${acaoExtensao.id}">
+												<i class="fa fa-edit"></i>
+											</a>
+										</dd>
 									</dl>
 									<dl class="dl-horizontal">
 										<dt>Data da atribuição:</dt>
@@ -384,34 +389,38 @@
 									</dl>
 								</div>
 								
-								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}">
-									<div class="alert alert-warning alert-dismissible">
-										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-										<i class="icon fa fa-warning"></i>
-										<span>Nenhum parecerista atribuído.</span>
-									</div>
-									<form class="form-horizontal" th:object="${parecerTecnico}" th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
-										<div class="col-md-12">
-											<div class="form-group">
-											<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
-											<select id="select-pareceristas" class="form-control col-md-	" th:field="*{responsavel}" required="required">
-												<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
-											</select>
+								<div id="parecer-tecnico-form" th:style="${acaoExtensao.status.descricao != 'AGUARDANDO PARECERISTA'} ? 'display: none'">
+									<div th:fragment="parecer-tecnico-form">
+										<div th:if="${alerta}" class="alert alert-warning alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+											<i class="icon fa fa-warning"></i>
+											<span th:text="${alerta}"></span>
 										</div>
-										<div class="form-group">
-											<label for="prazo-parecer-tecnico" class="control-label">Prazo para emitir parecer:</label>
-											<div class="input-group date">
-												<div class="input-group-addon">
-													<i class="fa fa-calendar"></i>
-												</div>
-												<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{prazo}" />
+										<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista}" method="post">
+											<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
+											<div class="col-md-12">
+												<div class="form-group">
+												<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
+												<input type="hidden" th:value="${acaoExtensao.parecerTecnico.id}" th:field="*{parecerTecnico.id}"/>
+												<select class="select-parecer form-control" th:field="*{parecerTecnico.responsavel}" required="required">
+													<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
+												</select>
 											</div>
-										</div>
-										<div class="form-group">
-											<input value="Atribuir" class="btn btn-info center-block" title="Atribuir parecerista técnico" type="submit" />
-										</div>
-										</div>
-									</form>
+											<div class="form-group">
+												<label for="prazo-parecer-tecnico" class="control-label">Prazo para emitir parecer:</label>
+												<div class="input-group date">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{parecerTecnico.prazo}" />
+												</div>
+											</div>
+											<div class="form-group">
+												<input value="Atribuir" class="btn btn-info center-block" title="Atribuir parecerista técnico" type="submit" />
+											</div>
+											</div>
+										</form>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -465,7 +474,7 @@
 	                                		<div class="col md-12">
 		                                		<div class="form-group">
 		                                			<label class="control-label col-md-5" for="select-relatores"> Selecione um relator:</label>
-		                                        	<select id="select-relatores" th:field="*{responsavel}" required="required">
+		                                        	<select class="select-parecer form-control" th:field="*{responsavel}" required="required">
 		                                            	<option th:each="relator : ${relatores}" th:value="${relator.id}" th:text="${relator.nome}"/>
 		                                        	</select>
 		                                        </div>
