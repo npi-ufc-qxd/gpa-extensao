@@ -401,6 +401,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 												<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
+												<input type="hidden" th:value="${acaoExtensao.parecerTecnico.id}" th:field="*{parecerTecnico.id}"/>
 												<select class="select-parecer form-control" th:field="*{parecerTecnico.responsavel}" required="required">
 													<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
 												</select>
