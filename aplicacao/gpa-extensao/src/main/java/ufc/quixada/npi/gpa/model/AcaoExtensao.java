@@ -35,9 +35,9 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
 	
-	private int horasPraticas;
+	private Integer horasPraticas;
 	
-	private int horasTeoricas;
+	private Integer horasTeoricas;
 		
 	private String ementa;
 		
@@ -155,19 +155,19 @@ public class AcaoExtensao {
 		this.modalidade = modalidade;
 	}
 
-	public int getHorasPraticas() {
+	public Integer getHorasPraticas() {
 		return horasPraticas;
 	}
 
-	public void setHorasPraticas(int horasPraticas) {
+	public void setHorasPraticas(Integer horasPraticas) {
 		this.horasPraticas = horasPraticas;
 	}
 
-	public int getHorasTeoricas() {
+	public Integer getHorasTeoricas() {
 		return horasTeoricas;
 	}
 
-	public void setHorasTeoricas(int horasTeoricas) {
+	public void setHorasTeoricas(Integer horasTeoricas) {
 		this.horasTeoricas = horasTeoricas;
 	}
 

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	$("#select-pareceristas").select2();
+	$(".select-parecer").select2();
 	
 	$(".prazo-parecer").datepicker({
 	    format: "dd/mm/yyyy",
@@ -10,13 +10,9 @@ $(document).ready(function(){
 	    autoclose: true
 	});
 	
-	$("#select-relatores").select2()
-	
-	$(".prazo-parecer").datepicker({
-        format: "dd/mm/yyyy",
-        startDate: "+1d",
-        clearBtn: true,
-        language: "pt-BR"
-    });
+	$("#alterar-parecerista-button").on("click", function(){
+		$("#parecer-tecnico-info").hide();
+		$("#parecer-tecnico-form").show(1000);
+	});
 	
 });

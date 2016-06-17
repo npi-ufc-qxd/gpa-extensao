@@ -34,15 +34,15 @@ public class DirecaoServiceImpl implements DirecaoService {
 	}
 
 	@Override
-	public void atribuirParecerista(Integer idAcaoExtensao, Parecer parecerTecnico) throws GpaExtensaoException {
-		AcaoExtensao acaoExtensao = carregarAcaoExtensao(idAcaoExtensao);
+	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		acao.setParecerTecnico(acaoExtensao.getParecerTecnico());
 
-		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)) {
-			parecerTecnico.setDataAtribuicao(new Date());
-			acaoExtensao.setParecerTecnico(parecerTecnico);
+		if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
-			acaoExtensao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
-			acaoExtensaoRepository.save(acaoExtensao);
+			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+			acaoExtensaoRepository.save(acao);
 		} else {
 			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
@@ -51,7 +51,7 @@ public class DirecaoServiceImpl implements DirecaoService {
 	
 	@Override
 	public void atribuirRelator(Integer idAcaoExtensao, Parecer parecerRelator) throws GpaExtensaoException {
-		AcaoExtensao acaoExtensao = carregarAcaoExtensao(idAcaoExtensao);
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 		
 		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_RELATOR)) {
 			
@@ -65,7 +65,4 @@ public class DirecaoServiceImpl implements DirecaoService {
 		}
 	}
 
-	private AcaoExtensao carregarAcaoExtensao(Integer idAcaoExtensao) {
-		return acaoExtensaoRepository.findOne(idAcaoExtensao);
-	}
 }
