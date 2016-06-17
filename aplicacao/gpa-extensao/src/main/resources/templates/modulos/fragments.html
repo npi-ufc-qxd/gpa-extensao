@@ -33,6 +33,15 @@
 	<!-- Select2 -->
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
+	<!-- Bootstrap Datapicker -->
+	<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>	
+	
+	<!-- jQuery 2.2.0 -->
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js}"></script>
+	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
 </head>
 <!-- Fim do head -->
 
@@ -75,7 +84,7 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header">COORDENAÇÃO</li>
-			<li class="active"><a href="#"> <i class="fa fa-plus"></i>
+			<li class="active"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
 			<li><a th:href="@{/coordenacao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
@@ -127,9 +136,11 @@
 	<script th:src="@{/js/parceria-externa.js}"></script>
 	<script th:src="@{/js/detalheAcao.js}"></script>
 	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
+	<script th:src="@{/js/cadastrarAcao.js}"></script>
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 	<!-- AdminLTE App -->
@@ -139,6 +150,8 @@
 	<!-- Data Tables -->
 	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+	<!-- Jquery Validation -->
+	<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
 	<!-- Select 2 -->
 	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
 	

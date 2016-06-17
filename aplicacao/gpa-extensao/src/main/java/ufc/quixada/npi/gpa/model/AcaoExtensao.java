@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+
+
 @Entity
 public class AcaoExtensao {
 	
@@ -32,6 +34,14 @@ public class AcaoExtensao {
 	
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
+	
+	private int horasPraticas;
+	
+	private int horasTeoricas;
+		
+	private String ementa;
+		
+	private String programacao;
 	
 	private Date inicio;
 	
@@ -145,6 +155,38 @@ public class AcaoExtensao {
 		this.modalidade = modalidade;
 	}
 
+	public int getHorasPraticas() {
+		return horasPraticas;
+	}
+
+	public void setHorasPraticas(int horasPraticas) {
+		this.horasPraticas = horasPraticas;
+	}
+
+	public int getHorasTeoricas() {
+		return horasTeoricas;
+	}
+
+	public void setHorasTeoricas(int horasTeoricas) {
+		this.horasTeoricas = horasTeoricas;
+	}
+
+	public String getEmenta() {
+		return ementa;
+	}
+
+	public void setEmenta(String ementa) {
+		this.ementa = ementa;
+	}
+
+	public String getProgramacao() {
+		return programacao;
+	}
+
+	public void setProgramacao(String programacao) {
+		this.programacao = programacao;
+	}
+	
 	public Date getInicio() {
 		return inicio;
 	}
