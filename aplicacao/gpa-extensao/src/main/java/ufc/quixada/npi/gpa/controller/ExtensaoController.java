@@ -144,11 +144,17 @@ public class ExtensaoController {
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(ALERTA, MESSAGE_PARECERISTA_NAO_ATRIBUIDO);
 			acao.setParecerTecnico(new Parecer());
-		}
-
-		if( acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
+			
+		} else if(acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
 			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
 			model.addAttribute("parecerRelator", new Parecer());
+			
+		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)){
+			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
+			
+		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
+			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
+			
 		}
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);

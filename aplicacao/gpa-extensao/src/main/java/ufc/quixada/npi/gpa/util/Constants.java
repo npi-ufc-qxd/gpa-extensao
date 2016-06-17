@@ -32,7 +32,6 @@ public class Constants {
 	public static final String PERMISSAO_PARTICIPANTE = "participante";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
-	public static final String PARECER_TECNICO = "parecerTecnico";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
 	public static final String ACOES_NOVAS = "acoesNovas";
@@ -54,6 +53,9 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
+	
+	//Load fragments
+	public static final String LOAD_PARECER_TECNICO_FORM = "detalhes/acao/detalhes :: parecer-tecnico-form";
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
