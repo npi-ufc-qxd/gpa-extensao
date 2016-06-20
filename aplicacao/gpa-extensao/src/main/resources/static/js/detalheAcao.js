@@ -20,21 +20,5 @@ $(document).ready(function(){
 
 	});
 	
-	$('#excluiracao').click(function() {
-		var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
-		$.ajax({url: "/gpa-extensao/deletar/" + acaoExtensaoId,
-			type : 'POST',
-			beforeSend: function (request)
-            {
-				 request.setRequestHeader(header, token);
-            },
-			complete: function(){
-				window.location.replace("http://localhost:8080/gpa-extensao/coordenacao/listagem");
-	    }});
-			    
-	});
-	
-
 	
 });
