@@ -123,7 +123,6 @@ public class ExtensaoController {
 	
 	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id){
-		System.out.println("deu certoooooooooooooooo");
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		acaoExtensaoRepository.delete(acao);
 		return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;

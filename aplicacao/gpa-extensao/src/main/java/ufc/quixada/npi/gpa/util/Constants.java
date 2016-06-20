@@ -52,16 +52,8 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-<<<<<<< HEAD
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
-	
-	//Load fragments
-	public static final String LOAD_PARECER_TECNICO_FORM = "detalhes/acao/detalhes :: parecer-tecnico-form";
-=======
-	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
-	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
->>>>>>> refs/heads/master
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
