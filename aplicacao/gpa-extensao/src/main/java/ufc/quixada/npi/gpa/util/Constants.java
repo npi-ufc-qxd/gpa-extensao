@@ -55,17 +55,16 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
-	//Load fragments
-	public static final String LOAD_PARECER_TECNICO_FORM = "detalhes/acao/detalhes :: parecer-tecnico-form";
-	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String ATRIBUIR_PARECERISTA_EXCEPTION = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	
 	//Mensagens
 	public static final String ERRO = "erro";
-	public static final String ALERTA = "alerta";
+	public static final String ALERTA_PARECER = "alertaParecer";
+	public static final String ALERTA_RELATO = "alertaRelato";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
+	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
