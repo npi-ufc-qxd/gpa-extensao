@@ -52,11 +52,16 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+<<<<<<< HEAD
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
 	//Load fragments
 	public static final String LOAD_PARECER_TECNICO_FORM = "detalhes/acao/detalhes :: parecer-tecnico-form";
+=======
+	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
+	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
+>>>>>>> refs/heads/master
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
@@ -64,8 +69,10 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
-	public static final String ALERTA = "alerta";
+	public static final String ALERTA_PARECER = "alertaParecer";
+	public static final String ALERTA_RELATO = "alertaRelato";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
+	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";

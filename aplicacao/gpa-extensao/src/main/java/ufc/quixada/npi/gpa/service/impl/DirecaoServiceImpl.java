@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
@@ -50,16 +49,15 @@ public class DirecaoServiceImpl implements DirecaoService {
 	}
 	
 	@Override
-	public void atribuirRelator(Integer idAcaoExtensao, Parecer parecerRelator) throws GpaExtensaoException {
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+	public void atribuirRelator(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		acao.setParecerRelator(acaoExtensao.getParecerRelator());
 		
-		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_RELATOR)) {
-			
-			parecerRelator.setDataAtribuicao(new Date());
+		if (acao.getStatus().equals(Status.AGUARDANDO_RELATOR) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)) {
+			acao.getParecerRelator().setDataAtribuicao(new Date());
 
-			acaoExtensao.setParecerRelator(parecerRelator);
-			acaoExtensao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
-			acaoExtensaoRepository.save(acaoExtensao);
+			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+			acaoExtensaoRepository.save(acao);
 		} else {
 			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
