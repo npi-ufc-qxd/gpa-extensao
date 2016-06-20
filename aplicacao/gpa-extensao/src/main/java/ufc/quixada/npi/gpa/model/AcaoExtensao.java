@@ -64,7 +64,7 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
 	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "acaoExtensao")

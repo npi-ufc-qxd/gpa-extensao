@@ -516,8 +516,10 @@
 						<h5>Tem certeza que deseja excluir esta ação?</h5>
 					</div>
 					<div class="modal-footer">
-						<button id="excluiracao" type="button" class="btn btn-success"
-							data-dismiss="modal">Sim</button>
+						
+							<a th:href="@{/deletar/__${acaoExtensao.id}__}" class="btn btn-success"
+							>Sim</a>
+		
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 					</div>
 				</div>
