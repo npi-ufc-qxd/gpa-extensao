@@ -121,6 +121,13 @@ public class ExtensaoController {
 		return PAGINA_INICIAL;
 	}
 	
+	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
+	public String deletar(@PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acaoExtensaoRepository.delete(acao);
+		return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
+	}
+	
 	@RequestMapping("/coordenacao/listagem")
 	public String listagem(Model model, Authentication authentication) {
 		

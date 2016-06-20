@@ -64,19 +64,19 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "acaoExtensao")
 	private List<Participacao> equipeDeTrabalho;
 	
-	@OneToMany(mappedBy = "acaoExtensao", cascade=CascadeType.MERGE)
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerTecnico;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
 
 	public AcaoExtensao() {
