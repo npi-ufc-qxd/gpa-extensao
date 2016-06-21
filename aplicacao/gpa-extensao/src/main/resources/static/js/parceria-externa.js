@@ -141,7 +141,7 @@ $(document).ready(function() {
             {
 				 request.setRequestHeader(header, token);
             },
-			type : 'GET',
+            type : 'GET',
 			complete: function(){
 				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex);
 			}

@@ -20,13 +20,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
@@ -40,6 +39,11 @@ public class DirecaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
+	}
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
@@ -61,30 +65,23 @@ public class DirecaoController {
 		return PAGINA_INICIAL_DIRECAO;
 	}
 
-	@RequestMapping(value = "/parecerista/{idAcao}", method = RequestMethod.POST)
-	public String atribuirParecerista(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerTecnico, Model model) {
+	@RequestMapping(value = "/parecerista", method = RequestMethod.POST)
+	public String atribuirParecerista(AcaoExtensao acaoExtensao, Model model) {
 		try {
-			direcaoService.atribuirParecerista(idAcaoExtensao, parecerTecnico);
+			direcaoService.atribuirParecerista(acaoExtensao);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
 	}
 	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
-	}
-	
-	@RequestMapping(value = "/relator/{idAcao}", method = RequestMethod.POST)
-	public String atribuirRelator(@PathVariable("idAcao") Integer idAcaoExtensao, Parecer parecerRelator, Model model) {
+	@RequestMapping(value = "/relator", method = RequestMethod.POST)
+	public String atribuirRelator(AcaoExtensao acaoExtensao, Model model) {
 		try {
-			
-			direcaoService.atribuirRelator(idAcaoExtensao, parecerRelator);
-			
+			direcaoService.atribuirRelator(acaoExtensao);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_ACAO_EXTENSAO + idAcaoExtensao;
+		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
 	}
 }

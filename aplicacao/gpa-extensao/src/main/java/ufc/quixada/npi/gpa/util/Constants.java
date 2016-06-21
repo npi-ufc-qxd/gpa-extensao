@@ -33,7 +33,6 @@ public class Constants {
 	public static final String PERMISSAO_PARTICIPANTE = "participante";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
-	public static final String PARECER_TECNICO = "parecerTecnico";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
 	public static final String ACOES_NOVAS = "acoesNovas";
@@ -55,7 +54,7 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
+	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	
@@ -65,6 +64,10 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
+	public static final String ALERTA_PARECER = "alertaParecer";
+	public static final String ALERTA_RELATO = "alertaRelato";
+	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
+	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
