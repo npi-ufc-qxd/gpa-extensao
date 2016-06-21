@@ -35,8 +35,10 @@
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
 	<!-- Bootstrap Datapicker -->
 	<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>	
-	
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/js/cadastrarAcao.js}"></script>
 </head>
 <!-- Fim do head -->
 
@@ -116,7 +118,6 @@
 	<![endif]-->
 	
 	<!-- jQuery 2.2.0 -->
-	<!-- script th:src="@{/js/jQuery-2.2.0.min.js}"></script-->
 	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
@@ -131,11 +132,10 @@
 	<script th:src="@{/js/parceria-externa.js}"></script>
 	<script th:src="@{/js/detalheAcao.js}"></script>
 	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
-	<script th:src="@{/js/cadastrarAcao.js}"></script>
+	
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
-	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
-	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
+	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 	<!-- AdminLTE App -->
