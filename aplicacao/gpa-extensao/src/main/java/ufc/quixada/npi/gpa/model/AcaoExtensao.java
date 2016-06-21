@@ -67,7 +67,7 @@ public class AcaoExtensao {
 	@OneToOne
 	private Documento anexo;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade=CascadeType.MERGE)
 	private List<Participacao> equipeDeTrabalho;
 	
 	@OneToMany(mappedBy = "acaoExtensao", cascade=CascadeType.MERGE)
