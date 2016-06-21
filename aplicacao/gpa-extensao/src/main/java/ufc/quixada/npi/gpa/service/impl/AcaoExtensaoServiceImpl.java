@@ -69,7 +69,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}else if(servidor.getFuncao().getDescricao() == "Técnico Administrativo"){
 			participante.setFuncao(Funcao.STA);
 		}
-		
+		participante.setParticipante(coordenador);
 		participante.setInstituicao(Instituicao.UFC);
 		
 		equipeDeTrabalho.add(participante);
