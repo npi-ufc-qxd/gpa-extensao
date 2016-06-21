@@ -92,8 +92,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -123,8 +123,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -154,8 +154,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -185,8 +185,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -216,8 +216,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -247,8 +247,8 @@
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td th:text="${acao.status.descricao}"></td>
-	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
-	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
 	  							</tbody>
 	  							</table>

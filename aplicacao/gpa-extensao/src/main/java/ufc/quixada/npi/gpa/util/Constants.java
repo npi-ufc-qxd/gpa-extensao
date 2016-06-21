@@ -67,7 +67,7 @@ public class Constants {
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
-
+	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
 	public static final String PAGINA_LISTAR_ACOES_COORDENACAO = "coordenacao/listagem/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
