@@ -12,6 +12,7 @@
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link rel="stylesheet"
 		th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}">
@@ -141,6 +142,13 @@
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
 	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
+	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>
+	<!-- 	* -->
+	<script th:src="@{/gpa/coordenacao/submeterAcao.js}"></script>
+	<script th:src="@{/js/moment.js}"></script>
+	<script th:src="@{/js/moment.min.js}"></script>
+	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 	<!-- AdminLTE App -->
@@ -154,6 +162,7 @@
 	<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
 	<!-- Select 2 -->
 	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
+	
 	
 </footer>
 <!-- Fim do rodapé -->

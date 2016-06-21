@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 @Entity
@@ -35,16 +37,16 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
 	
-	private int horasPraticas;
+	private Integer horasPraticas;
 	
-	private int horasTeoricas;
+	private Integer horasTeoricas;
 		
 	private String ementa;
 		
 	private String programacao;
-	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;
-	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
 	
 	private boolean prorrogavel;
@@ -155,19 +157,19 @@ public class AcaoExtensao {
 		this.modalidade = modalidade;
 	}
 
-	public int getHorasPraticas() {
+	public Integer getHorasPraticas() {
 		return horasPraticas;
 	}
 
-	public void setHorasPraticas(int horasPraticas) {
+	public void setHorasPraticas(Integer horasPraticas) {
 		this.horasPraticas = horasPraticas;
 	}
 
-	public int getHorasTeoricas() {
+	public Integer getHorasTeoricas() {
 		return horasTeoricas;
 	}
 
-	public void setHorasTeoricas(int horasTeoricas) {
+	public void setHorasTeoricas(Integer horasTeoricas) {
 		this.horasTeoricas = horasTeoricas;
 	}
 
