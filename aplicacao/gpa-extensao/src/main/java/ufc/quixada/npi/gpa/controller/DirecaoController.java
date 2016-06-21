@@ -1,13 +1,15 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_HOMOLOGACAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECER;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
-import static ufc.quixada.npi.gpa.util.Constants.LOAD_PARECERISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
+import static ufc.quixada.npi.gpa.util.Constants.LOAD_PARECERISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
@@ -70,5 +75,22 @@ public class DirecaoController {
 		direcaoService.atribuirParecerista(acaoExtensao, parecerista);
 
 		return null;
+	}
+	@RequestMapping(value = "/homologacao/{id}", method = RequestMethod.GET)
+	public String homologacao(@PathVariable("id") Integer id, Model model, Authentication authentication){
+
+		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
+
+		return PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;	
+	}
+	@RequestMapping(value = "/homologar/{id}", method = RequestMethod.POST)
+	public String homologar(@PathVariable("id") Integer id, @ModelAttribute("acaoextensao") AcaoExtensao acaoExtensao, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acao.setStatus(acaoExtensao.getStatus());
+		acao.setDataDeHomologacao(acaoExtensao.getDataDeHomologacao());
+		acaoExtensaoRepository.save(acao);
+		
+		redirectAttributes.addFlashAttribute("homologado", true);
+		return "redirect:/detalhes/" + id;
 	}
 }

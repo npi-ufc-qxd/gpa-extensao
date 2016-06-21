@@ -49,5 +49,6 @@ $(document).ready(function() {
 		    {"targets": 5, "orderable": false}
 		]
 	});
-
+	
+	$( "#dataHomologacao" ).datepicker('setDate', new Date());
 });

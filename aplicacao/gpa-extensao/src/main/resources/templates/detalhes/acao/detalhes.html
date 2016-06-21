@@ -20,9 +20,21 @@
 
 			<!-- Main content -->
 			<section class="content">
-            	
+            	<h4 th:text="${some}"></h4>
       			<div class="box box-widget">
       				<div class="box-header with-border">
+      					<div class="row" th:if="${homologado} == true">
+          					<div class="col-xs-12">
+            					<div class="box box-solid box-success">
+              						<div class="box-header">
+                						<h3 class="box-title">Ação de Extensão Homologada Com Sucesso!</h3>
+                						<div class="box-tools pull-right">
+                  							<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              							</div>
+          							</div>
+      							</div>
+  							</div>
+						</div>
       					<ul class=" col-sm-6 list-inline">
       							<li>
       								<label>Título:</label>
