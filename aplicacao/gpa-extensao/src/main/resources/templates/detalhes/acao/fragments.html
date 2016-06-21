@@ -85,6 +85,23 @@
 </div>
 
 
+<div id="pendencias-parecer-form" th:fragment="pendencias-parecer-form" style="display: none">
+	<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label for="descricao-pendencias-parecer" class="control-label">Descrição:</label>
+				<textarea id="descicao-pendencias-parecer" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências"></textarea>
+			</div>
+			
+			<div class="form-group text-center">
+				<input type="submit" value="Enviar Solicitação" class="btn btn-info" title="Solicitar resolução de pendências" />
+				<a id="cancelar-pendencia-parecer-button" class="btn btn-default" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
+			</div>
+		</div>
+	</form>
+</div>
+
+
 <div th:fragment="parecer-relator">
 	<div th:if="${alertaRelato}"
 		class="alert alert-warning alert-dismissible">
@@ -143,7 +160,7 @@
 					<input th:if="${acaoExtensao.parecerRelator.id}" type="hidden" th:value="${acaoExtensao.parecerRelator.id}" th:field="*{parecerRelator.id}"/>
 					<label class="control-label" for="select-relatores"> Selecione um relator:</label>
 					<select class="select-parecer form-control" th:field="*{parecerRelator.responsavel}" required="required">
-						<option th:each="relator : ${relatores}" th:value="${relator.id}" th:text="${relator.nome}" />
+						<option th:each="relator : ${pareceristas}" th:value="${relator.id}" th:text="${relator.nome}" />
 					</select>
 				</div>
 				<div class="form-group">

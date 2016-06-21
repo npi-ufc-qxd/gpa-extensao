@@ -333,18 +333,35 @@
 						<div class="box box-info">
 							<div class="box-header with-border">
 								<h3 class="box-title">Parecer Técnico</h3>
+								
+								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}" id="parecer-tecnico-acoes" class="box-tools pull-right dropdown">
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" aria-expanded="false">
+										<i class="glyphicon glyphicon-menu-hamburger"></i>
+									</a>
+									
+									<ul class="dropdown-menu">
+										<li><a id="pendencias-parecer-button" href="#pendencias-parecer-form">Solicitar resolução de pendências</a></li>
+										<li><a id="emitir-parecer-button" href="">Emitir parecer</a></li>
+									</ul>
+								</div>
 							</div>
 							<div class="box-body">
 								
-								<div th:if="${acaoExtensao.status.descricao == 'NOVO'}">
+								<div th:if="${acaoExtensao.parecerTecnico == null}">
 									
 									<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
 									
 								</div>
 								
-								<div th:unless="${acaoExtensao.status.descricao == 'NOVO'}">
+								<div th:unless="${acaoExtensao.parecerTecnico == null}">
 									
 									<div th:replace="detalhes/acao/fragments :: parecer-tecnico"></div>
+									
+								</div>
+								
+								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+									
+									<div th:replace="detalhes/acao/fragments :: pendencias-parecer-form"></div>
 									
 								</div>
 								
@@ -360,16 +377,12 @@
                             </div>
                             <div class="box-body">
                             
-                            	<div th:if="${acaoExtensao.status.descricao == 'NOVO' or 
-                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA' or
-                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+                            	<div th:if="${acaoExtensao.parecerRelator == null}">
                         			
                         			<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
                         		</div>
                         		
-                        		<div th:unless="${acaoExtensao.status.descricao == 'NOVO' or 
-                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA' or
-                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+                        		<div th:unless="${acaoExtensao.parecerRelator == null}">
                         			
                         			<div th:replace="detalhes/acao/fragments :: parecer-relator"></div>
                         		</div>
