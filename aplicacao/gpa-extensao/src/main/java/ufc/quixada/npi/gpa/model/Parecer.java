@@ -3,6 +3,7 @@ package ufc.quixada.npi.gpa.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Parecer {
@@ -36,9 +39,10 @@ public class Parecer {
 	@JoinColumn(name="parecerista_id")
 	private Pessoa responsavel;
 	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento arquivo;
 	
 	@OneToMany(mappedBy = "parecer")

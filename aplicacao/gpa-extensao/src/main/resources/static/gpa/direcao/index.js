@@ -2,52 +2,58 @@ $(document).ready(function() {
 
 	$(".card").click(function() {
 		$(".card").find("i").removeClass("fa-folder-open-o");
-		$(".card").find(".small-box").removeClass("bg-aqua");
+		$(".card").find(".small-box").removeClass("bg-blue");
 
 		$(".card").find("i").addClass("fa-folder-o");
-		$(".card").find(".small-box").addClass("bg-yellow");
+		$(".card").find(".small-box").addClass("bg-aqua");
 
 		$(this).find("i").toggleClass("fa-folder-open-o fa-folder-o");
-		$(this).find(".small-box").toggleClass("bg-aqua bg-yellow");
+		$(this).find(".small-box").toggleClass("bg-blue bg-aqua");
 	});
 	
 	$("#parecer-card").on("click", function(){
-		$(".parecer").removeClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").show();
+		$(".relato").hide();
+		$(".homologacao").hide();
+		$(".homologado").hide();
 	})
 	
 	$("#relato-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").removeClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").hide();
+		$(".relato").show();
+		$(".homologacao").hide();
+		$(".homologado").hide();
 	})
 	
 	$("#homologacao-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").removeClass("hidden");
-		$(".homologado").addClass("hidden");
+		$(".parecer").hide();
+		$(".relato").hide();
+		$(".homologacao").show();
+		$(".homologado").hide();
 	})
 	
 	$("#homologado-card").on("click", function(){
-		$(".parecer").addClass("hidden");
-		$(".relato").addClass("hidden");
-		$(".homologacao").addClass("hidden");
-		$(".homologado").removeClass("hidden");
+		$(".parecer").hide();
+		$(".relato").hide();
+		$(".homologacao").hide();
+		$(".homologado").show();
 	})
 
+	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
+	
 	$(".table-direcao").DataTable({
-		"filter" : false
+		"filter" : false,
+		"paginate" : false,
+		"language" : {
+			"url": ptBR_url
+		}
 	});
 	
-	$(".table-direcao-acoes").DataTable({
+	$(".table-direcao-homologadas").DataTable({
 		"filter" : false,
-		"columnDefs": [
-		    {"targets": 5, "orderable": false}
-		]
+		"language" : {
+			"url": ptBR_url
+		}
 	});
 	
 	$( "#dataHomologacao" ).datepicker('setDate', new Date());

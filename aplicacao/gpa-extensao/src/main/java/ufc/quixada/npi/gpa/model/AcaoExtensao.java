@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+
 
 @Entity
 public class AcaoExtensao {
@@ -31,6 +34,14 @@ public class AcaoExtensao {
 	
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
+	
+	private Integer horasPraticas;
+	
+	private Integer horasTeoricas;
+		
+	private String ementa;
+		
+	private String programacao;
 	
 	private Date inicio;
 	
@@ -53,19 +64,19 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "acaoExtensao")
 	private List<Participacao> equipeDeTrabalho;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerTecnico;
 	
-	@OneToOne
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
 
 	public AcaoExtensao() {
@@ -144,6 +155,38 @@ public class AcaoExtensao {
 		this.modalidade = modalidade;
 	}
 
+	public Integer getHorasPraticas() {
+		return horasPraticas;
+	}
+
+	public void setHorasPraticas(Integer horasPraticas) {
+		this.horasPraticas = horasPraticas;
+	}
+
+	public Integer getHorasTeoricas() {
+		return horasTeoricas;
+	}
+
+	public void setHorasTeoricas(Integer horasTeoricas) {
+		this.horasTeoricas = horasTeoricas;
+	}
+
+	public String getEmenta() {
+		return ementa;
+	}
+
+	public void setEmenta(String ementa) {
+		this.ementa = ementa;
+	}
+
+	public String getProgramacao() {
+		return programacao;
+	}
+
+	public void setProgramacao(String programacao) {
+		this.programacao = programacao;
+	}
+	
 	public Date getInicio() {
 		return inicio;
 	}

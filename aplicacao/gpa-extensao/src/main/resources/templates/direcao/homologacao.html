@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="modulos/fragments :: head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+	
+		<header th:replace="modulos/fragments :: header"></header>
+		<aside th:replace="modulos/fragments :: menu"></aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>Homologar Ação de Extensão</h1>
+			</section>
+
+			<!-- Main content 
+			
+			acaoextensao
+			
+			-->
+			<section class="content">
+				<div class="row">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 th:text="${acaoextensao.titulo}"></h3>
+                            </div>
+                            <div class="box-body">
+      							<form role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoextensao.id}" th:object="${acaoextensao}">
+      								<div class="row form-group">
+            							<div class="col-xs-4">
+											<label>Resultado: </label>
+											<select th:field="*{status}" class="form-control" required="required">
+												<option value=""> </option>
+												<option value="APROVADO">Aprovado</option>
+												<option value="REPROVADO">Reprovado</option>
+											</select>
+										</div>
+										<div class="col-xs-4">
+											<label>Data de Homologação: </label>
+											<input type="text" id="dataHomologacao" th:field="*{dataDeHomologacao}" class="form-control"/>
+										</div>
+									</div>
+									<input type="submit" class="btn btn-primary" id="homologar" title="Homologar Ação" value="Homologar"/>
+          						</form>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="modulos/fragments :: footer"></footer>
+	</div>
+	<!-- ./wrapper -->
+	
+	
+	
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="nenhum-parecer">
+	<div class="callout callout-info">
+		<h4>Informação!</h4>
+		<p>Nenhum parecer cadastrado.</p>
+	</div>
+</div><!-- Fragment Nenhum relato -->
+
+
+<div th:fragment="parecer-tecnico">
+	<div th:if="${alertaParecer}" class="alert alert-warning alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<i class="icon fa fa-warning"></i> 
+		<span th:text="${alertaParecer}"></span>
+	</div>
+	<div id="parecer-tecnico-info" th:style="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'} ? 'display: none'">
+		<dl class="dl-horizontal">
+			<dt>Parecerista:</dt>
+			<dd>
+				<span th:text="${acaoExtensao.parecerTecnico.responsavel} ? ${acaoExtensao.parecerTecnico.responsavel.nome} : '-'"></span>
+				<a th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}" id="alterar-parecerista-button" class="btn btn-xs btn-warning" title="Alterar Parecerista">
+					<i class="fa fa-edit"></i>
+				</a>
+			</dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Data da atribuição:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.dataAtribuicao} ? ${#dates.format(acaoExtensao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></dd>
+
+			<dt>Prazo estimado:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.prazo} ? ${#dates.format(acaoExtensao.parecerTecnico.prazo, 'dd/MM/yyyy')} : '-'"></dd>
+
+			<dt>Data da realização:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.dataRealizacao} ? ${#dates.format(acaoExtensao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')} : '-'"></dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Posicionamento:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.posicionamento} ? ${acaoExtensao.parecerTecnico.posicionamento.descricao} : '-'"></dd>
+
+			<dt>Parecer:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.parecer} ? ${acaoExtensao.parecerTecnico.parecer} : '-'"></dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Arquivo:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerTecnico.arquivo} ? ${acaoExtensao.parecerTecnico.arquivo.nome} : '-'"></dd>
+		</dl>
+	</div>
+
+	<div id="parecer-tecnico-form"
+		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO PARECERISTA'} ? 'display: none'">
+		<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista}" method="post">
+			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
+			<div class="col-md-12">
+				<div class="form-group">
+					<input th:if="${acaoExtensao.parecerTecnico.id}" type="hidden" th:value="${acaoExtensao.parecerTecnico.id}" th:field="*{parecerTecnico.id}"/>
+					<label class="control-label" for="select-pareceristas">Selecione um parecerista:</label>
+					<select class="select-parecer form-control" th:field="*{parecerTecnico.responsavel}" required="required">
+						<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="prazo-parecer-tecnico" class="control-label">Prazo para emitir o parecer:</label>
+					<div class="input-group date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" required="required" th:field="*{parecerTecnico.prazo}" />
+					</div>
+				</div>
+				<div class="form-group text-center">
+					<input value="Atribuir" class="btn btn-info" title="Atribuir parecerista técnico" type="submit"/>
+					<a id="cancelar-parecer-button" class="btn btn-default" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}" title="Cancelar operação">Cancelar</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<div th:fragment="parecer-relator">
+	<div th:if="${alertaRelato}"
+		class="alert alert-warning alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-hidden="true">×</button>
+		<i class="icon fa fa-warning"></i> <span th:text="${alertaRelato}"></span>
+	</div>
+	<div id="parecer-relator-info"
+		th:style="${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'} ? 'display: none'">
+		<dl class="dl-horizontal">
+			<dt>Parecerista:</dt>
+			<dd>
+				<span
+					th:text="${acaoExtensao.parecerRelator.responsavel} ? ${acaoExtensao.parecerRelator.responsavel.nome} : '-'"></span>
+				<a th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}"
+					id="alterar-relator-button" class="btn btn-xs btn-warning"
+					title="Alterar Relator"> <i class="fa fa-edit"></i>
+				</a>
+			</dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Data da atribuição:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.dataAtribuicao} ? ${#dates.format(acaoExtensao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></dd>
+
+			<dt>Prazo estimado:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.prazo} ? ${#dates.format(acaoExtensao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"></dd>
+
+			<dt>Data da realização:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.dataRealizacao} ? ${#dates.format(acaoExtensao.parecerRelator.dataRealizacao, 'dd/MM/yyyy')} : '-'"></dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Posicionamento:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.posicionamento} ? ${acaoExtensao.parecerRelator.posicionamento.descricao} : '-'"></dd>
+
+			<dt>Parecer:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.parecer} ? ${acaoExtensao.parecerRelator.parecer} : '-'"></dd>
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>Arquivo:</dt>
+			<dd
+				th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo} : '-'"></dd>
+		</dl>
+	</div>
+	<div id="parecer-relator-form"
+		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO RELATOR'} ? 'display: none'">
+		<form class="form-horizontal" th:object="${acaoExtensao}"
+			th:action="@{/direcao/relator}" method="post">
+			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
+			<div class="col-md-12">
+				<div class="form-group">
+					<input th:if="${acaoExtensao.parecerRelator.id}" type="hidden" th:value="${acaoExtensao.parecerRelator.id}" th:field="*{parecerRelator.id}"/>
+					<label class="control-label" for="select-relatores"> Selecione um relator:</label>
+					<select class="select-parecer form-control" th:field="*{parecerRelator.responsavel}" required="required">
+						<option th:each="relator : ${relatores}" th:value="${relator.id}" th:text="${relator.nome}" />
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="prazo-relator"> Prazo
+						para emitir o parecer:</label>
+					<div class="input-group date">
+						<div class="input-group-addon">
+							<i class="fa fa-calendar"></i>
+						</div>
+						<input class="prazo-parecer form-control" required="required" th:field="*{parecerRelator.prazo}" />
+					</div>
+				</div>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-info" value="Atribuir" title="Atribuir relator" />
+					<a id="cancelar-relato-button" class="btn btn-default" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}" title="Cancelar operação">Cancelar</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div><!-- Fragment Parecer Relator -->
+
+</html>
