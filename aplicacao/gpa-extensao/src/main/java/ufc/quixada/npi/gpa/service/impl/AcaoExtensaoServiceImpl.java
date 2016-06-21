@@ -57,16 +57,11 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			}
 		}
 		
-		List<Servidor> servidores = servidorRepository.findAll();
-		for(Servidor s : servidores){
-			if(s.getPessoa() == coordenador){
-				servidor = s;
-			}
-		}
-		 
-		if(servidor.getFuncao().getDescricao() == "Docente"){
+		servidor = servidorRepository.getByPessoa(coordenador);
+		
+		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
 			participante.setFuncao(Funcao.DOCENTE);
-		}else if(servidor.getFuncao().getDescricao() == "Técnico Administrativo"){
+		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
 			participante.setFuncao(Funcao.STA);
 		}
 		participante.setParticipante(coordenador);
