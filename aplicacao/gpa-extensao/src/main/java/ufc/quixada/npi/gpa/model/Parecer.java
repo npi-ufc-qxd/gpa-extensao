@@ -42,7 +42,7 @@ public class Parecer {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento arquivo;
 	
 	@OneToMany(mappedBy = "parecer")

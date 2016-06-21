@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="modulos/fragments :: head">
+</head>
+	
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+		<!-- FORMULARIO DE CADASTRO -->
+		<div class="col-md-12">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Nova Ação de Extensão</h3>
+            </div>
+            <div id="message" style="height:50px;">
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            
+            <form role="form" th:action="@{/cadastrarAcao}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="titulo">*Título</label>
+                  <input class="form-control" id="titulo" th:field="${acaoExtensao.titulo}" placeholder="Escreva o título..." type="text" required="true"/>
+                </div>
+                <div class="form-group">
+                  <label>Resumo</label>
+                  <textarea class="form-control"  th:field="${acaoExtensao.resumo}" placeholder="Escreva o resumo..."></textarea>
+                </div>
+            <!-- Datepicker -->
+            <label>Data</label>
+			<div class="form-group row">
+                <div class="col-lg-6">
+                  <div class="input-group date">
+                        <span class="input-group-addon">
+                          <label>Início:</label>
+                        </span>
+                    <input id="dataInicio" th:field="${acaoExtensao.inicio}" type="text" class="form-control" required="required" />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="input-group">
+                        <span class="input-group-addon">
+                          <label>Término:</label>
+                        </span>
+                    <input id="dataTermino" th:field="${acaoExtensao.termino}" type="text" class="form-control" required="required" />
+                  </div>
+               </div>
+			</div>
+              <!-- fim do datepicker -->
+                <div class="form-group">
+                  <label for="vinculo">Vínculo</label>
+                  <input class="form-control" id="vinculo" th:field="${acaoExtensao.vinculo}" placeholder="Escreva o vinculo..." type="text" />
+                </div>
+                <div class="row">
+	                <label class="col-lg-8">Prorrogável?</label>
+	                <label class="col-lg-2">*Modalidade</label>
+                </div>
+                <div class="form-group row">
+	                <div class="col-lg-4">
+	                  <div class="input-group">
+	                        <span class="input-group-addon">
+	                          <input type="radio" th:field="${acaoExtensao.prorrogavel}" value="true"/>
+	                        </span>
+	                    <input class="form-control" type="text" placeholder="SIM" disabled="true"/>
+	                  </div>
+	                </div>
+                <div class="col-lg-4">
+                  <div class="input-group">
+                        <span class="input-group-addon">
+                          <input type="radio" th:field="${acaoExtensao.prorrogavel}" value="false"/>
+                        </span>
+                    <input class="form-control" type="text" placeholder="NÃO" disabled="true"/>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <select class="form-control" id="modalidade" th:field="${acaoExtensao.modalidade}" required="required">
+                        <option value="">Selecionar Modalidade</option>
+                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
+                  </select>
+                 </div>
+              </div>
+              <div id="cargaHorarias">
+	            <label>Carga Horária</label>
+				<div class="form-group row">
+	                <div class="col-lg-6">
+	                  <div class="input-group date">
+	                        <span class="input-group-addon">
+	                          <label>Aulas Práticas:</label>
+	                        </span>
+	                    <input id="horasPraticas" th:field="${acaoExtensao.horasPraticas}" type="number" min="0" class="form-control" />
+	                  </div>
+	                </div>
+	                <div class="col-lg-6">
+	                  <div class="input-group">
+	                        <span class="input-group-addon">
+	                          <label>Aulas Teóricas:</label>
+	                        </span>
+	                    <input id="horasTeoricas" th:field="${acaoExtensao.horasTeoricas}" type="number" min="0" class="form-control" />
+	                  </div>
+	               </div>
+				</div>
+				<div class="form-group" id="ementa">
+                  <label>Ementa/Conteúdo programático</label>
+                  <textarea class="form-control"  th:field="${acaoExtensao.ementa}" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
+                </div>
+                <div class="form-group" id="programacao">
+                  <label>Programação</label>
+                  <textarea class="form-control"  th:field="${acaoExtensao.programacao}" placeholder="Escreva a programação..."></textarea>
+                </div>
+            </div>
+             
+                <div class="form-group">
+                  <label for="anexoAcao">Anexos</label>
+                  <input id="anexoAcao" name="anexoAcao" type="file" />
+
+                  <p class="help-block">Example block-level help text here.</p>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button id="botaoCadastrar" type="submit" class="btn btn-primary">Cadastrar</button>
+              </div>
+              
+            </form>
+          </div>
+          </div>
+           <!-- FIM DO FORMULÁRIO -->
+			</section> <!-- /.content -->
+		</div> <!-- /.content-wrapper -->
+		<footer class="main-footer">
+			<strong>Núcleo de Práticas em Informática</strong>
+		</footer>
+	</div>
+	<!-- ./wrapper -->
+	
+	
+
+</body>
+</html>

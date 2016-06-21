@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$("#descricaoOutrasFormas").prop('required',false);
 		}
 	});
-	$("#submitBtn").click(function(e) {
+	$("#submitBtnParceriaExternaForm").click(function(e) {
 		checked = $("input[type=checkbox]:checked").length;
 		if($("#selectParceiro").val()==""){
 			$("#error-parceiro").show();
@@ -35,7 +35,7 @@ $(document).ready(function() {
 		    },
 			type : 'POST',
 			async: false,
-			data : $("#parceriaExternaForm2").serialize(),
+			data : $("#formParceriaExterna").serialize(),
 			error: function(){
 		        return false;
 		    },
@@ -55,9 +55,9 @@ $(document).ready(function() {
 				}
 				
 			}
-});
+		});
 	});
-	$('#submitBtnParceiro').click(function(e){
+	$("#submitBtnParceiroForm").click(function(e){
 		if($("#nomeParceiro").val()==""){
 			$("#error-nome").show();
 			$("#error-nome").append("<p>Nome de instituição não pode ficar vazio!</p>");
@@ -80,7 +80,7 @@ $(document).ready(function() {
             },
 			type : 'POST',
 			async: false,
-			data : $("#parceiroForm2").serialize(),
+			data : $("#formParceiro").serialize(),
 			error: function(){
 	            return false;
 	        },
@@ -103,12 +103,48 @@ $(document).ready(function() {
 		});
 	});
 	$("#criarNovoParceiro").click(function(e){
-		$("#parceriaExternaForm").hide();
-		$("#parceiroForm").show();
+		$("#parceria-externa-form-div").hide();
+		$("#parceiro-form-div").show();
+		e.preventDefault();
 	});
-	$("#cancelarNovoParceiro").click(function(){
-		$("#parceiroForm").hide();
-		$("#parceriaExternaForm").show();
+	$("#cancelarAdicaoParceiro").click(function(e){
+		$("#parceiro-form-div").hide();
+		$("#parceria-externa-form-div").show();
+		e.preventDefault();
+	});
+	$("#adicionarNovaParceriaExterna").click(function(e){
+		$("#parceria-externa-form-div").show();
+		e.preventDefault();
+	});
+	$("#cancelarAdicaoParceriaExterna").click(function(e){
+		$("#parceria-externa-form-div").hide();
+		e.preventDefault();
 	});
 	$(".selectParceiro").select2();
+	$(".table-parceria-externa").DataTable();
+	
+	$("#confirm-delete-parceria-externa").on("show.bs.modal", function(e) {
+		$(this).find(".btn-ok").attr("href",$(e.relatedTarget).data("href"));
+		$("#deleteParceriaTableIndex").val($(e.relatedTarget).data("row"));
+		$("#deleteParceriaHiddenId").val($(this).find(".btn-ok").attr("href"));
+	});
+	$("#deleteParceriaHiddenBtn").click(function(e) {
+		e.preventDefault();
+		var parceriaId = $("#deleteParceriaHiddenId").val();
+		var tableRowIndex = $("#deleteParceriaTableIndex").val();
+		var token = $("meta[name='_csrf']").attr("content");
+	    var header = $("meta[name='_csrf_header']").attr("content");
+	    $("#confirm-delete-parceria-externa").modal('hide');
+		$.ajax({
+			url : '/gpa-extensao/excluir/' + acaoExtensaoId + '/parceriaExterna/'+parceriaId,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+            type : 'GET',
+			complete: function(){
+				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex);
+			}
+		});
+	});
 });

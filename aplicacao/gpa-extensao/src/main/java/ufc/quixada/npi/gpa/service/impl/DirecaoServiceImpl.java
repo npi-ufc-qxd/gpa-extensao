@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.ATRIBUIR_PARECERISTA_EXCEPTION;
 
 import java.util.Date;
 import java.util.List;
@@ -12,17 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Service
 @Transactional
 public class DirecaoServiceImpl implements DirecaoService {
-	
+
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
@@ -35,36 +33,34 @@ public class DirecaoServiceImpl implements DirecaoService {
 	}
 
 	@Override
-	public void atribuirParecerista(Integer idAcaoExtensao, Parecer parecerTecnico) throws GpaExtensaoException {
-		AcaoExtensao acaoExtensao = carregarAcaoExtensao(idAcaoExtensao);
+	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		acao.setParecerTecnico(acaoExtensao.getParecerTecnico());
 
-		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)) {
-			acaoExtensao.setParecerTecnico(parecerTecnico);
+		if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
-			acaoExtensaoRepository.save(acaoExtensao);
+			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+			acaoExtensaoRepository.save(acao);
 		} else {
-			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
+			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
 
 	}
 	
 	@Override
-	public void atribuirRelator(Integer idAcaoExtensao, Parecer parecerRelator) throws GpaExtensaoException {
-		AcaoExtensao acaoExtensao = carregarAcaoExtensao(idAcaoExtensao);
+	public void atribuirRelator(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		acao.setParecerRelator(acaoExtensao.getParecerRelator());
 		
-		if (acaoExtensao.getStatus().equals(Status.AGUARDANDO_RELATOR)) {
-			
-			parecerRelator.setDataAtribuicao(new Date());
+		if (acao.getStatus().equals(Status.AGUARDANDO_RELATOR) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)) {
+			acao.getParecerRelator().setDataAtribuicao(new Date());
 
-			acaoExtensao.setParecerRelator(parecerRelator);
-			acaoExtensao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
-			acaoExtensaoRepository.save(acaoExtensao);
+			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+			acaoExtensaoRepository.save(acao);
 		} else {
-			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
+			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
 		}
 	}
 
-	private AcaoExtensao carregarAcaoExtensao(Integer idAcaoExtensao) {
-		return acaoExtensaoRepository.findOne(idAcaoExtensao);
-	}
 }

@@ -2,233 +2,355 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="modulos/fragments :: head">
-	
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+	<input th:value="${acaoExtensaoId}" id="acaoExtensaoId"
+		style="display: none;" />
 	<div class="wrapper">
-	
+
 		<div th:replace="modulos/fragments :: header"></div>
 		<div th:replace="modulos/fragments :: menu"></div>
-		
+
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<h1> Detalhes Ação Extensão</h1>
-			</section>
 
 			<!-- Main content -->
 			<section class="content">
-            	
-      			<div class="box box-widget">
-      				<div class="box-header with-border">
-      					<ul class=" col-sm-6 list-inline">
-      							<li>
-      								<label>Título:</label>
-      							</li>
-      							<li>
-      								<h4 th:text="${acaoExtensao.titulo}"></h4>
-      							</li>
-      					</ul>
-      					<ul class=" col-sm-6 list-inline">
-      							<li>
-      								<label>Coordenador:</label>
-      							</li>
-      							<li>
-      								<h4 th:text="${acaoExtensao.coordenador.nome}"></h4>
-      							</li>
-      					</ul>
-      					<ul class="col-sm-6 list-inline">
-      						<li>
-      							<label>Código:</label>
-      						</li>
-      						<li>
+				<div class="box box-widget">
+					<div class="box-header with-border">
+						<table style="width: 100%;">
+							<tr>
+								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
+								<th class="col-xs-2"><button class="btn btn-danger"
+										data-toggle="modal" data-target="#modalexcluir">
+										<i class="fa fa-trash" aria-hidden="true"></i> Excluir Ação
+									</button></th>
+							</tr>
+						</table>
+					</div>
+					<div class="box-header with-border">
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Título:</label></li>
+							<li>
+								<h4 th:text="${acaoExtensao.titulo}"></h4>
+							</li>
+						</ul>
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Coordenador:</label></li>
+							<li>
+								<h4 th:text="${acaoExtensao.coordenador.nome}"></h4>
+							</li>
+						</ul>
+						<ul class="col-sm-6 list-inline">
+							<li><label>Código:</label></li>
+							<li>
 
-      							<h4 id="codigo-acao" th:text="${acaoExtensao.codigo}"></h4>
-      							<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}"  method="post" id="codigo-form">
-      								<input type="text" id="input-codigo" name="codigoAcao"/>
-      							</form>
-      							
-      						</li>
-      						<li th:switch="${acaoExtensao.status.descricao}">
-      							<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
-      							
-      						</li>
-      					</ul>
-      					<ul class="col-sm-6 list-inline">
-      						<li>
- 	     						<label>Identificador:</label>
- 	     					</li>
- 	     					<li>
-      							<h4 th:text="${acaoExtensao.identificador}"></h4>
-      						</li>
-      					</ul>
-      					<ul class="col-sm-12 list-inline">
-      						<li>
-      							<label>Resumo:</label>
-      						</li>
-      						<li>	
-      							<h4 th:if="${acaoExtensao.resumo} !=null" th:text="${acaoExtensao.resumo}"></h4>
-      						</li>
-      					</ul>
-      					
-      				</div>
-      				<div class="box-body with-border">
-      					<ul class="col-sm-6 list-inline">
-      						<li>
-      							<label>Início:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></h4>
-      						</li>
-      					</ul>
-      					<ul class="col-sm-6 list-inline">
-      						<li>
-      							<label>Término:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></h4>
-      						</li>
-      					</ul>
-      					<ul class="col-sm-6 list-inline" >
-      						<li>
-      							<label>Prorrogável:</label>
-      						</li>
-      						<li>
-      							<div th:if="${acaoExtensao.prorrogavel} != null" th:switch="${acaoExtensao.prorrogavel}">
-      								<h4 th:case="true">Sim</h4>
-      								<h4 th:case="false">Não</h4>
-      							</div>
-      							
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-6 list-inline">
-      						<li>
-      							<label>Status:</label>
-      						</li>
-      						<li>
-      							<h4 th:text="${acaoExtensao.status}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-3 list-inline">
-      						<li>
-      							<label>Vinculo:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-3 list-inline">
-      						<li>
-      							<label>Bolsas solicitadas:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-3 list-inline">
-      						<li>
-      							<label>Bolsas recebidas:</label>
-      						</li>
-      						<li>
-      							<h4 id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}"></h4>
-      							<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}"  method="post" id="bolsas-form">
-      								<input id="input-bolsas" type="number" min="0" name="bolsasRecebidas" pattern="[0-9]+"/>
-      							</form>
-      							
-      						</li>
-      						<li th:switch="${acaoExtensao.status.descricao}">
-      							<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Editar"></i>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-6 list-inline">
-      						<li>
-      							<label>Bolsas solicitadas:</label>
-      						</li>
-      						<li>
-      							<h4 th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-6 list-inline">
-      						<li>
-      							<label>Data de homologação:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.dataDeHomologacao} != null" th:text="${#dates.format(acaoExtensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
-      						</li>
-      					</ul>
-      					<ul class=" col-sm-6 list-inline">
-      						<li>
-      							<label>Vinculo:</label>
-      						</li>
-      						<li>
-      							<h4 th:text="${acaoExtensao.vinculo}"></h4>
-      						</li>
-      					</ul>	
-      				</div>
-      				<div class="box-footer">
-      					<ul class=" col-sm-4 list-inline">
-      						<li>
-      							<label>Anexo:</label>
-      						</li>
-      						<li>
-      							<h4 th:if="${acaoExtensao.anexo} != null"><a th:text="${acaoExtensao.anexo.nome}"></a></h4>
-      						</li>
-      					</ul>
-      				</div>
-      				
-      				
-      			</div>
-    			
-    			<div class="row">
-                    <div class="col-md-6 col-xs-12">
-                        <div class="box box-info">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Parecer Técnico</h3>
-                            </div>
-                            <div class="box-body">
-                                <div th:if="${acaoExtensao.parecerTecnico != null}">
-                                    <dl class="dl-horizontal">
-                                        <dt>Parecerista:</dt>
-                                        <dd th:text="${acaoExtensao.parecerTecnico.responsavel.nome}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Data da atribuição:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')}"></dd>
+								<h4 id="codigo-acao" th:text="${acaoExtensao.codigo}"></h4>
+								<form action="#"
+									th:action="@{/salvarcodigo/}+${acaoExtensao.id}" method="post"
+									id="codigo-form">
+									<input type="text" id="input-codigo" name="codigoAcao" />
+								</form>
 
-                                        <dt>Prazo estimado:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.prazo, 'dd/MM/yyyy')}"></dd>
+							</li>
+							<li th:switch="${acaoExtensao.status.descricao}"><i
+								th:case="APROVADO" id="editar-codigo"
+								class="fa fa-pencil-square-o" aria-hidden="true"
+								data-toggle="tooltip" title="Editar"></i></li>
+						</ul>
+						<ul class="col-sm-6 list-inline">
+							<li><label>Identificador:</label></li>
+							<li>
+								<h4 th:text="${acaoExtensao.identificador}"></h4>
+							</li>
+						</ul>
+						<ul class="col-sm-12 list-inline">
+							<li><label>Resumo:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.resumo} !=null"
+									th:text="${acaoExtensao.resumo}"></h4>
+							</li>
+						</ul>
 
-                                        <dt>Data da realização:</dt>
-                                        <dd
-                                            th:text="${#dates.format(acaoExtensao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Posicionamento:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerTecnico.posicionamento.descricao}"></dd>
+					</div>
+					<div class="box-body with-border">
+						<ul class="col-sm-6 list-inline">
+							<li><label>Início:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.inicio} != null"
+									th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></h4>
+							</li>
+						</ul>
+						<ul class="col-sm-6 list-inline">
+							<li><label>Término:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.termino} != null"
+									th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></h4>
+							</li>
+						</ul>
+						<ul class="col-sm-6 list-inline">
+							<li><label>Prorrogável:</label></li>
+							<li>
+								<div th:if="${acaoExtensao.prorrogavel} != null"
+									th:switch="${acaoExtensao.prorrogavel}">
+									<h4 th:case="true">Sim</h4>
+									<h4 th:case="false">Não</h4>
+								</div>
 
-                                        <dt>Parecer:</dt>
-                                        <dd th:text="${acaoExtensao.parecerTecnico.parecer}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Arquivo:</dt>
-                                    </dl>
-                                </div>
-                                
-                                <div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}">
-                                    <form th:action="@{/direcao/parecerista/} + ${acaoExtensao.id}" method="post">
-                                        <select id="select-pareceristas" required="required">
-                                            <option th:each="parecerista : ${pareceristas}" th:value="${parecerista.id}" th:text="${parecerista.nome}"/>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- Parecer técnico -->
+							</li>
+						</ul>
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Status:</label></li>
+							<li>
+								<h4 th:text="${acaoExtensao.status}"></h4>
+							</li>
+						</ul>
+
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Bolsas solicitadas:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.bolsasSolicitadas} != null"
+									th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
+							</li>
+						</ul>
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Bolsas recebidas:</label></li>
+							<li>
+								<h4 id="bolsas-recebidas"
+									th:text="${acaoExtensao.bolsasRecebidas}"></h4>
+								<form action="#"
+									th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
+									id="bolsas-form">
+									<input id="input-bolsas" type="number" min="0"
+										name="bolsasRecebidas" pattern="[0-9]+" />
+								</form>
+
+							</li>
+							<li th:switch="${acaoExtensao.status.descricao}"><i
+								th:case="APROVADO" id="editar-bolsas"
+								class="fa fa-pencil-square-o" aria-hidden="true"
+								data-toggle="tooltip" title="Editar"></i></li>
+						</ul>
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Data de homologação:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.dataDeHomologacao} != null"
+									th:text="${#dates.format(acaoExtensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
+							</li>
+						</ul>
+						<ul class=" col-sm-6 list-inline">
+							<li><label>Vinculo:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.vinculo} != null"
+									th:text="${acaoExtensao.vinculo}"></h4>
+							</li>
+						</ul>
+
+					</div>
+					<div class="box-footer">
+						<ul class=" col-sm-4 list-inline">
+							<li><label>Anexo:</label></li>
+							<li>
+								<h4 th:if="${acaoExtensao.anexo} != null">
+									<a th:text="${acaoExtensao.anexo.nome}"></a>
+								</h4>
+							</li>
+						</ul>
+					</div>
+
+
+				</div>
+
+				    			<div class="box box-widget">
+    				<div class="box-header with-border">
+    					<table style="width:100%;">
+    						<tr>
+    							<th class="col-xs-12"><h3>Parcerias Externas</h3></th>
+    							<th class="col-xs-2"><button class="btn btn-primary" id="adicionarNovaParceriaExterna">Adicionar Nova</button></th>
+    						</tr>
+    					</table>
+    				</div>
+    				<div class="box-body with-border" id="parceria-externa-form-div" style="display:none;">
+    					<form class="col-md-6" role="form" th:object="${parceriaExterna}" method="POST" id="formParceriaExterna">
+							<div class="box-body with-border">
+								<div class="alert alert-warning alert-dismissible" id="error-parceiro" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Selecionar parceiro</p>
+								</div>
+								<div class="form-group">
+									<label>Instituição Parceira: </label>
+									<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}" required="required">
+										<option value="">Selecionar Parceiro</option>
+										<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option>
+									</select>
+									<br/>
+									<button class="btn btn-block btn-primary btn-xs" id="criarNovoParceiro">Criar parceiro</button>
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="checkBoxAlert" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert"
+										aria-hidden="true">×</button>
+									<h4>
+										<i class="icon fa fa-warning"></i> Atenção!
+									</h4>
+									<p>Necessário escolher uma das opções abaixo.</p>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="geraDemandaFormasCheckBox" name="geraDemanda" th:checked="${parceriaExterna.geraDemanda}" th:field="${parceriaExterna.geraDemanda}"/>
+									Gera Demanda</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="definicaoAcoesCheckBox" name="definicaoAcoes" th:checked="${parceriaExterna.definicaoAcoes}" th:field="${parceriaExterna.definicaoAcoes}"/>
+									Define Ações</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="equipamentoFormasCheckBox" name="equipamento" th:checked="${parceriaExterna.equipamento}" th:field="${parceriaExterna.equipamento}"/>
+									Fornece Equipamento</label>
+									
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+									<input type="checkbox" id="financiamentoCheckBox" name="financiamento" th:checked="${parceriaExterna.financiamento}" th:field="${parceriaExterna.financiamento}" />
+									Financia</label>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-8">
+										<input type="checkbox" id="outrasFormasCheckBox" name="outrasFormas" th:checked="${parceriaExterna.outrasFormas}" th:field="${parceriaExterna.outrasFormas}"/>
+										Outras formas
+									</label>
+								</div>
+								<div class="form-group" id="divDescricaoOutrasFormas" style="display: none;">
+									<label class="col-sm-5">Descreva outras formas</label>
+									<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+								</div>
+							</div>
+							<div class="box-footer">
+								<button id="cancelarAdicaoParceriaExterna" class="btn btn-default pull-left">Cancelar</button>
+							    <button id="submitBtnParceriaExternaForm" class="btn btn-primary pull-right">Salvar</button>
+							</div>
+						</form>
+    				</div>
+    				<div class="box-body with-border" id="parceiro-form-div" style="display:none;">
+						<form class="col-md-6" id="formParceiro" role="form" th:object="${parceiro}" method="POST">
+							<div class="box-body with-border">
+								<div class="alert alert-warning alert-dismissible" id="error-nome" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4> <i class="icon fa fa-warning"></i> Atenção! </h4>
+								</div>
+								<div class="form-group">
+									<label for="nome">Nome da Instituição:</label>
+									<input class="form-control" id="nomeParceiro" th:field="*{nome}" type="text" name="nome" />
+								</div>
+								<div class="alert alert-warning alert-dismissible" id="error-tipo" style="display: none;">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+									<h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+									<p>Escolher tipo de instituição!</p>
+								</div>
+								<div class="form-group">
+									<label>Tipo da instituição:</label>
+									<div th:each="tipo : ${T(ufc.quixada.npi.gpa.model.Parceiro.Tipo).values()}" class="radio">
+										<label><input type="radio" name="tipo" th:value="${tipo}" th:field="${parceiro.tipo}" /></label>
+										<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+								   	<div class="col-lg-10 col-lg-offset-2">
+								   		<button id="cancelarAdicaoParceiro" class="btn btn-default pull-left">Cancelar</button>
+								       	<button id="submitBtnParceiroForm" class="btn btn-primary pull-right">Salvar</button>
+								   	</div>
+								</div>
+							</div>
+						</form>
+    				</div>
+    				<div class="box-body with-border">
+    					<table class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Nome da Instituição</th>
+									<th data-toogle="tooltip" title="Gera Demanda">GD</th>
+									<th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
+									<th data-toogle="tooltip" title="Fornece Instalações e/ou Equipamentos">IE</th>
+									<th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
+									<th data-toogle="tooltip" title="Outras formas">OF</th>
+									<th data-toogle="tooltip" title="Gera Demanda">Descrição de outras formas</th>
+									<th></th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								
+								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}">
+									<td th:text="${rowStat.count}"></td>
+									<td th:text="${parceria.parceiro.nome}"></td>
+									<td>
+										<span th:if="${parceria.geraDemanda}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.geraDemanda}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td>
+										<span th:if="${parceria.definicaoAcoes}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.definicaoAcoes}" class="glyphicon glyphicon-remove"></span></td>
+									<td>
+										<span th:if="${parceria.equipamento}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.equipamento}" class="glyphicon glyphicon-remove"></span></td>
+									<td>
+										<span th:if="${parceria.financiamento}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.financiamento}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td>
+										<span th:if="${parceria.outrasFormas}" class="glyphicon glyphicon-ok"></span>
+										<span th:if="!${parceria.outrasFormas}" class="glyphicon glyphicon-remove"></span>
+									</td>
+									<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
+									<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
+									<td data-toogle="tooltip" title="Excluir">
+										<a id="excluir-parceria-externa"
+											data-toggle="modal"
+											data-target="#confirm-delete-parceria-externa"
+											th:attr="data-href=${parceria.id}"
+											th:attrappend="data-row=${rowStat.index}">
+											<i class="glyphicon glyphicon-trash"></i>
+										</a>
+                            		</td>
+								</tr>
+							</tbody>
+						</table>
+    				</div>
+    			</div>
+      			
+      			<div class="row">
+					<div class="col-md-6 col-xs-12">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Parecer Técnico</h3>
+							</div>
+							<div class="box-body">
+								
+								<div th:if="${acaoExtensao.status.descricao == 'NOVO'}">
+									
+									<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
+									
+								</div>
+								
+								<div th:unless="${acaoExtensao.status.descricao == 'NOVO'}">
+									
+									<div th:replace="detalhes/acao/fragments :: parecer-tecnico"></div>
+									
+								</div>
+								
+							</div><!-- Box body -->
+						</div><!-- Box parecer técnico -->
+					</div><!-- Parecer técnico -->
 
 
                     <div class="col-md-6 col-xs-12">
@@ -237,87 +359,22 @@
                                 <h3 class="box-title">Parecer do Relator</h3>
                             </div>
                             <div class="box-body">
-                            	<div th:if="${acaoExtensao.parecerRelator != null}">
-                                    <dl class="dl-horizontal">
-                                        <dt>Parecerista:</dt>
-                                        <dd th:text="${acaoExtensao.parecerRelator.responsavel.nome}"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Data da atribuição:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerRelator.dataAtribuicao} ? ${#dates.format(acaoExtensao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></dd>
-
-                                        <dt>Prazo estimado:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerRelator.prazo} ? ${#dates.format(acaoExtensao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"></dd>
-
-                                        <dt>Data da realização:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerRelator.dataRealizacao} ? ${#dates.format(acaoExtensao.parecerRelator.dataRealizacao, 'dd/MM/yyyy')} : '-'"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Posicionamento:</dt>
-                                        <dd
-                                            th:text="${acaoExtensao.parecerRelator.posicionamento} ? ${acaoExtensao.parecerRelator.posicionamento.descricao} : '-'"></dd>
-
-                                        <dt>Parecer:</dt>
-                                        <dd th:text="${acaoExtensao.parecerRelator.parecer} ? ${acaoExtensao.parecerRelator.parecer} : '-'"></dd>
-                                    </dl>
-                                    <dl class="dl-horizontal">
-                                        <dt>Arquivo:</dt>
-                                        <dd th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo.nome} : '-'"></dd>
-                                    </dl>
-                                </div>
-                                <div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'}">
-                                	<div class="alert alert-warning alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        <i class="icon fa fa-warning"></i>
-                                        <span>Nenhum relator atribuído.</span>
-                                    </div>
-	                                	<form class="form-horizontal" th:object="${parecerRelator}" th:action="@{/direcao/relator/} + ${acaoExtensao.id}" method="post">
-	                                		<div class="col md-12">
-		                                		<div class="form-group">
-		                                			<label class="control-label col-md-5" for="select-relatores"> Selecione um relator:</label>
-		                                        	<select id="select-relatores" th:field="*{responsavel}" required="required">
-		                                            	<option th:each="relator : ${relatores}" th:value="${relator.id}" th:text="${relator.nome}"/>
-		                                        	</select>
-		                                        </div>
-		                                        <div class="form-group">
-		                                        	<label class="control-label col-md-5" for="prazo-relator"> Prazo para o parecer:</label>
-		                                        	<input type="date" id="prazo-relator" class="prazo-parecer" required="required" th:field="*{prazo}" />
-		                                        </div>
-		                                        <div class="form-group">
-		                                        	<input type="submit" class="btn btn-info center-block" value="Atribuir" title="Atribuir relator"/>
-		                                    	</div>
-	                                    	</div>
-	                                    </form>
-                                </div>
-								<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}">
-									<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecer}" method="post">
-										<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
-										<div class="col md-12">
-											<div class="form-group">
-												<label class="control-label col-md-4" for="posicionamento-relator">Posicionamento:</label>
-												<select id="select-posicionamento" th:field="*{parecerRelator.posicionamento}" required="required">
-													<option id="favoravel" value="FAVORAVEL">Favorável</option>
-													<option id="nao-favoravel" value="NAO_FAVORAVEL">Não Favorável</option>
-												</select>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-md-4" for="comentarios-relator">Parecer:</label>
-												<textarea rows="4" cols="40" id="comentarios-relator" th:field="*{parecerRelator.parecer}" required="required"></textarea>
-											</div>
-											<div class="form-group">
-												<label class="control-label col-md-4" for="arquivo-relator">Arquivo:</label>
-												<input type="file" id="arquivo-relator" name="arquivo-relator"/>
-											</div>
-											<div class="form-group">
-		                                        	<input type="submit" class="btn btn-info center-block" value="Submeter" title="Submeter parecer"/>
-		                                    </div>
-										</div>
-									</form>
-								</div>                               
-                            </div>
+                            
+                            	<div th:if="${acaoExtensao.status.descricao == 'NOVO' or 
+                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA' or
+                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+                        			
+                        			<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
+                        		</div>
+                        		
+                        		<div th:unless="${acaoExtensao.status.descricao == 'NOVO' or 
+                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA' or
+                        			acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+                        			
+                        			<div th:replace="detalhes/acao/fragments :: parecer-relator"></div>
+                        		</div>
+                        		
+                            </div><!-- Box body -->
                         </div>
                     </div><!-- Parecer do relator -->
                 </div>
@@ -325,7 +382,53 @@
 			</section>
 			<!-- /.content -->
 		</div>
+		<div class="modal fade" id="confirm-delete-parceria-externa">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Excluir Parceria Externa</h4>
+              </div>
+              <div class="modal-body">
+              	<p>Tem certeza que deseja excluir essa parceria?</p>
+              </div>
+              <div class="modal-footer">
+              	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
+              	<input type="hidden" id="deleteParceriaTableIndex" name="deleteParceriaTableIndex" value="" />
+                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary btn-ok" id="deleteParceriaHiddenBtn">Confirmar</a>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
 		<!-- /.content-wrapper -->
+
+		<div id="modalexcluir" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Excluir Ação</h4>
+					</div>
+					<div class="modal-body">
+						<h5>Tem certeza que deseja excluir esta ação?</h5>
+					</div>
+					<div class="modal-footer">
+						
+							<a th:href="@{/deletar/__${acaoExtensao.id}__}" class="btn btn-success"
+							>Sim</a>
+		
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
 	<!-- ./wrapper -->

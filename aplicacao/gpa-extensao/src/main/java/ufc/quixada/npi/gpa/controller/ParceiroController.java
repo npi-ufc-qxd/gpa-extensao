@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
@@ -20,12 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
+import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 @Controller
 @RequestMapping("/parceiro")
 public class ParceiroController {
+	
 	@Autowired
 	private ParceiroRepository parceiroRepository;
+	
+	@Autowired
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@RequestMapping(value="/novo/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novoParceiro(@PathVariable("id") Integer id, @ModelAttribute @Valid Parceiro parceiro,
@@ -40,5 +46,10 @@ public class ParceiroController {
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
+	}
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
 	}
 }
