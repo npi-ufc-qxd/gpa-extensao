@@ -67,7 +67,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	}
 
 	@Override
-	public void emitirParecer(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		
 		if(! (arquivo.getOriginalFilename().toString().equals(""))){
@@ -77,25 +77,56 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 				documento.setNome(arquivo.getOriginalFilename().toString());
 				
 				documentoRepository.save(documento);
-				
 				acao.getParecerRelator().setArquivo(documento);
+				
 			} catch (IOException e) {
 				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
 			}
 		}
 		
 		if(acao != null){
-			acao.getParecerRelator().setDataRealizacao(new Date());
-			acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
-			acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
+				acao.getParecerRelator().setDataRealizacao(new Date());
+				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
+				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
 			
-			acao.setStatus(Status.AGUARDANDO_HOMOLOGACAO);
-			
-			acaoExtensaoRepository.save(acao);
+				acao.setStatus(Status.AGUARDANDO_HOMOLOGACAO);
+				
+				acaoExtensaoRepository.save(acao);
 		}
 		else{
 			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
 		}
 	}
-	
+
+	@Override
+	public void emitirParecerTecnico(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		
+		if(! (arquivo.getOriginalFilename().toString().equals(""))){
+			try {
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(arquivo.getOriginalFilename().toString());
+				
+				documentoRepository.save(documento);
+				acao.getParecerTecnico().setArquivo(documento);
+				
+			} catch (IOException e) {
+				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+			}
+		}
+		
+		if(acao != null){
+				acao.getParecerTecnico().setDataRealizacao(new Date());
+				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
+				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
+				
+				acao.setStatus(Status.AGUARDANDO_RELATOR);
+				
+				acaoExtensaoRepository.save(acao);
+		}
+		else{
+			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+		}	
+	}
 }

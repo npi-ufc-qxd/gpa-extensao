@@ -327,10 +327,20 @@ public class ExtensaoController {
 		acaoExtensaoRepository.save(acao);
 	}	
 	
-	@RequestMapping(value="/emitirParecer", method=RequestMethod.POST)
-	public String emitirParecer(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)
+	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
 		try {
-			acaoExtensaoService.emitirParecer(acaoExtensao, arquivo);
+			acaoExtensaoService.emitirParecerRelator(acaoExtensao, arquivo);
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+		}
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+	}
+	
+	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
+	public String emitirParecerTecnico(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+		try {
+			acaoExtensaoService.emitirParecerTecnico(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
