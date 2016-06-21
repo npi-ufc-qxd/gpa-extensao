@@ -9,27 +9,21 @@
 		<header th:replace="modulos/fragments :: header"></header>
 		<aside th:replace="modulos/fragments :: menu"></aside>
 
-		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
+			
 			<section class="content-header">
 				<h1>Homologar Ação de Extensão</h1>
 			</section>
 
-			<!-- Main content 
-			
-			acaoextensao
-			
-			-->
 			<section class="content">
 				<div class="row">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
-                                <h3 th:text="${acaoextensao.titulo}"></h3>
+                                <h3 th:text="${acaoExtensao.titulo}"></h3>
                             </div>
                             <div class="box-body">
-      							<form role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoextensao.id}" th:object="${acaoextensao}">
+      							<form role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoExtensao.id}" th:object="${acaoExtensao}">
       								<div class="row form-group">
             							<div class="col-xs-4">
 											<label>Resultado: </label>
@@ -51,14 +45,8 @@
 	  				</div>
 	  			</div>
 			</section>
-			<!-- /.content -->
 		</div>
-		<!-- /.content-wrapper -->
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
-	<!-- ./wrapper -->
-	
-	
-	
 </body>
 </html>
