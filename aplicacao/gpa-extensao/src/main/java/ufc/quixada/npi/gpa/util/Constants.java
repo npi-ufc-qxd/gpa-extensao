@@ -17,7 +17,7 @@ public class Constants {
 		
 	// Model attributes
 	public static final String PARECERISTAS = "pareceristas";
-	public static final String RELATORES = "relatores";
+	public static final String PENDENCIA = "pendencia";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -52,7 +52,7 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/acaoextensao";
+	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
 	//Exceptions

@@ -27,10 +27,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -82,6 +83,7 @@ import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
+@Transactional
 public class ExtensaoController {
 	
 
@@ -90,6 +92,7 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParceriaExternaRepository parceriaExternaRepository;
+	
 	@Autowired
 	private ServidorRepository servirdorRepository;
 	
@@ -115,11 +118,23 @@ public class ExtensaoController {
 	private ParecerRepository parecerRepository;
 
 	@Autowired
-	private DirecaoService direcaoService; 
+	private DirecaoService direcaoService;
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
+	}
 	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
+	}
+	
+	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
+	public String deletar(@PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acaoExtensaoRepository.delete(acao);
+		return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 	}
 	
 	@RequestMapping("/coordenacao/listagem")
@@ -159,16 +174,13 @@ public class ExtensaoController {
 			acao.setParecerTecnico(new Parecer());
 			
 		} else if(acao.getStatus().equals(Status.AGUARDANDO_RELATOR)){
-			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
+			model.addAttribute(PARECERISTAS, direcaoService.getPossiveisPareceristas(id));
 			model.addAttribute(ALERTA_RELATO, MESSAGE_RELATOR_NAO_ATRIBUIDO);
 			acao.setParecerRelator(new Parecer());
 			
-		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)){
+		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
-			
-		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
-			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
-			
+			model.addAttribute(PENDENCIA, new Pendencia());
 		}
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
@@ -320,15 +332,10 @@ public class ExtensaoController {
 		acaoExtensaoRepository.save(acao);
 	}
 	
-	@RequestMapping(value = "acoes/{idAcao}/parecerTecnico/pendencias")
-	public String solicitarResolucaoPendenciasTecnico(@PathVariable Integer idAcao, Pendencia pendencia){
-		acaoExtensaoService.solicitarResolucaoPendenciasParecerTecnico(idAcao, pendencia);
+	@RequestMapping(value = "/acoes/{idAcao}/pendencias", method = RequestMethod.POST)
+	public String solicitarResolucaoPendenciasParecer (@PathVariable Integer idAcao, Pendencia pendencia) {
+		acaoExtensaoService.solicitarResolucaoPendencias(idAcao, pendencia);
 		
 		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
-	}
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
 	}
 }

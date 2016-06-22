@@ -11,6 +11,7 @@ $(document).ready(function(){
 	});
 	
 	$("#alterar-parecerista-button").on("click", function(){
+		$("#parecer-tecnico-acoes").hide();
 		$("#parecer-tecnico-info").hide();
 		$("#parecer-tecnico-form").show(1000);
 	});
@@ -21,6 +22,7 @@ $(document).ready(function(){
 	});
 	
 	$("#cancelar-parecer-button").on("click", function(){
+		$("#parecer-tecnico-acoes").show();
 		$("#parecer-tecnico-form").hide();
 		$("#parecer-tecnico-info").show(1000);
 	});
@@ -28,6 +30,18 @@ $(document).ready(function(){
 	$("#cancelar-relato-button").on("click", function(){
 		$("#parecer-relator-form").hide();
 		$("#parecer-relator-info").show(1000);
+	});
+	
+	$("#pendencias-parecer-button").on("click", function(){
+		$("#parecer-tecnico-acoes").hide();
+		$("#parecer-tecnico-info").hide();
+		$("#pendencias-parecer-form").show(1000);
+	});
+	
+	$("#cancelar-pendencia-parecer-button").on("click", function(){
+		$("#parecer-tecnico-acoes").show();
+		$("#pendencias-parecer-form").hide();
+		$("#parecer-tecnico-info").show(1000);
 	});
 	
 });

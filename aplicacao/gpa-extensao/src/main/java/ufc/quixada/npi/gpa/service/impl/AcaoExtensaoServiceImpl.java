@@ -1,13 +1,13 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
-
-import java.io.IOException;
-
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+
+import java.io.IOException;
+import java.util.Date;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -58,11 +58,25 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	}
 	
 	@Override
-	public void solicitarResolucaoPendenciasParecerTecnico(Integer idAcao, Pendencia pendencia){
+	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia){
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 		
-		acaoExtensao.getParecerTecnico().addPendencia(pendencia);
-		acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
+		pendencia.setDataDeSolicitacao(new Date());
+		
+		switch (acaoExtensao.getStatus()) {
+		case AGUARDANDO_PARECER_TECNICO:
+			acaoExtensao.getParecerTecnico().addPendencia(pendencia);
+			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
+			break;
+			
+		case AGUARDANDO_PARECER_RELATOR:
+			acaoExtensao.getParecerRelator().addPendencia(pendencia);
+			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_RELATO);
+			break;
+
+		default:
+			break;
+		}
 		
 		acaoExtensaoRepository.save(acaoExtensao);
 	}

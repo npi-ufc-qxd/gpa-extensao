@@ -43,7 +43,7 @@ public class Parecer {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento arquivo;
 	
 	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)
@@ -130,11 +130,12 @@ public class Parecer {
 	}
 	
 	public void addPendencia(Pendencia pendencia){
-		if(this.getPendencias() == null){
+		if(this.pendencias == null){
 			this.pendencias = new ArrayList<Pendencia>();
 		}
 		
-		this.getPendencias().add(pendencia);
+		pendencia.setParecer(this);
+		this.pendencias.add(pendencia);
 	}
 
 	public Documento getArquivo() {

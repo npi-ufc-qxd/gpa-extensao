@@ -1,6 +1,8 @@
 $(document).ready(function(){
     $("#input-codigo").hide();
     $("#input-bolsas").hide();
+    var acaoExtensaoId = $("#acaoExtensaoId").val();
+    $(".alert-success").hide();
    
 	
 	$("#editar-codigo").click(function(){
@@ -17,5 +19,6 @@ $(document).ready(function(){
 		$("#editar-bolsas").hide();
 
 	});
+	
 	
 });
