@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 @Entity
@@ -42,9 +44,9 @@ public class AcaoExtensao {
 	private String ementa;
 		
 	private String programacao;
-	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;
-	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
 	
 	private boolean prorrogavel;
@@ -67,7 +69,7 @@ public class AcaoExtensao {
 	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Participacao> equipeDeTrabalho;
 	
 	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})

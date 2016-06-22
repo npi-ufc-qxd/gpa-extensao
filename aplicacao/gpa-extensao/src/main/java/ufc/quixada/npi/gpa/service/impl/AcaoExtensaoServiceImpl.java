@@ -1,23 +1,32 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
-
-import java.io.IOException;
-import java.util.Date;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Participacao;
+import ufc.quixada.npi.gpa.model.Participacao.Funcao;
+import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 
 @Named
@@ -29,10 +38,16 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	private DocumentoRepository documentoRepository;
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	@Autowired
+	private ServidorRepository servidorRepository;
 		
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException {
 		Pessoa coordenador = pessoaRepository.getByCpf(cpf);
+		Participacao participante = new Participacao();
+		Servidor servidor = new Servidor();
+		List<Participacao> equipeDeTrabalho = new ArrayList<Participacao>();
+		
 		if(!(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
 				Documento documento = new Documento();
@@ -45,7 +60,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			}
 		}
 		
+		servidor = servidorRepository.getByPessoa(coordenador);
 		
+		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
+			participante.setFuncao(Funcao.DOCENTE);
+		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
+			participante.setFuncao(Funcao.STA);
+		}
+		participante.setParticipante(coordenador);
+		participante.setInstituicao(Instituicao.UFC);
+		
+		equipeDeTrabalho.add(participante);
+		acaoExtensao.setEquipeDeTrabalho(equipeDeTrabalho);
 		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setStatus(Status.NOVO);
 		acaoExtensaoRepository.save(acaoExtensao);
@@ -88,5 +114,68 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		return result;
 	}
-	
+
+	@Override
+	public void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		
+		if(! (arquivo.getOriginalFilename().toString().equals(""))){
+			try {
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(arquivo.getOriginalFilename().toString());
+				
+				documentoRepository.save(documento);
+				acao.getParecerRelator().setArquivo(documento);
+				
+			} catch (IOException e) {
+				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+			}
+		}
+		
+		if(acao != null){
+				acao.getParecerRelator().setDataRealizacao(new Date());
+				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
+				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
+			
+				acao.setStatus(Status.AGUARDANDO_HOMOLOGACAO);
+				
+				acaoExtensaoRepository.save(acao);
+		}
+		else{
+			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+		}
+	}
+
+	@Override
+	public void emitirParecerTecnico(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		
+		if(! (arquivo.getOriginalFilename().toString().equals(""))){
+			try {
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(arquivo.getOriginalFilename().toString());
+				
+				documentoRepository.save(documento);
+				acao.getParecerTecnico().setArquivo(documento);
+				
+			} catch (IOException e) {
+				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+			}
+		}
+		
+		if(acao != null){
+				acao.getParecerTecnico().setDataRealizacao(new Date());
+				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
+				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
+				
+				acao.setStatus(Status.AGUARDANDO_RELATOR);
+				
+				acaoExtensaoRepository.save(acao);
+		}
+		else{
+			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+		}	
+	}
 }

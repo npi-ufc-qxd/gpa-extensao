@@ -79,21 +79,29 @@
 			</div>
 		</form>
 	</div>
-	
-	<div id="pendencias-parecer-form" style="display: none" 
-		th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND 
-			${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
-		<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
-			<div class="col-md-12">
+
+	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerTecnico}" method="post">
+			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
+			<div class="col md-12">
 				<div class="form-group">
-					<label for="descricao-pendencias-parecer" class="control-label">Descrição:</label>
-					<textarea id="descicao-pendencias-parecer" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências"></textarea>
+					<label class="control-label col-md-4" for="posicionamento-relator">Posicionamento:</label>
+					<select id="select-posicionamento" th:field="*{parecerTecnico.posicionamento}" required="required">
+						<option id="favoravel" value="FAVORAVEL">Favorável</option>
+						<option id="nao-favoravel" value="NAO_FAVORAVEL">Não Favorável</option>
+					</select>
 				</div>
-				
-				<div class="form-group text-center">
-					<input type="submit" value="Enviar Solicitação" class="btn btn-info" title="Solicitar resolução de pendências" />
-					<a id="cancelar-pendencia-parecer-button" class="btn btn-default" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
+				<div class="form-group">
+					<label class="control-label col-md-4" for="comentarios-relator">Parecer:</label>
+					<textarea rows="4" cols="40" id="comentarios-relator" th:field="*{parecerTecnico.parecer}" required="required"></textarea>
 				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4" for="arquivo-relator">Arquivo:</label>
+					<input type="file" id="arquivo-relator" name="arquivo-relator"/>
+				</div>
+				<div class="form-group">
+		        	<input type="submit" class="btn btn-info center-block" value="Submeter" title="Submeter parecer"/>
+		    	</div>
 			</div>
 		</form>
 	</div>
@@ -146,7 +154,7 @@
 		<dl class="dl-horizontal">
 			<dt>Arquivo:</dt>
 			<dd
-				th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo} : '-'"></dd>
+				th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo.nome} : '-'"></dd>
 		</dl>
 	</div>
 	<div id="parecer-relator-form"
@@ -179,6 +187,31 @@
 			</div>
 		</form>
 	</div>
+	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}">
+		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerRelator}" method="post">
+			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
+			<div class="col md-12">
+				<div class="form-group">
+					<label class="control-label col-md-4" for="posicionamento-relator">Posicionamento:</label>
+					<select id="select-posicionamento" th:field="*{parecerRelator.posicionamento}" required="required">
+						<option id="favoravel" value="FAVORAVEL">Favorável</option>
+						<option id="nao-favoravel" value="NAO_FAVORAVEL">Não Favorável</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4" for="comentarios-relator">Parecer:</label>
+					<textarea rows="4" cols="40" id="comentarios-relator" th:field="*{parecerRelator.parecer}" required="required"></textarea>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4" for="arquivo-relator">Arquivo:</label>
+					<input type="file" id="arquivo-relator" name="arquivo-relator"/>
+				</div>
+				<div class="form-group">
+		        	<input type="submit" class="btn btn-info center-block" value="Submeter" title="Submeter parecer"/>
+		    	</div>
+			</div>
+		</form>
+	</div> 
 </div><!-- Fragment Parecer Relator -->
 
 </html>

@@ -18,6 +18,7 @@ public class Constants {
 	// Model attributes
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
+	public static final String MODALIDADES = "modalidades";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -46,14 +47,22 @@ public class Constants {
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
 	public static final String PAGINA_LISTAR_PARTICIPACOES = "coordenacao/crud/listar-participacoes";
+	public static final String PAGINA_LISTAR_ACOES_DIRECAO = "direcao/listagem";
+	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_LISTAR_ACOES_COORDENACAO = "coordenacao/listagem/listagem";
+	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
 
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
+	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
+	
+	// Exception Messages
+	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
 	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
@@ -63,11 +72,15 @@ public class Constants {
 	public static final String ERRO = "erro";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";
+	public static final String MESSAGE = "message";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
+	public static final String MESSAGE_SUBMISSAO = "Submetido com sucesso!";
+	public static final String MESSAGE_ANEXO_RESPONSE = "anexo-message";
+	public static final String MESSAGE_ANEXO = "Necessário fazer upload do documento!";
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";

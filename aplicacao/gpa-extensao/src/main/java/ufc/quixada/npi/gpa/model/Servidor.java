@@ -77,7 +77,7 @@ public class Servidor {
 		this.dedicacao = dedicacao;
 	}
 
-	enum Funcao {
+	public enum Funcao {
 		DOCENTE("Docente"), STA("Técnico Administrativo");
 
 		private String descricao;
