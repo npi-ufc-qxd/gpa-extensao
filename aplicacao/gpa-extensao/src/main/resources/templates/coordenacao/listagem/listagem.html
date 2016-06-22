@@ -85,15 +85,21 @@
 	      								<th>STATUS</th>
 	      								<th>INÍCIO</th>
 	      								<th>TÉRMINO</th>
+	      								<th></th>
 	    							</tr>
 	  							</thead>
 	  							<tbody>
 	  								<tr th:each="acao : ${acoesTramitacao}" th:class="${acao.status}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.status}"></td>
 	  									<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')}"></td>
 	  									<td th:text="${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+	  									<td class="acoes" align="center">
+											<a title="Resolver Pendências" th:href="@{/detalhes/} + ${acao.id}" th:class="${acao.status}" hidden="true">
+												<button class="btn btn-primary btn-xs"><i class="fa fa-exclamation-triangle"></i></button>
+											</a>
+										</td>
 	  								</tr>
 	  							</tbody>
 	  							</table>

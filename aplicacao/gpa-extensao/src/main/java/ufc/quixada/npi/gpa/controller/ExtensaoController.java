@@ -32,6 +32,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -177,9 +178,31 @@ public class ExtensaoController {
 			
 		}
 		
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
+			model.addAttribute(PENDENCIAS, acao.getParecerTecnico().getPendencias());
+			model.addAttribute("pendente", true);
+		}
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
+			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
+			model.addAttribute("pendente", true);
+		}
+		
 		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
+	}
+	@RequestMapping("/pendencias-resolvidas/{id}")
+	public String pendeciasResolvidas(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
+			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+			
+		}
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
+			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+		}
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
 	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)

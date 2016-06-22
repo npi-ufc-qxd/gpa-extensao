@@ -21,13 +21,39 @@
 			<section class="content">
 				<div class="box box-widget">
 					<div class="box-header with-border">
+						
+						<div class="row" th:if="${pendente} == true">
+          					<div class="col-xs-12">
+            					<div class="box box-solid box-warning">
+              						<div class="box-header">
+                						<h3 class="box-title">Pendências:</h3>
+                						<div th:each="pend : ${pendencias}">
+	  										<h4 th:text="${pend.descricao}"></h4>
+	  									</div>
+                						<div class="box-tools pull-right">
+                  							<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              							</div>
+          							</div>
+      							</div>
+  							</div>
+						</div>
+						
 						<table style="width: 100%;">
 							<tr>
 								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
-								<th class="col-xs-2"><button class="btn btn-danger"
+								<th class="col-xs-2">
+									<button class="btn btn-danger"
 										data-toggle="modal" data-target="#modalexcluir">
 										<i class="fa fa-trash" aria-hidden="true"></i> Excluir Ação
-									</button></th>
+									</button>
+								</th>
+								<th class="col-xs-2" th:if="${pendente} == true">
+									<a title="Pendências Resolvidas" th:href="@{/pendencias-resolvidas/} + ${acaoExtensao.id}">
+										<button class="btn btn-primary">
+											<i class="fa fa-check-square" aria-hidden="true"></i> Pendências Resolvidas
+										</button>
+									</a>
+								</th>
 							</tr>
 						</table>
 					</div>
@@ -105,7 +131,7 @@
 						<ul class=" col-sm-6 list-inline">
 							<li><label>Status:</label></li>
 							<li>
-								<h4 th:text="${acaoExtensao.status}"></h4>
+								<h4 th:text="${acaoExtensao.status.descricao}"></h4>
 							</li>
 						</ul>
 
