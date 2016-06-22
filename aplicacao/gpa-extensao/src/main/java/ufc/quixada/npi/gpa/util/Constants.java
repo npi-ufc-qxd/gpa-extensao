@@ -57,6 +57,10 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	
+	// Exception Messages
+	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
+	
 	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String ATRIBUIR_PARECERISTA_EXCEPTION = "Não foi possível atribuir! A ação não está aguardando um parecerista!";

@@ -116,6 +116,7 @@ public class ExtensaoController {
 	@Autowired
 	private DirecaoService direcaoService; 
 	
+	
 	@RequestMapping("/")
 	public String index() {
 		return PAGINA_INICIAL;
@@ -135,7 +136,7 @@ public class ExtensaoController {
 		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusNovo = Arrays.asList(Status.NOVO);
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
-		
+
 		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
 		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
 		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
@@ -174,7 +175,6 @@ public class ExtensaoController {
 			
 		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
 			model.addAttribute(RELATORES, direcaoService.getPossiveisPareceristas(id));
-			
 		}
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
@@ -304,6 +304,7 @@ public class ExtensaoController {
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}
+
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
 	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			Authentication authentication, Model model) {
@@ -325,6 +326,26 @@ public class ExtensaoController {
 		parceriaExternaRepository.delete(idParceriaExterna);
 		acaoExtensaoRepository.save(acao);
 	}	
+	
+	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)
+	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+		try {
+			acaoExtensaoService.emitirParecerRelator(acaoExtensao, arquivo);
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+		}
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+	}
+	
+	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
+	public String emitirParecerTecnico(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+		try {
+			acaoExtensaoService.emitirParecerTecnico(acaoExtensao, arquivo);
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+		}
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+	}
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Long acoesDirecaoSize(){
