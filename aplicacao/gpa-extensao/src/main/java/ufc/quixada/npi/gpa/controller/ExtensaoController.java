@@ -66,6 +66,7 @@ import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
+import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -317,7 +318,14 @@ public class ExtensaoController {
 		acao.getParceriasExternas().remove(parceria);
 		parceriaExternaRepository.delete(idParceriaExterna);
 		acaoExtensaoRepository.save(acao);
-	}	
+	}
+	
+	@RequestMapping(value = "acoes/{idAcao}/parecerTecnico/pendencias")
+	public String solicitarResolucaoPendenciasTecnico(@PathVariable Integer idAcao, Pendencia pendencia){
+		acaoExtensaoService.solicitarResolucaoPendenciasParecerTecnico(idAcao, pendencia);
+		
+		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
+	}
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Long acoesDirecaoSize(){

@@ -1,8 +1,10 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,7 +46,7 @@ public class Parecer {
 	@OneToOne
 	private Documento arquivo;
 	
-	@OneToMany(mappedBy = "parecer")
+	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)
 	private List<Pendencia> pendencias;
 	
 	public Parecer() {
@@ -125,6 +127,14 @@ public class Parecer {
 
 	public void setPendencias(List<Pendencia> pendencias) {
 		this.pendencias = pendencias;
+	}
+	
+	public void addPendencia(Pendencia pendencia){
+		if(this.getPendencias() == null){
+			this.pendencias = new ArrayList<Pendencia>();
+		}
+		
+		this.getPendencias().add(pendencia);
 	}
 
 	public Documento getArquivo() {

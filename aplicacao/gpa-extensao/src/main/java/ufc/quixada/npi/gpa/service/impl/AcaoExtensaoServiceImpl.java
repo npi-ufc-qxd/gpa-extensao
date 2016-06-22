@@ -1,17 +1,19 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+
+import java.io.IOException;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
-
-import java.io.IOException;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
@@ -53,6 +55,16 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
 		acaoExtensaoRepository.save(acaoExtensao);
 		
+	}
+	
+	@Override
+	public void solicitarResolucaoPendenciasParecerTecnico(Integer idAcao, Pendencia pendencia){
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
+		
+		acaoExtensao.getParecerTecnico().addPendencia(pendencia);
+		acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
+		
+		acaoExtensaoRepository.save(acaoExtensao);
 	}
 	
 	private String completeToLeft(String value, char c, int size) {
