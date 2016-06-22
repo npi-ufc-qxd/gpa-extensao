@@ -21,6 +21,18 @@
 			<section class="content">
 				<div class="box box-widget">
 					<div class="box-header with-border">
+						<div class="row" th:if="${homologado} == true">
+          					<div class="col-xs-12">
+            					<div class="box box-solid box-success">
+              						<div class="box-header">
+                					<h3 class="box-title">Ação de Extensão Homologada Com Sucesso!</h3>
+                						<div class="box-tools pull-right">
+                  							<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              							</div>
+          							</div>
+      							</div>
+  							</div>
+						</div>
 						<table style="width: 100%;">
 							<tr>
 								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
@@ -378,7 +390,6 @@
                         </div>
                     </div><!-- Parecer do relator -->
                 </div>
-                
 			</section>
 			<!-- /.content -->
 		</div>
