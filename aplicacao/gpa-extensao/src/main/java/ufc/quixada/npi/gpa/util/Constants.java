@@ -72,11 +72,13 @@ public class Constants {
 	public static final String ERRO = "erro";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";
+	public static final String MESSAGE = "message";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
+	public static final String MESSAGE_SUBMISSAO = "Submetido com sucesso!";
 	public static final String MESSAGE_ANEXO_RESPONSE = "anexo-message";
 	public static final String MESSAGE_ANEXO = "Necessário fazer upload do documento!";
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
