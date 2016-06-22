@@ -55,5 +55,6 @@ $(document).ready(function() {
 			"url": ptBR_url
 		}
 	});
-
+	
+	$( "#dataHomologacao" ).datepicker('setDate', new Date());
 });
