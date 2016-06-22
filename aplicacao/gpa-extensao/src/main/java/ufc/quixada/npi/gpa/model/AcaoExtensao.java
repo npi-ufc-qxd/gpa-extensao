@@ -69,7 +69,7 @@ public class AcaoExtensao {
 	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
-	@OneToMany(cascade=CascadeType.REMOVE, mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Participacao> equipeDeTrabalho;
 	
 	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
