@@ -5,15 +5,15 @@ $(document).ready(function() {
 	var acaoExtensaoId = $("#acaoExtensaoId").val();
 	carregarTabelaParticipacoes();
 	
-	$("#adicionarParticipacao").hide();
+	$("#formNovaParticipacao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function() {
-		$("#adicionarParticipacao").show(1500);
+		$("#formNovaParticipacao").show(1500);
 		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
 	});
 	
 	$("#cancelarNovaParticipacao").click(function() {
-		$("#adicionarParticipacao").hide(1500);
+		$("#formNovaParticipacao").hide(1500);
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
@@ -108,17 +108,6 @@ $(document).ready(function() {
             invalid: 'glyphicon'
          },
         fields: {
-        	funcaoSelect: {
-        		validators: {
-        			 callback: {
-                         message: "Selecione uma funcao",
-                         callback: function(value, validator) {
-                             var option = validator.getFieldElements("funcaoSelect").val();
-                             return (option!=null);
-                         }
-                     }
-                }
-        	},
         	descricaoFuncao: {
                 validators: {
                     notEmpty:{
@@ -153,44 +142,43 @@ $(document).ready(function() {
                 }
             }
         }
-	});
-	
-	$("#submitParticipacao").click(function(e) {
-		var baseURL = '/gpa-extensao/participacoes/';
-		$.ajax({
-			url : baseURL + acaoExtensaoId,
-			beforeSend: function (request)
-		    {
-				 request.setRequestHeader(header, token);
-		    },
-			type : 'POST',
-			async: false,
-			data : $("#formNovaParticipacao").serialize(),
-			error: function(){
-		        return false;
-		    },
-			success : function(result) {
-				if(result.status=="OK"){
-					var alertDiv = $("#divSucesso");
-					alertDiv.show();
-					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
-					e.preventDefault();
-					carregarTabelaParticipacoes();
-				}else{
-					for (var i = 0; i < result.result.length; i++) {
-						var alertDiv = $("#divError");
-						console.log(result.result[i].code)
-						alertDiv.append("<p>"+result.result[i].code+"</p>");
-						alertDiv.show();
-				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
-					}
-					e.preventDefault();
-					return false;
-				}
-				
-			}
-		});
-	});
+	})
+	.on('success.form.bv', function(e) {
+		 e.preventDefault();
+         var baseURL = '/gpa-extensao/participacoes/';
+         $.ajax({
+ 			url : baseURL + acaoExtensaoId,
+ 			beforeSend: function (request)
+ 		    {
+ 				 request.setRequestHeader(header, token);
+ 		    },
+ 			type : 'POST',
+ 			async: false,
+ 			data : $("#formNovaParticipacao").serialize(),
+ 			error: function(){
+ 		        return false;
+ 		    },
+ 			success : function(result) {
+ 				if(result.status=="OK"){
+ 					var alertDiv = $("#divSucesso");
+ 					alertDiv.show();
+ 					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+ 					e.preventDefault();
+ 					carregarTabelaParticipacoes();
+ 				}else{
+ 					for (var i = 0; i < result.result.length; i++) {
+ 						var alertDiv = $("#divError");
+ 						console.log(result.result[i].code)
+ 						alertDiv.append("<p>"+result.result[i].code+"</p>");
+ 						alertDiv.show();
+ 				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+ 					}
+ 					e.preventDefault();
+ 					return false;
+ 				}
+ 			}
+ 		});
+     });
 	
 	function carregarTabelaParticipacoes() {
 		 var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;
