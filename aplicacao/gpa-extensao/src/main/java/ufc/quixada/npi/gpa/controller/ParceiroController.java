@@ -33,6 +33,11 @@ public class ParceiroController {
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Long acoesDirecaoSize(){
+		return acaoExtensaoRepository.count();
+	}
+	
 	@RequestMapping(value="/novo/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novoParceiro(@PathVariable("id") Integer id, @ModelAttribute @Valid Parceiro parceiro,
 			BindingResult binding, ParceriaExterna parceriaExterna){
@@ -46,10 +51,5 @@ public class ParceiroController {
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
-	}
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
 	}
 }

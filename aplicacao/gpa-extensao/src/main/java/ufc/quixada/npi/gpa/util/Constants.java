@@ -17,7 +17,7 @@ public class Constants {
 		
 	// Model attributes
 	public static final String PARECERISTAS = "pareceristas";
-	public static final String RELATORES = "relatores";
+	public static final String PENDENCIA = "pendencia";
 	public static final String MODALIDADES = "modalidades";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";

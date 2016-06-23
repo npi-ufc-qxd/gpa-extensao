@@ -1,18 +1,17 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
-import java.util.Date;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -21,6 +20,7 @@ import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
+import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -81,6 +81,30 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
 		acaoExtensaoRepository.save(acaoExtensao);
 		
+	}
+	
+	@Override
+	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia){
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
+		
+		pendencia.setDataDeSolicitacao(new Date());
+		
+		switch (acaoExtensao.getStatus()) {
+		case AGUARDANDO_PARECER_TECNICO:
+			acaoExtensao.getParecerTecnico().addPendencia(pendencia);
+			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
+			break;
+			
+		case AGUARDANDO_PARECER_RELATOR:
+			acaoExtensao.getParecerRelator().addPendencia(pendencia);
+			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_RELATO);
+			break;
+
+		default:
+			break;
+		}
+		
+		acaoExtensaoRepository.save(acaoExtensao);
 	}
 	
 	private String completeToLeft(String value, char c, int size) {
