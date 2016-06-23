@@ -105,7 +105,6 @@ $(document).ready(function(){
     });
     function checkForm(e){
 		var selected = $("#submeter-modalidadeAcaoExtensao").find(":selected").val();
-		console.log(selected);
 		if((selected === "CURSO")||(selected === "EVENTO")){
 			$("#submeter-cargasHorarias").show("slow");
 			if((selected === "CURSO")){
