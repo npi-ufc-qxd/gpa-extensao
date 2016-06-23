@@ -34,11 +34,11 @@ public class ParticipacaoValidator implements org.springframework.validation.Val
 					continue;
 				}
 			}
-		} else if (p.getCpfParticipante() != null) {
+		} else if (p.getCpfParticipante() != "") {
 			for (Participacao participacao : participacoes) {
 				if (p.getCpfParticipante().equals(participacao.getCpfParticipante())) {
-					errors.reject("cpfParticipante", ERROR_PESSOA_JA_PARTICIPANTE);
-					continue;
+					errors.rejectValue("participante", ERROR_PESSOA_JA_PARTICIPANTE);
+					break;
 				}
 			}
 		}

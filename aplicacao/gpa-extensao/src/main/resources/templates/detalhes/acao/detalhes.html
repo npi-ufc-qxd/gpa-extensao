@@ -6,7 +6,7 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-	<input th:value="${acaoExtensaoId}" id="acaoExtensaoId" style="display: none;"/>
+
 	<div class="wrapper">
 	
 		<div th:replace="modulos/fragments :: header"></div>
@@ -177,14 +177,12 @@
       						</li>
       					</ul>
       				</div>
-      				
-      				
       			</div>
-      				
-    			<div class="row">
+      			
+      			<div class="row">
 					<div class="col-xs-12">
 						<div class="box box-info">
-							<div class="box-header form-group">
+							<div class="box-header with-border">
 								<table>
 									<thead>
 										<tr>
@@ -194,89 +192,93 @@
 									</thead>
 								</table>
 							</div>
-							<div id="formAdicionarParticipacao" class="box box-info">
-								<div class="box-header form-group">
-									<h4 class="box-tittle text-center">Adicionar Nova Participação</h4>
+							<div class="box-body with-border">
+								<div class="col-md-6">
+									<div id="adicionarParticipacao">
+										<div class="box-header with-border">
+											<h4 class="box-tittle text-center">Adicionar Nova Participação</h4>
+										</div>
+										<form id="formNovaParticipacao" method="post" th:object="${novaParticipacao}" role="form">
+											
+												<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
+													<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+													<h4><i class="icon fa fa-ban"></i> ERRO!</h4>
+												</div>
+												<div class="alert alert-warning alert-dismissible" id="funcaoAlert" hidden="true">
+													<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+													<h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+												</div>
+												<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
+													<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+													<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+													<p>Participação Cadastrada com Sucesso</p>
+												</div>
+												<div>
+													<div class="form-group">
+														<label for="funcao"><span>*</span>Função</label>
+														<select id="selectFuncao" name="funcaoSelect" class="form-control" required="required" th:field="*{funcao}">
+															<option value="">A Selecionar...</option>
+															<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
+														</select>
+													</div>
+													
+													<div class="funcaoOutra form-group">
+														<label for="descricaoFuncao"><span>*</span>Descrição da Função</label>
+														<input id="descricaoFuncao" name="descricaoFuncao" class="form-control" th:field="*{descricaoFuncao}" type="text"/>
+													</div>
+													
+													<div id="divSelectPessoa" class="form-group">
+														<label for="participante">Participante</label>
+														<select id="selectPessoa" name="selectParticipante" class="form-control" th:field="*{participante}">
+															<option value="" selected="selected">A Selecionar...</option>
+														</select>
+													</div>
+													
+													<div class="funcaoOutra form-group">
+														<label for="nomeParticipante"><span>*</span>Nome do Participante</label>
+														<input id="nomeParticipante" type="text" name="nomeParticipante" class="form-control" th:field="*{nomeParticipante}" /> 
+													</div>
+													
+													<div class="funcaoOutra form-group">
+														<label for="cpfParticipante"><span>*</span>CPF do Participante</label>
+														<input id="cpfParticipante" type="text" name="cpfParticipante" class="form-control" th:field="*{cpfParticipante}" pattern="^[0-9]+$"/>
+													</div>
+													
+													<div class="form-group">
+														<label for="instituicao"><span>*</span>Instituição</label>
+														<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
+															<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}" />
+														</select>
+													</div>
+													
+													<div id="divNomeInstituicao" class="form-group">
+														<label for="nomeInstituicao"><span>*</span>Nome da Instituição</label> 
+														<input id="nomeInstituicao" type="text" name="nomeInstituicao" class="form-control" th:field="*{nomeInstituicao}" />
+													</div>
+													
+													<div class="form-group">
+														<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs)</label>
+														<input id="cargaHoraria" type="number" name="cargaHoraria"
+															class="form-control" required="required"
+															th:field="*{cargaHoraria}" />
+													</div>
+												</div>
+							
+												<div class="box-footer text-center">
+													<input id="submitParticipacao" name="salvar" type="submit" class="btn btn-primary" value="Adicionar" />
+													<a id="cancelarNovaParticipacao" class="btn btn-warning back">Cancelar</a>
+												</div>
+										
+										</form>
+									</div>
 								</div>
-								<form id="formNovaParticipacao" method="post" th:object="${novaParticipacao}" role="form">
-	
-									<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
-										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-										<h4><i class="icon fa fa-ban"></i> ERRO!</h4>
-									</div>
-									<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
-										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-										<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
-										<p>Participação Cadastrada com Sucesso</p>
-									</div>
-									<div class="box-body">
-										<div id="formFuncao" class="form-group row">
-											<div class="col-xs-5">
-												<label for="funcao"><span>*</span>Função</label>
-												<select id="selectFuncao" class="form-control" required="required" th:field="*{funcao}">
-													<option id="default" value="" selected="selected">A Selecionar...</option>
-													<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
-												</select>
-											</div>
-											<div id="divDescricaoFuncao" class="col-xs-4 pull-right">
-												<label for="descricaoFuncao"><span>*</span>Descrição da Função</label>
-												<input id="descricaoFuncao" class="form-control" th:field="*{descricaoFuncao}" type="text"/>
-											</div>
-										</div>
-	
-										<div id="formParticipante" class="form-group row">
-											<div id="divSelectPessoa" class="col-xs-5">
-												<label for="participante">Participante</label>
-												<select id="selectPessoa" class="form-control" th:field="*{participante}">
-													<option id="default" value="" selected="selected">A Selecionar...</option>
-												</select>
-											</div>
-											<div id="divNomeCpf">
-												<div class="col-xs-5">
-													<label for="nomeParticipante"><span>*</span>Nome</label>
-													<input id="nomeParticipante" type="text" class="form-control" th:field="*{nomeParticipante}" /> 
-												</div>
-												<div class="col-xs-4 pull-right">
-													<label for="cpfParticipante"><span>*</span>CPF</label>
-													<input id="cpfParticipante" type="text" class="form-control" th:field="*{cpfParticipante}" />
-												</div>
-											</div>
-										</div>
-				
-										<div class="form-group row">
-											<div class="col-xs-5">
-												<label for="instituicao"><span>*</span>Instituição</label>
-												<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
-													<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}" />
-												</select>
-											</div>
-											<div id="divNomeInstituicao" class="col-xs-6 pull-right">
-												<label for="nomeInstituicao"><span>*</span>Nome da Instituição</label> 
-												<input id="nomeInstituicao" type="text" class="form-control" th:field="*{nomeInstituicao}" />
-											</div>
-										</div>
-										<div class="form-group row col-xs-3">
-											<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs)</label>
-											<input id="cargaHoraria" type="number" max="12"
-												min="12" class="form-control" required="required"
-												th:field="*{cargaHoraria}" />
-										</div>
-									</div>
-				
-									<div class="box-footer text-center">
-										<input id="submitParticipacao" name="salvar" type="submit" class="btn btn-primary" value="Adicionar" />
-										<a id="cancelarNovaParticipacao" class="btn btn-warning back">Cancelar</a>
-									</div>
-								</form>
 							</div>
-							
-							<div id="resultsBlock">
+							<div class="box-body with-border" id="resultsBlock">
 							</div>
-							
 						</div>
 					</div>
-				</div> <!-- Adicionar Nova Participação -->
-
+				</div>
+      				
     			<div class="box box-widget">
     				<div class="box-header with-border">
     					<table style="width:100%;">
@@ -602,6 +604,28 @@
             </div>
             <!-- /.modal-content -->
           </div>
+          <!-- /.modal-dialog -->
+        </div>
+        
+        <div class="modal fade" id="confirm-delete-participacao">
+        	<div class="modal-dialog">
+            	<div class="modal-content">
+             		<div class="modal-header">
+                		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  		<span aria-hidden="true">×</span></button>
+                		<h4 class="modal-title">Excluir Participação</h4>
+              		</div>
+              		<div class="modal-body">
+              			<p>Tem certeza que deseja excluir essa participação?</p>
+              		</div>
+              		<div class="modal-footer">
+              			<input type="hidden" id="deleteParticipacaoHiddenId" name="deleteParticipacaoHiddenId" value="" />
+                		<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok" id="deleteParticipacaoHiddenBtn">Confirmar</a>
+              		</div>
+            	</div>
+            <!-- /.modal-content -->
+          	</div>
           <!-- /.modal-dialog -->
         </div>
 		<!-- /.content-wrapper -->

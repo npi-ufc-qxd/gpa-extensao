@@ -1,5 +1,5 @@
 <!-- Head fragment, substitui todo o head da página -->
-<head th:fragment="head">
+<head th:fragment="head" >
 	<meta charset="utf-8"></meta>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
 	<title>GPA - Extensão</title>
@@ -33,6 +33,8 @@
 	<!-- Select2 -->
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
+	<!-- Bootstrap Validator -->
+	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />
 </head>
 <!-- Fim do head -->
 
@@ -120,9 +122,6 @@
 	<script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
 	<!-- Scripts GPA -->
 	<script th:src="@{/gpa/direcao/index.js}"></script>
-	<!-- Script da listagem de ações da coordenação -->
-	<script th:src="@{/js/listagem.js}"></script>
-	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
 	<!-- Para página de detalhes -->
 	<script th:src="@{/js/parceria-externa.js}"></script>
 	<script th:src="@{/js/detalheAcao.js}"></script>
@@ -130,6 +129,12 @@
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<!-- Bootstrap Validator -->
+	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
+    <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>
+    <!-- Script da listagem de ações da coordenação -->
+	<script th:src="@{/js/listagem.js}"></script>
+	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 	<!-- AdminLTE App -->

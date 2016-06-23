@@ -70,6 +70,6 @@ public class Constants {
 	public static final String RESPONSE_DATA = "result";
 		
 	//Errors
-	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "acaoExtensao.pessoaParticipante";
+	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 
 }

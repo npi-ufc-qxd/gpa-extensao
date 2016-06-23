@@ -1,25 +1,26 @@
 $(document).ready(function() {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 	
 	var acaoExtensaoId = $("#acaoExtensaoId").val();
-	carregarTable(acaoExtensaoId);
+	carregarTabelaParticipacoes();
 	
-	$("#formAdicionarParticipacao").hide();
+	$("#adicionarParticipacao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function() {
-		$("#formAdicionarParticipacao").show(1500);
+		$("#adicionarParticipacao").show(1500);
 		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
 	});
 	
 	$("#cancelarNovaParticipacao").click(function() {
-		$("#formAdicionarParticipacao").hide(1500);
+		$("#adicionarParticipacao").hide(1500);
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
-	$("#selectFuncao, #selectPessoa, #selectInstituicao").select2();
+	$("#selectPessoa, #selectInstituicao").select2();
 	
-	$("#divNomeCpf, #divDescricaoFuncao ,#divNomeInstituicao").hide();
+	$(".funcaoOutra ,#divNomeInstituicao").hide();
 	
-	$("#cpfParticipante").mask("999.999.999-99");
 	
 	//Essa funcao oculta e mostra os campos do form conforme a opcao selecionada
 	$("#selectFuncao").change(function() {
@@ -30,7 +31,7 @@ $(document).ready(function() {
 			$("#selectPessoa").attr("selectedIndex", -1);
 			$("#divSelectPessoa").hide(1000);
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
-			$("#divNomeCpf, #divDescricaoFuncao").show(1000);
+			$(".funcaoOutra").show(1000);
 			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "ALUNO_VOLUNTARIO") {
 			reset();
@@ -44,15 +45,11 @@ $(document).ready(function() {
 	
 	function reset() {
 		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$("#divNomeCpf, #divDescricaoFuncao").hide(1000);
+		$(".funcaoOutra").hide(1000);
 		$("#divSelectPessoa").show(1000);
-		$("#cargaHoraria").removeAttr('max').removeAttr('min');
 	}
 	
 	function buscaPessoas(funcao) {
-		//token e header são do cabeçalho para a requisição não ser rejeitada
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
 		
 		if(funcao == "ALUNO_VOLUNTARIO") {
 			var caminho = "/gpa-extensao/buscarAlunos";
@@ -106,9 +103,59 @@ $(document).ready(function() {
 		}
 	});
 	
+	$("#formNovaParticipacao").bootstrapValidator({
+		feedbackIcons: {
+            invalid: 'glyphicon'
+         },
+        fields: {
+        	funcaoSelect: {
+        		validators: {
+        			 callback: {
+                         message: "Selecione uma funcao",
+                         callback: function(value, validator) {
+                             var option = validator.getFieldElements("funcaoSelect").val();
+                             return (option!=null);
+                         }
+                     }
+                }
+        	},
+        	descricaoFuncao: {
+                validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+            },
+            nomeParticipante: {
+                validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+            },
+            cpfParticipante: {
+                validators: {
+                	stringLength: {
+                        min: 11,
+                        max: 11,
+                        message: "O CPF deve ter 11 números"
+                    },
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+            },
+            nomeInstituicao: {
+                validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+            }
+        }
+	});
+	
 	$("#submitParticipacao").click(function(e) {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
 		var baseURL = '/gpa-extensao/participacoes/';
 		$.ajax({
 			url : baseURL + acaoExtensaoId,
@@ -122,17 +169,18 @@ $(document).ready(function() {
 			error: function(){
 		        return false;
 		    },
-			success : function(data) {
-				if(data.status=="OK"){
+			success : function(result) {
+				if(result.status=="OK"){
 					var alertDiv = $("#divSucesso");
 					alertDiv.show();
 					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
-					carregarTable(acaoExtensaoId);
 					e.preventDefault();
+					carregarTabelaParticipacoes();
 				}else{
-					for (var i = 0; i < data.result.length; i++) {
+					for (var i = 0; i < result.result.length; i++) {
 						var alertDiv = $("#divError");
-						alertDiv.append("<p>"+data.result[i].code+"</p>");
+						console.log(result.result[i].code)
+						alertDiv.append("<p>"+result.result[i].code+"</p>");
 						alertDiv.show();
 				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
 					}
@@ -144,9 +192,44 @@ $(document).ready(function() {
 		});
 	});
 	
-	function carregarTable(acaoExtensaoId) {
-		var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;;
-	    
-	    $("#resultsBlock").load(url);
+	function carregarTabelaParticipacoes() {
+		 var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;
+		 $("#resultsBlock").load(url, function() {
+			 $('#table-participacoes').DataTable({
+					"order" : [[ 0, "asc" ]],
+					"columnDefs" : [ 
+					    {className: "dt-center", "targets": [1, 4, 5]},            
+				        {"targets" : 4, "orderable" : false},
+				        {"targets" : 5, "orderable" : false},
+				        { "width": "15%", "targets":4 },
+					],
+					"language": {
+				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
+				    },
+					"paging":   false,
+			        "searching": false,
+			        "info":     false,
+				});
+		 });
 	}
+	
+	$("#confirm-delete-participacao").on("show.bs.modal", function(e) {
+		$("#deleteParticipacaoHiddenId").val($(e.relatedTarget).data("id"));
+	});
+
+	$("#deleteParticipacaoHiddenBtn").click(function(e) {
+		e.preventDefault();
+		var participacaoId = $("#deleteParticipacaoHiddenId").val();
+	    $("#confirm-delete-participacao").modal('hide');
+		$.ajax({
+			url : '/gpa-extensao/excluir/participacao/'+ participacaoId,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+			type : 'GET',
+			async: false,
+		});
+		carregarTabelaParticipacoes();
+	});
 });
