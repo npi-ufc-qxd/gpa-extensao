@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,7 +32,7 @@ public class AcaoExtensao {
 	private String identificador;
 	
 	private String titulo;
-	
+	@Column(columnDefinition = "TEXT")
 	private String resumo;
 	
 	@Enumerated(EnumType.STRING)
@@ -40,9 +41,9 @@ public class AcaoExtensao {
 	private Integer horasPraticas;
 	
 	private Integer horasTeoricas;
-		
+	@Column(columnDefinition = "TEXT")
 	private String ementa;
-		
+	@Column(columnDefinition = "TEXT")	
 	private String programacao;
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;

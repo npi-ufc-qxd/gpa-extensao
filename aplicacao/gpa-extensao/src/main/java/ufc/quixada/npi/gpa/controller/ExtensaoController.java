@@ -320,15 +320,16 @@ public class ExtensaoController {
 
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
 	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-			Authentication authentication, Model model) {
+			Authentication authentication, Model model, RedirectAttributes redirect) {
+		Integer acaoId = 0;
 		try {
-			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
+			acaoId = acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO,e.getMessage());
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
-		model.addAttribute(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return PAGINA_INICIAL;		
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoId;		
 	}
 	
 	@RequestMapping(value="/excluir/{idParceria}")

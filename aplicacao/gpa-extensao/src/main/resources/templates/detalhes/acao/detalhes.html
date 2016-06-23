@@ -21,6 +21,11 @@
 			<section class="content">
 				<div class="box box-widget">
 					<div class="box-header with-border">
+						<div th:if="${message}" class="alert alert-success alert-dismissible">
+                			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                			<h4><i class="icon fa fa-check"></i></h4>
+                			<p th:text="${message}"></p>
+              			</div>
 						<div class="row" th:if="${homologado} == true">
           					<div class="col-xs-12">
             					<div class="box box-solid box-success">
@@ -33,6 +38,7 @@
       							</div>
   							</div>
 						</div>
+						
 						<table style="width: 100%;">
 							<tr>
 								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
