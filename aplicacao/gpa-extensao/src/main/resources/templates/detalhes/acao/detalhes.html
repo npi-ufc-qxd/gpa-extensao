@@ -460,7 +460,7 @@
 										</li>
 										
 										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
-											<a id="emitir-parecer-button" href="">Emitir parecer</a>
+											<a id="emitir-parecer-button" href="#emitir-parecer-form">Emitir parecer</a>
 										</li>
 									
 									</ul>
@@ -470,13 +470,13 @@
 								
 								<div th:if="${acaoExtensao.parecerTecnico == null}">
 									
-									<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
+									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
 									
 								</div>
 								
 								<div  th:unless="${acaoExtensao.parecerTecnico == null}">
 									
-									<div th:replace="detalhes/acao/fragments :: parecer-tecnico"></div>
+									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-tecnico"></div>
 									
 								</div>
 								
@@ -489,17 +489,40 @@
                         <div class="box box-info">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Parecer do Relator</h3>
+                                
+                                <div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})"
+									id="parecer-relator-acoes" class="box-tools pull-right dropdown">
+									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" aria-expanded="false">
+										<i class="glyphicon glyphicon-menu-hamburger"></i>
+									</a>
+									
+									<ul class="dropdown-menu">
+										
+										<li sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}">
+											<a  id="alterar-relator-button" href="#parecer-relator-form">Alterar relator</a>
+										</li>
+										
+										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
+											<a id="restricoes-relato-button" href="#restricoes-relato-form">Solicitar resolução de restrições</a>
+										</li>
+										
+										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
+											<a id="emitir-parecer-button" href="">Emitir parecer</a>
+										</li>
+									
+									</ul>
+								</div>
                             </div>
                             <div class="box-body">
                             
                             	<div th:if="${acaoExtensao.parecerRelator == null}">
                         			
-                        			<div th:replace="detalhes/acao/fragments :: nenhum-parecer"></div>
+                        			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
                         		</div>
                         		
                         		<div th:unless="${acaoExtensao.parecerRelator == null}">
                         			
-                        			<div th:replace="detalhes/acao/fragments :: parecer-relator"></div>
+                        			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator"></div>
                         		</div>
                         		
                             </div><!-- Box body -->

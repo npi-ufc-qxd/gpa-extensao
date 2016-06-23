@@ -51,7 +51,7 @@
 	</div>
 
 	<div id="parecer-tecnico-form"
-		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}"
+		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} OR ${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}"
 		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO PARECERISTA'} ? 'display: none'">
 		<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
@@ -87,7 +87,7 @@
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="descricao-pendencias-parecer" class="control-label">Descrição:</label>
-					<textarea id="descicao-pendencias-parecer" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências"></textarea>
+					<textarea id="descricao-pendencias-parecer" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências"></textarea>
 				</div>
 				
 				<div class="form-group text-center">
@@ -98,27 +98,29 @@
 		</form>
 	</div>
 	
-	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}">
+	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
+		id="emitir-parecer-form" style="display: none;">
 		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerTecnico}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
-			<div class="col md-12">
+			<div class="col-md-12">
 				<div class="form-group">
-					<label class="control-label col-md-4" for="posicionamento-relator">Posicionamento:</label>
-					<select id="select-posicionamento" th:field="*{parecerTecnico.posicionamento}" required="required">
-						<option id="favoravel" value="FAVORAVEL">Favorável</option>
-						<option id="nao-favoravel" value="NAO_FAVORAVEL">Não Favorável</option>
+					<label class="control-label" for="posicionamento-parecerista">Posicionamento:</label>
+					<select id="posicionamento-parecerista" class="select-posicionamento form-control" th:field="*{parecerTecnico.posicionamento}" required="required">
+						<option value="FAVORAVEL">Favorável</option>
+						<option value="NAO_FAVORAVEL">Não Favorável</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-4" for="comentarios-relator">Parecer:</label>
-					<textarea rows="4" cols="40" id="comentarios-relator" th:field="*{parecerTecnico.parecer}" required="required"></textarea>
+					<label class="control-label" for="comentarios-parecerista">Parecer:</label>
+					<textarea rows="4" cols="40" id="comentarios-parecerista" class="form-control" th:field="*{parecerTecnico.parecer}" required="required"></textarea>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-4" for="arquivo-relator">Arquivo:</label>
-					<input type="file" id="arquivo-relator" name="arquivo-relator"/>
+					<label class="control-label" for="arquivo-parecerista">Arquivo:</label>
+					<input type="file" id="arquivo-parecerista" name="arquivo-parecerista"/>
 				</div>
-				<div class="form-group">
-		        	<input type="submit" class="btn btn-info center-block" value="Submeter" title="Submeter parecer"/>
+				<div class="form-group text-center">
+		        	<input type="submit" class="btn btn-info" value="Submeter" title="Submeter parecer"/>
+		        	<a id="cancelar-emitir-parecer-button" class="btn btn-default" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
 		    	</div>
 			</div>
 		</form>
@@ -138,14 +140,8 @@
 		th:style="${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'} ? 'display: none'">
 		<dl class="dl-horizontal">
 			<dt>Parecerista:</dt>
-			<dd>
-				<span
-					th:text="${acaoExtensao.parecerRelator.responsavel} ? ${acaoExtensao.parecerRelator.responsavel.nome} : '-'"></span>
-				<a th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}"
-					id="alterar-relator-button" class="btn btn-xs btn-warning"
-					title="Alterar Relator"> <i class="fa fa-edit"></i>
-				</a>
-			</dd>
+			<dd 
+				th:text="${acaoExtensao.parecerRelator.responsavel} ? ${acaoExtensao.parecerRelator.responsavel.nome} : '-'"></dd>
 		</dl>
 		<dl class="dl-horizontal">
 			<dt>Data da atribuição:</dt>
@@ -177,6 +173,7 @@
 	</div>
 	
 	<div id="parecer-relator-form"
+		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} OR ${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'}"
 		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO RELATOR'} ? 'display: none'">
 		<form class="form-horizontal" th:object="${acaoExtensao}"
 			th:action="@{/direcao/relator}" method="post">
@@ -207,24 +204,42 @@
 		</form>
 	</div>
 	
-	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}">
+	<div id="restricoes-relato-form" style="display: none" 
+		th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND 
+			${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
+		<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="descricao-restricoes-relato" class="control-label">Descrição:</label>
+					<textarea id="descricao-restricoes-relato" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as restrições"></textarea>
+				</div>
+				
+				<div class="form-group text-center">
+					<input type="submit" value="Enviar Solicitação" class="btn btn-info" title="Solicitar resolução de restrições" />
+					<a id="cancelar-restricao-relato-button" class="btn btn-default" title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
 		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerRelator}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
-			<div class="col md-12">
+			<div class="col-md-12">
 				<div class="form-group">
-					<label class="control-label col-md-4" for="posicionamento-relator">Posicionamento:</label>
-					<select id="select-posicionamento" th:field="*{parecerRelator.posicionamento}" required="required">
-						<option id="favoravel" value="FAVORAVEL">Favorável</option>
-						<option id="nao-favoravel" value="NAO_FAVORAVEL">Não Favorável</option>
+					<label class="control-label" for="posicionamento-relator">Posicionamento:</label>
+					<select id="posicionamento-relator" class="select-posicionamento form-control" th:field="*{parecerRelator.posicionamento}" required="required">
+						<option value="FAVORAVEL">Favorável</option>
+						<option value="NAO_FAVORAVEL">Não Favorável</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-4" for="comentarios-relator">Parecer:</label>
-					<textarea rows="4" cols="40" id="comentarios-relator" th:field="*{parecerRelator.parecer}" required="required"></textarea>
+					<label class="control-label" for="comentarios-relator">Parecer:</label>
+					<textarea rows="4" cols="40" id="comentarios-relator" class="form-control" th:field="*{parecerRelator.parecer}" required="required"></textarea>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-4" for="arquivo-relator">Arquivo:</label>
-					<input type="file" id="arquivo-relator" name="arquivo-relator"/>
+					<label class="control-label" for="arquivo-relator">Arquivo:</label>
+					<input id="arquivo-relator" type="file" name="arquivo-relator"/>
 				</div>
 				<div class="form-group">
 		        	<input type="submit" class="btn btn-info center-block" value="Submeter" title="Submeter parecer"/>

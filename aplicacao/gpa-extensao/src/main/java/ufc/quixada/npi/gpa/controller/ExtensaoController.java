@@ -160,6 +160,7 @@ public class ExtensaoController {
 		return PAGINA_LISTAR_ACOES_COORDENACAO;
 	}
 
+	@Transactional(readOnly = true)
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model,
 			RedirectAttributes redirectAttributes){
@@ -350,7 +351,7 @@ public class ExtensaoController {
 	}
 	
 	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
-	public String emitirParecerTecnico(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+	public String emitirParecerTecnico(@RequestParam("arquivo-parecerista") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
 		try {
 			acaoExtensaoService.emitirParecerTecnico(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
