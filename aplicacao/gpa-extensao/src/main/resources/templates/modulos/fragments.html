@@ -12,6 +12,7 @@
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link rel="stylesheet"
 		th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}">
@@ -33,8 +34,15 @@
 	<!-- Select2 -->
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
-	<!-- Bootstrap Validator -->
-	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />
+	<!-- Bootstrap Datapicker -->
+	<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>	
+		
+	<!-- jQuery 2.2.0 -->
+	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js}"></script>
+	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
+	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
+	<script th:src="@{/js/cadastrarAcao.js}"></script>
 </head>
 <!-- Fim do head -->
 
@@ -77,7 +85,7 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul class="sidebar-menu">
 			<li class="header">COORDENAÇÃO</li>
-			<li class="active"><a href="#"> <i class="fa fa-plus"></i>
+			<li class="active"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
 			<li><a th:href="@{/coordenacao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
@@ -114,7 +122,6 @@
 	<![endif]-->
 	
 	<!-- jQuery 2.2.0 -->
-	<!-- script th:src="@{/js/jQuery-2.2.0.min.js}"></script-->
 	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
@@ -126,12 +133,17 @@
 	<script th:src="@{/js/parceria-externa.js}"></script>
 	<script th:src="@{/js/detalheAcao.js}"></script>
 	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
+	
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
-	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
-	<!-- Bootstrap Validator -->
+	
 	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
-    <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>
+	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>
+	<!-- 	* -->
+	<script th:src="@{/gpa/coordenacao/submeterAcao.js}"></script>
+	<script th:src="@{/js/moment.js}"></script>
+	<script th:src="@{/js/moment.min.js}"></script>
+	
     <!-- Script da listagem de ações da coordenação -->
 	<script th:src="@{/js/listagem.js}"></script>
 	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
@@ -144,8 +156,11 @@
 	<!-- Data Tables -->
 	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+	<!-- Jquery Validation -->
+	<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
 	<!-- Select 2 -->
 	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
+	
 	
 </footer>
 <!-- Fim do rodapé -->

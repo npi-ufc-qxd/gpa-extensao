@@ -15,6 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+
+
 @Entity
 public class AcaoExtensao {
 	
@@ -33,8 +37,16 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
 	
-	private Date inicio;
+	private Integer horasPraticas;
 	
+	private Integer horasTeoricas;
+		
+	private String ementa;
+		
+	private String programacao;
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	private Date inicio;
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
 	
 	private boolean prorrogavel;
@@ -54,19 +66,19 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento anexo;
 	
-	@OneToMany(mappedBy = "acaoExtensao")
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Participacao> equipeDeTrabalho;
 	
-	@OneToMany(mappedBy = "acaoExtensao", cascade=CascadeType.MERGE)
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<ParceriaExterna> parceriasExternas;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerTecnico;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
 
 	public AcaoExtensao() {
@@ -145,6 +157,38 @@ public class AcaoExtensao {
 		this.modalidade = modalidade;
 	}
 
+	public Integer getHorasPraticas() {
+		return horasPraticas;
+	}
+
+	public void setHorasPraticas(Integer horasPraticas) {
+		this.horasPraticas = horasPraticas;
+	}
+
+	public Integer getHorasTeoricas() {
+		return horasTeoricas;
+	}
+
+	public void setHorasTeoricas(Integer horasTeoricas) {
+		this.horasTeoricas = horasTeoricas;
+	}
+
+	public String getEmenta() {
+		return ementa;
+	}
+
+	public void setEmenta(String ementa) {
+		this.ementa = ementa;
+	}
+
+	public String getProgramacao() {
+		return programacao;
+	}
+
+	public void setProgramacao(String programacao) {
+		this.programacao = programacao;
+	}
+	
 	public Date getInicio() {
 		return inicio;
 	}

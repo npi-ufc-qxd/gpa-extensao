@@ -121,7 +121,19 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	$(".selectParceiro").select2();
-	$(".table-parceria-externa").DataTable();
+	$(".table-parceria-externa").DataTable({
+		"order" : [[ 0, "asc" ]],
+        "columnDefs" : [ 
+            {className: "dt-center", "targets": 8},            
+            {"targets" : [2,3,4,5,6,7,8], "orderable" : false}
+        ],
+        "language": {
+            "url": "/gpa-extensao/js/Portuguese-Brasil.json"
+        },
+        "paging":   false,
+        "searching": false,
+        "info":     false
+	});
 	
 	$("#confirm-delete-parceria-externa").on("show.bs.modal", function(e) {
 		$(this).find(".btn-ok").attr("href",$(e.relatedTarget).data("href"));
@@ -141,7 +153,7 @@ $(document).ready(function() {
             {
 				 request.setRequestHeader(header, token);
             },
-			type : 'GET',
+            type : 'GET',
 			complete: function(){
 				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex+1);
 			}

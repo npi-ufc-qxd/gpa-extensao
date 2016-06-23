@@ -1,8 +1,10 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -41,10 +43,10 @@ public class Parecer {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REMOVE)
 	private Documento arquivo;
 	
-	@OneToMany(mappedBy = "parecer")
+	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)
 	private List<Pendencia> pendencias;
 	
 	public Parecer() {
@@ -125,6 +127,15 @@ public class Parecer {
 
 	public void setPendencias(List<Pendencia> pendencias) {
 		this.pendencias = pendencias;
+	}
+	
+	public void addPendencia(Pendencia pendencia){
+		if(this.pendencias == null){
+			this.pendencias = new ArrayList<Pendencia>();
+		}
+		
+		pendencia.setParecer(this);
+		this.pendencias.add(pendencia);
 	}
 
 	public Documento getArquivo() {

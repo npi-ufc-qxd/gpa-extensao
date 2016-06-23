@@ -13,7 +13,11 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>Nova Ação de Extensão</h1>
+              	<div class="alert alert-success alert-dismissible" th:if="${message}">
+                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                	<h4><i class="icon fa fa-check"></i></h4>
+                	<p th:text="${message}"></p>
+              	</div>
 			</section>
 
 			<!-- Main content -->

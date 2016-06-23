@@ -173,7 +173,7 @@ public class Participacao {
 		this.acaoExtensao = acaoExtensao;
 	}
 
-	public enum Funcao{
+	public enum Funcao {
 		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
 		
 		private String descricao;
