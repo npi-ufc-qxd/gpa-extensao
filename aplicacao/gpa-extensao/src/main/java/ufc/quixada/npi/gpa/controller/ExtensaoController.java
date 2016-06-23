@@ -20,9 +20,9 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
@@ -30,14 +30,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.PARECER_TECNICO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.RELATORES;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
