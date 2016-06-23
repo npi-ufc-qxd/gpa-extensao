@@ -324,13 +324,16 @@ public class ExtensaoController {
 		return PAGINA_INICIAL;		
 	}
 	
-	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
-	public void deleteParceriaExterna(@PathVariable("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+	@RequestMapping(value="/excluir/{idParceria}")
+	public @ResponseBody Map<String, Object> deleteParceriaExterna(@RequestParam("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+		Map<String, Object> map = new HashMap<String, Object>();
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
 		acao.getParceriasExternas().remove(parceria);
-		parceriaExternaRepository.delete(idParceriaExterna);
 		acaoExtensaoRepository.save(acao);
+		parceriaExternaRepository.delete(idParceriaExterna);
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		return map;
 	}	
 	
 	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)

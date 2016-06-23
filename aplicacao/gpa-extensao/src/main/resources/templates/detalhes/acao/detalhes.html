@@ -285,7 +285,7 @@
 						</form>
     				</div>
     				<div class="box-body with-border">
-    					<table class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
+    					<table th:if="${not #lists.isEmpty(acaoExtensao.parceriasExternas)}" class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -302,7 +302,7 @@
 							
 							<tbody>
 								
-								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}">
+								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}" id="row+${rowStat.count}">
 									<td th:text="${rowStat.count}"></td>
 									<td th:text="${parceria.parceiro.nome}"></td>
 									<td>
@@ -330,7 +330,7 @@
 											data-toggle="modal"
 											data-target="#confirm-delete-parceria-externa"
 											th:attr="data-href=${parceria.id}"
-											th:attrappend="data-row=${rowStat.index}">
+											th:attrappend="data-row=${rowStat.count}">
 											<i class="glyphicon glyphicon-trash"></i>
 										</a>
                             		</td>
