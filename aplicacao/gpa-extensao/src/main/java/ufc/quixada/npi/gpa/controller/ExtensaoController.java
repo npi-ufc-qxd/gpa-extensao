@@ -35,6 +35,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -254,7 +255,7 @@ public class ExtensaoController {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
 	    
-	    return "detalhes/acao/participacoes :: participacoesList";
+	    return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
 
 	@RequestMapping("/buscarServidores")
