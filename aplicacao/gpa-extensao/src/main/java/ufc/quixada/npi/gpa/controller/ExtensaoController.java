@@ -22,22 +22,20 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -171,11 +169,16 @@ public class ExtensaoController {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
-		model.addAttribute(ACAO_EXTENSAO_ID, id);
+		
 		model.addAttribute("parceiro",new Parceiro());
 		model.addAttribute("parceriaExterna",new ParceriaExterna());
 		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
 		
+		model.addAttribute(ACAO_EXTENSAO, acao);
+		model.addAttribute("novaParticipacao", new Participacao());
+		model.addAttribute("funcoes", listaDeFuncoes());
+		model.addAttribute("instituicoes", Instituicao.values());
+
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(ALERTA_PARECER, MESSAGE_PARECERISTA_NAO_ATRIBUIDO);
@@ -190,8 +193,6 @@ public class ExtensaoController {
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(PENDENCIA, new Pendencia());
 		}
-		
-		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
@@ -212,37 +213,20 @@ public class ExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
-	@RequestMapping(value="/participacoes/{id}", method=RequestMethod.GET)
-	public String formAdicionarParticipacao(@PathVariable("id") Integer id, Model model) {
-		model.addAttribute("idAcao", id);
-		model.addAttribute("participacao", new Participacao());
-		model.addAttribute("funcoes", listaDeFuncoes());
-		model.addAttribute("instituicoes", Instituicao.values());
-		
-		return PAGINA_ADICIONAR_PARTICIPACAO;
-	}
-	
 	@RequestMapping(value="/participacoes/{idAcao}", method=RequestMethod.POST)
-	public String adicionarParticipacao(@ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
+	public @ResponseBody Map<String, Object> adicionarParticipacao(@Valid @ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		
-		if(acao == null) {
-			redirectAttributes.addFlashAttribute("erro", "Projeto inexistente");
-			return "/";
-		}
-		
-		participacao.setCpfParticipante(participacao.getCpfParticipante().replaceAll("[^0-9]", ""));
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result.hasErrors()) {
-			model.addAttribute("idAcao", idAcao);
-			model.addAttribute("participacao", participacao);
-			model.addAttribute("funcoes", listaDeFuncoes());
-			model.addAttribute("instituicoes", Instituicao.values());
-			return PAGINA_ADICIONAR_PARTICIPACAO;
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
+			map.put(RESPONSE_DATA, result.getFieldErrors());
+			return map;
 		}
 		
 		Pessoa usuario = pessoaRepository.getByCpf(authentication.getName());
@@ -256,18 +240,25 @@ public class ExtensaoController {
 		
 		participacaoRepository.save(participacao);
 		
-		return REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO+idAcao;
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		map.put("participacao", participacao);
+		return map;
 	}
 	
-	@RequestMapping(value="/listar-participacoes/{id}", method=RequestMethod.GET)
-	public String listarParticipacoes(@PathVariable("id") Integer id, Model model) {
+	@RequestMapping(value="/excluir/participacao/{id}")
+	public @ResponseBody void deleteParticipacao(@PathVariable("id") Integer id){
+		participacaoRepository.delete(id);
+	}	
+	
+	@RequestMapping(value = "/buscarParticipacoes/{idAcao}", method = RequestMethod.GET)
+	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-		
-		return PAGINA_LISTAR_PARTICIPACOES;
+	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
+	    
+	    return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
-	
-	
+
 	@RequestMapping("/buscarServidores")
 	public @ResponseBody List<Servidor> buscarServidores() {
 		return servirdorRepository.findAll();
@@ -302,6 +293,7 @@ public class ExtensaoController {
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
+	
 	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
 			Model model, Authentication auth, BindingResult binding){

@@ -155,7 +155,7 @@ $(document).ready(function() {
             },
             type : 'GET',
 			complete: function(){
-				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex);
+				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex+1);
 			}
 		});
 	});

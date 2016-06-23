@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <!-- Head fragment, substitui todo o head da página -->
-<head th:fragment="head">
+<head th:fragment="head" >
 	<meta charset="utf-8"></meta>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
 	<title>GPA - Extensão</title>
@@ -10,15 +10,17 @@
 		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 		name="viewport">
 	</meta>
+	
+	<!-- tokens -->
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	
 	<!-- Bootstrap 3.3.6 -->
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
 	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />
+	
 	<!-- Font Awesome -->
-	<link rel="stylesheet"
-		th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}">
-	</link>
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
 	<!-- Ionicons -->
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>
 	<!-- Theme style -->
@@ -37,14 +39,8 @@
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
 	<!-- Bootstrap Datapicker -->
-	<link rel="stylesheet" th:href="@{/bootstrap_datepicker/css/bootstrap-datepicker.min.css}"></link>	
-		
-	<!-- jQuery 2.2.0 -->
-	<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js}"></script>
-	<script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
-	<script th:src="@{/bootstrap_datepicker/js/bootstrap-datepicker.min.js}"></script>
-	<script th:src="@{/bootstrap_datepicker/js/locales/bootstrap-datepicker.pt-BR.js}"></script>
-	<script th:src="@{/js/cadastrarAcao.js}"></script>
+	<link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}"></link>	
+	
 </head>
 <!-- Fim do head -->
 
@@ -131,23 +127,27 @@
 	<script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
 	<!-- Scripts GPA -->
 	<script th:src="@{/gpa/direcao/index.js}"></script>
-	<!-- Script da listagem de ações da coordenação -->
-	<script th:src="@{/js/listagem.js}"></script>
-	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
+	
 	<!-- Para página de detalhes -->
 	<script th:src="@{/js/parceria-externa.js}"></script>
 	<script th:src="@{/js/detalheAcao.js}"></script>
 	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
+	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
 	
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
-	
 	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
 	<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>
+	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js}"></script>
+	
 	<!-- 	* -->
 	<script th:src="@{/gpa/coordenacao/submeterAcao.js}"></script>
-	<script th:src="@{/js/moment.js}"></script>
 	<script th:src="@{/js/moment.min.js}"></script>
+	
+    <!-- Script da listagem de ações da coordenação -->
+	<script th:src="@{/js/listagem.js}"></script>
+	<script th:src="@{/js/cadastrarAcao.js}"></script>
 	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
@@ -158,8 +158,6 @@
 	<!-- Data Tables -->
 	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
-	<!-- Jquery Validation -->
-	<script th:src="@{/plugins/jquery_validation/dist/jquery.validate.min.js}"></script>
 	<!-- Select 2 -->
 	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
 	
