@@ -4,6 +4,10 @@ $(document).ready(function(){
 	
 	$(".select-posicionamento").select2();
 	
+	$("#pendencias-body").slimScroll({
+		height: "250px"
+	});
+	
 	$(".prazo-parecer").datepicker({
 	    format: "dd/mm/yyyy",
 	    startDate: "+1d",
@@ -48,15 +52,15 @@ $(document).ready(function(){
 		$("#parecer-tecnico-info").show(1000);
 	});
 	
-	$("#restricoes-relato-button").on("click", function(){
+	$("#pendencias-relato-button").on("click", function(){
 		$("#parecer-relator-acoes").hide();
 		$("#parecer-relator-info").hide();
-		$("#restricoes-relato-form").show(1000);
+		$("#pendencias-relato-form").show(1000);
 	});
 	
-	$("#cancelar-restricao-relato-button").on("click", function(){
+	$("#cancelar-pendencia-relato-button").on("click", function(){
 		$("#parecer-relator-acoes").show();
-		$("#restricoes-relato-form").hide();
+		$("#pendencias-relato-form").hide();
 		$("#parecer-relator-info").show(1000);
 	});
 	
