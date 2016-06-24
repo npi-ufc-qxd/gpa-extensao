@@ -54,6 +54,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -261,7 +262,6 @@ public class ExtensaoController {
 		
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		map.put("participacao", participacao);
 		return map;
 	}
 	
@@ -276,6 +276,24 @@ public class ExtensaoController {
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
 	    
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
+	}
+	
+	@RequestMapping(value = "/vincularBolsistas/{idParticipacao}/{idAluno}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> vincularBolsistas(@PathVariable("idAluno") Integer idAluno,
+			@PathVariable("idParticipacao") Integer idParticipacao) {
+		Participacao participacao = participacaoRepository.findOne(idParticipacao);
+		Pessoa aluno = pessoaRepository.findOne(idAluno);
+		
+		participacao.setNomeParticipante("");
+		participacao.setCpfParticipante("");
+		participacao.setParticipante(aluno);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		participacaoRepository.save(participacao);
+		
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		return map;
 	}
 
 	@RequestMapping("/buscarServidores")
