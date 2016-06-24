@@ -204,19 +204,19 @@
 		</form>
 	</div>
 	
-	<div id="restricoes-relato-form" style="display: none" 
+	<div id="pendencias-relato-form" style="display: none" 
 		th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND 
 			${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
 		<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label for="descricao-restricoes-relato" class="control-label">Descrição:</label>
-					<textarea id="descricao-restricoes-relato" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as restrições"></textarea>
+					<label for="descricao-pendencias-relato" class="control-label">Descrição:</label>
+					<textarea id="descricao-pendencias-relato" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências"></textarea>
 				</div>
 				
 				<div class="form-group text-center">
-					<input type="submit" value="Enviar Solicitação" class="btn btn-info" title="Solicitar resolução de restrições" />
-					<a id="cancelar-restricao-relato-button" class="btn btn-default" title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
+					<input type="submit" value="Enviar Solicitação" class="btn btn-info" title="Solicitar resolução de pendências" />
+					<a id="cancelar-pendencia-relato-button" class="btn btn-default" title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
 				</div>
 			</div>
 		</form>

@@ -33,6 +33,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
+import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
@@ -165,6 +166,7 @@ public class ExtensaoController {
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model,
 			RedirectAttributes redirectAttributes){
+		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
@@ -175,7 +177,6 @@ public class ExtensaoController {
 		model.addAttribute("parceriaExterna",new ParceriaExterna());
 		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
 		
-		model.addAttribute(ACAO_EXTENSAO, acao);
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
@@ -193,9 +194,32 @@ public class ExtensaoController {
 		} else if(acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO) || acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(PENDENCIA, new Pendencia());
+			
+		}else if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
+			model.addAttribute(PENDENCIAS, acao.getParecerTecnico().getPendencias());
+			model.addAttribute("pendente", true);
+			
+		}else if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
+			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
+			model.addAttribute("pendente", true);
 		}
+		
+		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
+	}
+	@RequestMapping("/pendencias-resolvidas/{id}")
+	public String pendeciasResolvidas(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
+			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+			
+		}
+		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
+			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+		}
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
 	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)

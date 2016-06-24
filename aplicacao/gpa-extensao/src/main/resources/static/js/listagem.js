@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	$(".RESOLVENDO_PENDENCIAS_PARECER").addClass("bg-yellow");
 	$(".RESOLVENDO_PENDENCIAS_RELATO").addClass("bg-yellow");
+	$(".RESOLVENDO_PENDENCIAS_PARECER").removeAttr("hidden");
+	$(".RESOLVENDO_PENDENCIAS_RELATO").removeAttr("hidden");
 	$(".homologados").hide();
 	$(".parecerRelator").hide();
 	$(".parecerTecnico").hide();

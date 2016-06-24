@@ -26,6 +26,8 @@ public class Pendencia {
 	@JoinColumn(name = "parecer_id")
 	private Parecer parecer;
 	
+	private Boolean resolvida;
+	
 	public Pendencia() {
 	}
 	
@@ -66,6 +68,14 @@ public class Pendencia {
 	public void setParecer(Parecer parecer) {
 		this.parecer = parecer;
 	}
+	
+	public Boolean getResolvida() {
+		return resolvida;
+	}
+
+	public void setResolvida(Boolean resolvida) {
+		this.resolvida = resolvida;
+	}
 
 	@Override
 	public int hashCode() {
@@ -91,6 +101,5 @@ public class Pendencia {
 			return false;
 		return true;
 	}
-	
 	
 }
