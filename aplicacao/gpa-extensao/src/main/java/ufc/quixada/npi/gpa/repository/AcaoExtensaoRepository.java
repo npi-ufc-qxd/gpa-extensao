@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
@@ -31,4 +32,6 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
+	
+	List<AcaoExtensao> findByModalidade(Modalidade modalidade);
 }

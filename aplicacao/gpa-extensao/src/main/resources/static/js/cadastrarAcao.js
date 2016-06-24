@@ -15,6 +15,7 @@ $(document).ready(function() {
             valid: false,
         	invalid: "glyphicon"
         },
+        excluded: ['vinculo'],
         fields:{
         	titulo:{
         		validators:{

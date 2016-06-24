@@ -8,7 +8,12 @@ $(document).ready(function(){
         autoclose: true,
     });
     
-    $("#submeterAcaoExtensaoForm").bootstrapValidator({
+    $("#submeterAcaoExtensaoForm")
+    .find('[name="modalidade"]')
+    	.change(function(e) {
+    		$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "modalidade");
+    	}).end()
+    .bootstrapValidator({
         feedbackIcons: {
             valid: false,
         	invalid: "glyphicon"
@@ -57,12 +62,11 @@ $(document).ready(function(){
         	modalidade:{
         		validators: {
                     callback: {
-                        message: 'Selecionar modalidade',
                         callback: function(value, validator) {
-                            // Get the selected options
                             var opcao = validator.getFieldElements("modalidade").val();
                             return (opcao!=null);
-                        }
+                        },
+                        message: "Selecionar modalidade"
                     }
                 }
         	},

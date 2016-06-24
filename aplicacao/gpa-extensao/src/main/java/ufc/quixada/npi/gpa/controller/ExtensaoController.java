@@ -290,6 +290,7 @@ public class ExtensaoController {
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute("acoesParaVinculo",acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
 	

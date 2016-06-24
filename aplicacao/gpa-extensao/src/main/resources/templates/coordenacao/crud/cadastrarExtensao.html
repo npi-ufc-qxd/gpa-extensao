@@ -19,12 +19,12 @@
 							th:object="${acaoExtensao}">
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label>Título</label>
+                                        <label>Título <i class="icon fa fa-asterisk" style="color:red;"></i></label>
                                         <input class="form-control" id="cadastrarTituloAcaoExtensao" th:field="${acaoExtensao.titulo}"
 										placeholder="Escreva o título..." name="titulo" type="text" required="required" />
                                     </div>
                                     <div class="form-group">
-                                        <label>Resumo</label>
+                                        <label>Resumo <i class="icon fa fa-asterisk" style="color:red;"></i></label>
                                         <textarea class="form-control"
 										th:field="${acaoExtensao.resumo}"
 										placeholder="Escreva o resumo..." name="cadastrarResumoAcaoExtensao" required="required"></textarea>
@@ -50,73 +50,73 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                                     <div class="form-group"> -->
-                                    <!--                                         <label for="vinculo">Vínculo</label> -->
-                                    <!--                                         <input -->
-                                    <!-- 										class="form-control" id="vinculo" -->
-                                    <!-- 										th:field="${acaoExtensao.vinculo}" -->
-                                    <!-- 										placeholder="Escreva o vinculo..." type="text" /> -->
-                                    <!--                                     </div> -->
-                                    <div class="form-group col-lg-6">
-                                        <label>Prorrogável?</label>
-                                        <br/>
-                                        <label class="radio-inline col-xs-5">
-                                            <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == true}" value="true"/>
-												SIM
-										
-                                        </label>
-                                        <label class="radio-inline col-xs-5">
-                                            <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == false}" value="false"/>
-											NÃO
-										
-                                        </label>
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label>*Modalidade</label>
-                                        <br/>
-                                        <select class="form-control" id="cadastrarModalidadeAcaoExtensao" th:field="${acaoExtensao.modalidade}" name="modalidade" required="required">
-                                            <option value="">Selecionar Modalidade</option>
-                                            <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
-                                        </select>
-                                    </div>
-                                    <div id="cargasHorarias" style="display:none;">
-                                        <label>Carga Horária</label>
-                                        <div class="form-group row">
-                                            <div class="col-lg-6">
-                                                <div class="input-group date">
-                                                    <span class="input-group-addon">
-                                                        <label>Horas Práticas:</label>
-                                                    </span>
-                                                    <input id="cadastrarHorasPraticas" th:field="${acaoExtensao.horasPraticas}" name="horasPraticas" type="number" min="0" class="form-control"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                        <label>Aulas Teóricas:</label>
-                                                    </span>
-                                                    <input id="cadastrarHorasTeoricas" th:field="${acaoExtensao.horasTeoricas}" name="horasTeoricas" type="number" min="0" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="ementaAcaoExtensao" style="display:none;">
-                                        <label>Ementa/Conteúdo programático</label>
-                                        <textarea class="form-control" id="cadastrarEmentaAcaoExtensao" th:field="${acaoExtensao.ementa}" name="ementa" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
-                                    </div>
-                                    <div class="form-group" id="programacaoAcaoExtensao" style="display:none;">
-                                        <label>Programação</label>
-                                        <textarea class="form-control" id="cadastrarProgramacaoAcaoExtensao" th:field="${acaoExtensao.programacao}" name="programacao" placeholder="Escreva a programação..."></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="cadastrarAnexoAcaoExtensao">Anexos</label>
-                                        <input id="cadastrarAnexoAcaoExtensao" name="anexoAcao" type="file"/>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                    <button id="botaoCadastrar" type="submit"
-									class="btn btn-primary">Cadastrar</button>
-                                </div>
+									<div class="form-group">
+										<label>Vínculo: </label>
+										<select class="form-control" id="cadastrarVinculoAcaoExtensao" th:field="${acaoExtensao.vinculo}" name="vinculo">
+	                                            <option value="">Selecionar Vinculo</option>
+	                                            <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo}" th:text="${vinculo.titulo}"></option>
+	                                        </select>
+									</div>
+									<div class="form-group col-lg-6">
+	                                        <label>Está Acão é Prorrogável?</label>
+	                                        <br/>
+	                                        <label class="radio-inline col-xs-5">
+	                                            <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == true}" value="true"/>
+													SIM
+											
+	                                        </label>
+	                                        <label class="radio-inline col-xs-5">
+	                                            <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == false}" value="false"/>
+												NÃO
+											
+	                                        </label>
+	                                    </div>
+	                                    <div class="form-group col-lg-6">
+	                                        <label>Modalidade <i class="icon fa fa-asterisk" style="color:red;"></i></label>
+	                                        <br/>
+	                                        <select class="form-control" id="cadastrarModalidadeAcaoExtensao" th:field="${acaoExtensao.modalidade}" name="modalidade" required="required">
+	                                            <option value="">Selecionar Modalidade</option>
+	                                            <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
+	                                        </select>
+	                                    </div>
+	                                    <div id="cargasHorarias" style="display:none;">
+	                                        <label>Carga Horária</label>
+	                                        <div class="form-group row">
+	                                            <div class="col-lg-6">
+	                                                <div class="input-group date">
+	                                                    <span class="input-group-addon">
+	                                                        <label>Horas Práticas:</label>
+	                                                    </span>
+	                                                    <input id="cadastrarHorasPraticas" th:field="${acaoExtensao.horasPraticas}" name="horasPraticas" type="number" min="0" class="form-control"/>
+	                                                </div>
+	                                            </div>
+	                                            <div class="col-lg-6">
+	                                                <div class="input-group">
+	                                                    <span class="input-group-addon">
+	                                                        <label>Aulas Teóricas:</label>
+	                                                    </span>
+	                                                    <input id="cadastrarHorasTeoricas" th:field="${acaoExtensao.horasTeoricas}" name="horasTeoricas" type="number" min="0" class="form-control"/>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="form-group" id="ementaAcaoExtensao" style="display:none;">
+	                                        <label>Ementa/Conteúdo programático</label>
+	                                        <textarea class="form-control" id="cadastrarEmentaAcaoExtensao" th:field="${acaoExtensao.ementa}" name="ementa" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
+	                                    </div>
+	                                    <div class="form-group" id="programacaoAcaoExtensao" style="display:none;">
+	                                        <label>Programação</label>
+	                                        <textarea class="form-control" id="cadastrarProgramacaoAcaoExtensao" th:field="${acaoExtensao.programacao}" name="programacao" placeholder="Escreva a programação..."></textarea>
+	                                    </div>
+	                                    <div class="form-group">
+	                                        <label for="cadastrarAnexoAcaoExtensao">Anexos</label>
+	                                        <input id="cadastrarAnexoAcaoExtensao" name="anexoAcao" type="file"/>
+	                                    </div>
+	                                </div>
+	                                <div class="box-footer">
+	                                    <button id="botaoCadastrar" type="submit"
+										class="btn btn-primary">Cadastrar</button>
+	                                </div>
                             </form>
                         </div>
                     </div>
