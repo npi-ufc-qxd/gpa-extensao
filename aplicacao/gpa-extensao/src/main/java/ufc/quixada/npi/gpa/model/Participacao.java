@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "equipe_de_trabalho")
 public class Participacao {
 	
@@ -162,6 +164,7 @@ public class Participacao {
 		this.coordenador = coordenador;
 	}
 
+	@JsonIgnore
 	public AcaoExtensao getAcaoExtensao() {
 		return acaoExtensao;
 	}
@@ -170,7 +173,7 @@ public class Participacao {
 		this.acaoExtensao = acaoExtensao;
 	}
 
-	public enum Funcao{
+	public enum Funcao {
 		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
 		
 		private String descricao;

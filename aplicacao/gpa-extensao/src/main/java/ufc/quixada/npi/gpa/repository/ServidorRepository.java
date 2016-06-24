@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 
 public interface ServidorRepository extends CrudRepository<Servidor, Integer>{
 
 	List<Servidor> findAll();
+	
+	Servidor getByPessoa(Pessoa pessoa);
 }
