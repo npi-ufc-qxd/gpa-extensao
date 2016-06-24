@@ -442,7 +442,7 @@
 										</li>
 										
 										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
-											<a id="pendencias-parecer-button" href="#pendencias-parecer-form">Solicitar resolução de pendências</a>
+											<a th:id="pendencias-parecer-button" href="#pendencias-parecer-form">Solicitar resolução de pendências</a>
 										</li>
 										
 										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
@@ -493,7 +493,7 @@
 										</li>
 										
 										<li th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
-											<a id="emitir-parecer-button" href="">Emitir parecer</a>
+											<a id="emitir-relato-button" href="#emitir-relato-form">Emitir parecer</a>
 										</li>
 									
 									</ul>

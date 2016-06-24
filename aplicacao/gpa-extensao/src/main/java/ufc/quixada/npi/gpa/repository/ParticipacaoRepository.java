@@ -16,6 +16,5 @@ public interface ParticipacaoRepository extends CrudRepository<Participacao, Int
 
 	public List<Participacao> findByAcaoExtensao(AcaoExtensao acao);
 	
-	//@Query("select COUNT(*) FROM AcaoExtensao as ae WHERE ae.id =:id AND ae.equipe_de_trabalho.funcao =:funcao")
 	public List<Participacao> findByAcaoExtensaoAndFuncao(AcaoExtensao acao, Funcao funcao);
 }
