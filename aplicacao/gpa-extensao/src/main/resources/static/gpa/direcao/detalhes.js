@@ -72,4 +72,15 @@ $(document).ready(function(){
 		$("#parecer-tecnico-info").show(1000);
 	});
 	
+	$("#emitir-relato-button").on("click", function(){
+		$("#parecer-relator-acoes").hide();
+		$("#parecer-relator-info").hide();
+		$("#emitir-relato-form").show(1000);
+	});
+	
+	$("#cancelar-emitir-relato-button").on("click", function(){
+		$("#parecer-relator-acoes").show();
+		$("#emitir-relato-form").hide();
+		$("#parecer-relator-info").show(1000);
+	});
 });
