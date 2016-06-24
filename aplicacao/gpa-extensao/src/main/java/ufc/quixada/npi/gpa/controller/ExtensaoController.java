@@ -12,6 +12,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
+import static ufc.quixada.npi.gpa.util.Constants.A_DEFINIR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
@@ -233,8 +234,26 @@ public class ExtensaoController {
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("id") Integer id){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		acao.setBolsasRecebidas(numeroBolsas);
+		incluirAlunosBolsistas(acao, numeroBolsas);
 		acaoExtensaoRepository.save(acao);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+	}
+	
+	private void incluirAlunosBolsistas(AcaoExtensao acao, Integer numeroBolsas) {
+		List<Participacao> p = participacaoRepository.findByAcaoExtensaoAndFuncao(acao, Funcao.ALUNO_BOLSISTA);
+		Integer restantes = numeroBolsas - p.size();
+		
+		if(restantes > 0) {
+			for(int i = 0; i < restantes; i++) {
+				Participacao participacao = new Participacao();
+				participacao.setAcaoExtensao(acao);
+				participacao.setNomeParticipante(A_DEFINIR);
+				participacao.setFuncao(Funcao.ALUNO_BOLSISTA);
+				participacao.setInstituicao(Instituicao.UFC);
+				participacao.setCargaHoraria(12);
+				participacaoRepository.save(participacao);
+			}
+		} 
 	}
 	
 	@RequestMapping(value="/participacoes/{idAcao}", method=RequestMethod.POST)

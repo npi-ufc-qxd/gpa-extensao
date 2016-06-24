@@ -89,6 +89,7 @@ public class Constants {
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
+	public static final String A_DEFINIR = "a definir";
 		
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
