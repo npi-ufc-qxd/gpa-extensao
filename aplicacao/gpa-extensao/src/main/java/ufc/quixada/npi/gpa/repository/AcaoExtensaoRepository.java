@@ -14,8 +14,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
-
-	AcaoExtensao save(AcaoExtensao acaoExtensao);
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
 	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
@@ -31,4 +29,5 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
+	
 }
