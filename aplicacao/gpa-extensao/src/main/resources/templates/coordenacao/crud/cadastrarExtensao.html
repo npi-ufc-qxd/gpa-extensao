@@ -28,7 +28,7 @@
 								<div class="form-group">
 									<label for="titulo">*Título</label> <input class="form-control"
 										id="titulo" th:field="${acaoExtensao.titulo}"
-										placeholder="Escreva o título..." type="text" required="true" />
+										placeholder="Escreva o título..." type="text" required="required" />
 								</div>
 								<div class="form-group">
 									<label>Resumo</label>
@@ -71,7 +71,7 @@
 											<span class="input-group-addon"> <input type="radio"
 												th:field="${acaoExtensao.prorrogavel}" value="true" />
 											</span> <input class="form-control" type="text" placeholder="SIM"
-												disabled="true" />
+												disabled="disabled" />
 										</div>
 									</div>
 									<div class="col-lg-4">
@@ -79,7 +79,7 @@
 											<span class="input-group-addon"> <input type="radio"
 												th:field="${acaoExtensao.prorrogavel}" value="false" />
 											</span> <input class="form-control" type="text" placeholder="NÃO"
-												disabled="true" />
+												disabled="disabled" />
 										</div>
 									</div>
 									<div class="col-lg-4">

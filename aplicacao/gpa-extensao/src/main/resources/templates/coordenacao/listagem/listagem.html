@@ -85,6 +85,7 @@
 	      								<th>STATUS</th>
 	      								<th>INÍCIO</th>
 	      								<th>TÉRMINO</th>
+	      								<th></th>
 	    							</tr>
 	  							</thead>
 	  							<tbody>
@@ -94,6 +95,11 @@
 	  									<td th:text="${acao.status.descricao}"></td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td class="acoes" align="center">
+											<a title="Resolver Pendências" th:href="@{/detalhes/} + ${acao.id}" th:class="${acao.status}" hidden="true">
+												<button class="btn btn-primary btn-xs"><i class="fa fa-exclamation-triangle"></i></button>
+											</a>
+										</td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
