@@ -18,7 +18,7 @@
 
 			<!-- Main content -->
 			<section class="content">
-				
+				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				<div th:if="${#authentication.name == acaoExtensao.coordenador.cpf} OR
 						(${acaoExtensao.status.descricao == 'RESOLVENDO PENDÊNCIAS DO PARECER'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}) OR
 						(${acaoExtensao.status.descricao == 'RESOLVENDO RESTRIÇÕES DO RELATO'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf})" class="box box-warning">
@@ -597,6 +597,30 @@
           <!-- /.modal-dialog -->
         </div>
 		<!-- /.content-wrapper -->
+		
+		<div class="modal fade" id="vincular-bolsista">
+        	<div class="modal-dialog">
+            	<div class="modal-content">
+             		<div class="modal-header">
+                		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  		<span aria-hidden="true">×</span></button>
+                		<h4 class="modal-title">Vincular Bolsita</h4>
+              		</div>
+              		<div class="modal-body">
+              			<label for="participante">Bolsista</label>
+						<select id="selectBolsista" name="selectBolsista" class="form-control">
+						</select>
+              		</div>
+              		<div class="modal-footer">
+              			<input type="hidden" id="participacaoHiddenId" name="participacaoHiddenId" value="" />
+                		<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok" id="vincularBolsistaHiddenBtn">Confirmar</a>
+              		</div>
+            	</div>
+            <!-- /.modal-content -->
+          	</div>
+          <!-- /.modal-dialog -->
+        </div>
 
 		<div id="modalexcluir" class="modal fade" role="dialog">
 			<div class="modal-dialog">

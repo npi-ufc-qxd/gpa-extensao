@@ -17,7 +17,7 @@ $(document).ready(function() {
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
-	$("#selectPessoa, #selectInstituicao").select2();
+	$("#selectPessoa, #selectInstituicao, #selectBolsista").select2();
 	
 	$(".funcaoOutra ,#divNomeInstituicao").hide();
 	
@@ -168,7 +168,6 @@ $(document).ready(function() {
  				}else{
  					for (var i = 0; i < result.result.length; i++) {
  						var alertDiv = $("#divError");
- 						console.log(result.result[i].code)
  						alertDiv.append("<p>"+result.result[i].code+"</p>");
  						alertDiv.show();
  				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
@@ -186,9 +185,10 @@ $(document).ready(function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "dt-center", "targets": [1, 4, 5]},            
+					    {className: "dt-center", "targets": [1, 4, 5, 6]},            
 				        {"targets" : 4, "orderable" : false},
 				        {"targets" : 5, "orderable" : false},
+				        {"targets" : 6, "orderable" : false},
 				        { "width": "15%", "targets":4 },
 					],
 					"language": {
@@ -219,5 +219,66 @@ $(document).ready(function() {
 			async: false,
 		});
 		carregarTabelaParticipacoes();
+	});
+	
+	$("#vincular-bolsista").on("show.bs.modal", function(e) {
+		$("#participacaoHiddenId").val($(e.relatedTarget).data("id"));
+		var caminho = "/gpa-extensao/buscarAlunos";
+		$.ajax({
+			type:"GET",
+			 beforeSend: function (request)
+	         {
+	                request.setRequestHeader(header, token);
+	            },
+			url: caminho,
+			contentType: 'application/json',
+			success : function(data) {
+				$('#selectBolsista').empty();
+				for (var i = 0; i < data.length; i++) {
+					var newOption = $('<option value=' + data[i].pessoa.id + '>'
+							+ data[i].pessoa.nome
+							+ '</option>');
+					$('#selectBolsista').append(newOption);
+				}
+			}
+		});
+	});
+	
+	$("#vincularBolsistaHiddenBtn").click(function(e) {
+		e.preventDefault();
+        var baseURL = '/gpa-extensao/vincularBolsistas/';
+        var idParticipacao = $("#participacaoHiddenId").val();
+        var idAluno = $("#selectBolsista").val();
+        $("#vincular-bolsista").modal('hide');
+        $.ajax({
+			url : baseURL + idParticipacao + "/" + idAluno,
+			beforeSend: function (request)
+		    {
+				 request.setRequestHeader(header, token);
+		    },
+			type : 'POST',
+			async: false,
+			error: function(){
+		        return false;
+		    },
+			success : function(result) {
+				if(result.status=="OK"){
+					console.log(result);
+					var alertDiv = $("#divSucesso");
+					alertDiv.show();
+					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					carregarTabelaParticipacoes();
+				}else{
+					for (var i = 0; i < result.result.length; i++) {
+						var alertDiv = $("#divError");
+						console.log(result);
+						alertDiv.append("<p>"+result.result[i].code+"</p>");
+						alertDiv.show();
+				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					}
+					return false;
+				}
+			}
+		});
 	});
 });

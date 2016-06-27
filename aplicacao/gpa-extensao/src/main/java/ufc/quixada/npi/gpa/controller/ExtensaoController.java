@@ -148,7 +148,8 @@ public class ExtensaoController {
 	public String listagem(Model model, Authentication authentication) {
 		
 		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
-		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
+		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
+				Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusNovo = Arrays.asList(Status.NOVO);
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
 
@@ -180,6 +181,8 @@ public class ExtensaoController {
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
+		
+		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
@@ -203,8 +206,6 @@ public class ExtensaoController {
 			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
 			model.addAttribute("pendente", true);
 		}
-		
-		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
@@ -285,7 +286,6 @@ public class ExtensaoController {
 		
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		map.put("participacao", participacao);
 		return map;
 	}
 	
@@ -300,6 +300,24 @@ public class ExtensaoController {
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
 	    
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
+	}
+	
+	@RequestMapping(value = "/vincularBolsistas/{idParticipacao}/{idAluno}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> vincularBolsistas(@PathVariable("idAluno") Integer idAluno,
+			@PathVariable("idParticipacao") Integer idParticipacao) {
+		Participacao participacao = participacaoRepository.findOne(idParticipacao);
+		Pessoa aluno = pessoaRepository.findOne(idAluno);
+		
+		participacao.setNomeParticipante("");
+		participacao.setCpfParticipante("");
+		participacao.setParticipante(aluno);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		participacaoRepository.save(participacao);
+		
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		return map;
 	}
 
 	@RequestMapping("/buscarServidores")
