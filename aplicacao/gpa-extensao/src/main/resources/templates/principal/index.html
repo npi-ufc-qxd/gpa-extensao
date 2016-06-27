@@ -1,33 +1,270 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+	
 <head th:replace="modulos/fragments :: head"></head>
 
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
-	
+		
 		<header th:replace="modulos/fragments :: header"></header>
 		<aside th:replace="modulos/fragments :: menu"></aside>
 
-		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
 			<section class="content-header">
-              	<div class="alert alert-success alert-dismissible" th:if="${message}">
-                	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                	<h4><i class="icon fa fa-check"></i></h4>
-                	<p th:text="${message}"></p>
-              	</div>
+				<h1>Ações de Extensão</h1>
 			</section>
-
-			<!-- Main content -->
-			<section class="content"></section>
-			<!-- /.content -->
+			<section class="content">
+				<!-- Linha dos Cards de Status -->
+				<div class="row">
+					<div onclick="showNaoHomologados()">
+        				<div class="col-lg-3 col-xs-6 card">
+          					<div class="small-box bg-blue cursor-pointer">
+            					<div class="inner">
+              						<h3 th:text="${acoesTramitacao.size() + acoesNovas.size()}"></h3>
+              						<p>Tramitação</p>
+            					</div>
+            					<div class="icon">
+              						<i class="fa fa-folder-open-o"></i>
+            					</div>
+          					</div>
+        				</div>
+        			</div>
+        			<div onclick="showHomologados()">
+        				<div class="col-lg-3 col-xs-6 card">
+          					<div class="small-box bg-aqua cursor-pointer">
+            					<div class="inner">
+              						<h3 th:text="${acoesHomologadas.size()}"></h3>
+              						<p>Homologação</p>
+            					</div>
+            					<div class="icon">
+              						<i class="fa fa-folder-o"></i>
+            					</div>
+          					</div>
+        				</div>
+        			</div>
+        			<div onclick="showParecer()">
+        				<div class="col-lg-3 col-xs-6 card">
+          					<div class="small-box bg-aqua cursor-pointer">
+            					<div class="inner">
+              						<h3 th:text="${acoesParecerRelator.size() + acoesParecerTecnico.size()}"></h3>
+              						<p>Parecer</p>
+            					</div>
+            					<div class="icon">
+              						<i class="fa fa-folder-o"></i>
+            					</div>
+          					</div>
+        				</div>
+        			</div>
+        			<div onclick="showParticipacao()">
+        				<div class="col-lg-3 col-xs-6 card">
+          					<div class="small-box bg-aqua cursor-pointer">
+            					<div class="inner">
+              						<h3 th:text="${acoesParticipacao.size()}"></h3>
+              						<p>Participação</p>
+            					</div>
+            					<div class="icon">
+              						<i class="fa fa-folder-o"></i>
+            					</div>
+          					</div>
+        				</div>
+        			</div>
+      			</div>
+      			
+				<div class="row tramitacao">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Tramitação</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	      								<th></th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesTramitacao}" th:class="${acao.status}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td class="acoes" align="center">
+											<a title="Resolver Pendências" th:href="@{/detalhes/} + ${acao.id}" th:class="${acao.status}" hidden="true">
+												<button class="btn btn-primary btn-xs"><i class="fa fa-exclamation-triangle"></i></button>
+											</a>
+										</td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row novos">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Novas</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesNovas}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row homologados">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Homologadas</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesHomologadas}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row parecerRelator">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Parecer Relator</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesParecerRelator}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row parecerTecnico">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Parecer Técnico</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesParecerTecnico}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+	  			<div class="row participacao">
+                    <div class="col-xs-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3>Participação</h3>
+                            </div>
+                            <div class="box-body">
+      							<table border="1" class="table-acoes table table-striped table-bordered">
+								<thead>
+	    							<tr>
+	      								<th>TÍTULO</th>
+	      								<th>MODALIDADE</th>
+	      								<th>STATUS</th>
+	      								<th>INÍCIO</th>
+	      								<th>TÉRMINO</th>
+	    							</tr>
+	  							</thead>
+	  							<tbody>
+	  								<tr th:each="acao : ${acoesParticipacao}">
+	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.modalidade}"></td>
+	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
+	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
+	  								</tr>
+	  							</tbody>
+	  							</table>
+	  						</div>
+	  					</div>
+	  				</div>
+	  			</div>
+			</section>
 		</div>
-		<!-- /.content-wrapper -->
 		<footer th:replace="modulos/fragments :: footer"></footer>
-		<script th:src="@{/gpa/direcao/index.js}"></script>
 	</div>
-	<!-- ./wrapper -->
 </body>
 </html>

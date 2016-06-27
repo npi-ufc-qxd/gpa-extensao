@@ -28,7 +28,6 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
@@ -36,7 +35,6 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
@@ -131,20 +129,7 @@ public class ExtensaoController {
 		return acaoExtensaoRepository.count();
 	}
 	
-	
 	@RequestMapping("/")
-	public String index() {
-		return PAGINA_INICIAL;
-	}
-	
-	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
-	public String deletar(@PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		acaoExtensaoRepository.delete(acao);
-		return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-	}
-	
-	@RequestMapping("/coordenacao/listagem")
 	public String listagem(Model model, Authentication authentication) {
 		
 		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
@@ -160,7 +145,14 @@ public class ExtensaoController {
 		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
 		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoRepository.getParticipacao(pessoa.getId()));
 		
-		return PAGINA_LISTAR_ACOES_COORDENACAO;
+		return PAGINA_INICIAL;
+	}
+	
+	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
+	public String deletar(@PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acaoExtensaoRepository.delete(acao);
+		return REDIRECT_PAGINA_INICIAL;
 	}
 
 	@Transactional(readOnly = true)
@@ -171,7 +163,7 @@ public class ExtensaoController {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
+			return REDIRECT_PAGINA_INICIAL;
 		}
 		
 		model.addAttribute("parceiro",new Parceiro());
@@ -382,7 +374,7 @@ public class ExtensaoController {
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
 		model.addAttribute(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return PAGINA_INICIAL;		
+		return REDIRECT_PAGINA_INICIAL;		
 	}
 	
 	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
