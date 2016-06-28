@@ -312,9 +312,10 @@ public class ExtensaoController {
 	}
 
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
-	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			Authentication authentication, Model model, RedirectAttributes redirect) {
 		Integer acaoId = 0;
+		System.out.println(acaoExtensao.toString());
 		try {
 			acaoId = acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
 		} catch (GpaExtensaoException e) {
@@ -368,6 +369,7 @@ public class ExtensaoController {
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model){
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(idAcao));
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
 	@RequestMapping(value="/submeter/{idAcao}",method=RequestMethod.POST)
@@ -375,12 +377,14 @@ public class ExtensaoController {
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
 			RedirectAttributes redirectAttribute){
 		if(bind.hasErrors() || arquivo==null || arquivo.isEmpty()){
-			model.addAttribute("message",MESSAGE_ANEXO);
+			model.addAttribute(MESSAGE,MESSAGE_ANEXO);
+			model.addAttribute(MODALIDADES, Modalidade.values());
+			model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 			return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
 		AcaoExtensao old = acaoExtensaoRepository.findOne(idAcao);
 		old=checkAcaoExtensao(old,acao);
-		acao.setStatus(Status.AGUARDANDO_PARECERISTA);
+		old.setStatus(Status.AGUARDANDO_PARECERISTA);
 		acaoExtensaoRepository.save(old);
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_INICIAL;

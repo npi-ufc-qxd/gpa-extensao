@@ -6,14 +6,12 @@ $(document).ready(function(){
         todayBtn: true,
         language: "pt-BR",
         autoclose: true,
-    });
+    }).on("changeDate",function(e){
+    	$(this).datepicker("hide");
+    	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "inicio");
+    });;
     
-    $("#submeterAcaoExtensaoForm")
-    .find('[name="modalidade"]')
-    	.change(function(e) {
-    		$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "modalidade");
-    	}).end()
-    .bootstrapValidator({
+    $("#submeterAcaoExtensaoForm").bootstrapValidator({
         feedbackIcons: {
             valid: false,
         	invalid: "glyphicon"
@@ -58,17 +56,6 @@ $(document).ready(function(){
                         }
                     }
             	}
-        	},
-        	modalidade:{
-        		validators: {
-                    callback: {
-                        callback: function(value, validator) {
-                            var opcao = validator.getFieldElements("modalidade").val();
-                            return (opcao!=null);
-                        },
-                        message: "Selecionar modalidade"
-                    }
-                }
         	},
         	horasPraticas:{
         		integer:{

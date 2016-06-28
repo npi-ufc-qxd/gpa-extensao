@@ -42,7 +42,10 @@
 						
 						<table style="width: 100%;">
 							<tr>
-								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
+								<th class="col-xs-10"><h3>Detalhes Ação Extensão</h3></th>
+								<th class="col-xs-2"><a class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
+										<i class="glyphicon glyphicon-send" aria-hidden="true"></i> Submeter Ação
+									</a></th>
 								<th class="col-xs-2"><button class="btn btn-danger"
 										data-toggle="modal" data-target="#modalexcluir">
 										<i class="fa fa-trash" aria-hidden="true"></i> Excluir Ação
@@ -162,7 +165,7 @@
 							<li><label>Vinculo:</label></li>
 							<li>
 								<h4 th:if="${acaoExtensao.vinculo} != null"
-									th:text="${acaoExtensao.vinculo}"></h4>
+									th:text="${acaoExtensao.vinculo.titulo}"></h4>
 							</li>
 						</ul>
 

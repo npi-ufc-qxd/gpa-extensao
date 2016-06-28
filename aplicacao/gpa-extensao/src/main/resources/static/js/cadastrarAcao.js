@@ -1,21 +1,22 @@
 $(document).ready(function() {
-	$("#message").hide();
 	$("#cargaHorarias").hide();
-	
+	$("#cadastrarModalidadeAcaoExtensao, #cadastrarVinculoAcaoExtensao").select2();
     $("#cadastrarDataInicio,#cadastrarDataTermino").datepicker({
-        format: "dd/mm/yyyy",
-        maxViewMode: 2,
-        todayBtn: true,
-        language: "pt-BR",
-        autoclose: true
+    	format : "dd/mm/yyyy",
+		todayBtn : "linked",
+		language : "pt-BR",
+		todayHighlight : true
+    }).on("changeDate",function(e){
+    	$(this).datepicker("hide");
+    	$("#formCadastrarAcaoExtensao").bootstrapValidator("revalidateField", "inicio");
     });
-    
     $("#formCadastrarAcaoExtensao").bootstrapValidator({
+    	excluded: [':disabled', ':hidden', ':not(:visible)'],
+    	live: 'enabled',
         feedbackIcons: {
             valid: false,
         	invalid: "glyphicon"
         },
-        excluded: ['vinculo'],
         fields:{
         	titulo:{
         		validators:{
@@ -39,13 +40,13 @@ $(document).ready(function() {
         			}
         		}
         	},
-        	cadastrarDataInicio:{
+        	inicio:{
+        		group:'input-group',
         		validators: {
-            		callback: {
+        			callback: {
                         message: "A data de início deve ser anterior à data de término",
                         callback: function(value, validator) {
-                        	var termino = validator.getFieldElements("cadastrarDataTermino").val();
-                        	console.log(value);
+                        	var termino = validator.getFieldElements("termino").val();
                         	if(value != "" && termino != "") {
                         		termino = moment(termino, "DD/MM/YYYY").format("DD/MM/YYYY");
 	                        	var inicio = moment(value, "DD/MM/YYYY").format("DD/MM/YYYY");
@@ -57,18 +58,8 @@ $(document).ready(function() {
                         }
                     }
             	}
-        	},
-        	modalidade:{
-        		validators: {
-                    callback: {
-                        message: 'Selecionar modalidade',
-                        callback: function(value, validator) {
-                            // Get the selected options
-                            var opcao = validator.getFieldElements("modalidade").val();
-                            return (opcao!=null);
-                        }
-                    }
-                }
+        	},vinculo:{
+        		excluded:true
         	},
         	horasPraticas:{
         		integer:{
