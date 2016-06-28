@@ -28,7 +28,6 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAR_ACOES_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
@@ -36,7 +35,6 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.ArrayList;
@@ -131,24 +129,12 @@ public class ExtensaoController {
 		return acaoExtensaoRepository.count();
 	}
 	
-	
 	@RequestMapping("/")
-	public String index() {
-		return PAGINA_INICIAL;
-	}
-	
-	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
-	public String deletar(@PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		acaoExtensaoRepository.delete(acao);
-		return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
-	}
-	
-	@RequestMapping("/coordenacao/listagem")
 	public String listagem(Model model, Authentication authentication) {
 		
 		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
-		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
+		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
+				Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusNovo = Arrays.asList(Status.NOVO);
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
 
@@ -159,7 +145,14 @@ public class ExtensaoController {
 		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
 		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoRepository.getParticipacao(pessoa.getId()));
 		
-		return PAGINA_LISTAR_ACOES_COORDENACAO;
+		return PAGINA_INICIAL;
+	}
+	
+	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
+	public String deletar(@PathVariable("id") Integer id){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		acaoExtensaoRepository.delete(acao);
+		return REDIRECT_PAGINA_INICIAL;
 	}
 
 	@Transactional(readOnly = true)
@@ -170,7 +163,7 @@ public class ExtensaoController {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
+			return REDIRECT_PAGINA_INICIAL;
 		}
 		
 		model.addAttribute("parceiro",new Parceiro());
@@ -180,6 +173,8 @@ public class ExtensaoController {
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
+		
+		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
@@ -203,8 +198,6 @@ public class ExtensaoController {
 			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
 			model.addAttribute("pendente", true);
 		}
-		
-		model.addAttribute(ACAO_EXTENSAO, acao);
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
@@ -285,7 +278,6 @@ public class ExtensaoController {
 		
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		map.put("participacao", participacao);
 		return map;
 	}
 	
@@ -300,6 +292,24 @@ public class ExtensaoController {
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
 	    
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
+	}
+	
+	@RequestMapping(value = "/vincularBolsistas/{idParticipacao}/{idAluno}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> vincularBolsistas(@PathVariable("idAluno") Integer idAluno,
+			@PathVariable("idParticipacao") Integer idParticipacao) {
+		Participacao participacao = participacaoRepository.findOne(idParticipacao);
+		Pessoa aluno = pessoaRepository.findOne(idAluno);
+		
+		participacao.setNomeParticipante("");
+		participacao.setCpfParticipante("");
+		participacao.setParticipante(aluno);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		participacaoRepository.save(participacao);
+		
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
+		return map;
 	}
 
 	@RequestMapping("/buscarServidores")
@@ -364,7 +374,7 @@ public class ExtensaoController {
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
 		model.addAttribute(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return PAGINA_INICIAL;		
+		return REDIRECT_PAGINA_INICIAL;		
 	}
 	
 	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
