@@ -18,16 +18,16 @@
 
 			<!-- Main content -->
 			<section class="content">
-				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
-				<div th:if="${#authentication.name == acaoExtensao.coordenador.cpf} OR
-						(${acaoExtensao.status.descricao == 'RESOLVENDO PENDÊNCIAS DO PARECER'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}) OR
-						(${acaoExtensao.status.descricao == 'RESOLVENDO RESTRIÇÕES DO RELATO'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf})" class="box box-warning">
+				
+				<div th:if="(${acaoExtensao.status.descricao == 'RESOLVENDO PENDÊNCIAS DO PARECER'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf})) OR
+						(${acaoExtensao.status.descricao == 'RESOLVENDO RESTRIÇÕES DO RELATO'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf}))" class="box box-warning">
+
 					
 					<div class="box-header with-border">
 						<h3 class="box-title">Pendências</h3>
 						
 						<div th:if="${#authentication.name == acaoExtensao.coordenador.cpf}" class="box-tools pull-right">
-							<a th:href="@{/pendencias-resolvidas/} + ${acaoExtensao.id}" class="btn btn-warning btn-sm">Resolver pendências</a>
+							<a th:href="@{/submeter/} + ${acaoExtensao.id}" class="btn btn-warning btn-sm">Resolver pendências</a>
 						</div>
 					</div>
 					
@@ -37,13 +37,13 @@
 							<div th:class="${pendencia.resolvida} ? 'panel box box-success' : 'panel box box-danger'" th:each="pendencia : ${pendencias}">
 								<div class="box-header">
 									<h3 class="box-title">
-										<a th:attr="aria-expanded=${!pendencia.resolvida}" data-toggle="collapse" data-parent="#accordion" 
+										<a th:attr="aria-expanded= ! ${pendencia.resolvida}" data-toggle="collapse" data-parent="#accordion" 
 											th:href="'#pendencia' + ${pendencia.id}" th:text="${#dates.format(pendencia.dataDeSolicitacao, 'dd/MMM/yyyy')}"></a>
 									</h3>
 								</div>
 								
 								<div th:id="'pendencia' + ${pendencia.id}" th:class="${pendencia.resolvida} ? 'panel-collapse collapse' : 'panel-collapse collapse in'"
-									th:text="${pendencia.descricao}" th:attr="aria-expanded=${!pendencia.resolvida}"></div>
+									th:text="${pendencia.descricao}" th:attr="aria-expanded= ! ${pendencia.resolvida}"></div>
 								
 							</div>
 						</div>

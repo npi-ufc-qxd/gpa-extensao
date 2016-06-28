@@ -429,27 +429,15 @@ public class ExtensaoController {
 	public String submeterAcaoExtensao(@PathVariable("idAcao") Integer idAcao, @RequestParam("anexoAcao") MultipartFile arquivo,
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
 			RedirectAttributes redirectAttribute){
+		
 		if(bind.hasErrors() || arquivo==null || arquivo.isEmpty()){
 			model.addAttribute("message",MESSAGE_ANEXO);
 			return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
-		AcaoExtensao old = acaoExtensaoRepository.findOne(idAcao);
-		old=checkAcaoExtensao(old,acao);
-		acao.setStatus(Status.AGUARDANDO_PARECERISTA);
-		acaoExtensaoRepository.save(old);
+		
+		acaoExtensaoService.submeterAcaoExtensao(idAcao, acao, arquivo);
+		
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_INICIAL;
-	}
-	private AcaoExtensao checkAcaoExtensao(AcaoExtensao old, AcaoExtensao nova){
-		old.setTitulo(nova.getTitulo());
-		old.setResumo(nova.getResumo());
-		old.setInicio(nova.getInicio());
-		old.setTermino(nova.getTermino());
-		old.setModalidade(nova.getModalidade());
-		old.setHorasPraticas(nova.getHorasPraticas());
-		old.setHorasTeoricas(nova.getHorasTeoricas());
-		old.setEmenta(nova.getEmenta());
-		old.setProgramacao(nova.getProgramacao());
-		return old;
 	}
 }
