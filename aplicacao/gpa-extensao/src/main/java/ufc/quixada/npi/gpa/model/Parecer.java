@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,6 +48,7 @@ public class Parecer {
 	private Documento arquivo;
 	
 	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)
+	@OrderBy("dataDeSolicitacao DESC")
 	private List<Pendencia> pendencias;
 	
 	public Parecer() {
@@ -136,6 +138,14 @@ public class Parecer {
 		
 		pendencia.setParecer(this);
 		this.pendencias.add(pendencia);
+	}
+	
+	public void setPendenciasResolvidas(){
+		if(this.pendencias != null){
+			for (Pendencia pendencia : this.pendencias) {
+				pendencia.setResolvida(true);
+			}
+		}
 	}
 
 	public Documento getArquivo() {

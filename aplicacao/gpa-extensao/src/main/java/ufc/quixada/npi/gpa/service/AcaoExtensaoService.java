@@ -10,6 +10,8 @@ public interface AcaoExtensaoService {
 
 	Integer salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException;
 	
+	void submeterAcaoExtensao(Integer idAcao, AcaoExtensao acaoExtensao, MultipartFile arquivo);
+	
 	void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia);
 
 	void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;

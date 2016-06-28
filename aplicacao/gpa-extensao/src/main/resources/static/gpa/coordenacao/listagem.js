@@ -1,6 +1,4 @@
 $(document).ready(function() {
-	$(".RESOLVENDO_PENDENCIAS_PARECER").addClass("bg-yellow");
-	$(".RESOLVENDO_PENDENCIAS_RELATO").addClass("bg-yellow");
 	$(".homologados").hide();
 	$(".parecerRelator").hide();
 	$(".parecerTecnico").hide();
@@ -15,8 +13,15 @@ $(document).ready(function() {
         $(this).find("i").toggleClass("fa-folder-open-o fa-folder-o");
         $(this).find(".small-box").toggleClass("bg-blue bg-aqua");
     });
+	
+	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
 	$(".table-acoes").DataTable({
-		"filter" : false
+		"filter" : false,
+		"paginate" : false,
+		"info": false,
+		"language" : {
+			"url": ptBR_url
+		}
 	});
 });
 function showNaoHomologados() {

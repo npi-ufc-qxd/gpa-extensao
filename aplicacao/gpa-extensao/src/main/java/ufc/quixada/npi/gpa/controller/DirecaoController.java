@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
@@ -45,8 +46,13 @@ public class DirecaoController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
+	public Integer acoesDirecaoSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
+	}
+	
+	@ModelAttribute(ACOES_COORDENADOR_SIZE)
+	public Integer acoesCoordenadorSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
 	}
 
 	@RequestMapping("/")

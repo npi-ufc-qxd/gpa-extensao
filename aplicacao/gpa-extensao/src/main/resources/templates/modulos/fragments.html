@@ -1,3 +1,5 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
 <!-- Head fragment, substitui todo o head da página -->
 <head th:fragment="head" >
 	<meta charset="utf-8"></meta>
@@ -84,8 +86,8 @@
 			<li class="active"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
-			<li><a th:href="@{/coordenacao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
-					<span class="label label-primary pull-right">0</span>
+			<li><a th:href="@{/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+					<span class="label label-primary pull-right" th:text="${acoesCoordenadorSize}"></span>
 			</a></li>
 
 			<li class="header">DIREÇÃO</li>
@@ -144,7 +146,7 @@
 	<script th:src="@{/js/moment.min.js}"></script>
 	
     <!-- Script da listagem de ações da coordenação -->
-	<script th:src="@{/js/listagem.js}"></script>
+	<script th:src="@{/gpa/coordenacao/listagem.js}"></script>
 	<script th:src="@{/js/cadastrarAcao.js}"></script>
 	
 	<!-- Slimscroll -->
@@ -159,6 +161,11 @@
 	<!-- Select 2 -->
 	<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>
 	
+	<!-- Datepicker -->
+	<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js}"></script>
 	
 </footer>
 <!-- Fim do rodapé -->
+
+</html>

@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
+import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 
 @Repository
 public interface ParticipacaoRepository extends CrudRepository<Participacao, Integer> {
 
 	public List<Participacao> findByAcaoExtensao(AcaoExtensao acao);
+	
+	public List<Participacao> findByAcaoExtensaoAndFuncao(AcaoExtensao acao, Funcao funcao);
 }

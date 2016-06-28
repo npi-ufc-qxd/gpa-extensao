@@ -34,11 +34,13 @@ public class Constants {
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
+	public static final String ACOES_COORDENADOR_SIZE = "acoesCoordenadorSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
 	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
+	public static final String PENDENCIAS = "pendencias";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -50,7 +52,6 @@ public class Constants {
 	public static final String PAGINA_LISTAR_ACOES_DIRECAO = "direcao/listagem";
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
-	public static final String PAGINA_LISTAR_ACOES_COORDENACAO = "coordenacao/listagem/listagem";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
 	
 	//fragments
@@ -59,7 +60,6 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-	public static final String REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO = "redirect:/coordenacao/listagem";
 	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	
@@ -88,6 +88,7 @@ public class Constants {
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
+	public static final String A_DEFINIR = "a definir";
 		
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
