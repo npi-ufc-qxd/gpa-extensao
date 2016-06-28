@@ -34,6 +34,7 @@ public class Constants {
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
+	public static final String ACOES_COORDENADOR_SIZE = "acoesCoordenadorSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
 	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";

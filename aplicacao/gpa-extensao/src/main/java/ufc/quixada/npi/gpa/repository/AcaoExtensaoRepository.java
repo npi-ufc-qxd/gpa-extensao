@@ -30,4 +30,9 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 	
+	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.coordenador.cpf =:cpf")
+	Integer countAcoesCoordenador(@Param("cpf") String cpf);
+	
+	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.status !=:status")
+	Integer countAcoesTramitacao(@Param("status") Status status);
 }

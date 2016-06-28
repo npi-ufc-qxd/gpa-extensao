@@ -3,6 +3,7 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
@@ -125,8 +126,13 @@ public class ExtensaoController {
 	private DirecaoService direcaoService;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
+	public Integer acoesDirecaoSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
+	}
+	
+	@ModelAttribute(ACOES_COORDENADOR_SIZE)
+	public Integer acoesCoordenadorSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
 	}
 	
 	@RequestMapping("/")
