@@ -24,9 +24,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/direcao/**").hasAuthority("DIRECAO")
-			.anyRequest().fullyAuthenticated()    
+			.anyRequest().fullyAuthenticated()
 			.and()
-				.formLogin().permitAll()
+				.formLogin().loginPage("/login").permitAll()
 			.and()
 	            .logout().logoutUrl("/logout").permitAll();
 	}

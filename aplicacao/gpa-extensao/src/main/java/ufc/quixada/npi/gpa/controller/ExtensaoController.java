@@ -129,6 +129,11 @@ public class ExtensaoController {
 		return acaoExtensaoRepository.count();
 	}
 	
+	@RequestMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+	
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
 		
