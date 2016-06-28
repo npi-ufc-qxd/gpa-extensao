@@ -350,6 +350,7 @@ public class ExtensaoController {
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute("acoesParaVinculo",acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
 	
@@ -371,26 +372,31 @@ public class ExtensaoController {
 	}
 
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
-	public String cadastrar(@RequestParam("anexoAcao") MultipartFile arquivo,@ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-			Authentication authentication, Model model) {
+	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+			Authentication authentication, Model model, RedirectAttributes redirect) {
+		Integer acaoId = 0;
 		try {
-			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
+			acaoId = acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO,e.getMessage());
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
-		model.addAttribute(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return REDIRECT_PAGINA_INICIAL;		
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoId;		
+
 	}
 	
-	@RequestMapping(value="/excluir/{idAcao}/parceriaExterna/{idParceria}")
-	public void deleteParceriaExterna(@PathVariable("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+	@RequestMapping(value="/excluir/{idParceria}")
+	public @ResponseBody Map<String, Object> deleteParceriaExterna(@RequestParam("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
+		Map<String, Object> map = new HashMap<String, Object>();
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
 		acao.getParceriasExternas().remove(parceria);
-		parceriaExternaRepository.delete(idParceriaExterna);
 		acaoExtensaoRepository.save(acao);
-	}
+		parceriaExternaRepository.delete(idParceriaExterna);
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		return map;
+	}	
 	
 	@RequestMapping(value = "/acoes/{idAcao}/pendencias", method = RequestMethod.POST)
 	public String solicitarResolucaoPendenciasParecer (@PathVariable Integer idAcao, Pendencia pendencia) {
@@ -423,6 +429,7 @@ public class ExtensaoController {
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model){
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(idAcao));
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
 	@RequestMapping(value="/submeter/{idAcao}",method=RequestMethod.POST)
@@ -431,7 +438,9 @@ public class ExtensaoController {
 			RedirectAttributes redirectAttribute){
 		
 		if(bind.hasErrors() || arquivo==null || arquivo.isEmpty()){
-			model.addAttribute("message",MESSAGE_ANEXO);
+			model.addAttribute(MESSAGE,MESSAGE_ANEXO);
+			model.addAttribute(MODALIDADES, Modalidade.values());
+			model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 			return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
 		

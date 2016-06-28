@@ -121,7 +121,7 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	$(".selectParceiro").select2();
-	$(".table-parceria-externa").DataTable({
+	$("table-participacoes-externas").DataTable({
 		"order" : [[ 0, "asc" ]],
         "columnDefs" : [ 
             {className: "dt-center", "targets": 8},            
@@ -140,6 +140,7 @@ $(document).ready(function() {
 		$("#deleteParceriaTableIndex").val($(e.relatedTarget).data("row"));
 		$("#deleteParceriaHiddenId").val($(this).find(".btn-ok").attr("href"));
 	});
+
 	$("#deleteParceriaHiddenBtn").click(function(e) {
 		e.preventDefault();
 		var parceriaId = $("#deleteParceriaHiddenId").val();
@@ -148,14 +149,20 @@ $(document).ready(function() {
 	    var header = $("meta[name='_csrf_header']").attr("content");
 	    $("#confirm-delete-parceria-externa").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/excluir/' + acaoExtensaoId + '/parceriaExterna/'+parceriaId,
+			url : '/gpa-extensao/excluir/'+parceriaId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
             },
+            data:{
+            	idAcao : acaoExtensaoId
+            },
             type : 'GET',
 			complete: function(){
-				document.getElementById('table-participacoes-externas').deleteRow(tableRowIndex+1);
+				setTimeout(function(){document.getElementById("table-participacoes-externas").deleteRow(tableRowIndex);}, 300);
+				if($("#table-participacoes-externas").length == 1){
+					$("#table-participacoes-externas").hide("slow");
+				}
 			}
 		});
 	});

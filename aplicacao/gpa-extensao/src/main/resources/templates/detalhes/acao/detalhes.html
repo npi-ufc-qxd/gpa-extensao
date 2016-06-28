@@ -52,6 +52,11 @@
             	
 				<div class="box box-widget">
 					<div class="box-header with-border">
+						<div th:if="${message}" class="alert alert-success alert-dismissible">
+                			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                			<h4><i class="icon fa fa-check"></i></h4>
+                			<p th:text="${message}"></p>
+              			</div>
 						
 						<div class="row" th:if="${homologado} == true">
           					<div class="col-xs-12">
@@ -68,9 +73,11 @@
 
 						<table style="width: 100%;">
 							<tr>
-								<th class="col-xs-12"><h3>Detalhes Ação Extensão</h3></th>
-								<th class="col-xs-2">
-									<button class="btn btn-danger"
+								<th class="col-xs-10"><h3>Detalhes Ação Extensão</h3></th>
+								<th class="col-xs-2"><a class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
+										<i class="glyphicon glyphicon-send" aria-hidden="true"></i> Submeter Ação
+									</a></th>
+								<th class="col-xs-2"><button class="btn btn-danger"
 										data-toggle="modal" data-target="#modalexcluir">
 										<i class="fa fa-trash" aria-hidden="true"></i> Excluir Ação
 									</button>
@@ -190,7 +197,7 @@
 							<li><label>Vinculo:</label></li>
 							<li>
 								<h4 th:if="${acaoExtensao.vinculo} != null"
-									th:text="${acaoExtensao.vinculo}"></h4>
+									th:text="${acaoExtensao.vinculo.titulo}"></h4>
 							</li>
 						</ul>
 
@@ -402,7 +409,7 @@
 						</form>
     				</div>
     				<div class="box-body with-border">
-    					<table class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
+    					<table th:if="${not #lists.isEmpty(acaoExtensao.parceriasExternas)}" class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -419,7 +426,7 @@
 							
 							<tbody>
 								
-								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}">
+								<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}" id="row+${rowStat.count}">
 									<td th:text="${rowStat.count}"></td>
 									<td th:text="${parceria.parceiro.nome}"></td>
 									<td>
@@ -447,7 +454,7 @@
 											data-toggle="modal"
 											data-target="#confirm-delete-parceria-externa"
 											th:attr="data-href=${parceria.id}"
-											th:attrappend="data-row=${rowStat.index}">
+											th:attrappend="data-row=${rowStat.count}">
 											<i class="glyphicon glyphicon-trash"></i>
 										</a>
                             		</td>

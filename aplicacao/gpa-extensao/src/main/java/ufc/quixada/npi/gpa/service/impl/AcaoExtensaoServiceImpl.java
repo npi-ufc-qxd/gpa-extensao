@@ -42,7 +42,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	private ServidorRepository servidorRepository;
 		
 	@Override
-	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException {
+	public Integer salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException {
 		Pessoa coordenador = pessoaRepository.getByCpf(cpf);
 		Participacao participante = new Participacao();
 		Servidor servidor = new Servidor();
@@ -80,7 +80,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		idAcao = completeToLeft(idAcao, '0', 4);
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
 		acaoExtensaoRepository.save(acaoExtensao);
-		
+		return acaoExtensao.getId();
 	}
 	
 	@Override
