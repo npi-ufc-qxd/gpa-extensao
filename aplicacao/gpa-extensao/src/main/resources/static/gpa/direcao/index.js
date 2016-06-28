@@ -44,6 +44,7 @@ $(document).ready(function() {
 	$(".table-direcao").DataTable({
 		"filter" : false,
 		"paginate" : false,
+		"info": false,
 		"language" : {
 			"url": ptBR_url
 		}
@@ -51,6 +52,7 @@ $(document).ready(function() {
 	
 	$(".table-direcao-homologadas").DataTable({
 		"filter" : false,
+		"info": false,
 		"language" : {
 			"url": ptBR_url
 		}

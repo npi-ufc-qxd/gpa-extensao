@@ -84,6 +84,30 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	}
 	
 	@Override
+	public void submeterAcaoExtensao(Integer idAcao, AcaoExtensao acaoExtensao, MultipartFile arquivo) {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(idAcao);
+		old=checkAcaoExtensao(old,acaoExtensao);
+		
+		switch (old.getStatus()) {
+			case RESOLVENDO_PENDENCIAS_PARECER:
+				old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+				old.getParecerTecnico().setPendenciasResolvidas();
+				break;
+				
+			case RESOLVENDO_PENDENCIAS_RELATO:
+				old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+				old.getParecerRelator().setPendenciasResolvidas();
+				break;
+				
+			default:
+				old.setStatus(Status.AGUARDANDO_PARECERISTA);
+				break;
+		}
+		
+		acaoExtensaoRepository.save(old);
+	}
+	
+	@Override
 	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia){
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 		
@@ -177,5 +201,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		else{
 			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
 		}	
+	}
+	
+	private AcaoExtensao checkAcaoExtensao(AcaoExtensao old, AcaoExtensao nova){
+		old.setTitulo(nova.getTitulo());
+		old.setResumo(nova.getResumo());
+		old.setInicio(nova.getInicio());
+		old.setTermino(nova.getTermino());
+		old.setModalidade(nova.getModalidade());
+		old.setHorasPraticas(nova.getHorasPraticas());
+		old.setHorasTeoricas(nova.getHorasTeoricas());
+		old.setEmenta(nova.getEmenta());
+		old.setProgramacao(nova.getProgramacao());
+		return old;
 	}
 }

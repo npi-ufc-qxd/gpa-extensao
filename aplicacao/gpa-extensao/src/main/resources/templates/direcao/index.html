@@ -104,7 +104,9 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+											</td>
 										</tr>
 										
 									</tbody>
@@ -142,7 +144,11 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span th:class="${acao.status.descricao == 'RESOLVENDO PENDÊNCIAS DO PARECER'} ?
+	  												  		'label label-warning' : 'label label-primary'"
+	  											  th:text="${acao.status.descricao}"></span>
+											</td>
 										</tr>
 
 									</tbody>
@@ -181,7 +187,9 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+											</td>
 										</tr>
 
 									</tbody>
@@ -220,7 +228,11 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span th:class="${acao.status.descricao == 'RESOLVENDO RESTRIÇÕES DO RELATO'} ?
+	  												  		'label label-warning' : 'label label-primary'"
+	  											  	  th:text="${acao.status.descricao}"></span>
+											</td>
 										</tr>
 
 									</tbody>
@@ -260,7 +272,9 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+											</td>
 											<td class="acoes" align="center">
 												<a title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acao.id}">
 													<button class="btn btn-primary btn-xs"><i class="fa fa-gavel"></i></button>
@@ -304,7 +318,9 @@
 											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 											<td th:text="${acao.coordenador.nome}"></td>
 											<td th:text="${acao.modalidade.descricao}"></td>
-											<td th:text="${acao.status.descricao}"></td>
+											<td>
+												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+											</td>
 										</tr>
 
 									</tbody>
