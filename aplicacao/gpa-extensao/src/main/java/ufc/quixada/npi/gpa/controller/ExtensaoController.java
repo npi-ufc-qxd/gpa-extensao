@@ -39,8 +39,12 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,11 +172,22 @@ public class ExtensaoController {
 			RedirectAttributes redirectAttributes){
 		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		List<Pessoa> possiveisCoordenadores = new ArrayList<Pessoa>();
+		
+		
+		
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_LISTAR_ACAO_EXTENSAO;
 		}
+
+		for(int i = 0; i < acao.getEquipeDeTrabalho().size(); i++){
+			if(acao.getEquipeDeTrabalho().get(i).getFuncao().toString().equals("STA") || acao.getEquipeDeTrabalho().get(i).getFuncao().toString().equals("DOCENTE")){
+				possiveisCoordenadores.add(acao.getEquipeDeTrabalho().get(i).getParticipante());
+			}
+		}
 		
+		model.addAttribute("possiveisCoordenadores", possiveisCoordenadores);
 		model.addAttribute("parceiro",new Parceiro());
 		model.addAttribute("parceriaExterna",new ParceriaExterna());
 		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
@@ -180,6 +195,8 @@ public class ExtensaoController {
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", listaDeFuncoes());
 		model.addAttribute("instituicoes", Instituicao.values());
+		
+		
 
 		if(acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)){
 			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
@@ -226,6 +243,42 @@ public class ExtensaoController {
 	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("id") Integer id){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		acao.setCodigo(codigo);
+		acaoExtensaoRepository.save(acao);
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+	}
+	
+	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method=RequestMethod.POST)
+	public String salvarNovoCoordenador(@PathVariable("id") Integer id, @RequestParam("idNovoCoordenador") String idnovoCoordenador, @RequestParam("dataInicio") String dataInicio, @RequestParam("dataTermino") String dataTermino) throws ParseException{
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		Participacao participacaoCoordenador = participacaoRepository.findByParticipante(acao.getCoordenador());
+		Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipante(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
+		List<Participacao> equipeDeTrabalho = acao.getEquipeDeTrabalho();
+		
+		
+		Date dataI, dataT;
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		dataI = df.parse(dataInicio);
+		dataT = df.parse(dataTermino);
+		
+		participacaoCoordenador.setDataTermino(dataI);
+		participacaoCoordenador.setCoordenador(false);
+		participacaoNovoCoordenador.setDataInicio(dataI);
+		participacaoNovoCoordenador.setDataTermino(dataT);
+		participacaoNovoCoordenador.setCoordenador(true);
+		
+		acao.setCoordenador(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
+		
+		for(int i =0; i < equipeDeTrabalho.size();i++){
+			if(equipeDeTrabalho.get(i).getId() == participacaoCoordenador.getId()){
+				equipeDeTrabalho.remove(i);
+				equipeDeTrabalho.add(participacaoCoordenador);
+			}
+			if(equipeDeTrabalho.get(i).getId() == participacaoNovoCoordenador.getId()){
+				equipeDeTrabalho.remove(i);
+				equipeDeTrabalho.add(participacaoNovoCoordenador);
+			}
+		}
+		acao.setEquipeDeTrabalho(equipeDeTrabalho);
 		acaoExtensaoRepository.save(acao);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
