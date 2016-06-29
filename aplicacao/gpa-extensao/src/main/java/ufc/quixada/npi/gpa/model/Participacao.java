@@ -49,25 +49,6 @@ public class Participacao {
 	@JoinColumn(name = "acao_id")
 	private AcaoExtensao acaoExtensao;
 	
-	public Participacao() {
-	}
-	
-	public Participacao(Pessoa participante, Funcao funcao, String descricaoFuncao, Instituicao instituicao,
-			String nomeInstituicao, Integer cargaHoraria, Date dataInicio, Date dataTermino, String nomeParticipante,
-			String cpfParticipante) {
-		super();
-		this.participante = participante;
-		this.funcao = funcao;
-		this.descricaoFuncao = descricaoFuncao;
-		this.instituicao = instituicao;
-		this.nomeInstituicao = nomeInstituicao;
-		this.cargaHoraria = cargaHoraria;
-		this.dataInicio = dataInicio;
-		this.dataTermino = dataTermino;
-		this.nomeParticipante = nomeParticipante;
-		this.cpfParticipante = cpfParticipante;
-	}
-
 	public Integer getId() {
 		return id;
 	}

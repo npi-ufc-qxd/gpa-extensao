@@ -139,6 +139,14 @@ public class Parecer {
 		pendencia.setParecer(this);
 		this.pendencias.add(pendencia);
 	}
+	
+	public void setPendenciasResolvidas(){
+		if(this.pendencias != null){
+			for (Pendencia pendencia : this.pendencias) {
+				pendencia.setResolvida(true);
+			}
+		}
+	}
 
 	public Documento getArquivo() {
 		return arquivo;
