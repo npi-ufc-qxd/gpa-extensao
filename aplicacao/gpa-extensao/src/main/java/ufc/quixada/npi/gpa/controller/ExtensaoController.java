@@ -14,6 +14,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.A_DEFINIR;
+import static ufc.quixada.npi.gpa.util.Constants.DEDICACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
@@ -138,7 +139,7 @@ public class ExtensaoController {
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
 		
-		Pessoa pessoa = pessoaRepository.getByCpf(authentication.getName());
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
 		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
 				Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusNovo = Arrays.asList(Status.NOVO);
@@ -271,7 +272,7 @@ public class ExtensaoController {
 			return map;
 		}
 		
-		Pessoa usuario = pessoaRepository.getByCpf(authentication.getName());
+		Pessoa usuario = pessoaRepository.findByCpf(authentication.getName());
 		
 		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == usuario.getId()) {
 			participacao.setCoordenador(true);
@@ -348,15 +349,18 @@ public class ExtensaoController {
 	}
 
 	@RequestMapping("/cadastrar")
-	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
+	public String cadastrar(Model model, AcaoExtensao acaoExtensao, Authentication authentication) {
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		Servidor servidor = servirdorRepository.findByPessoa(pessoa);
+		model.addAttribute(DEDICACAO, servidor.getDedicacao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute("acoesParaVinculo",acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
+		model.addAttribute("acoesParaVinculo", acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
 	
 	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
-			Model model, Authentication auth, BindingResult binding){
+			Model model, BindingResult binding){
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(binding.hasErrors()){
 			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
@@ -372,18 +376,47 @@ public class ExtensaoController {
 	}
 
 	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
-	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, @Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			Authentication authentication, Model model, RedirectAttributes redirect) {
-		Integer acaoId = 0;
+		Pessoa coordenador = pessoaRepository.findByCpf(authentication.getName());
+		
 		try {
-			acaoId = acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
+			acaoExtensao.setCoordenador(coordenador);
+			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
+			participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO,e.getMessage());
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
+		
 		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoId;		
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();		
 
+	}
+	
+	private void participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
+		Servidor servidor = servirdorRepository.findByPessoa(acaoExtensao.getCoordenador());
+		
+		Participacao participacao = new Participacao();
+		participacao.setAcaoExtensao(acaoExtensao);
+		participacao.setCoordenador(true);
+		participacao.setCargaHoraria(cargaHoraria);
+		participacao.setCpfParticipante("");
+		participacao.setDataInicio(acaoExtensao.getInicio());
+		participacao.setDataTermino(acaoExtensao.getTermino());
+		participacao.setDescricaoFuncao("");
+		participacao.setInstituicao(Instituicao.UFC);
+		participacao.setNomeInstituicao("");
+		participacao.setNomeParticipante("");
+		participacao.setParticipante(acaoExtensao.getCoordenador());
+		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
+			participacao.setFuncao(Funcao.DOCENTE);
+		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
+			participacao.setFuncao(Funcao.STA);
+		}
+		
+		participacaoRepository.save(participacao);
 	}
 	
 	@RequestMapping(value="/excluir/{idParceria}")

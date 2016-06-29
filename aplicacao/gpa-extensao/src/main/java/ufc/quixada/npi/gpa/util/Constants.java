@@ -41,6 +41,7 @@ public class Constants {
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
+	public static final String DEDICACAO = "dedicacao";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
