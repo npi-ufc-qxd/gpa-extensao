@@ -406,7 +406,6 @@ public class ExtensaoController {
 	}
 	
 	private void participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
-		Servidor servidor = servirdorRepository.findByPessoa(acaoExtensao.getCoordenador());
 		
 		Participacao participacao = new Participacao();
 		participacao.setAcaoExtensao(acaoExtensao);
@@ -420,6 +419,8 @@ public class ExtensaoController {
 		participacao.setNomeInstituicao("");
 		participacao.setNomeParticipante("");
 		participacao.setParticipante(acaoExtensao.getCoordenador());
+		
+		Servidor servidor = servirdorRepository.findByPessoa(acaoExtensao.getCoordenador());
 		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
 			participacao.setFuncao(Funcao.DOCENTE);
 		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
