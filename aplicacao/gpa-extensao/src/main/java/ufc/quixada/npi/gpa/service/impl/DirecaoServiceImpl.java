@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.ATRIBUIR_PARECERISTA_EXCEPTION;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
 
 import java.util.Date;
 import java.util.List;
@@ -43,7 +43,7 @@ public class DirecaoServiceImpl implements DirecaoService {
 			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
 			acaoExtensaoRepository.save(acao);
 		} else {
-			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
+			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
 		}
 
 	}
@@ -59,7 +59,7 @@ public class DirecaoServiceImpl implements DirecaoService {
 			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
 			acaoExtensaoRepository.save(acao);
 		} else {
-			throw new GpaExtensaoException(ATRIBUIR_PARECERISTA_EXCEPTION);
+			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
 		}
 	}
 

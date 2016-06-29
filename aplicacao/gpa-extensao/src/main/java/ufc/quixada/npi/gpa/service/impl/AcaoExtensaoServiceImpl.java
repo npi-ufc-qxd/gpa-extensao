@@ -46,7 +46,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		Pessoa coordenador = pessoaRepository.getByCpf(cpf);
 		Participacao participante = new Participacao();
 		Servidor servidor = new Servidor();
-		List<Participacao> equipeDeTrabalho = new ArrayList<Participacao>();
 		
 		if(!(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
@@ -70,6 +69,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		participante.setParticipante(coordenador);
 		participante.setInstituicao(Instituicao.UFC);
 		
+		List<Participacao> equipeDeTrabalho = new ArrayList<Participacao>();
 		equipeDeTrabalho.add(participante);
 		acaoExtensao.setEquipeDeTrabalho(equipeDeTrabalho);
 		acaoExtensao.setCoordenador(coordenador);

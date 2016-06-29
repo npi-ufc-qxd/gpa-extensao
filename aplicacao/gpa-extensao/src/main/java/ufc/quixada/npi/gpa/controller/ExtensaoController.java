@@ -25,18 +25,28 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
+import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
+import static ufc.quixada.npi.gpa.util.Constants.PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
+import static ufc.quixada.npi.gpa.util.Constants.FUNCOES;
+import static ufc.quixada.npi.gpa.util.Constants.INSTITUICOES;
+import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
+import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
+import static ufc.quixada.npi.gpa.util.Constants.CARGA_HORARIA_12;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -172,13 +182,13 @@ public class ExtensaoController {
 			return REDIRECT_PAGINA_INICIAL;
 		}
 		
-		model.addAttribute("parceiro",new Parceiro());
-		model.addAttribute("parceriaExterna",new ParceriaExterna());
-		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
+		model.addAttribute(PARCEIRO, new Parceiro());
+		model.addAttribute(PARCERIA_EXTERNA, new ParceriaExterna());
+		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
 		
-		model.addAttribute("novaParticipacao", new Participacao());
-		model.addAttribute("funcoes", listaDeFuncoes());
-		model.addAttribute("instituicoes", Instituicao.values());
+		model.addAttribute(NOVA_PARTICIPACAO, new Participacao());
+		model.addAttribute(FUNCOES, listaDeFuncoes());
+		model.addAttribute(INSTITUICOES, Instituicao.values());
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
 
@@ -198,11 +208,11 @@ public class ExtensaoController {
 			
 		}else if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
 			model.addAttribute(PENDENCIAS, acao.getParecerTecnico().getPendencias());
-			model.addAttribute("pendente", true);
+			model.addAttribute(PENDENTE, true);
 			
 		}else if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
 			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
-			model.addAttribute("pendente", true);
+			model.addAttribute(PENDENTE, true);
 		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
@@ -249,7 +259,7 @@ public class ExtensaoController {
 				participacao.setNomeParticipante(A_DEFINIR);
 				participacao.setFuncao(Funcao.ALUNO_BOLSISTA);
 				participacao.setInstituicao(Instituicao.UFC);
-				participacao.setCargaHoraria(12);
+				participacao.setCargaHoraria(CARGA_HORARIA_12);
 				participacaoRepository.save(participacao);
 			}
 		} 
@@ -266,7 +276,7 @@ public class ExtensaoController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(result.hasErrors()) {
-			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
+			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
 			map.put(RESPONSE_DATA, result.getFieldErrors());
 			return map;
 		}
@@ -309,11 +319,10 @@ public class ExtensaoController {
 		participacao.setNomeParticipante("");
 		participacao.setCpfParticipante("");
 		participacao.setParticipante(aluno);
-		Map<String, Object> map = new HashMap<String, Object>();
-		
 		participacaoRepository.save(participacao);
 		
-		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}
@@ -341,8 +350,8 @@ public class ExtensaoController {
 	@RequestMapping(value="/novaParceria/{id}",method=RequestMethod.GET)
 	public String novaParceriaExternaForm(@PathVariable("id") Integer id, Model model){
 		model.addAttribute(ACAO_EXTENSAO_ID, id);
-		model.addAttribute("parceiro",new Parceiro());
-		model.addAttribute("parceriaExterna",new ParceriaExterna());
+		model.addAttribute(PARCEIRO, new Parceiro());
+		model.addAttribute(PARCERIA_EXTERNA, new ParceriaExterna());
 		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
 		return PAGINA_CRIAR_PARCERIA_EXTERNA;
 	}
@@ -350,7 +359,7 @@ public class ExtensaoController {
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao) {
 		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute("acoesParaVinculo",acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
+		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
 	
@@ -359,14 +368,14 @@ public class ExtensaoController {
 			Model model, Authentication auth, BindingResult binding){
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(binding.hasErrors()){
-			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
+			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
 		parceria.setAcaoExtensao(acaoExtensao);
 		parceriaExternaRepository.save(parceria);
-		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}
@@ -378,7 +387,7 @@ public class ExtensaoController {
 		try {
 			acaoId = acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo,authentication.getName());
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO,e.getMessage());
+			model.addAttribute(ERRO, e.getMessage());
 			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 		}
 		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
@@ -388,13 +397,13 @@ public class ExtensaoController {
 	
 	@RequestMapping(value="/excluir/{idParceria}")
 	public @ResponseBody Map<String, Object> deleteParceriaExterna(@RequestParam("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
-		Map<String, Object> map = new HashMap<String, Object>();
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
 		acao.getParceriasExternas().remove(parceria);
 		acaoExtensaoRepository.save(acao);
 		parceriaExternaRepository.delete(idParceriaExterna);
-		map.put(MESSAGE_STATUS_RESPONSE, "OK");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
 		return map;
 	}	
 	
