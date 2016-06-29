@@ -8,7 +8,7 @@ import ufc.quixada.npi.gpa.model.Pendencia;
 
 public interface AcaoExtensaoService {
 
-	Integer salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException;
+	void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 	
 	void submeterAcaoExtensao(Integer idAcao, AcaoExtensao acaoExtensao, MultipartFile arquivo);
 	
