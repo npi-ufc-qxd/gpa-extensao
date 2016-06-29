@@ -23,12 +23,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/direcao/**").hasAuthority("DIRECAO")
-			.anyRequest().fullyAuthenticated()
+			//.antMatchers("/direcao/**").hasAuthority("DIRECAO")
+			//.antMatchers("/resources/**").permitAll()
+			.anyRequest().authenticated()//.fullyAuthenticated()
 			.and()
 				.formLogin().loginPage("/login").permitAll()
 			.and()
-	            .logout().logoutUrl("/logout").permitAll();
+				.logout().permitAll();
+	            //.logout().logoutUrl("/logout").permitAll();
+		
 	}
 
 	@Override
