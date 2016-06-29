@@ -156,9 +156,13 @@ public class ExtensaoController {
 	}
 	
 	@RequestMapping(value = "/deletar/{id}", method=RequestMethod.GET)
-	public String deletar(@PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		acaoExtensaoRepository.delete(acao);
+	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth){
+		try {
+			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
+		} catch (GpaExtensaoException e) {
+			attr.addFlashAttribute(ERRO, e.getMessage());
+		}
+		
 		return REDIRECT_PAGINA_INICIAL;
 	}
 
