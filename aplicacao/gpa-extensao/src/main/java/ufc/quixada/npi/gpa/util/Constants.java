@@ -8,7 +8,9 @@ public class Constants {
 	public static final String LDAP_USER = "ldap.user";
 	public static final String LDAP_PASSWORD = "ldap.password";
 	public static final String LDAP_OU = "ldap.ou";
-	public static final String BASE = "ldap.url";
+	
+	// Values
+	public static final Integer CARGA_HORARIA_12 = 12;
 
 	//Mensagens
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
@@ -30,7 +32,7 @@ public class Constants {
 	public static final String PERMISSAO_DIRETOR = "diretor";
 	public static final String PERMISSAO_PARECERISTA = "parecerista";
 	public static final String PERMISSAO_RELATOR = "relator";
-	public static final String PERMISSAO_PARTICIPANTE = "participante";
+	public static final String PARTICIPANTE = "participante";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
@@ -39,9 +41,19 @@ public class Constants {
 	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
+
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
 	public static final String DEDICACAO = "dedicacao";
+	public static final String PARCEIRO = "parceiro";
+	public static final String PARCERIA_EXTERNA = "parceriaExterna";
+	public static final String NOVA_PARTICIPACAO = "novaParticipacao";
+	public static final String ACOES_VINCULO = "acoesParaVinculo";
+	public static final String FUNCOES = "funcoes";
+	public static final String INSTITUICOES = "instituicoes";
+	public static final String PENDENTE = "pendente";
+	public static final String ERROR_UPPERCASE = "ERROR";
+	public static final String OK_UPPERCASE = "OK";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -61,19 +73,15 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-	public static final String REDIRECT_PAGINA_ACAO_EXTENSAO ="redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
-	
-	//Exceptions
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
-	public static final String ATRIBUIR_PARECERISTA_EXCEPTION = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
+	
 	
 	//Mensagens
-
 	public static final String ERRO = "erro";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";

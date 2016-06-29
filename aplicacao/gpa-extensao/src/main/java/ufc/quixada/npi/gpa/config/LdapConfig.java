@@ -1,6 +1,5 @@
 package ufc.quixada.npi.gpa.config;
 
-import static ufc.quixada.npi.gpa.util.Constants.BASE;
 import static ufc.quixada.npi.gpa.util.Constants.LDAP_BASE;
 import static ufc.quixada.npi.gpa.util.Constants.LDAP_OU;
 import static ufc.quixada.npi.gpa.util.Constants.LDAP_PASSWORD;
@@ -35,7 +34,7 @@ public class LdapConfig {
 		return new LdapTemplate(contextSource());
 	}
 
-	@Bean(name = BASE)
+	@Bean(name = LDAP_URL)
 	public String base() {
 		return environment.getRequiredProperty(LDAP_OU);
 	}
