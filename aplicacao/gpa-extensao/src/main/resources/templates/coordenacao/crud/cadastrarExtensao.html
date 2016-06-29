@@ -50,25 +50,27 @@
                                         <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo.id}" th:text="${vinculo.titulo}"></option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>Está Acão é Prorrogável?</label>
-                                    <br/>
-                                    <label class="radio-inline col-xs-5">
-                                        <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == true}" value="true"/>
-										SIM
-                                    </label>
-                                    <label class="radio-inline col-xs-5">
-                                        <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == false}" value="false"/>
-										NÃO
-                                    </label>
-                                </div>
-                                <div class="form-group col-md-6" id="divCadastrarModalidadeAcaoExtensao">
-                                    <label>Modalidade <i class="icon fa fa-asterisk" style="color:red;"></i></label>
-                                    <br/>
-                                    <select class="form-control select2-select" name="modalidade" id="cadastrarModalidadeAcaoExtensao" th:field="${acaoExtensao.modalidade}" required="required">
-                                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
-                                    </select>
-                                </div>
+                                <div class="row">
+	                                <div class="form-group col-md-6">
+	                                    <label>Está Acão é Prorrogável?</label>
+	                                    <br/>
+	                                    <label class="radio-inline">
+	                                        <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == true}" value="true"/>
+											SIM
+	                                    </label>
+	                                    <label class="radio-inlinex">
+	                                        <input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == false}" value="false"/>
+											NÃO
+	                                    </label>
+	                                </div>
+	                                <div class="form-group col-md-6 " id="divCadastrarModalidadeAcaoExtensao">
+	                                    <label>Modalidade <i class="icon fa fa-asterisk" style="color:red;"></i></label>
+	                                    <br/>
+	                                    <select class="form-control select2-select" name="modalidade" id="cadastrarModalidadeAcaoExtensao" th:field="${acaoExtensao.modalidade}" required="required">
+	                                        <option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
+	                                    </select>
+	                                </div>
+	                               </div>
                                 <div id="cargasHorarias" style="display:none;">
                                     <label>Carga Horária</label>
                                     <div class="form-group row">

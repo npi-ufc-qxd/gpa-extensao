@@ -285,7 +285,7 @@ public class ExtensaoController {
 		Servidor servidor = servirdorRepository.findByPessoa(pessoa);
 		model.addAttribute(DEDICACAO, servidor.getDedicacao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidade(Modalidade.PROGRAMA));
+		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
 
 		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
 	}
