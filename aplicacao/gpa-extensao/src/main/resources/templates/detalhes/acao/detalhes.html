@@ -18,6 +18,8 @@
 
 			<!-- Main content -->
 			<section class="content">
+			
+				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				
 				<div th:if="(${acaoExtensao.status == 'RESOLVENDO_PENDENCIAS_PARECER'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf})) OR
 						(${acaoExtensao.status == 'RESOLVENDO_PENDENCIAS_RELATO'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf}))" class="box box-warning">

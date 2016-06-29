@@ -33,11 +33,11 @@ public class AuthenticationProviderExtensao implements AuthenticationProvider {
 		String cpf = authentication.getName();
         String password = (String) authentication.getCredentials();
         
-        Pessoa pessoa = pessoaRepository.getByCpf(cpf);
+        Pessoa pessoa = pessoaRepository.findByCpf(cpf);
         
         Collection<? extends GrantedAuthority> authorities = pessoa.getAuthorities();
         
-        if (pessoaRepository.getByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
+        if (pessoaRepository.findByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
             throw new BadCredentialsException(Constants.LOGIN_INVALIDO);
         }
         
