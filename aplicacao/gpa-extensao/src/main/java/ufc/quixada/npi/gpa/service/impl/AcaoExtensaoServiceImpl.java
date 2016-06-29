@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,6 +106,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		
 		acaoExtensaoRepository.save(old);
+	}
+	
+	@Override
+	public void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException{
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
+		
+		if(acao.getStatus().equals(Status.NOVO) && acao.getCoordenador().getCpf().equals(cpfCoordenador)){
+			acaoExtensaoRepository.delete(acao);
+			
+		}else{
+			throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+		}
 	}
 	
 	@Override

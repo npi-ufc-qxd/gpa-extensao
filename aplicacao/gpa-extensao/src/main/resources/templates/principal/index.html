@@ -70,6 +70,12 @@
         			</div>
       			</div>
       			
+      			<div class="alert alert-danger alert-dismissible" th:style="${erro != null ? '' : 'display:none'}">
+      				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      				<h4>Operação não concluída!</h4>
+      				<span th:text="${erro}"></span>
+      			</div>
+      			
 				<div class="row tramitacao">
                     <div class="col-xs-12">
                         <div class="box box-info">
