@@ -118,7 +118,11 @@
 								</div>
 								<div class="form-group">
 									<label for="submeter-anexoAcaoExtensao">Anexos</label>
-									<input id="submeter-anexoAcaoExtensao" name="anexoAcao" type="file"/>
+									<input th:if="${acaoExtensao.anexo} == null" name="anexoAcao" type="file"/>
+									<h4 th:if="${acaoExtensao.anexo} != null">
+										<a th:text="${acaoExtensao.anexo.nome}"></a>
+										<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" style="display:none"/>
+									</h4>
 								</div>
 							</div>
 							

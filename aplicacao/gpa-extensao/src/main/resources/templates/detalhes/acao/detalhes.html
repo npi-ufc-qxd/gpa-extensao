@@ -80,9 +80,9 @@
 									class="col-xs-2"><a class="btn btn-primary" th:href="@{/editar/} + ${acaoExtensao.id}">
 									<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Editar Ação</a>
 								</th>
-								<th class="col-xs-2"><a class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
-									<i class="glyphicon glyphicon-send" aria-hidden="true"></i> Submeter Ação</a>
-								</th>
+								<th class="col-xs-2"><a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
+										<i class="glyphicon glyphicon-send" aria-hidden="true"></i> Submeter Ação
+									</a></th>
 								<th th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 									class="col-xs-2"><button class="btn btn-danger"
 										data-toggle="modal" data-target="#modalexcluir">
