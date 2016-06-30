@@ -433,15 +433,17 @@ public class ExtensaoController {
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
 	@RequestMapping(value="/submeter/{idAcao}",method=RequestMethod.POST)
-	public String submeterAcaoExtensao(@PathVariable("idAcao") Integer idAcao, @RequestParam("anexoAcao") MultipartFile arquivo,
+	public String submeterAcaoExtensao(@PathVariable("idAcao") Integer idAcao, @RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
 			RedirectAttributes redirectAttribute){
 		
-		if(bind.hasErrors() || arquivo==null || arquivo.isEmpty()){
-			model.addAttribute(MESSAGE,MESSAGE_ANEXO);
-			model.addAttribute(MODALIDADES, Modalidade.values());
-			model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
-			return PAGINA_SUBMETER_ACAO_EXTENSAO;
+		if(bind.hasErrors() || acao.getAnexo() == null){
+			if(arquivo==null || arquivo.isEmpty()){
+				model.addAttribute(MESSAGE,MESSAGE_ANEXO);
+				model.addAttribute(MODALIDADES, Modalidade.values());
+				model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
+				return PAGINA_SUBMETER_ACAO_EXTENSAO;
+			}
 		}
 		
 		acaoExtensaoService.submeterAcaoExtensao(idAcao, acao, arquivo);

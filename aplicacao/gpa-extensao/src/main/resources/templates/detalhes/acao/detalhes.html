@@ -74,7 +74,7 @@
 						<table style="width: 100%;">
 							<tr>
 								<th class="col-xs-10"><h3>Detalhes Ação Extensão</h3></th>
-								<th class="col-xs-2"><a class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
+								<th class="col-xs-2"><a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success" th:href="@{/submeter/} + ${acaoExtensao.id}">
 										<i class="glyphicon glyphicon-send" aria-hidden="true"></i> Submeter Ação
 									</a></th>
 								<th class="col-xs-2"><button class="btn btn-danger"
