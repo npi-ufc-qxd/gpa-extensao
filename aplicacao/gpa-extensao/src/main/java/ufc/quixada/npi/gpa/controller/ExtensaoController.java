@@ -403,13 +403,11 @@ public class ExtensaoController {
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
 			RedirectAttributes redirectAttribute){
 		
-		if(bind.hasErrors() || acao.getAnexo() == null){
-			if(arquivo==null || arquivo.isEmpty()){
+		if(bind.hasErrors() || acao.getAnexo() == null || arquivo==null || arquivo.isEmpty()){
 				model.addAttribute(MESSAGE,MESSAGE_ANEXO);
 				model.addAttribute(MODALIDADES, Modalidade.values());
 				model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 				return PAGINA_SUBMETER_ACAO_EXTENSAO;
-			}
 		}
 		
 		acaoExtensaoService.submeterAcaoExtensao(idAcao, acao, arquivo);
