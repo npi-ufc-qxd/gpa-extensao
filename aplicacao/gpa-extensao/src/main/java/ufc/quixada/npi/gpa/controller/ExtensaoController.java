@@ -398,6 +398,7 @@ public class ExtensaoController {
 		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
+	
 	@RequestMapping(value="/submeter/{idAcao}",method=RequestMethod.POST)
 	public String submeterAcaoExtensao(@PathVariable("idAcao") Integer idAcao, @RequestParam("anexoAcao") MultipartFile arquivo,
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
@@ -414,5 +415,30 @@ public class ExtensaoController {
 		
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_INICIAL;
+	}
+	
+	@RequestMapping("/editar/{id}")
+	public String editar(@PathVariable("id") Integer idAcao, Model model, Authentication authentication) {
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
+		
+		if(acaoExtensao.equals(null)) {
+			return PAGINA_INICIAL;
+		}
+		
+		if(!(acaoExtensao.getStatus().equals(Status.NOVO) || acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+				|| acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO))) {
+			return REDIRECT_PAGINA_DETALHES_ACAO;
+		}
+		
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		Servidor servidor = servirdorRepository.findByPessoa(pessoa);
+		
+		model.addAttribute("action", "editar");
+		model.addAttribute(ACAO_EXTENSAO, acaoExtensao);
+		model.addAttribute(DEDICACAO, servidor.getDedicacao());
+		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
+
+		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
 }
