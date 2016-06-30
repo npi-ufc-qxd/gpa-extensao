@@ -54,8 +54,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	}
 	
 	@Override
-	public void submeterAcaoExtensao(Integer idAcao, AcaoExtensao acaoExtensao, MultipartFile arquivo) {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(idAcao);
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old=checkAcaoExtensao(old,acaoExtensao);
 		
 		switch (old.getStatus()) {
@@ -74,6 +74,13 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 				break;
 		}
 		
+		acaoExtensaoRepository.save(old);
+	}
+	
+	@Override
+	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		old=checkAcaoExtensao(old,acaoExtensao);
 		acaoExtensaoRepository.save(old);
 	}
 	

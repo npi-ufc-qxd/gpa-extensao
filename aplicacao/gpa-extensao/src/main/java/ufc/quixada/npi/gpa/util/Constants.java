@@ -41,6 +41,7 @@ public class Constants {
 	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
+	public static final String ACTION = "action";
 
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
