@@ -117,4 +117,11 @@ $(document).ready(function() {
 			$("#programacaoAcaoExtensao").hide("slow");
 		}
 	});
+	
+	var dedicacao = $("#dedicacaoID").val();
+	if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+		$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+	} else if(dedicacao == "H20") {
+		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
+	}
 });

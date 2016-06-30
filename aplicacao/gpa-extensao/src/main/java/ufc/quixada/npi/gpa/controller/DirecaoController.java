@@ -12,7 +12,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +82,7 @@ public class DirecaoController {
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 	
 	@RequestMapping(value = "/relator", method = RequestMethod.POST)
@@ -92,7 +92,7 @@ public class DirecaoController {
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 		}
-		return REDIRECT_PAGINA_ACAO_EXTENSAO + acaoExtensao.getId();
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 	@RequestMapping(value = "/homologacao/{id}", method = RequestMethod.GET)
 	public String homologacao(@PathVariable("id") Integer id, Model model, Authentication authentication){

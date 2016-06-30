@@ -15,7 +15,7 @@
 		<i class="icon fa fa-warning"></i> 
 		<span th:text="${alertaParecer}"></span>
 	</div>
-	<div id="parecer-tecnico-info" th:style="${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'} ? 'display: none'">
+	<div id="parecer-tecnico-info" th:style="${acaoExtensao.status.name() == 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
 		<dl class="dl-horizontal">
 			<dt>Parecerista:</dt>
 			<dd 
@@ -51,8 +51,8 @@
 	</div>
 
 	<div id="parecer-tecnico-form"
-		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} OR ${acaoExtensao.status.descricao == 'AGUARDANDO PARECERISTA'}"
-		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO PARECERISTA'} ? 'display: none'">
+		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR ${acaoExtensao.status.name() == 'AGUARDANDO_PARECERISTA'}"
+		th:style="${acaoExtensao.status.name() != 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
 		<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
 			<div class="col-md-12">
@@ -74,14 +74,14 @@
 				</div>
 				<div class="form-group text-center">
 					<input value="Atribuir" class="btn btn-info" title="Atribuir parecerista técnico" type="submit"/>
-					<a id="cancelar-parecer-button" class="btn btn-default" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'}" title="Cancelar operação">Cancelar</a>
+					<a id="cancelar-parecer-button" class="btn btn-default" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}" title="Cancelar operação">Cancelar</a>
 				</div>
 			</div>
 		</form>
 	</div>
 	
 	<div id="pendencias-parecer-form" style="display: none" 
-		th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND 
+		th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND 
 			${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
 		<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
 			<div class="col-md-12">
@@ -98,7 +98,7 @@
 		</form>
 	</div>
 	
-	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER TÉCNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
+	<div th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
 		id="emitir-parecer-form" style="display: none;">
 		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerTecnico}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
@@ -137,7 +137,7 @@
 		<i class="icon fa fa-warning"></i> <span th:text="${alertaRelato}"></span>
 	</div>
 	<div id="parecer-relator-info"
-		th:style="${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'} ? 'display: none'">
+		th:style="${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'} ? 'display: none'">
 		<dl class="dl-horizontal">
 			<dt>Parecerista:</dt>
 			<dd 
@@ -173,8 +173,8 @@
 	</div>
 	
 	<div id="parecer-relator-form"
-		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} OR ${acaoExtensao.status.descricao == 'AGUARDANDO RELATOR'}"
-		th:style="${acaoExtensao.status.descricao != 'AGUARDANDO RELATOR'} ? 'display: none'">
+		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} OR ${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'}"
+		th:style="${acaoExtensao.status.name() != 'AGUARDANDO_RELATOR'} ? 'display: none'">
 		<form class="form-horizontal" th:object="${acaoExtensao}"
 			th:action="@{/direcao/relator}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
@@ -198,14 +198,14 @@
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-info" value="Atribuir" title="Atribuir relator" />
-					<a id="cancelar-relato-button" class="btn btn-default" th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'}" title="Cancelar operação">Cancelar</a>
+					<a id="cancelar-relato-button" class="btn btn-default" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}" title="Cancelar operação">Cancelar</a>
 				</div>
 			</div>
 		</form>
 	</div>
 	
 	<div id="pendencias-relato-form" style="display: none" 
-		th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND 
+		th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND 
 			${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
 		<form th:action="@{/acoes/} + ${acaoExtensao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="form-horizontal">
 			<div class="col-md-12">
@@ -222,7 +222,7 @@
 		</form>
 	</div>
 	
-	<div th:if="${acaoExtensao.status.descricao == 'AGUARDANDO PARECER'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
+	<div th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
 	id="emitir-relato-form" style="display: none;">
 		<form class="form-horizontal" th:object="${acaoExtensao}" enctype="multipart/form-data" th:action="@{/emitirParecerRelator}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />

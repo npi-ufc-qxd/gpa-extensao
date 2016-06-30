@@ -2,11 +2,10 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Named;
 
@@ -17,16 +16,9 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
-import ufc.quixada.npi.gpa.model.Participacao;
-import ufc.quixada.npi.gpa.model.Participacao.Funcao;
-import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
 import ufc.quixada.npi.gpa.model.Pendencia;
-import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
-import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 
 @Named
@@ -36,17 +28,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	@Autowired
 	private DocumentoRepository documentoRepository;
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	@Autowired
-	private ServidorRepository servidorRepository;
 		
 	@Override
-	public Integer salvarAcaoExtensao(AcaoExtensao acaoExtensao,MultipartFile arquivo, String cpf) throws GpaExtensaoException {
-		Pessoa coordenador = pessoaRepository.getByCpf(cpf);
-		Participacao participante = new Participacao();
-		Servidor servidor = new Servidor();
-		List<Participacao> equipeDeTrabalho = new ArrayList<Participacao>();
+	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		
 		if(!(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
@@ -60,19 +44,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			}
 		}
 		
-		servidor = servidorRepository.getByPessoa(coordenador);
-		
-		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
-			participante.setFuncao(Funcao.DOCENTE);
-		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
-			participante.setFuncao(Funcao.STA);
-		}
-		participante.setParticipante(coordenador);
-		participante.setInstituicao(Instituicao.UFC);
-		
-		equipeDeTrabalho.add(participante);
-		acaoExtensao.setEquipeDeTrabalho(equipeDeTrabalho);
-		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setStatus(Status.NOVO);
 		acaoExtensaoRepository.save(acaoExtensao);
 		
@@ -80,7 +51,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		idAcao = completeToLeft(idAcao, '0', 4);
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
 		acaoExtensaoRepository.save(acaoExtensao);
-		return acaoExtensao.getId();
 	}
 	
 	@Override
@@ -105,6 +75,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		
 		acaoExtensaoRepository.save(old);
+	}
+	
+	@Override
+	public void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException{
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
+		
+		if(acao.getStatus().equals(Status.NOVO) && acao.getCoordenador().getCpf().equals(cpfCoordenador)){
+			acaoExtensaoRepository.delete(acao);
+			
+		}else{
+			throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+		}
 	}
 	
 	@Override
