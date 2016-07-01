@@ -49,6 +49,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,6 +139,11 @@ public class ExtensaoController {
 		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
 	}
 	
+	@ModelAttribute(PESSOA_LOGADA)
+	public String pessoaLogada(Authentication authentication){
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
+	}
+	
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
 		
@@ -213,19 +219,6 @@ public class ExtensaoController {
 		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
-	}
-	@RequestMapping("/pendencias-resolvidas/{id}")
-	public String pendeciasResolvidas(@PathVariable("id") Integer id, Model model, Authentication authentication) {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)){
-			acao.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
-			
-		}
-		if(acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)){
-			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
-		}
-		acaoExtensaoRepository.save(acao);
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
 	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)
@@ -366,32 +359,7 @@ public class ExtensaoController {
 		return map;
 	}	
 	
-	@RequestMapping(value = "/acoes/{idAcao}/pendencias", method = RequestMethod.POST)
-	public String solicitarResolucaoPendenciasParecer (@PathVariable Integer idAcao, Pendencia pendencia) {
-		acaoExtensaoService.solicitarResolucaoPendencias(idAcao, pendencia);
-		
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
-	}
-
-	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)
-	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
-		try {
-			acaoExtensaoService.emitirParecerRelator(acaoExtensao, arquivo);
-		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
-		}
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-	}
 	
-	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
-	public String emitirParecerTecnico(@RequestParam("arquivo-parecerista") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
-		try {
-			acaoExtensaoService.emitirParecerTecnico(acaoExtensao, arquivo);
-		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
-		}
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-	}
 	
 	@RequestMapping("/submeter/{idAcao}")
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model){
@@ -407,7 +375,7 @@ public class ExtensaoController {
 			@Valid @ModelAttribute AcaoExtensao acao, Model model,BindingResult bind,
 			RedirectAttributes redirectAttribute){
 		
-		if(bind.hasErrors() || acao.getAnexo() == null || arquivo==null || arquivo.isEmpty()){
+		if(bind.hasErrors() || (acao.getAnexo() == null && arquivo.isEmpty())){
 				model.addAttribute(MESSAGE,MESSAGE_ANEXO);
 				model.addAttribute(MODALIDADES, Modalidade.values());
 				model.addAttribute(ACAO_EXTENSAO_ID, acao.getId());

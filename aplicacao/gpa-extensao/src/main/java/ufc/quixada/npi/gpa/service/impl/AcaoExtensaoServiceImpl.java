@@ -1,11 +1,9 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.inject.Named;
 
@@ -16,7 +14,6 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
-import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
@@ -107,29 +104,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 	}
 	
-	@Override
-	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia){
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
-		
-		pendencia.setDataDeSolicitacao(new Date());
-		
-		switch (acaoExtensao.getStatus()) {
-		case AGUARDANDO_PARECER_TECNICO:
-			acaoExtensao.getParecerTecnico().addPendencia(pendencia);
-			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
-			break;
-			
-		case AGUARDANDO_PARECER_RELATOR:
-			acaoExtensao.getParecerRelator().addPendencia(pendencia);
-			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_RELATO);
-			break;
-
-		default:
-			break;
-		}
-		
-		acaoExtensaoRepository.save(acaoExtensao);
-	}
+	
 	
 	private String completeToLeft(String value, char c, int size) {
 		String result = value;
@@ -137,70 +112,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			result = c + result;
 		}
 		return result;
-	}
-
-	@Override
-	public void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		
-		if(! (arquivo.getOriginalFilename().toString().equals(""))){
-			try {
-				Documento documento = new Documento();
-				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
-				
-				documentoRepository.save(documento);
-				acao.getParecerRelator().setArquivo(documento);
-				
-			} catch (IOException e) {
-				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
-			}
-		}
-		
-		if(acao != null){
-				acao.getParecerRelator().setDataRealizacao(new Date());
-				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
-				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
-			
-				acao.setStatus(Status.AGUARDANDO_HOMOLOGACAO);
-				
-				acaoExtensaoRepository.save(acao);
-		}
-		else{
-			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
-		}
-	}
-
-	@Override
-	public void emitirParecerTecnico(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		
-		if(! (arquivo.getOriginalFilename().toString().equals(""))){
-			try {
-				Documento documento = new Documento();
-				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
-				
-				documentoRepository.save(documento);
-				acao.getParecerTecnico().setArquivo(documento);
-				
-			} catch (IOException e) {
-				throw new GpaExtensaoException(EXCEPTION_RELATORIO);
-			}
-		}
-		
-		if(acao != null){
-				acao.getParecerTecnico().setDataRealizacao(new Date());
-				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
-				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
-				
-				acao.setStatus(Status.AGUARDANDO_RELATOR);
-				
-				acaoExtensaoRepository.save(acao);
-		}
-		else{
-			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
-		}	
 	}
 	
 	private AcaoExtensao checkAcaoExtensao(AcaoExtensao old, AcaoExtensao nova){
