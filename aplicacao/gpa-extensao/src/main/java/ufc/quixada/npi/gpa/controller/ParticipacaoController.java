@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +61,11 @@ public class ParticipacaoController {
 	
 	@Autowired
 	private ServidorRepository servirdorRepository;
+	
+	@ModelAttribute(PESSOA_LOGADA)
+	public String pessoaLogada(Authentication authentication){
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
+	}
 	
 	@RequestMapping(value="/cadastrar/{idAcao}", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> adicionarParticipacao(@Valid @ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 

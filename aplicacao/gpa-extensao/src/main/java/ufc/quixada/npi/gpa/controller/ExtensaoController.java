@@ -47,6 +47,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -134,6 +135,11 @@ public class ExtensaoController {
 	@ModelAttribute(ACOES_COORDENADOR_SIZE)
 	public Integer acoesCoordenadorSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
+	}
+	
+	@ModelAttribute(PESSOA_LOGADA)
+	public String pessoaLogada(Authentication authentication){
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
 	
 	@RequestMapping("/")

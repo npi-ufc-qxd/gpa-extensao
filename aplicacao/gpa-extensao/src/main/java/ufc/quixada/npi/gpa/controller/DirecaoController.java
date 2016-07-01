@@ -11,6 +11,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.PessoaRepository;
 
 @Controller
 @RequestMapping("direcao")
@@ -38,6 +40,9 @@ public class DirecaoController {
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
+	@Autowired
+	private PessoaRepository pessoaRepository;
+	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
@@ -46,6 +51,11 @@ public class DirecaoController {
 	@ModelAttribute(ACOES_COORDENADOR_SIZE)
 	public Integer acoesCoordenadorSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
+	}
+	
+	@ModelAttribute(PESSOA_LOGADA)
+	public String pessoaLogada(Authentication authentication){
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
 
 	@RequestMapping("/")
