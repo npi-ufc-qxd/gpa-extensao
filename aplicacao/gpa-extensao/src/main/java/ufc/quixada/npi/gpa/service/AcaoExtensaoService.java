@@ -12,7 +12,7 @@ public interface AcaoExtensaoService {
 	
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo);
 	
-	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo);
+	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 	
 	void deletarAcaoExtensao(Integer idAcao,String cpfCoordenador) throws GpaExtensaoException;
 	

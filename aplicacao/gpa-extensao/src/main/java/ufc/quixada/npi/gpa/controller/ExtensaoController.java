@@ -26,6 +26,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTE
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ANEXO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
@@ -450,9 +451,24 @@ public class ExtensaoController {
 			@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,
 			Authentication authentication, Model model, RedirectAttributes redirect) {
 		
-		acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+		if(!acaoExtensao.getModalidade().equals(Modalidade.CURSO) && !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+			acaoExtensao.setHorasPraticas(null);
+			acaoExtensao.setHorasTeoricas(null);
+		}
+		if(!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+			acaoExtensao.setProgramacao("");
+		}
+		if(!acaoExtensao.getModalidade().equals(Modalidade.CURSO)) {
+			acaoExtensao.setEmenta("");
+		}
 		
-		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
+		try {
+			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+		} catch (GpaExtensaoException e) {
+			e.printStackTrace();
+		}
+		
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();		
 
 	}

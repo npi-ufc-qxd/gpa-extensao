@@ -78,8 +78,19 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	}
 	
 	@Override
-	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) {
+	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		if(!(arquivo.getOriginalFilename().toString().equals(""))){
+			try{
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(arquivo.getOriginalFilename().toString());
+				documentoRepository.save(documento);
+				acaoExtensao.setAnexo(documento);
+			}catch(IOException e){
+				throw new GpaExtensaoException(MESSAGE_CADASTRO_ERROR);
+			}
+		}
 		old=checkAcaoExtensao(old,acaoExtensao);
 		acaoExtensaoRepository.save(old);
 	}
@@ -202,6 +213,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		old.setHorasTeoricas(nova.getHorasTeoricas());
 		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
+		old.setAnexo(nova.getAnexo());
 		return old;
 	}
 }

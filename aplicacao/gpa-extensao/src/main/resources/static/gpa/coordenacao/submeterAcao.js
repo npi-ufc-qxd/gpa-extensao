@@ -119,13 +119,30 @@ $(document).ready(function(){
 				$("#ementaAcaoExtensao").hide("slow");
 				$("#submeter-ementaAcaoExtensao").val("");
 			}
-		}else{
-			$("#submeter-horasPraticas").val(null);
-			$("#submeter-horasTeoricas").val(null);
+		} else {
 			$("#submeter-cargasHorarias").hide();
 			$("#ementaAcaoExtensao").hide();
 			$("#programacaoAcaoExtensao").hide();
 		}
 		return false;
     };
+    
+    $("#excluirArquivo").click(function(e) {
+    	e.preventDefault();
+    	var token = $("meta[name='_csrf']").attr("content");
+    	var header = $("meta[name='_csrf_header']").attr("content");
+    	console.log("Chegou aqui!!!!!!")
+    	idAcao = $("#excluirArquivo").data("id");
+    	$.ajax({
+			url : '/gpa-extensao/documento/excluir/'+ idAcao,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+			type : 'POST',
+			success: function(result) {
+				location.reload();
+			}
+		});
+    });
 });
