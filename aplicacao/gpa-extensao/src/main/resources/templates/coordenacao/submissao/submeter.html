@@ -23,7 +23,7 @@
 						</div>
 						
 						<form id="submeterAcaoExtensaoForm" role="form" th:action="@{/} + ${action}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
-							<input name="id" type="hidden" th:value="${acaoExtensao.id}"/>
+							<input id="acaoExtensaoId" name="id" type="hidden" th:value="${acaoExtensao.id}"/>
 							<div class="box-body">
 								<div class="callout callout-danger" th:if="${message}">
 					                <h4>Atenção</h4>
@@ -128,7 +128,7 @@
 									<h4 th:if="${acaoExtensao.anexo} != null">
 										<a th:text="${acaoExtensao.anexo.nome}" th:href="@{/documento/download/} + ${acaoExtensao.id}"></a>
 										<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" type="hidden"/>
-										<a id="excluirArquivo" class="btn btn-danger btn-xs" th:attr="data-id=${acaoExtensao.id}"
+										<a id="excluirArquivo" class="btn btn-danger btn-xs"
 											data-toogle="tooltip" title="excluir arquivo">
 											<i class="fa fa-trash-o"></i>
 										</a>

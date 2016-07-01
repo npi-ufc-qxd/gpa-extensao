@@ -103,7 +103,6 @@ $(document).ready(function(){
     });;
     
     $("#submeter-modalidadeAcaoExtensao").on('change',function(){
-    	console.log("MUDOU");
     	checkForm();
     });
     function checkForm(e){
@@ -131,8 +130,7 @@ $(document).ready(function(){
     	e.preventDefault();
     	var token = $("meta[name='_csrf']").attr("content");
     	var header = $("meta[name='_csrf_header']").attr("content");
-    	console.log("Chegou aqui!!!!!!")
-    	idAcao = $("#excluirArquivo").data("id");
+    	idAcao = $("#acaoExtensaoId").val();
     	$.ajax({
 			url : '/gpa-extensao/documento/excluir/'+ idAcao,
 			beforeSend: function (request)
