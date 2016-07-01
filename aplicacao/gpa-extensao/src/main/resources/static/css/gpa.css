@@ -8,12 +8,12 @@
 	margin-left: 5px;
 }
 
-.row {
+#box-details .row {
 	margin-bottom: 25px;
 	margin-left: 0;
 	margin-right: 0;
 }
 
-.row div {
+#box-details .row div {
 	text-align: justify;
 }

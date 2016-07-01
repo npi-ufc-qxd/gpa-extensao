@@ -13,6 +13,13 @@
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				
+				<!-- Mensagens -->
+            	<div th:if="${message}" class="alert alert-success alert-dismissible">
+         			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+         			<h4><i class="icon fa fa-check"></i></h4>
+         			<p th:text="${message}"></p>
+       			</div>
+       			
 				<!-- Box visualização das Pendências -->
 				<div th:if="(${acaoExtensao.status == 'RESOLVENDO_PENDENCIAS_PARECER'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf})) OR
 						(${acaoExtensao.status == 'RESOLVENDO_PENDENCIAS_RELATO'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf}))" class="box box-warning">
@@ -39,23 +46,23 @@
 						</div>
 					</div>
 				</div><!-- Box visualização das Pendências -->
-            	<!-- Mensagens -->
-            	<div th:if="${message}" class="alert alert-success alert-dismissible">
-         			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-         			<h4><i class="icon fa fa-check"></i></h4>
-         			<p th:text="${message}"></p>
-       			</div>
             	
             	<!-- Box detalhes  -->
 				<div class="box box-primary">
 					<div class="box-header with-border">
 						<h3 class="box-title" th:text="${acaoExtensao.titulo}"></h3>
 					</div>
-					<div class="box-body with-border">
+					<div id="box-details" class="box-body with-border">
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-6">
 								<label>Coordenador</label>
 								<div th:text="${acaoExtensao.coordenador.nome}"></div>
+							</div>
+							<div class="col-sm-6">
+								<label>Status:</label>
+								<div>
+									<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -83,8 +90,36 @@
 								</div>
 							</div>
 							<div class="col-sm-3">
-								<label>Status:</label>
-								<div th:text="${acaoExtensao.status.descricao}"></div>
+								<label>Vinculo</label>
+								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Início</label>
+								<div th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></div>
+							</div>
+							<div class="col-sm-3">
+								<label>Término</label>
+								<div th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
+							</div>
+							<div class="col-sm-3">
+								<label>Bolsas solicitadas</label>
+								<div th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></div>
+							</div>
+							<div class="col-sm-3">
+								<label>Bolsas recebidas</label>
+								<div id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}">
+									<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
+										id="bolsas-form">
+										<input id="input-bolsas" type="number" min="0"
+											name="bolsasRecebidas" pattern="[0-9]+" />
+									</form>
+									<div th:switch="${acaoExtensao.status.descricao}">
+										<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true"
+											data-toggle="tooltip" title="Editar"></i>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -93,70 +128,12 @@
 								<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
 							</div>
 						</div>
-						<ul class="col-sm-6 list-inline">
-							<li><label>Início:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.inicio} != null"
-									th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></h4>
-							</li>
-						</ul>
-						<ul class="col-sm-6 list-inline">
-							<li><label>Término:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.termino} != null"
-									th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></h4>
-							</li>
-						</ul>
-						<ul class=" col-sm-6 list-inline">
-							<li><label>Bolsas solicitadas:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.bolsasSolicitadas} != null"
-									th:text="${acaoExtensao.bolsasSolicitadas}"></h4>
-							</li>
-						</ul>
-						<ul class=" col-sm-6 list-inline">
-							<li><label>Bolsas recebidas:</label></li>
-							<li>
-								<h4 id="bolsas-recebidas"
-									th:text="${acaoExtensao.bolsasRecebidas}"></h4>
-								<form action="#"
-									th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
-									id="bolsas-form">
-									<input id="input-bolsas" type="number" min="0"
-										name="bolsasRecebidas" pattern="[0-9]+" />
-								</form>
-
-							</li>
-							<li th:switch="${acaoExtensao.status.descricao}"><i
-								th:case="APROVADO" id="editar-bolsas"
-								class="fa fa-pencil-square-o" aria-hidden="true"
-								data-toggle="tooltip" title="Editar"></i></li>
-						</ul>
-						<ul class=" col-sm-6 list-inline">
-							<li><label>Data de homologação:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.dataDeHomologacao} != null"
-									th:text="${#dates.format(acaoExtensao.dataDeHomologacao, 'dd/MM/yyyy')}"></h4>
-							</li>
-						</ul>
-						<ul class=" col-sm-6 list-inline">
-							<li><label>Vinculo:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.vinculo} != null"
-									th:text="${acaoExtensao.vinculo.titulo}"></h4>
-							</li>
-						</ul>
-
-					<div>
-						<ul class=" col-sm-4 list-inline">
-							<li><label>Anexo:</label></li>
-							<li>
-								<h4 th:if="${acaoExtensao.anexo} != null">
-									<a th:text="${acaoExtensao.anexo.nome}"></a>
-								</h4>
-							</li>
-						</ul>
-					</div>
+						<div class="col-sm-12">
+							<label>Arquivo</label>
+							<div th:if="${acaoExtensao.anexo} != null">
+								<a th:text="${acaoExtensao.anexo.nome}"></a>
+							</div>
+						</div>
 					</div>
 					<div class="box-footer">
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
@@ -235,8 +212,8 @@
 								</div>
 							</div>
 							<div class="box-footer text-center">
-								<input id="submitParticipacao" name="salvar" type="submit" class="btn btn-primary" value="Adicionar" />
-								<a id="cancelarNovaParticipacao" class="btn btn-warning back">Cancelar</a>
+								<input id="submitParticipacao" name="salvar" type="submit" class="btn btn-primary btn-flat" value="Salvar" />
+								<a id="cancelarNovaParticipacao" class="btn btn-default btn-flat">Cancelar</a>
 							</div>
 						</form>
 						<div class="box-body with-border" id="resultsBlock"></div>
@@ -312,9 +289,9 @@
 										<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
 									</div>
 								</div>
-								<div class="box-footer">
-									<button id="cancelarAdicaoParceriaExterna" class="btn btn-default pull-left">Cancelar</button>
-								    <button id="submitBtnParceriaExternaForm" class="btn btn-primary pull-right">Salvar</button>
+								<div class="box-footer text-center">
+								    <button id="submitBtnParceriaExternaForm" class="btn btn-primary btn-flat">Salvar</button>
+									<button id="cancelarAdicaoParceriaExterna" class="btn btn-default btn-flat">Cancelar</button>
 								</div>
 							</form>
     					</div>
