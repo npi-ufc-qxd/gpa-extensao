@@ -1,3 +1,4 @@
+
 package ufc.quixada.npi.gpa.model;
 
 import java.util.ArrayList;
@@ -5,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-
 
 @Entity
 public class AcaoExtensao {
@@ -31,7 +31,7 @@ public class AcaoExtensao {
 	private String identificador;
 	
 	private String titulo;
-	
+	@Column(columnDefinition = "TEXT")
 	private String resumo;
 	
 	@Enumerated(EnumType.STRING)
@@ -40,12 +40,16 @@ public class AcaoExtensao {
 	private Integer horasPraticas;
 	
 	private Integer horasTeoricas;
-		
+	
+	@Column(columnDefinition = "TEXT")
 	private String ementa;
-		
+	
+	@Column(columnDefinition = "TEXT")	
 	private String programacao;
+	
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;
+	
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
 	
@@ -80,26 +84,6 @@ public class AcaoExtensao {
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
-
-	public AcaoExtensao() {
-	}
-
-	public AcaoExtensao(String codigo, String identificador, String titulo, String resumo, Modalidade modalidade,
-			Date inicio, Date termino, boolean prorrogavel, Pessoa coordenador, Integer bolsasSolicitadas,
-			Status status, Documento anexo) {
-		this.codigo = codigo;
-		this.identificador = identificador;
-		this.titulo = titulo;
-		this.resumo = resumo;
-		this.modalidade = modalidade;
-		this.inicio = inicio;
-		this.termino = termino;
-		this.prorrogavel = prorrogavel;
-		this.coordenador = coordenador;
-		this.bolsasSolicitadas = bolsasSolicitadas;
-		this.status = status;
-		this.anexo = anexo;
-	}
 
 	public AcaoExtensao getVinculo() {
 		return vinculo;

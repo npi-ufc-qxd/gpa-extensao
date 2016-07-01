@@ -1,14 +1,18 @@
-$(document).ready(function(){
-	checkForm();
-	$("#submeter-dataInicio,#submeter-dataTermino").datepicker({
-        format: "dd/mm/yyyy",
-        maxViewMode: 2,
-        todayBtn: true,
-        language: "pt-BR",
-        autoclose: true,
+$(document).ready(function() {
+	$("#cargaHorarias").hide();
+	$("#cadastrarModalidadeAcaoExtensao, #cadastrarVinculoAcaoExtensao").select2();
+    $("#cadastrarDataInicio,#cadastrarDataTermino").datepicker({
+    	format : "dd/mm/yyyy",
+		todayBtn : "linked",
+		language : "pt-BR",
+		todayHighlight : true
+    }).on("changeDate",function(e){
+    	$(this).datepicker("hide");
+    	$("#formCadastrarAcaoExtensao").bootstrapValidator("revalidateField", "inicio");
     });
-    
-    $("#submeterAcaoExtensaoForm").bootstrapValidator({
+    $("#formCadastrarAcaoExtensao").bootstrapValidator({
+    	excluded: [':disabled', ':hidden', ':not(:visible)'],
+    	live: 'enabled',
         feedbackIcons: {
             valid: false,
         	invalid: "glyphicon"
@@ -37,8 +41,9 @@ $(document).ready(function(){
         		}
         	},
         	inicio:{
+        		group:'input-group',
         		validators: {
-            		callback: {
+        			callback: {
                         message: "A data de início deve ser anterior à data de término",
                         callback: function(value, validator) {
                         	var termino = validator.getFieldElements("termino").val();
@@ -53,28 +58,20 @@ $(document).ready(function(){
                         }
                     }
             	}
-        	},
-        	modalidade:{
-        		validators: {
-                    callback: {
-                        message: 'Selecionar modalidade',
-                        callback: function(value, validator) {
-                            // Get the selected options
-                            var opcao = validator.getFieldElements("modalidade").val();
-                            return (opcao!=null);
-                        }
-                    }
-                }
+        	},vinculo:{
+        		excluded:true
         	},
         	horasPraticas:{
         		integer:{
-         		   message: "Digite um número válido"
+        			min:0,
+         		   	message: "Digite um número válido"
          	   }
         	},
         	horasTeoricas:{
         		integer:{
-         		   message: "Digite um número válido"
-         	   }
+        			min:0,
+         		   	message: "Digite um número válido"
+         	   	}
         	},
         	ementa:{
         		validators:{
@@ -100,29 +97,31 @@ $(document).ready(function(){
         	}
         }
     });
-    $("#submeter-modalidadeAcaoExtensao").on('change',function(){
-    	checkForm();
-    });
-    function checkForm(e){
-		var selected = $("#submeter-modalidadeAcaoExtensao").find(":selected").val();
+	
+	$("#cadastrarModalidadeAcaoExtensao").change(function(){
+		var selected = $(this).find(":selected").val();
 		if((selected === "CURSO")||(selected === "EVENTO")){
-			$("#submeter-cargasHorarias").show("slow");
+			$("#cargasHorarias").show("slow");
 			if((selected === "CURSO")){
-				$("#ementaAcaoExtensao").show("slow");
 				$("#programacaoAcaoExtensao").hide("slow");
-				$("#submeter-programacaoAcaoExtensao").val("");
+				$("#ementaAcaoExtensao").show("slow");
 			}else{
-				$("#programacaoAcaoExtensao").show("slow");
 				$("#ementaAcaoExtensao").hide("slow");
-				$("#submeter-ementaAcaoExtensao").val("");
+				$("#programacaoAcaoExtensao").show("slow");
 			}
 		}else{
-			$("#submeter-horasPraticas").val(0);
-			$("#submeter-horasTeoricas").val(0);
-			$("#submeter-cargasHorarias").hide();
-			$("#ementaAcaoExtensao").hide();
-			$("#programacaoAcaoExtensao").hide();
+			$("#cadastrarHorasPraticas").val("0");
+			$("#cadastrarHorasTeoricas").val("0");
+			$("#cargasHorarias").slideUp("slow");
+			$("#ementaAcaoExtensao").hide("slow");
+			$("#programacaoAcaoExtensao").hide("slow");
 		}
-		return false;
-    };
+	});
+	
+	var dedicacao = $("#dedicacaoID").val();
+	if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+		$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+	} else if(dedicacao == "H20") {
+		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
+	}
 });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" data-page="index-coordenacao">
 	
 <head th:replace="modulos/fragments :: head"></head>
 
@@ -70,13 +70,19 @@
         			</div>
       			</div>
       			
+      			<div class="alert alert-danger alert-dismissible" th:style="${erro != null ? '' : 'display:none'}">
+      				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      				<h4>Operação não concluída!</h4>
+      				<span th:text="${erro}"></span>
+      			</div>
+      			
 				<div class="row tramitacao">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
                                 <h3>Tramitação</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -85,21 +91,20 @@
 	      								<th>STATUS</th>
 	      								<th>INÍCIO</th>
 	      								<th>TÉRMINO</th>
-	      								<th></th>
 	    							</tr>
 	  							</thead>
 	  							<tbody>
-	  								<tr th:each="acao : ${acoesTramitacao}" th:class="${acao.status}">
+	  								<tr th:each="acao : ${acoesTramitacao}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+	  										<span th:class="${acao.status == 'RESOLVENDO_PENDENCIAS_PARECER'} OR
+	  												  		${acao.status == 'RESOLVENDO_PENDENCIAS_RELATO'} ?
+	  												  		'label label-warning' : 'label label-primary'"
+	  											  th:text="${acao.status.descricao}"></span>
+	  									</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
-	  									<td class="acoes" align="center">
-											<a title="Resolver Pendências" th:href="@{/detalhes/} + ${acao.id}" th:class="${acao.status}" hidden="true">
-												<button class="btn btn-primary btn-xs"><i class="fa fa-exclamation-triangle"></i></button>
-											</a>
-										</td>
 	  								</tr>
 	  							</tbody>
 	  							</table>
@@ -113,7 +118,7 @@
                             <div class="box-header">
                                 <h3>Novas</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -128,7 +133,9 @@
 	  								<tr th:each="acao : ${acoesNovas}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+	  										<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+	  									</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
@@ -144,7 +151,7 @@
                             <div class="box-header">
                                 <h3>Homologadas</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -159,7 +166,9 @@
 	  								<tr th:each="acao : ${acoesHomologadas}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+	  										<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+	  									</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
@@ -175,7 +184,7 @@
                             <div class="box-header">
                                 <h3>Parecer Relator</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -190,7 +199,9 @@
 	  								<tr th:each="acao : ${acoesParecerRelator}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+	  										<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+	  									</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
@@ -206,7 +217,7 @@
                             <div class="box-header">
                                 <h3>Parecer Técnico</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -221,7 +232,9 @@
 	  								<tr th:each="acao : ${acoesParecerTecnico}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+	  										<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+	  									</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>
@@ -237,7 +250,7 @@
                             <div class="box-header">
                                 <h3>Participação</h3>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
 								<thead>
 	    							<tr>
@@ -252,7 +265,9 @@
 	  								<tr th:each="acao : ${acoesParticipacao}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
 	  									<td th:text="${acao.modalidade}"></td>
-	  									<td th:text="${acao.status.descricao}"></td>
+	  									<td>
+											<span class="label label-primary" th:text="${acao.status.descricao}"></span>
+										</td>
 	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
 	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
 	  								</tr>

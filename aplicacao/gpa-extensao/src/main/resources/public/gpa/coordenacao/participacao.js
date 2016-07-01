@@ -52,9 +52,9 @@ $(document).ready(function() {
 	function buscaPessoas(funcao) {
 		
 		if(funcao == "ALUNO_VOLUNTARIO") {
-			var caminho = "/gpa-extensao/buscarAlunos";
+			var caminho = "/gpa-extensao/participacao/buscarAlunos";
 		} else {
-			var caminho = "/gpa-extensao/buscarServidores";
+			var caminho = "/gpa-extensao/participacao/buscarServidores";
 		}
 		
 		$.ajax({
@@ -145,7 +145,7 @@ $(document).ready(function() {
 	})
 	.on('success.form.bv', function(e) {
 		 e.preventDefault();
-         var baseURL = '/gpa-extensao/participacoes/';
+         var baseURL = '/gpa-extensao/participacao/cadastrar/';
          $.ajax({
  			url : baseURL + acaoExtensaoId,
  			beforeSend: function (request)
@@ -180,7 +180,7 @@ $(document).ready(function() {
      });
 	
 	function carregarTabelaParticipacoes() {
-		 var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;
+		 var url = "/gpa-extensao/participacao/buscarParticipacoes/" + acaoExtensaoId;
 		 $("#resultsBlock").load(url, function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
@@ -210,7 +210,7 @@ $(document).ready(function() {
 		var participacaoId = $("#deleteParticipacaoHiddenId").val();
 	    $("#confirm-delete-participacao").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/excluir/participacao/'+ participacaoId,
+			url : '/gpa-extensao/participacao/excluir/'+ participacaoId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
@@ -223,7 +223,7 @@ $(document).ready(function() {
 	
 	$("#vincular-bolsista").on("show.bs.modal", function(e) {
 		$("#participacaoHiddenId").val($(e.relatedTarget).data("id"));
-		var caminho = "/gpa-extensao/buscarAlunos";
+		var caminho = "/gpa-extensao/participacao/buscarAlunos";
 		$.ajax({
 			type:"GET",
 			 beforeSend: function (request)
@@ -246,7 +246,7 @@ $(document).ready(function() {
 	
 	$("#vincularBolsistaHiddenBtn").click(function(e) {
 		e.preventDefault();
-        var baseURL = '/gpa-extensao/vincularBolsistas/';
+        var baseURL = '/gpa-extensao/participacao/vincularBolsistas/';
         var idParticipacao = $("#participacaoHiddenId").val();
         var idAluno = $("#selectBolsista").val();
         $("#vincular-bolsista").modal('hide');
