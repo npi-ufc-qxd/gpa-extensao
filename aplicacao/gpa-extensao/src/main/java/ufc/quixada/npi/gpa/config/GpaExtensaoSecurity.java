@@ -22,8 +22,9 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers("/").fullyAuthenticated()
 			.antMatchers("/direcao/**").hasAuthority("DIRECAO").anyRequest().authenticated()
-			.antMatchers("/public/**").permitAll().anyRequest().permitAll()
+			.antMatchers("/public-resources/**").permitAll().anyRequest().permitAll()
 			.and()
 				.formLogin().loginProcessingUrl("/login").loginPage("/login").permitAll()
 			.and()
