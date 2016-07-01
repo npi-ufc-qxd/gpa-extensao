@@ -53,7 +53,7 @@
 	<div id="parecer-tecnico-form"
 		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR ${acaoExtensao.status.name() == 'AGUARDANDO_PARECERISTA'}"
 		th:style="${acaoExtensao.status.name() != 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
-		<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/direcao/parecerista}" method="post">
+		<form class="form-horizontal" th:object="${acaoExtensao}" th:action="@{/parecerista}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}"/>
 			<div class="col-md-12">
 				<div class="form-group">
@@ -176,7 +176,7 @@
 		sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} OR ${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'}"
 		th:style="${acaoExtensao.status.name() != 'AGUARDANDO_RELATOR'} ? 'display: none'">
 		<form class="form-horizontal" th:object="${acaoExtensao}"
-			th:action="@{/direcao/relator}" method="post">
+			th:action="@{/relator}" method="post">
 			<input type="hidden" th:value="${acaoExtensao.id}" th:field="*{id}" />
 			<div class="col-md-12">
 				<div class="form-group">

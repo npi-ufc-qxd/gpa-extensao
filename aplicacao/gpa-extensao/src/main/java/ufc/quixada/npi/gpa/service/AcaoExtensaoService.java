@@ -4,7 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.model.Pendencia;
 
 public interface AcaoExtensaoService {
 
@@ -13,10 +12,4 @@ public interface AcaoExtensaoService {
 	void submeterAcaoExtensao(Integer idAcao, AcaoExtensao acaoExtensao, MultipartFile arquivo);
 	
 	void deletarAcaoExtensao(Integer idAcao,String cpfCoordenador) throws GpaExtensaoException;
-	
-	void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia);
-
-	void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
-	
-	void emitirParecerTecnico(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 }
