@@ -34,7 +34,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
@@ -282,8 +281,29 @@ public class ExtensaoController {
 		model.addAttribute(DEDICACAO, servidor.getDedicacao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
+		model.addAttribute(ACTION, "cadastrar");
+		
+		return PAGINA_SUBMETER_ACAO_EXTENSAO;
+	}
 
-		return PAGINA_CADASTRAR_ACAO_EXTENSAO;
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
+	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, @Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+			Authentication authentication, Model model, RedirectAttributes redirect) {
+		Pessoa coordenador = pessoaRepository.findByCpf(authentication.getName());
+		
+		try {
+			acaoExtensao.setCoordenador(coordenador);
+			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
+			participacaoCoordenador(acaoExtensao, cargaHoraria);
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+			return PAGINA_SUBMETER_ACAO_EXTENSAO;
+		}
+		
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();		
+
 	}
 	
 	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
@@ -301,26 +321,6 @@ public class ExtensaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
-	}
-
-	@RequestMapping(value = "/cadastrarAcao", method = RequestMethod.POST)
-	public String cadastrar(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo,
-			@RequestParam("cargaHoraria") Integer cargaHoraria, @Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-			Authentication authentication, Model model, RedirectAttributes redirect) {
-		Pessoa coordenador = pessoaRepository.findByCpf(authentication.getName());
-		
-		try {
-			acaoExtensao.setCoordenador(coordenador);
-			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
-			participacaoCoordenador(acaoExtensao, cargaHoraria);
-		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
-			return PAGINA_CADASTRAR_ACAO_EXTENSAO;
-		}
-		
-		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();		
-
 	}
 	
 	private void participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
