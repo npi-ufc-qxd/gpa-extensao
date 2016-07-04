@@ -81,6 +81,7 @@ public class Constants {
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
+	public static final String EXCEPTION_ARQUIVO = "Falha ao salvar o arquivo! Tente novamente.";
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	
 	

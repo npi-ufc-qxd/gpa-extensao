@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ARQUIVO;;
 
 
 public class DocumentoEntityListener implements ApplicationContextAware{
@@ -42,7 +43,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 			fop.flush();
 			fop.close();
 		} catch (IOException ex) {
-			throw new GpaExtensaoException("Falha ao salvar o arquivo! Tente novamente.");
+			throw new GpaExtensaoException(EXCEPTION_ARQUIVO);
 		}
 	}
 	
