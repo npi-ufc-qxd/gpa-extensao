@@ -19,11 +19,13 @@
 						<div class="box-header with-border">
 							<h3 th:if="${action == 'submeter'}" class="box-title">Submeter Ação Extensão</h3>
 							<h3 th:if="${action == 'editar'}" class="box-title">Editar Ação Extensão</h3>
+							<h3 th:if="${action == 'cadastrar'}" class="box-title">Editar Ação Extensão</h3>
 							<input id="action" type="hidden" th:value="${action}"/>
 						</div>
 						
 						<form id="submeterAcaoExtensaoForm" role="form" th:action="@{/} + ${action}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
 							<input id="acaoExtensaoId" name="id" type="hidden" th:value="${acaoExtensao.id}"/>
+							<input id="dedicacaoID" type="hidden" th:value="${dedicacao}"/>
 							<div class="box-body">
 								<div class="callout callout-danger" th:if="${message}">
 					                <h4>Atenção</h4>
@@ -133,6 +135,12 @@
 											<i class="fa fa-trash-o"></i>
 										</a>
 									</h4>
+								</div>
+								<div th:if="${action == 'cadastrar'}" class="form-group row col-md-6">
+									<input id="dedicacaoID" type="hidden" th:value="${dedicacao}"/>
+									<label for="cargaHoraria"><span>*</span>Carga Horária Semanal (hrs) do Coordenador</label>
+									<input id="cargaHoraria" type="number" name="cargaHoraria"
+										class="form-control" required="required"/>
 								</div>
 							</div>
 							

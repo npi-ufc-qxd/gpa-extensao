@@ -1,6 +1,7 @@
-$(document).ready(function(){
+$(document
+		).ready(function(){
 	
-	if($("#action").val() == "editar") {
+	if($("#action").val() != "submeter") {
 		$("#submeter-dataInicio, #submeter-dataTermino").removeAttr('required');
 		validator();
 	} else if($("#action").val() == "submeter") {
@@ -143,4 +144,11 @@ $(document).ready(function(){
 			}
 		});
     });
+    
+    var dedicacao = $("#dedicacaoID").val();
+	if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+		$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+	} else if(dedicacao == "H20") {
+		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
+	}
 });
