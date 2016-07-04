@@ -51,6 +51,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
+import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -195,12 +196,12 @@ public class ExtensaoController {
 		}
 
 		for(int i = 0; i < acao.getEquipeDeTrabalho().size(); i++){
-			if(acao.getEquipeDeTrabalho().get(i).getFuncao().toString().equals("STA") || acao.getEquipeDeTrabalho().get(i).getFuncao().toString().equals("DOCENTE")){
+			if(acao.getEquipeDeTrabalho().get(i).getFuncao() == Funcao.STA || acao.getEquipeDeTrabalho().get(i).getFuncao() == Funcao.DOCENTE){
 				possiveisCoordenadores.add(acao.getEquipeDeTrabalho().get(i).getParticipante());
 			}
 		}
 		
-		model.addAttribute("possiveisCoordenadores", possiveisCoordenadores);
+		model.addAttribute(POSSIVEIS_COORDENADORES, possiveisCoordenadores);
 		model.addAttribute(PARCEIRO, new Parceiro());
 		model.addAttribute(PARCERIA_EXTERNA, new ParceriaExterna());
 		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
@@ -249,24 +250,27 @@ public class ExtensaoController {
 	
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method=RequestMethod.POST)
 	public String salvarNovoCoordenador(@PathVariable("id") Integer id, @RequestParam("idNovoCoordenador") String idnovoCoordenador, @RequestParam("dataInicio") String dataInicio, @RequestParam("dataTermino") String dataTermino) throws ParseException{
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		Participacao participacaoCoordenador = participacaoRepository.findByParticipante(acao.getCoordenador());
-		Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipante(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
-		List<Participacao> equipeDeTrabalho = acao.getEquipeDeTrabalho();
 		
-		
-		Date dataI, dataT;
+		Date dataI;
+		Date dataT;
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		dataI = df.parse(dataInicio);
 		dataT = df.parse(dataTermino);
 		
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		
+		Participacao participacaoCoordenador = participacaoRepository.findByParticipante(acao.getCoordenador());
 		participacaoCoordenador.setDataTermino(dataI);
 		participacaoCoordenador.setCoordenador(false);
+		
+		Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipante(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
 		participacaoNovoCoordenador.setDataInicio(dataI);
 		participacaoNovoCoordenador.setDataTermino(dataT);
 		participacaoNovoCoordenador.setCoordenador(true);
 		
 		acao.setCoordenador(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
+		
+		List<Participacao> equipeDeTrabalho = acao.getEquipeDeTrabalho();
 		
 		for(int i =0; i < equipeDeTrabalho.size();i++){
 			if(equipeDeTrabalho.get(i).getId() == participacaoCoordenador.getId()){

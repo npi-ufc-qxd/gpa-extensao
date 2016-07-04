@@ -18,6 +18,7 @@ public class Constants {
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
 		
 	// Model attributes
+	public static final String POSSIVEIS_COORDENADORES = "possiveisCoordenadores";
 	public static final String PESSOA_LOGADA = "pessoaLogada";
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
