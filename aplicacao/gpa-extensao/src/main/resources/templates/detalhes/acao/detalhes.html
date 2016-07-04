@@ -55,8 +55,16 @@
 					<div id="box-details" class="box-body with-border">
 						<div class="row">
 							<div class="col-sm-6">
-								<label>Coordenador</label>
-								<div th:text="${acaoExtensao.coordenador.nome}"></div>
+								<ul class="list-inline">
+									<li>
+										<label>Coordenador</label>
+										<div th:text="${acaoExtensao.coordenador.nome}"></div>
+									</li>
+									<li>
+										<i class="fa fa-pencil-square-o" aria-hidden="true"
+								 		title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+									</li>
+								</ul>
 							</div>
 							<div class="col-sm-6">
 								<label>Status:</label>
@@ -411,6 +419,42 @@
 
 			</div>
 		</div>
+		
+		<div id="editarcoordenador" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Editar coordenador</h4>
+					</div>
+					<div class="modal-body">
+						<form action="#" th:action="@{/salvarNovoCoordenador/}+${acaoExtensao.id}" method="post">
+							<label class="col-sm-3">Novo:</label>
+							<Select class="col-sm-9 form-control" name = "idNovoCoordenador" required="required">
+								<option value="">Selecionar novo coordenador</option>
+								<option th:each="coordenador: ${possiveisCoordenadores}" th:value="${coordenador.id}" th:text="${coordenador.nome}"></option>
+							</Select>
+							
+							<label class="col-sm-3">Data de inicio:</label>
+							<input name="dataInicio" type="date" class="col-sm-3" required="required" id="dtCoordenadorInicio"/>
+							<label class="col-sm-3">Data de término:</label>
+							<input name="dataTermino" type="date" class="col-sm-3" required="required" id="dtCoordenadorTermino"/>
+							<div class="modal-footer">
+								<input type="submit" class="btn btn-success" value="Salvar"/>
+								<button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+							</div>
+							
+						</form>	
+						
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		
 		
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
