@@ -60,7 +60,6 @@ public class Constants {
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
-	public static final String PAGINA_CADASTRAR_ACAO_EXTENSAO = "coordenacao/crud/cadastrarExtensao";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
@@ -96,6 +95,7 @@ public class Constants {
 	public static final String MESSAGE_EDITADO_SUCESSO = "Editado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_EDITAR_ERROR = "Não foi possível editar!";
+	public static final String MESSAGE_SUBMETER_ERROR = "Não foi possível submeter!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
 	public static final String MESSAGE_SUBMISSAO = "Submetido com sucesso!";
 	public static final String MESSAGE_ANEXO_RESPONSE = "anexo-message";

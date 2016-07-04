@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,6 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
-
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;;
-
 
 @Service
 public class DocumentoServiceImpl implements DocumentoService{
@@ -35,18 +30,20 @@ public class DocumentoServiceImpl implements DocumentoService{
 	}
 	
 	@Override
-	public Documento save(MultipartFile arquivo) throws GpaExtensaoException {
-		Documento documento = new Documento();
-		if(!(arquivo.getOriginalFilename().toString().equals(""))){
+	public Documento save(MultipartFile arquivo, String message) throws GpaExtensaoException {
+		if(arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
+				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
 				documento.setNome(arquivo.getOriginalFilename().toString());
 				documentoRepository.save(documento);
+				
+				return documento;
 			}catch(IOException e){
-				throw new GpaExtensaoException(MESSAGE_CADASTRO_ERROR);
+				throw new GpaExtensaoException(message);
 			}
 		}
-		return documento;
+		return null;
 	}
 }
 
