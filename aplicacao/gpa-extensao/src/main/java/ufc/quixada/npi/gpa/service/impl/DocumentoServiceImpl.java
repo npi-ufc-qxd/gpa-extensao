@@ -12,10 +12,10 @@ import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 
-public class DucumentoServiceImpl implements DocumentoService{
+public class DocumentoServiceImpl implements DocumentoService{
 	
 	@Autowired
-	DocumentoRepository documentoRepository;
+	private DocumentoRepository documentoRepository;
 
 	@Override
 	public Documento save(MultipartFile arquivo) throws GpaExtensaoException {

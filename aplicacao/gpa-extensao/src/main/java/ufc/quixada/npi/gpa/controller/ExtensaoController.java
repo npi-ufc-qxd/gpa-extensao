@@ -50,6 +50,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -363,7 +364,7 @@ public class ExtensaoController {
 	
 	@RequestMapping("/submeter/{idAcao}")
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model){
-		model.addAttribute(ACTION, "submeter");
+		model.addAttribute(ACTION, SUBMETER);
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(idAcao));
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
@@ -379,7 +380,7 @@ public class ExtensaoController {
 				model.addAttribute(MESSAGE,MESSAGE_ANEXO);
 				model.addAttribute(MODALIDADES, Modalidade.values());
 				model.addAttribute(ACAO_EXTENSAO_ID, acao.getId());
-				model.addAttribute(ACTION, "submeter");
+				model.addAttribute(ACTION, SUBMETER);
 				return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
 		
@@ -393,7 +394,7 @@ public class ExtensaoController {
 	public String editar(@PathVariable("id") Integer idAcao, Model model, Authentication authentication) {
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 		
-		if(acaoExtensao.equals(null)) {
+		if(acaoExtensao == null) {
 			return PAGINA_INICIAL;
 		}
 		

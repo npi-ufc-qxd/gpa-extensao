@@ -24,10 +24,10 @@ import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 public class DocumentoController {
 	
 	@Autowired
-	AcaoExtensaoRepository acaoExtensaoRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
-	DocumentoRepository documentoRepository;
+	private DocumentoRepository documentoRepository;
 
 	@RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
 	public HttpEntity<byte[]> getArquivo(@PathVariable("id") Integer idAcao) {
