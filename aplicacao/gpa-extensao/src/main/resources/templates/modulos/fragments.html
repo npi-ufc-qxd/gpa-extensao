@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <!-- Head fragment, substitui todo o head da página -->
 <head th:fragment="head" >
@@ -39,7 +39,8 @@
 	<link rel="stylesheet" th:href="@{/css/select2.css}" />
 	<link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />
 	<!-- Bootstrap Datapicker -->
-	<link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}"></link>	
+	<link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/gpa.css}"></link>
 	
 </head>
 <!-- Fim do head -->
@@ -59,15 +60,14 @@
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
 				<!-- User Account: style can be found in dropdown.less -->
-				<li class="dropdown user user-menu"><a href="#"
-					class="dropdown-toggle" data-toggle="dropdown"> <img
-						th:src="@{/img/user2-160x160.jpg}" class="user-image"
-						alt="User Image"></img> <span class="hidden-xs">Alexander
-							Pierce</span>
-				</a></li>
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-user"></span>
+						<span class="hidden-xs" th:text="${pessoaLogada}"></span>
+					</a>
+				</li>
 				<!-- Control Sidebar Toggle Button -->
-				<li><a href="#" data-toggle="control-sidebar"><i
-						class="fa fa-gears"></i></a></li>
+				<li><a th:href="@{/logout}" title="Sair"><i class="glyphicon glyphicon-log-out"></i></a></li>
 			</ul>
 		</div>
 	</nav>
@@ -81,27 +81,34 @@
 	<!-- sidebar: style can be found in sidebar.less -->
 	<section class="sidebar">
 		<!-- sidebar menu: : style can be found in sidebar.less -->
-		<ul class="sidebar-menu">
+		<ul sec:authorize="hasAuthority('DIRECAO') OR hasAuthority('SERVIDOR')" class="sidebar-menu">
+
 			<li class="header">COORDENAÇÃO</li>
-			<li class="active"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
+			<li id="menu-item-cadastrar-acao" class="menu-item"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
-			<li><a th:href="@{/coordenacao/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
-					<span class="label label-primary pull-right">0</span>
+			<li id="menu-item-acoes-coordenacao" class="menu-item"><a th:href="@{/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+					<span class="label label-primary pull-right" th:text="${acoesCoordenadorSize}"></span>
 			</a></li>
-
+			
+		</ul>
+		<!-- /.sidebar-menu-coordenação -->
+		
+		<ul sec:authorize="hasAuthority('DIRECAO')" class="sidebar-menu">
+		
 			<li class="header">DIREÇÃO</li>
-			<li><a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+			<li id="menu-item-acoes-direcao" class="menu-item"><a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
 					<span class="label label-primary pull-right" th:text="${acoesDirecaoSize}"></span>
 			</a></li>
-			<li><a href="#"> <i class="fa fa-file-text-o"></i> <span>Relatórios</span>
+			<li id="menu-item-relatorios" class="menu-item"><a href="#"> <i class="fa fa-file-text-o"></i> <span>Relatórios</span>
 			</a></li>
-			<li><a href="#"> <i class="fa fa-users" aria-hidden="true"></i>
+			<li id="menu-item-usuarios" class="menu-item"><a href="#"> <i class="fa fa-users" aria-hidden="true"></i>
 					<span>Usuários</span> <span
 					class="label label-primary pull-right">60</span>
 			</a></li>
+			
 		</ul>
-		<!-- /.sidebar-menu -->
+		<!-- /.sidebar-menu-direção -->
 	</section>
 	<!-- /.sidebar -->
 </aside>
@@ -146,8 +153,11 @@
 	<script th:src="@{/js/moment.min.js}"></script>
 	
     <!-- Script da listagem de ações da coordenação -->
-	<script th:src="@{/js/listagem.js}"></script>
+	<script th:src="@{/gpa/coordenacao/listagem.js}"></script>
 	<script th:src="@{/js/cadastrarAcao.js}"></script>
+	
+	<!-- Script do menu lateral da página -->
+	<script th:src="@{/gpa/modulos/menu.js}"></script>
 	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>

@@ -16,13 +16,16 @@
 					<th>INSTITUIÇÃO</th>
 					<th>CARGA HORÁRIA</th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="participacao: ${participacoes}">
-					<td th:if="${participacao.nomeParticipante} == ''" th:text="${participacao.participante.nome}"></td>
+					<td th:if="${participacao.nomeParticipante == '' and participacao.participante == null}" ></td>
+					<td th:if="${participacao.nomeParticipante == '' and participacao.participante != null}" th:text="${participacao.participante.nome}"></td>
 					<td th:if="${participacao.nomeParticipante} != ''" th:text="${participacao.nomeParticipante}"></td>
-					<td th:if="${participacao.cpfParticipante} == ''" th:text="${participacao.participante.cpf}"></td>
+					<td th:if="${participacao.cpfParticipante == '' and participacao.participante == null}" ></td>
+					<td th:if="${participacao.cpfParticipante == '' and participacao.participante != null}" th:text="${participacao.participante.cpf}"></td>
 					<td th:if="${participacao.cpfParticipante} != ''" th:text="${participacao.cpfParticipante}"></td>
 					<td th:if="${participacao.funcao.name()} == 'OUTRA'" th:text="${participacao.descricaoFuncao}"></td>
 					<td th:if="${participacao.funcao.name()} != 'OUTRA'" th:text="${participacao.funcao.descricao}"></td>
@@ -35,6 +38,13 @@
 							><i class="fa fa-trash-o"></i>
 						</a>
 					</td>
+					<td th:if="${participacao.nomeParticipante} == 'a definir'" data-toogle="tooltip" title="vincular bolsista"> 
+						<a class="btn btn-info btn-xs" data-toggle="modal" 
+							data-target="#vincular-bolsista" th:attr="data-id=${participacao.id}">
+							<i class="fa fa-pencil-square-o"></i>
+						</a>
+					</td>
+					<td th:if="${participacao.nomeParticipante} != 'a definir'"></td>
 				</tr>
 			</tbody>
 		</table>

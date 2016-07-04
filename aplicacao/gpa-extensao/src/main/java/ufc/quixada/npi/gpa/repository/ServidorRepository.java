@@ -11,5 +11,5 @@ public interface ServidorRepository extends CrudRepository<Servidor, Integer>{
 
 	List<Servidor> findAll();
 	
-	Servidor getByPessoa(Pessoa pessoa);
+	Servidor findByPessoa(Pessoa pessoa);
 }

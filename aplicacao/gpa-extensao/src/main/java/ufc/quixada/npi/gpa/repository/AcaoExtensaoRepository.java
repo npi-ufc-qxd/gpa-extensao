@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
@@ -30,4 +31,11 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 	
+	List<AcaoExtensao> findByModalidadeAndStatus(Modalidade modalidade, Status status);
+	
+	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.coordenador.cpf =:cpf")
+	Integer countAcoesCoordenador(@Param("cpf") String cpf);
+	
+	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.status !=:status")
+	Integer countAcoesTramitacao(@Param("status") Status status);
 }

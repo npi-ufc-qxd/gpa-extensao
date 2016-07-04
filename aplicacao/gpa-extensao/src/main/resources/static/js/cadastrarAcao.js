@@ -1,69 +1,127 @@
 $(document).ready(function() {
-	$("#message").hide();
 	$("#cargaHorarias").hide();
-	$("#botaoCadastrar").attr("disabled","disabled");
-	
-    $('#dataInicio,#dataTermino').datepicker({
-        format: "dd/mm/yyyy",
-        maxViewMode: 2,
-        todayBtn: true,
-        language: "pt-BR",
-        autoclose: true
+	$("#cadastrarModalidadeAcaoExtensao, #cadastrarVinculoAcaoExtensao").select2();
+    $("#cadastrarDataInicio,#cadastrarDataTermino").datepicker({
+    	format : "dd/mm/yyyy",
+		todayBtn : "linked",
+		language : "pt-BR",
+		todayHighlight : true
+    }).on("changeDate",function(e){
+    	$(this).datepicker("hide");
+    	$("#formCadastrarAcaoExtensao").bootstrapValidator("revalidateField", "inicio");
     });
-    
-    var verificarData = function(Inicio,Termino){
-    	var dataInicio = new Object();
-    	var dataTermino = new Object();
-    	dataInicio.dia = +Inicio.val().substring(0,2);
-    	dataInicio.mes = +Inicio.val().substring(3,5);
-    	dataInicio.ano = +Inicio.val().substring(6);
-    	dataTermino.dia = +Termino.val().substring(0,2);
-    	dataTermino.mes = +Termino.val().substring(3,5);
-    	dataTermino.ano = +Termino.val().substring(6);
-    	
-    	if(dataTermino.ano < dataInicio.ano){
-    		return false;
-    	}else if(dataTermino.mes < dataInicio.mes){
-    		return false;
-    	}else if(dataTermino.dia < dataInicio.dia){
-    		return false;
-    	}else return true;
-	};
-	
-    $("#dataTermino").change(function() {
-    	var dataValida = verificarData($("#dataInicio"),$("#dataTermino"));
-    	if(!dataValida){
-    		$("#message").removeClass("alert alert-success alert-dismissible");
-    		$("#message").addClass("alert alert-danger alert-dismissible");
-    		$("#message").html("A data de início não pode ser posterior a data de Término.").slideDown("slow");
-    		$("#botaoCadastrar").attr("disabled",true);
-    	}else{
-    		$("#message").removeClass("alert alert-danger alert-dismissible");
-    		$("#message").addClass("alert alert-success alert-dismissible");
-    		$("#message").html("Data Válida.").slideUp("slow");
-    		$("#botaoCadastrar").attr("disabled",false);
-    	}
+    $("#formCadastrarAcaoExtensao").bootstrapValidator({
+    	excluded: [':disabled', ':hidden', ':not(:visible)'],
+    	live: 'enabled',
+        feedbackIcons: {
+            valid: false,
+        	invalid: "glyphicon"
+        },
+        fields:{
+        	titulo:{
+        		validators:{
+        			notEmpty:{
+        				message:"Campo obrigátorio"
+        			},
+        			stringLength:{
+        				min:5,
+        				message:"Mínimo 5 caracteres"
+        			}
+        		}
+        	},
+        	resumo:{
+        		validators:{
+        			notEmpty:{
+        				message:"Campo obrigátorio"
+        			},
+        			stringLength:{
+        				min:5,
+        				message:"Mínimo 5 caracteres"
+        			}
+        		}
+        	},
+        	inicio:{
+        		group:'input-group',
+        		validators: {
+        			callback: {
+                        message: "A data de início deve ser anterior à data de término",
+                        callback: function(value, validator) {
+                        	var termino = validator.getFieldElements("termino").val();
+                        	if(value != "" && termino != "") {
+                        		termino = moment(termino, "DD/MM/YYYY").format("DD/MM/YYYY");
+	                        	var inicio = moment(value, "DD/MM/YYYY").format("DD/MM/YYYY");
+	                        	if(moment(termino, "DD/MM/YYYY").isBefore(moment(inicio, "DD/MM/YYYY"))) {
+	                        		return false;
+	                        	}
+                        	}
+                        	return true;
+                        }
+                    }
+            	}
+        	},vinculo:{
+        		excluded:true
+        	},
+        	horasPraticas:{
+        		integer:{
+        			min:0,
+         		   	message: "Digite um número válido"
+         	   }
+        	},
+        	horasTeoricas:{
+        		integer:{
+        			min:0,
+         		   	message: "Digite um número válido"
+         	   	}
+        	},
+        	ementa:{
+        		validators:{
+        			notEmpty:{
+        				message:"Campo obrigátorio"
+        			},
+        			stringLength:{
+        				min:5,
+        				message:"Mínimo 5 caracteres"
+        			}
+        		}
+        	},
+        	programacao:{
+        		validators:{
+        			notEmpty:{
+        				message:"Campo obrigátorio"
+        			},
+        			stringLength:{
+        				min:5,
+        				message:"Mínimo 5 caracteres"
+        			}
+        		}
+        	}
+        }
     });
-    
-	   
 	
-	$("#modalidade").change(function(){
-			var selected = $(this).find(":selected").val();
-			if((selected === "CURSO")||(selected === "EVENTO")){
-				$("#cargaHorarias").show("slow");
-				if((selected === "CURSO")){
-					$("#ementa").show("slow");
-					$("#programacao").hide("slow");
-				}else{
-					$("#programacao").show("slow");
-					$("#ementa").hide("slow");
-				}
+	$("#cadastrarModalidadeAcaoExtensao").change(function(){
+		var selected = $(this).find(":selected").val();
+		if((selected === "CURSO")||(selected === "EVENTO")){
+			$("#cargasHorarias").show("slow");
+			if((selected === "CURSO")){
+				$("#programacaoAcaoExtensao").hide("slow");
+				$("#ementaAcaoExtensao").show("slow");
 			}else{
-				$("#horasTeoricas").val("0");
-				$("#horasPraticas").val("0");
-				$("#cargaHorarias").slideUp("slow");
+				$("#ementaAcaoExtensao").hide("slow");
+				$("#programacaoAcaoExtensao").show("slow");
 			}
+		}else{
+			$("#cadastrarHorasPraticas").val("0");
+			$("#cadastrarHorasTeoricas").val("0");
+			$("#cargasHorarias").slideUp("slow");
+			$("#ementaAcaoExtensao").hide("slow");
+			$("#programacaoAcaoExtensao").hide("slow");
+		}
 	});
 	
-	
+	var dedicacao = $("#dedicacaoID").val();
+	if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+		$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+	} else if(dedicacao == "H20") {
+		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
+	}
 });

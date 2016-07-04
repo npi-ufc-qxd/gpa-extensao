@@ -8,16 +8,16 @@ $(document).ready(function() {
 	$("#formNovaParticipacao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function() {
-		$("#formNovaParticipacao").show(1500);
+		$("#formNovaParticipacao").show("slow");
 		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
 	});
 	
 	$("#cancelarNovaParticipacao").click(function() {
-		$("#formNovaParticipacao").hide(1500);
+		$("#formNovaParticipacao").hide("slow");
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
-	$("#selectPessoa, #selectInstituicao").select2();
+	$("#selectPessoa, #selectInstituicao, #selectBolsista").select2();
 	
 	$(".funcaoOutra ,#divNomeInstituicao").hide();
 	
@@ -29,9 +29,9 @@ $(document).ready(function() {
 		if(funcao == "OUTRA") {
 			reset();
 			$("#selectPessoa").attr("selectedIndex", -1);
-			$("#divSelectPessoa").hide(1000);
+			$("#divSelectPessoa").hide("slow");
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
-			$(".funcaoOutra").show(1000);
+			$(".funcaoOutra").show("slow");
 			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "ALUNO_VOLUNTARIO") {
 			reset();
@@ -45,16 +45,16 @@ $(document).ready(function() {
 	
 	function reset() {
 		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$(".funcaoOutra").hide(1000);
-		$("#divSelectPessoa").show(1000);
+		$(".funcaoOutra").hide("slow");
+		$("#divSelectPessoa").show("slow");
 	}
 	
 	function buscaPessoas(funcao) {
 		
 		if(funcao == "ALUNO_VOLUNTARIO") {
-			var caminho = "/gpa-extensao/buscarAlunos";
+			var caminho = "/gpa-extensao/participacao/buscarAlunos";
 		} else {
-			var caminho = "/gpa-extensao/buscarServidores";
+			var caminho = "/gpa-extensao/participacao/buscarServidores";
 		}
 		
 		$.ajax({
@@ -83,9 +83,9 @@ $(document).ready(function() {
 	$("#selectInstituicao").change(function() {
 		var instituicao = $("#selectInstituicao").val();
 		if(instituicao != "UFC") {
-			$("#divNomeInstituicao").attr('required', 'required').show(1000);
+			$("#divNomeInstituicao").attr('required', 'required').show("slow");
 		} else {
-			$("#divNomeInstituicao").removeAttr('required').hide(1000);
+			$("#divNomeInstituicao").removeAttr('required').hide("slow");
 			$("#nomeInstituicao").val(null);
 		}
 	});
@@ -145,7 +145,7 @@ $(document).ready(function() {
 	})
 	.on('success.form.bv', function(e) {
 		 e.preventDefault();
-         var baseURL = '/gpa-extensao/participacoes/';
+         var baseURL = '/gpa-extensao/participacao/cadastrar/';
          $.ajax({
  			url : baseURL + acaoExtensaoId,
  			beforeSend: function (request)
@@ -168,7 +168,6 @@ $(document).ready(function() {
  				}else{
  					for (var i = 0; i < result.result.length; i++) {
  						var alertDiv = $("#divError");
- 						console.log(result.result[i].code)
  						alertDiv.append("<p>"+result.result[i].code+"</p>");
  						alertDiv.show();
  				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
@@ -181,14 +180,15 @@ $(document).ready(function() {
      });
 	
 	function carregarTabelaParticipacoes() {
-		 var url = "/gpa-extensao/buscarParticipacoes/" + acaoExtensaoId;
+		 var url = "/gpa-extensao/participacao/buscarParticipacoes/" + acaoExtensaoId;
 		 $("#resultsBlock").load(url, function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "dt-center", "targets": [1, 4, 5]},            
+					    {className: "dt-center", "targets": [1, 4, 5, 6]},            
 				        {"targets" : 4, "orderable" : false},
 				        {"targets" : 5, "orderable" : false},
+				        {"targets" : 6, "orderable" : false},
 				        { "width": "15%", "targets":4 },
 					],
 					"language": {
@@ -210,7 +210,7 @@ $(document).ready(function() {
 		var participacaoId = $("#deleteParticipacaoHiddenId").val();
 	    $("#confirm-delete-participacao").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/excluir/participacao/'+ participacaoId,
+			url : '/gpa-extensao/participacao/excluir/'+ participacaoId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
@@ -219,5 +219,66 @@ $(document).ready(function() {
 			async: false,
 		});
 		carregarTabelaParticipacoes();
+	});
+	
+	$("#vincular-bolsista").on("show.bs.modal", function(e) {
+		$("#participacaoHiddenId").val($(e.relatedTarget).data("id"));
+		var caminho = "/gpa-extensao/participacao/buscarAlunos";
+		$.ajax({
+			type:"GET",
+			 beforeSend: function (request)
+	         {
+	                request.setRequestHeader(header, token);
+	            },
+			url: caminho,
+			contentType: 'application/json',
+			success : function(data) {
+				$('#selectBolsista').empty();
+				for (var i = 0; i < data.length; i++) {
+					var newOption = $('<option value=' + data[i].pessoa.id + '>'
+							+ data[i].pessoa.nome
+							+ '</option>');
+					$('#selectBolsista').append(newOption);
+				}
+			}
+		});
+	});
+	
+	$("#vincularBolsistaHiddenBtn").click(function(e) {
+		e.preventDefault();
+        var baseURL = '/gpa-extensao/participacao/vincularBolsistas/';
+        var idParticipacao = $("#participacaoHiddenId").val();
+        var idAluno = $("#selectBolsista").val();
+        $("#vincular-bolsista").modal('hide');
+        $.ajax({
+			url : baseURL + idParticipacao + "/" + idAluno,
+			beforeSend: function (request)
+		    {
+				 request.setRequestHeader(header, token);
+		    },
+			type : 'POST',
+			async: false,
+			error: function(){
+		        return false;
+		    },
+			success : function(result) {
+				if(result.status=="OK"){
+					console.log(result);
+					var alertDiv = $("#divSucesso");
+					alertDiv.show();
+					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					carregarTabelaParticipacoes();
+				}else{
+					for (var i = 0; i < result.result.length; i++) {
+						var alertDiv = $("#divError");
+						console.log(result);
+						alertDiv.append("<p>"+result.result[i].code+"</p>");
+						alertDiv.show();
+				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+					}
+					return false;
+				}
+			}
+		});
 	});
 });
