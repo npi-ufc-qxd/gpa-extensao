@@ -45,8 +45,10 @@
 		</dl>
 		<dl class="dl-horizontal">
 			<dt>Arquivo:</dt>
-			<dd
-				th:text="${acaoExtensao.parecerTecnico.arquivo} ? ${acaoExtensao.parecerTecnico.arquivo.nome} : '-'"></dd>
+			<dd><div th:if="${ acaoExtensao.parecerTecnico.arquivo != null}">
+					<a th:href="@{/documento/download/} + ${acaoExtensao.parecerTecnico.arquivo.id}" th:text="${acaoExtensao.parecerTecnico.arquivo.nome}"></a></div>
+				<div th:if="${ acaoExtensao.parecerTecnico.arquivo == null}" th:text="'-'"></div>	
+			</dd>
 		</dl>
 	</div>
 
@@ -167,8 +169,10 @@
 		</dl>
 		<dl class="dl-horizontal">
 			<dt>Arquivo:</dt>
-			<dd
-				th:text="${acaoExtensao.parecerRelator.arquivo} ? ${acaoExtensao.parecerRelator.arquivo} : '-'"></dd>
+			<dd><div th:if="${ acaoExtensao.parecerRelator.arquivo != null}">
+					<a th:href="@{/documento/download/} + ${acaoExtensao.parecerRelator.arquivo.id}" th:text="${acaoExtensao.parecerRelator.arquivo.nome}"></a></div>
+				<div th:if="${ acaoExtensao.parecerRelator.arquivo == null}" th:text="'-'"></div>		
+			</dd>
 		</dl>
 	</div>
 	

@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,12 +48,15 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		Participacao participante = new Participacao();
 		Servidor servidor = new Servidor();
 		List<Participacao> equipeDeTrabalho = new ArrayList<Participacao>();
+		String data = String.valueOf(System.currentTimeMillis());
 		
 		if(!(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
 				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
+				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acaoExtensao.getCodigo() + "/" + documento.getNome());
+				
 				documentoRepository.save(documento);
 				acaoExtensao.setAnexo(documento);
 			}catch(IOException e){
@@ -118,12 +122,14 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	@Override
 	public void emitirParecerRelator(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		String data = String.valueOf(System.currentTimeMillis());
 		
 		if(! (arquivo.getOriginalFilename().toString().equals(""))){
 			try {
 				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
+				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acao.getCodigo() + "/" + documento.getNome());
 				
 				documentoRepository.save(documento);
 				acao.getParecerRelator().setArquivo(documento);
@@ -150,12 +156,14 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	@Override
 	public void emitirParecerTecnico(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		String data = String.valueOf(System.currentTimeMillis()); 
 		
 		if(! (arquivo.getOriginalFilename().toString().equals(""))){
 			try {
 				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
+				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acao.getCodigo() + "/"  + documento.getNome());
 				
 				documentoRepository.save(documento);
 				acao.getParecerTecnico().setArquivo(documento);
