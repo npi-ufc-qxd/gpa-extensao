@@ -384,7 +384,12 @@ public class ExtensaoController {
 				return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
 		
-		acaoExtensaoService.submeterAcaoExtensao(acao, arquivo);
+		try {
+			acaoExtensaoService.submeterAcaoExtensao(acao, arquivo);
+		} catch (GpaExtensaoException e) {
+			model.addAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		}
 		
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_INICIAL;

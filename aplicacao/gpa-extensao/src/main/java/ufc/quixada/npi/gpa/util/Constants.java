@@ -95,6 +95,7 @@ public class Constants {
 	public static final String MESSAGE_EDITADO_SUCESSO = "Editado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
 	public static final String MESSAGE_EDITAR_ERROR = "Não foi possível editar!";
+	public static final String MESSAGE_SUBMETER_ERROR = "Não foi possível submeter!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
 	public static final String MESSAGE_SUBMISSAO = "Submetido com sucesso!";
 	public static final String MESSAGE_ANEXO_RESPONSE = "anexo-message";

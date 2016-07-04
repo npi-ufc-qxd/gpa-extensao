@@ -3,7 +3,6 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 
-import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.DocumentoRepository;
+import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParecerService;
 
 @Service
@@ -24,9 +23,9 @@ public class ParecerServiceImpl implements ParecerService {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-
+	
 	@Autowired
-	private DocumentoRepository documentoRepository;
+	private DocumentoService documentoService;
 
 	@Override
 	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
@@ -91,7 +90,7 @@ public class ParecerServiceImpl implements ParecerService {
 
 		if (acao != null) {
 
-			Documento documento = salvarDocumento(arquivo);
+			Documento documento = documentoService.save(arquivo, EXCEPTION_RELATORIO);
 
 			switch (acao.getStatus()) {
 			case AGUARDANDO_PARECER_TECNICO:
@@ -122,23 +121,4 @@ public class ParecerServiceImpl implements ParecerService {
 			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
 		}
 	}
-
-	private Documento salvarDocumento(MultipartFile arquivo) throws GpaExtensaoException {
-		try {
-			if (!(arquivo.getOriginalFilename().toString().equals(""))) {
-				Documento documento = new Documento();
-				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(arquivo.getOriginalFilename().toString());
-
-				documentoRepository.save(documento);
-
-				return documento;
-			}
-		} catch (IOException e) {
-			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
-		}
-
-		return null;
-	}
-
 }
