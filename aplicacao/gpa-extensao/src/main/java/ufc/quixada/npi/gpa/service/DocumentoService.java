@@ -7,5 +7,5 @@ import ufc.quixada.npi.gpa.model.Documento;
 
 public interface DocumentoService {
 
-	Documento save(MultipartFile arquivo) throws GpaExtensaoException;
+	Documento save(MultipartFile arquivo, String message) throws GpaExtensaoException;
 }
