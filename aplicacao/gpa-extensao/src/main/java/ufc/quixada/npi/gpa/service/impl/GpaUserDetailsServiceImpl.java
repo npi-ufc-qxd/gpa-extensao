@@ -19,7 +19,7 @@ public class GpaUserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Pessoa pessoa = pessoaRepository.getByCpf(username);
+		Pessoa pessoa = pessoaRepository.findByCpf(username);
 
 		if (pessoa == null) {
 			throw new UsernameNotFoundException(USUARIO_NAO_ENCONTRADO_EXCEPTION);
