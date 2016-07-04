@@ -434,7 +434,8 @@ public class ExtensaoController {
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
-			e.printStackTrace();
+			model.addAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 		
 		redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
