@@ -253,26 +253,11 @@
       				<!-- Parecer técnico -->
 					<div class="col-md-6 col-xs-12">
 						<div class="box box-primary">
+						
 							<div class="box-header with-border">
 								<h3 class="box-title">Parecer Técnico</h3>
-								<div th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})"
-									id="parecer-tecnico-acoes" class="box-tools pull-right dropdown">
-									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" aria-expanded="false">
-										<i class="glyphicon glyphicon-menu-hamburger"></i>
-									</a>
-									<ul class="dropdown-menu">
-										<li sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}">
-											<a  id="alterar-parecerista-button" href="#parecer-tecnico-form">Alterar parecerista</a>
-										</li>
-										<li th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
-											<a th:id="pendencias-parecer-button" href="#pendencias-parecer-form">Solicitar resolução de pendências</a>
-										</li>
-										<li th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}">
-											<a id="emitir-parecer-button" href="#emitir-parecer-form">Emitir parecer</a>
-										</li>
-									</ul>
-								</div>
-							</div>
+							</div><!-- Box header -->
+							
 							<div class="box-body">
 								<div th:if="${acaoExtensao.parecerTecnico == null}">
 									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
@@ -281,6 +266,21 @@
 									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-tecnico"></div>
 								</div>
 							</div><!-- Box body -->
+							
+							<div id="parecer-tecnico-acoes" class="box-footer with-border"
+								 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
+								
+								<div class="btn-group pull-right">
+										<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
+											id="alterar-parecerista-button" class="btn btn-warning btn-flat" href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar parecerista</a>
+										
+										<a 	th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
+											th:id="pendencias-parecer-button" class="btn btn-warning btn-flat" href="#pendencias-parecer-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
+										
+										<a 	th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
+											id="emitir-parecer-button" class="btn btn-success btn-flat" href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir parecer</a>
+								</div>
+							</div><!-- Box footer -->
 						</div><!-- Box parecer técnico -->
 					</div><!-- Parecer técnico -->
 
@@ -290,24 +290,8 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Parecer do Relator</h3>
-                                <div th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})"
-									id="parecer-relator-acoes" class="box-tools pull-right dropdown">
-									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" aria-expanded="false">
-										<i class="glyphicon glyphicon-menu-hamburger"></i>
-									</a>
-									<ul class="dropdown-menu">
-										<li sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}">
-											<a  id="alterar-relator-button" href="#parecer-relator-form">Alterar relator</a>
-										</li>
-										<li th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
-											<a id="pendencias-relato-button" href="#pendencias-relato-form">Solicitar resolução de pendências</a>
-										</li>
-										<li th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}">
-											<a id="emitir-relato-button" href="#emitir-relato-form">Emitir parecer</a>
-										</li>
-									</ul>
-								</div>
                             </div>
+                            
                             <div class="box-body">
                             	<div th:if="${acaoExtensao.parecerRelator == null}">
                         			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
@@ -316,6 +300,22 @@
                         			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator"></div>
                         		</div>
                             </div><!-- Box body -->
+                            
+                            <div id="parecer-relator-acoes" class="box-footer with-border"
+                            	 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
+									
+								<div class="btn-group pull-right">
+									<a  sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
+										id="alterar-relator-button" class="btn btn-warning btn-flat" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>
+									
+									<a  th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
+										id="pendencias-relato-button" class="btn btn-warning btn-flat" href="#pendencias-relato-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
+									
+									<a  th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
+										id="emitir-relato-button" class="btn btn-success btn-flat" href="#emitir-relato-form" title="Emitir o parecer da ação">Emitir parecer</a>
+								</div>
+									
+                            </div><!-- Box footer -->
                         </div>
                     </div><!-- Parecer do relator -->
                 </div>
