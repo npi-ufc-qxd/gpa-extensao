@@ -9,8 +9,6 @@ $(document).ready(function(){
         $("#input-codigo").show();
         $("#codigo-acao").hide();
         $("#editar-codigo").hide();
-
-        
     });
 	
 	$("#editar-bolsas").click(function(){

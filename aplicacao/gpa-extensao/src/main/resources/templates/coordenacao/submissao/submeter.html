@@ -126,10 +126,9 @@
 								</div>
 								<div class="form-group">
 									<label for="submeter-anexoAcaoExtensao">Anexo</label>
-									<input th:if="${acaoExtensao.anexo} == null" name="anexoAcao" type="file"/>
+									<input id="anexoAcao" th:if="${acaoExtensao.anexo} == null" name="anexoAcao" class="file" type="file"/>
 									<h4 th:if="${acaoExtensao.anexo} != null">
 										<a th:text="${acaoExtensao.anexo.nome}" th:href="@{/documento/download/} + ${acaoExtensao.id}"></a>
-										<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" type="hidden"/>
 										<a id="excluirArquivo" class="btn btn-danger btn-xs"
 											data-toogle="tooltip" title="excluir arquivo">
 											<i class="fa fa-trash-o"></i>

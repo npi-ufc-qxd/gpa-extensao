@@ -8,6 +8,14 @@ $(document).ready(function(){
 		height: "250px"
 	});
 	
+	$("#arquivo-parecerista").fileinput({
+		'showUpload':false
+	});
+	
+	$("#arquivo-relator").fileinput({
+		'showUpload':false
+	});
+	
 	$(".prazo-parecer").datepicker({
 	    format: "dd/mm/yyyy",
 	    startDate: "+1d",

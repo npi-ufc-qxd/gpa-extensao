@@ -82,6 +82,7 @@ public class Constants {
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
+	public static final String EXCEPTION_PARECERISTA_DA_EQUIPE = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	
 	
 	//Mensagens
