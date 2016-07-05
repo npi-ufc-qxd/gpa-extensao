@@ -2,8 +2,11 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITAR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMETER_ERROR;
+
+import java.io.IOException;
 
 import javax.inject.Named;
 
@@ -15,6 +18,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 
@@ -26,12 +30,27 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	
 	@Autowired
 	private DocumentoService documentoService;
+	
+	@Autowired 
+	private DocumentoRepository documentoRepository;
 		
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-		
-		Documento documento = documentoService.save(arquivo, MESSAGE_CADASTRO_ERROR);
-		acaoExtensao.setAnexo(documento);
+
+		String data = String.valueOf(System.currentTimeMillis());
+		if(!(arquivo.getOriginalFilename().toString().equals(""))){
+			try{
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acaoExtensao.getCodigo() + "/" + documento.getNome());
+				
+				documentoRepository.save(documento);
+				acaoExtensao.setAnexo(documento);
+			}catch(IOException e){
+				throw new GpaExtensaoException(MESSAGE_CADASTRO_ERROR);
+			}
+		}
 			
 		acaoExtensao.setStatus(Status.NOVO);
 		acaoExtensaoRepository.save(acaoExtensao);
@@ -98,8 +117,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 		}
 	}
-	
-	
 	
 	private String completeToLeft(String value, char c, int size) {
 		String result = value;

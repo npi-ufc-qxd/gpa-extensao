@@ -3,7 +3,9 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_PARECERISTA_DA_EQUIPE;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
+import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParecerService;
 
@@ -26,7 +29,7 @@ public class ParecerServiceImpl implements ParecerService {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
-	private DocumentoService documentoService;
+	private DocumentoRepository documentoRepository;
 
 	@Override
 	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
@@ -98,7 +101,7 @@ public class ParecerServiceImpl implements ParecerService {
 
 		if (acao != null) {
 
-			Documento documento = documentoService.save(arquivo, EXCEPTION_RELATORIO);
+			Documento documento = salvarDocumento(arquivo, acao);
 
 			switch (acao.getStatus()) {
 			case AGUARDANDO_PARECER_TECNICO:
@@ -128,5 +131,26 @@ public class ParecerServiceImpl implements ParecerService {
 		} else {
 			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
 		}
+	}
+
+	private Documento salvarDocumento(MultipartFile arquivo, AcaoExtensao acao) throws GpaExtensaoException {
+		try {
+			if (!(arquivo.getOriginalFilename().toString().equals(""))) {
+				String data = String.valueOf(System.currentTimeMillis()); 
+				
+				Documento documento = new Documento();
+				documento.setArquivo(arquivo.getBytes());
+				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acao.getCodigo() + "/"  + documento.getNome());
+
+				documentoRepository.save(documento);
+
+				return documento;
+			}
+		} catch (IOException e) {
+			throw new GpaExtensaoException(EXCEPTION_RELATORIO);
+		}
+
+		return null;
 	}
 }

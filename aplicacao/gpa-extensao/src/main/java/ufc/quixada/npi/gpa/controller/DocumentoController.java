@@ -2,7 +2,7 @@ package ufc.quixada.npi.gpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -14,33 +14,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.DownloadDocumento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
-
+import ufc.quixada.npi.gpa.service.impl.DocumentoServiceImpl;
 
 @Controller
 @Transactional
-@RequestMapping("/documento")
+@RequestMapping("documento")
 public class DocumentoController {
+	
+	@Autowired
+	private DocumentoServiceImpl documentoServiceImpl;
 	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
 	private DocumentoRepository documentoRepository;
-
-	@RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
-	public HttpEntity<byte[]> getArquivo(@PathVariable("id") Integer idAcao) {
-
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		Documento documento = acao.getAnexo();
-		byte[] arquivo = documento.getArquivo();
+	
+	@RequestMapping(value="/download/{id-arquivo}", method = RequestMethod.GET)
+	public HttpEntity<?> downloadArquivo(@PathVariable("id-arquivo") Integer idArquivo){
 		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Disposition", "attachment; filename=" + documento.getNome().replace(" ", "_"));
-		headers.setContentLength(arquivo.length);
-
-		return new HttpEntity<byte[]>(arquivo, headers);
+		Documento documento = documentoServiceImpl.getDocumento(idArquivo);
+		byte[] arquivo = documentoServiceImpl.getArquivo(documento);
+		return new DownloadDocumento(arquivo, documento.getNome());
 	}
 	
 	@RequestMapping(value = "/excluir/{id}", method = RequestMethod.POST)

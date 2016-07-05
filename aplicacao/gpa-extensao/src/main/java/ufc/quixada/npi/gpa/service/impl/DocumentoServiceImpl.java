@@ -13,10 +13,22 @@ import ufc.quixada.npi.gpa.service.DocumentoService;
 
 @Service
 public class DocumentoServiceImpl implements DocumentoService{
-	
+
 	@Autowired
 	private DocumentoRepository documentoRepository;
+	
+	@Override
+	public Documento getDocumento(Integer idDocumento) {
+		
+		Documento documento = documentoRepository.findOne(idDocumento);
+		return documento;
+	}
 
+	@Override
+	public byte[] getArquivo(Documento documento) {
+		return documento.getArquivo();
+	}
+	
 	@Override
 	public Documento save(MultipartFile arquivo, String message) throws GpaExtensaoException {
 		if(arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))){
@@ -33,5 +45,5 @@ public class DocumentoServiceImpl implements DocumentoService{
 		}
 		return null;
 	}
-
 }
+
