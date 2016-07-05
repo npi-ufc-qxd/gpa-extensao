@@ -20,5 +20,12 @@ $(document).ready(function(){
 
 	});
 	
+	 $('#dtCoordenadorInicio').datepicker({
+         format: "dd/mm/yyyy"
+     }); 
+	 $('#dtCoordenadorTermino').datepicker({
+         format: "dd/mm/yyyy"
+     });  
+	
 	
 });

@@ -18,6 +18,7 @@ public class Constants {
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
 		
 	// Model attributes
+	public static final String POSSIVEIS_COORDENADORES = "possiveisCoordenadores";
 	public static final String PESSOA_LOGADA = "pessoaLogada";
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
@@ -42,6 +43,8 @@ public class Constants {
 	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
+	public static final String ACTION = "action";
+	public static final String SUBMETER = "submeter";
 
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
@@ -58,7 +61,6 @@ public class Constants {
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
-	public static final String PAGINA_CADASTRAR_ACAO_EXTENSAO = "coordenacao/crud/cadastrarExtensao";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
 	public static final String PAGINA_ADICIONAR_PARTICIPACAO = "coordenacao/crud/adicionar-participacao";
 	public static final String PAGINA_DETALHES_ACAO_EXTENSAO = "detalhes/acao/detalhes";
@@ -90,7 +92,10 @@ public class Constants {
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
+	public static final String MESSAGE_EDITADO_SUCESSO = "Editado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
+	public static final String MESSAGE_EDITAR_ERROR = "Não foi possível editar!";
+	public static final String MESSAGE_SUBMETER_ERROR = "Não foi possível submeter!";
 	public static final String MESSAGE_STATUS_RESPONSE = "status";
 	public static final String MESSAGE_SUBMISSAO = "Submetido com sucesso!";
 	public static final String MESSAGE_ANEXO_RESPONSE = "anexo-message";

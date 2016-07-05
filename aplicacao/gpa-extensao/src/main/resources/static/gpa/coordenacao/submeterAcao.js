@@ -1,4 +1,96 @@
-$(document).ready(function(){
+$(document
+		).ready(function(){
+	
+	if($("#action").val() != "submeter") {
+		$("#submeter-dataInicio, #submeter-dataTermino").removeAttr('required');
+		validator();
+	} else if($("#action").val() == "submeter") {
+		validator();
+	}
+	
+	function validator() {
+		$("#submeterAcaoExtensaoForm").bootstrapValidator({
+	        feedbackIcons: {
+	            valid: false,
+	        	invalid: "glyphicon"
+	        },
+	        fields:{
+	        	titulo:{
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			stringLength:{
+	        				min:5,
+	        				message:"Mínimo 5 caracteres"
+	        			}
+	        		}
+	        	},
+	        	resumo:{
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			stringLength:{
+	        				min:5,
+	        				message:"Mínimo 5 caracteres"
+	        			}
+	        		}
+	        	},
+	        	inicio:{
+	        		validators: {
+	            		callback: {
+	                        message: "A data de início deve ser anterior à data de término",
+	                        callback: function(value, validator) {
+	                        	var termino = validator.getFieldElements("termino").val();
+	                        	if(value != "" && termino != "") {
+	                        		termino = moment(termino, "DD/MM/YYYY").format("DD/MM/YYYY");
+		                        	var inicio = moment(value, "DD/MM/YYYY").format("DD/MM/YYYY");
+		                        	if(moment(termino, "DD/MM/YYYY").isBefore(moment(inicio, "DD/MM/YYYY"))) {
+		                        		return false;
+		                        	}
+	                        	}
+	                        	return true;
+	                        }
+	                    }
+	            	}
+	        	},
+	        	horasPraticas:{
+	        		integer:{
+	         		   message: "Digite um número válido"
+	         	   }
+	        	},
+	        	horasTeoricas:{
+	        		integer:{
+	         		   message: "Digite um número válido"
+	         	   }
+	        	},
+	        	ementa:{
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			stringLength:{
+	        				min:5,
+	        				message:"Mínimo 5 caracteres"
+	        			}
+	        		}
+	        	},
+	        	programacao:{
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			stringLength:{
+	        				min:5,
+	        				message:"Mínimo 5 caracteres"
+	        			}
+	        		}
+	        	}
+	        }
+	    });
+	}
+
 	checkForm();
 	$("#submeter-dataInicio,#submeter-dataTermino").datepicker({
         format: "dd/mm/yyyy",
@@ -11,86 +103,6 @@ $(document).ready(function(){
     	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "inicio");
     });;
     
-    $("#submeterAcaoExtensaoForm").bootstrapValidator({
-        feedbackIcons: {
-            valid: false,
-        	invalid: "glyphicon"
-        },
-        fields:{
-        	titulo:{
-        		validators:{
-        			notEmpty:{
-        				message:"Campo obrigátorio"
-        			},
-        			stringLength:{
-        				min:5,
-        				message:"Mínimo 5 caracteres"
-        			}
-        		}
-        	},
-        	resumo:{
-        		validators:{
-        			notEmpty:{
-        				message:"Campo obrigátorio"
-        			},
-        			stringLength:{
-        				min:5,
-        				message:"Mínimo 5 caracteres"
-        			}
-        		}
-        	},
-        	inicio:{
-        		validators: {
-            		callback: {
-                        message: "A data de início deve ser anterior à data de término",
-                        callback: function(value, validator) {
-                        	var termino = validator.getFieldElements("termino").val();
-                        	if(value != "" && termino != "") {
-                        		termino = moment(termino, "DD/MM/YYYY").format("DD/MM/YYYY");
-	                        	var inicio = moment(value, "DD/MM/YYYY").format("DD/MM/YYYY");
-	                        	if(moment(termino, "DD/MM/YYYY").isBefore(moment(inicio, "DD/MM/YYYY"))) {
-	                        		return false;
-	                        	}
-                        	}
-                        	return true;
-                        }
-                    }
-            	}
-        	},
-        	horasPraticas:{
-        		integer:{
-         		   message: "Digite um número válido"
-         	   }
-        	},
-        	horasTeoricas:{
-        		integer:{
-         		   message: "Digite um número válido"
-         	   }
-        	},
-        	ementa:{
-        		validators:{
-        			notEmpty:{
-        				message:"Campo obrigátorio"
-        			},
-        			stringLength:{
-        				min:5,
-        				message:"Mínimo 5 caracteres"
-        			}
-        		}
-        	},
-        	programacao:{
-        		validators:{
-        			notEmpty:{
-        				message:"Campo obrigátorio"
-        			},
-        			stringLength:{
-        				min:5,
-        				message:"Mínimo 5 caracteres"
-        			}
-        		}
-        	}
-        }
-    });
     $("#submeter-modalidadeAcaoExtensao").on('change',function(){
     	checkForm();
     });
@@ -107,13 +119,36 @@ $(document).ready(function(){
 				$("#ementaAcaoExtensao").hide("slow");
 				$("#submeter-ementaAcaoExtensao").val("");
 			}
-		}else{
-			$("#submeter-horasPraticas").val(0);
-			$("#submeter-horasTeoricas").val(0);
+		} else {
 			$("#submeter-cargasHorarias").hide();
 			$("#ementaAcaoExtensao").hide();
 			$("#programacaoAcaoExtensao").hide();
 		}
 		return false;
     };
+    
+    $("#excluirArquivo").click(function(e) {
+    	e.preventDefault();
+    	var token = $("meta[name='_csrf']").attr("content");
+    	var header = $("meta[name='_csrf_header']").attr("content");
+    	idAcao = $("#acaoExtensaoId").val();
+    	$.ajax({
+			url : '/gpa-extensao/documento/excluir/'+ idAcao,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+			type : 'POST',
+			success: function(result) {
+				location.reload();
+			}
+		});
+    });
+    
+    var dedicacao = $("#dedicacaoID").val();
+	if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+		$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+	} else if(dedicacao == "H20") {
+		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
+	}
 });
