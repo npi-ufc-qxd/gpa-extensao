@@ -110,8 +110,4 @@ public class Constants {
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 	
-	/* Arquivos */
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/cayk.barreto/gpa-extensao-uploads";
-
-
 }

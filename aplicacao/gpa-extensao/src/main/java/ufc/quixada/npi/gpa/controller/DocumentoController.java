@@ -2,7 +2,6 @@ package ufc.quixada.npi.gpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -17,7 +16,7 @@ import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.DownloadDocumento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
-import ufc.quixada.npi.gpa.service.impl.DocumentoServiceImpl;
+import ufc.quixada.npi.gpa.service.DocumentoService;
 
 @Controller
 @Transactional
@@ -25,7 +24,7 @@ import ufc.quixada.npi.gpa.service.impl.DocumentoServiceImpl;
 public class DocumentoController {
 	
 	@Autowired
-	private DocumentoServiceImpl documentoServiceImpl;
+	private DocumentoService documentoService;
 	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
@@ -36,8 +35,8 @@ public class DocumentoController {
 	@RequestMapping(value="/download/{id-arquivo}", method = RequestMethod.GET)
 	public HttpEntity<?> downloadArquivo(@PathVariable("id-arquivo") Integer idArquivo){
 		
-		Documento documento = documentoServiceImpl.getDocumento(idArquivo);
-		byte[] arquivo = documentoServiceImpl.getArquivo(documento);
+		Documento documento = documentoService.getDocumento(idArquivo);
+		byte[] arquivo = documentoService.getArquivo(documento);
 		return new DownloadDocumento(arquivo, documento.getNome());
 	}
 	
