@@ -67,6 +67,7 @@ $(document).ready(function() {
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectPessoa').empty();
+				$("#select2-chosen-2").html("A Selecionar...");
 				var newOption = $('<option value="" selected="selected">A Selecionar...</option>');
 				$('#selectPessoa').append(newOption);
 				for (var i = 0; i < data.length; i++) {
