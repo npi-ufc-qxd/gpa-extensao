@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_PARECERISTA_DA_EQUIPE;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
 
@@ -34,12 +35,16 @@ public class ParecerServiceImpl implements ParecerService {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		acao.setParecerTecnico(acaoExtensao.getParecerTecnico());
 
-		if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)
+		if(acao.getEquipeDeTrabalho().contains(acaoExtensao.getParecerTecnico().getResponsavel())){
+			throw new GpaExtensaoException(EXCEPTION_PARECERISTA_DA_EQUIPE);
+			
+		}else if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
 			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
 			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
 			acaoExtensaoRepository.save(acao);
+			
 		} else {
 			throw new GpaExtensaoException(EXCEPTION_ATRIBUIR_PARECERISTA);
 		}
@@ -51,7 +56,10 @@ public class ParecerServiceImpl implements ParecerService {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		acao.setParecerRelator(acaoExtensao.getParecerRelator());
 
-		if (acao.getStatus().equals(Status.AGUARDANDO_RELATOR)
+		if(acao.getEquipeDeTrabalho().contains(acaoExtensao.getParecerRelator().getResponsavel())){
+			throw new GpaExtensaoException(EXCEPTION_PARECERISTA_DA_EQUIPE);
+			
+		}else if (acao.getStatus().equals(Status.AGUARDANDO_RELATOR)
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)) {
 			acao.getParecerRelator().setDataAtribuicao(new Date());
 
