@@ -95,7 +95,6 @@ $(document
 	$("#sandbox-container .input-group.date").datepicker({
 	    format: "dd/mm/yyyy",
 	    maxViewMode: 2,
-	    todayBtn: true,
 	    language: "pt-BR",
 	    autoclose: true,
 	    todayHighlight: true
