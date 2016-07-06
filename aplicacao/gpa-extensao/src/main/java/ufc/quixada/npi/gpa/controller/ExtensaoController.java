@@ -247,11 +247,15 @@ public class ExtensaoController {
 		
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		
-		Participacao participacaoCoordenador = participacaoRepository.findByParticipante(acao.getCoordenador());
+		Pessoa coordenadorAntigo = acao.getCoordenador();
+		
+		Participacao participacaoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(coordenadorAntigo, acao);
 		participacaoCoordenador.setDataTermino(dataI);
 		participacaoCoordenador.setCoordenador(false);
 		
-		Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipante(pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador)));
+		Pessoa coordenador = pessoaRepository.findOne(Integer.parseInt(idnovoCoordenador));
+		
+		Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(coordenador, acao);
 		participacaoNovoCoordenador.setDataInicio(dataI);
 		participacaoNovoCoordenador.setDataTermino(dataT);
 		participacaoNovoCoordenador.setCoordenador(true);

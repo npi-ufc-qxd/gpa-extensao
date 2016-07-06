@@ -153,7 +153,7 @@ $(document
 		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
 	}
 	
-	$("#anexoAcao,#submeter-anexoAcaoExtensao").fileinput({
+	$("#anexoAcao").fileinput({
 		'showUpload':false
 	});
 });
