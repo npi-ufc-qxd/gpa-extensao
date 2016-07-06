@@ -19,7 +19,7 @@
 						<div class="box-header with-border">
 							<h3 th:if="${action == 'submeter'}" class="box-title">Submeter Ação Extensão</h3>
 							<h3 th:if="${action == 'editar'}" class="box-title">Editar Ação Extensão</h3>
-							<h3 th:if="${action == 'cadastrar'}" class="box-title">Editar Ação Extensão</h3>
+							<h3 th:if="${action == 'cadastrar'}" class="box-title">Cadastrar Ação Extensão</h3>
 							<input id="action" type="hidden" th:value="${action}"/>
 						</div>
 						
@@ -42,7 +42,7 @@
 								
 								<div class="form-group">
 									<label>Resumo</label>
-									<textarea class="form-control" id="submeter-resumoAcaoExtensao" th:field="${acaoExtensao.resumo}" name="resumo" required="required"></textarea>
+									<textarea class="form-control" id="submeter-resumoAcaoExtensao" th:field="${acaoExtensao.resumo}" name="resumo" required="required" style="resize: none;"></textarea>
 								</div>
 								
 								<label>Data</label>
@@ -75,7 +75,8 @@
                                     </select>
                                 </div>
 								
-								<div class="form-group col-lg-6">
+								<div class="form-group row">
+									<div class="col-lg-6">
 									<label>Prorrogável?</label>
 									<br/>
 									<label class="radio-inline col-xs-5">
@@ -86,13 +87,14 @@
 										<input type="radio" th:field="${acaoExtensao.prorrogavel}" th:checked="*{prorrogavel == false}" value="false"/>
 											NÃO
 									</label>
-								</div>
-								<div class="form-group col-lg-6">
+									</div>
+									<div class="col-lg-6">
 									<label>*Modalidade</label>
 									<br/>
 									<select class="form-control" id="submeter-modalidadeAcaoExtensao" th:field="${acaoExtensao.modalidade}" name="modalidade" required="required">
 										<option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
 									</select>
+									</div>
 								</div>
 								
 								<div id="submeter-cargasHorarias">
@@ -146,7 +148,7 @@
 							</div>
 							
 							<div class="box-footer">
-								<button id="submeterAcaoExtensao" type="submit" class="btn btn-primary" th:text="${action}" >Submeter</button>
+								<button id="submeterAcaoExtensao" type="submit" class="btn btn-primary">Submeter</button>
 							</div>
 							
 						</form>
