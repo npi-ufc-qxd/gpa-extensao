@@ -61,8 +61,10 @@
 										<div th:text="${acaoExtensao.coordenador.nome}"></div>
 									</li>
 									<li>
-										<i class="fa fa-pencil-square-o" aria-hidden="true"
-								 		title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+										<div th:switch="${acaoExtensao.status.descricao}">
+										<i th:case="APROVADO" class="fa fa-pencil-square-o" aria-hidden="true" 
+										 title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+									</div>
 									</li>
 								</ul>
 							</div>
@@ -146,12 +148,13 @@
                         </div>
 					</div>
 					<div class="box-footer">
+						
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modalexcluir">Excluir</button>
-						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO'} or ${acaoExtensao.status.name() == 'RESOLVENDO PENDÊNCIAS DO PARECER'} or ${acaoExtensao.status.name() == 'RESOLVENDO RESTRIÇÕES DO RELATO'})"
-							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar
-						</a>
+							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
+						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success btn-flat pull-right"
+							th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
@@ -160,19 +163,21 @@
       				<div class="box-header with-border">
       					<h3 class="box-title">Participações</h3>
       				</div>
+					<div class="text-center col-md-6 col-md-offset-3">
+						<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+							<p>Participação Cadastrada com Sucesso</p>
+						</div>
+						<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+							<h4><i class="icon fa fa-ban"></i> Erro!</h4>
+						</div>
+					</div>
       				<div class="box-body">
-      					<form class="col-md-6" id="formNovaParticipacao" method="post" th:object="${novaParticipacao}" role="form">
+      					<form class="col-md-6 dt-center" id="formNovaParticipacao" method="post" th:object="${novaParticipacao}" role="form">
 							<div class="box-header with-border ">
 								<h4 class="box-tittle text-center">Adicionar Nova Participação</h4>
-							</div>
-							<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h4><i class="icon fa fa-ban"></i> ERRO!</h4>
-							</div>
-							<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
-								<p>Participação Cadastrada com Sucesso</p>
 							</div>
 							<div>
 								<div class="form-group">
