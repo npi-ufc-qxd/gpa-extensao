@@ -1,12 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITAR_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMETER_ERROR;
-
-import java.io.IOException;
 
 import javax.inject.Named;
 
@@ -18,7 +12,6 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 
@@ -30,34 +23,25 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	
 	@Autowired
 	private DocumentoService documentoService;
-	
-	@Autowired 
-	private DocumentoRepository documentoRepository;
 		
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 
-		String data = String.valueOf(System.currentTimeMillis());
-		if(!(arquivo.getOriginalFilename().toString().equals(""))){
-			try{
-				Documento documento = new Documento();
-				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
-				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acaoExtensao.getCodigo() + "/" + documento.getNome());
-				
-				documentoRepository.save(documento);
-				acaoExtensao.setAnexo(documento);
-			}catch(IOException e){
-				throw new GpaExtensaoException(MESSAGE_CADASTRO_ERROR);
-			}
-		}
-			
 		acaoExtensao.setStatus(Status.NOVO);
 		acaoExtensaoRepository.save(acaoExtensao);
 		
 		String idAcao = acaoExtensao.getId().toString();
 		idAcao = completeToLeft(idAcao, '0', 4);
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
+		
+		if(!(arquivo.getOriginalFilename().toString().equals(""))){	
+			Documento documento = documentoService.save(arquivo, acaoExtensao);
+			
+			if(documento != null){
+				acaoExtensao.setAnexo(documento);
+			}
+		}
+		
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
 	
@@ -66,7 +50,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old=checkAcaoExtensao(old,acaoExtensao);
 		
-		Documento documento = documentoService.save(arquivo, MESSAGE_SUBMETER_ERROR);
+		Documento documento = documentoService.save(arquivo, acaoExtensao);
 		
 		if(documento != null) {
 			acaoExtensao.setAnexo(documento);
@@ -95,12 +79,11 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		
-		Documento documento = documentoService.save(arquivo, MESSAGE_EDITAR_ERROR);
+		Documento documento = documentoService.save(arquivo, acaoExtensao);
 		
 		if(documento != null) {
 			acaoExtensao.setAnexo(documento);
 		}
-		
 		
 		old=checkAcaoExtensao(old,acaoExtensao);
 		acaoExtensaoRepository.save(old);

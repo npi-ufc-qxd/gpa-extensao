@@ -160,25 +160,34 @@ $(document).ready(function() {
  		        return false;
  		    },
  			success : function(result) {
+ 				$("#formNovaParticipacao").bootstrapValidator('resetForm', true);
+ 				resetForm();
  				if(result.status=="OK"){
  					var alertDiv = $("#divSucesso");
  					alertDiv.show();
- 					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
- 					e.preventDefault();
+ 					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 3000);
  					carregarTabelaParticipacoes();
  				}else{
  					for (var i = 0; i < result.result.length; i++) {
+ 						$("#er").remove();
  						var alertDiv = $("#divError");
- 						alertDiv.append("<p>"+result.result[i].code+"</p>");
+ 						alertDiv.append("<p id='er'>"+result.result[i].code+"</p>");
  						alertDiv.show();
  				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
  					}
- 					e.preventDefault();
  					return false;
  				}
  			}
  		});
      });
+	
+	function resetForm() {
+		$("#formNovaParticipacao").hide();
+			$("#buttonAdicionarParticipacao").removeAttr("disabled");
+			$("#formNovaParticipacao")[0].reset();
+			$('#selectPessoa').empty();
+			$("#select2-chosen-2").html("A Selecionar...");
+	}
 	
 	function carregarTabelaParticipacoes() {
 		 var url = "/gpa-extensao/participacao/buscarParticipacoes/" + acaoExtensaoId;
