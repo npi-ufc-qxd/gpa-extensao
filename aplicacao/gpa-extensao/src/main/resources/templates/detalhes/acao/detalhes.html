@@ -136,12 +136,14 @@
 								<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
 							</div>
 						</div>
-						<div class="col-sm-12">
-							<label>Arquivo</label>
-							<div th:if="${acaoExtensao.anexo} != null">
-								<a th:text="${acaoExtensao.anexo.nome}"></a>
-							</div>
-						</div>
+						<div class="row">
+                            <div class="col-sm-12">
+                                <label>Arquivo</label>
+                                <div th:if="${acaoExtensao.anexo} != null">
+                                    <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 					<div class="box-footer">
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
