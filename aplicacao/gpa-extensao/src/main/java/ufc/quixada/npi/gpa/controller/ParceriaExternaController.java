@@ -36,11 +36,11 @@ import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 public class ParceriaExternaController {
 	
 	@Autowired
-	ParceriaExternaRepository parceriaExternaRepository;
+	private ParceriaExternaRepository parceriaExternaRepository;
 	@Autowired
-	AcaoExtensaoRepository acaoExtensaoRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	@Autowired
-	ParceiroRepository parceiroRepository;
+	private ParceiroRepository parceiroRepository;
 	
 	@RequestMapping(value="/buscarParceriasExternas/{idAcao}", method=RequestMethod.GET)
 	public String buscarParceriasExternas(@PathVariable("idAcao") Integer idAcao, Model model){
