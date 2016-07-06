@@ -92,15 +92,16 @@ $(document
 	}
 
 	checkForm();
-	$("#submeter-dataInicio,#submeter-dataTermino").datepicker({
-        format: "dd/mm/yyyy",
-        maxViewMode: 2,
-        todayBtn: true,
-        language: "pt-BR",
-        autoclose: true,
+	$("#sandbox-container .input-group.date").datepicker({
+	    format: "dd/mm/yyyy",
+	    maxViewMode: 2,
+	    language: "pt-BR",
+	    autoclose: true,
+	    todayHighlight: true
     }).on("changeDate",function(e){
     	$(this).datepicker("hide");
     	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "inicio");
+    	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "termino");
     });;
     
     $("#submeter-modalidadeAcaoExtensao").on('change',function(){
@@ -152,7 +153,7 @@ $(document
 		$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
 	}
 	
-	$("#anexoAcao,#submeter-anexoAcaoExtensao").fileinput({
+	$("#anexoAcao").fileinput({
 		'showUpload':false
 	});
 });

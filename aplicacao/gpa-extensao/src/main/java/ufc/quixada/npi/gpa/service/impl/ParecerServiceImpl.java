@@ -3,7 +3,7 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_PARECERISTA_DA_EQUIPE;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
-import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
+import static ufc.quixada.npi.gpa.util.PersonalConstants.PASTA_DOCUMENTOS_GPA;
 
 import java.io.IOException;
 import java.util.Date;
@@ -19,7 +19,6 @@ import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
-import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParecerService;
 
 @Service
