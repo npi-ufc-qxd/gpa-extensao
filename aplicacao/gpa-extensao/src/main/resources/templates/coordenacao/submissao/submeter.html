@@ -144,9 +144,9 @@
 									<input id="cargaHoraria" type="number" name="cargaHoraria"
 										class="form-control" required="required"/>
 									</div>
-									<div th:if="${action == 'cadastrar'}" class="form-group col-xs-6">
+									<div class="form-group col-xs-6">
 									<label for="numeroBolsas"><span>*</span>Número de Bolsas</label>
-									<input id="numeroBolsas" type="number" name="numeroBolsas"
+									<input id="numeroBolsas" type="number" th:field="${acaoExtensao.bolsasSolicitadas}" name="numeroBolsas"
 										class="form-control" required="required" min="0"/>
 								</div>
 								</div>
