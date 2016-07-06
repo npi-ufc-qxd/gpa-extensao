@@ -61,8 +61,10 @@
 										<div th:text="${acaoExtensao.coordenador.nome}"></div>
 									</li>
 									<li>
-										<i class="fa fa-pencil-square-o" aria-hidden="true"
-								 		title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+										<div th:switch="${acaoExtensao.status.descricao}">
+										<i th:case="APROVADO" class="fa fa-pencil-square-o" aria-hidden="true" 
+										 title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+									</div>
 									</li>
 								</ul>
 							</div>
