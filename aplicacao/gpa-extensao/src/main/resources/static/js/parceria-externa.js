@@ -1,5 +1,9 @@
 $(document).ready(function() {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 	var acaoExtensaoId = $("#acaoExtensaoId").val();
+	carregarTabelaParceriasExternas();
+	buscarParceiros();
 	$("#outrasFormasCheckBox").change(function(){
 		if($(this).is(":checked")){
 			$("#divDescricaoOutrasFormas").show();
@@ -26,7 +30,7 @@ $(document).ready(function() {
 		}
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-		var baseURL = '/gpa-extensao/salvarParceria/';
+		var baseURL = '/gpa-extensao/parceria/salvar/';
 		$.ajax({
 			url : baseURL + acaoExtensaoId,
 			beforeSend: function (request)
@@ -42,7 +46,8 @@ $(document).ready(function() {
 			success : function(data) {
 				if(data.status=="OK"){
 					e.preventDefault();
-					location.reload(true);
+					$("#parceria-externa-form-div").hide('slow');
+					carregarTabelaParceriasExternas();
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
 						var alertDiv = document.getElementById("error-"+data.result[i].field);
@@ -87,7 +92,9 @@ $(document).ready(function() {
 			success : function(data) {
 				if(data.status=="OK"){
 					e.preventDefault();
-					location.reload(true);
+					buscarParceiros();
+					$("#parceiro-form-div").hide();
+					$("#parceria-externa-form-div").show();
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
 						var alertDiv = document.getElementById("error-"+data.result[i].field);
@@ -121,19 +128,6 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	$(".selectParceiro").select2();
-	$("table-participacoes-externas").DataTable({
-		"order" : [[ 0, "asc" ]],
-        "columnDefs" : [ 
-            {className: "dt-center", "targets": 8},            
-            {"targets" : [2,3,4,5,6,7,8], "orderable" : false}
-        ],
-        "language": {
-            "url": "/gpa-extensao/js/Portuguese-Brasil.json"
-        },
-        "paging":   false,
-        "searching": false,
-        "info":     false
-	});
 	
 	$("#confirm-delete-parceria-externa").on("show.bs.modal", function(e) {
 		$(this).find(".btn-ok").attr("href",$(e.relatedTarget).data("href"));
@@ -144,26 +138,63 @@ $(document).ready(function() {
 	$("#deleteParceriaHiddenBtn").click(function(e) {
 		e.preventDefault();
 		var parceriaId = $("#deleteParceriaHiddenId").val();
-		var tableRowIndex = $("#deleteParceriaTableIndex").val();
-		var token = $("meta[name='_csrf']").attr("content");
-	    var header = $("meta[name='_csrf_header']").attr("content");
 	    $("#confirm-delete-parceria-externa").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/excluir/'+parceriaId,
+			url : '/gpa-extensao/parceria/excluir/'+parceriaId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
             },
-            data:{
-            	idAcao : acaoExtensaoId
-            },
             type : 'GET',
-			complete: function(){
-				setTimeout(function(){document.getElementById("table-participacoes-externas").deleteRow(tableRowIndex);}, 300);
-				if($("#table-participacoes-externas").length == 1){
-					$("#table-participacoes-externas").hide("slow");
+            async: false
+		});
+		carregarTabelaParceriasExternas();
+	});
+	
+//	Busca no controller todas as parcerias externas atualizadas
+	function carregarTabelaParceriasExternas() {
+		console.log(acaoExtensaoId);
+		var url = "/gpa-extensao/parceria/buscarParceriasExternas/" + acaoExtensaoId;
+		$("#tableResultsBlock").load(url, function() {
+			$("table-parcerias-externas").DataTable({
+				"order" : [[ 0, "asc" ]],
+			    "columnDefs" : [
+			                    {className: "dt-center", "targets": 8},
+			                    {"targets" : [2,3,4,5,6,7,8], "orderable" : false}
+			    ],
+			    "language": {
+			    	"url": "/gpa-extensao/js/Portuguese-Brasil.json"
+			    },
+			    "paging":   false,
+			    "searching": false,
+			    "info":     false
+			});
+		});
+	}
+	
+//	Busca as instituições parceiras no controller
+	function buscarParceiros(){
+		$.ajax({
+			type:"GET",
+			beforeSend: function (request)
+	        {
+				request.setRequestHeader(header, token);
+	        },
+			url: "/gpa-extensao/parceria/buscarParceiros",
+			contentType: 'application/json',
+			success : function(data) {
+				$('#selectParceiro').empty();
+				$("#select2-chosen-2").html("A Selecionar...");
+				var newOption = $('<option value="" selected="selected">A Selecionar...</option>');
+				$('#selectParceiro').append(newOption);
+				for (var i = 0; i < data.length; i++) {
+					console.log(data[i]);
+					var newOption = $('<option value=' + data[i].id +'>'
+							+ data[i].nome
+							+ '</option>');
+					$('#selectParceiro').append(newOption);
 				}
 			}
 		});
-	});
+	}
 });

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 
@@ -13,4 +14,5 @@ public interface ParceriaExternaRepository extends CrudRepository<ParceriaExtern
 	List<ParceriaExterna> findAll();
 	ParceriaExterna findById(Integer id);
 	List<ParceriaExterna> findByParceiro(Parceiro parceiro);
+	List<ParceriaExterna> findByAcaoExtensao(AcaoExtensao acao);
 }

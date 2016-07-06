@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
-	<div th:fragment="nenhuma-parceria">
-		<div class="callout callout-info">
-			<h4>Informação!</h4>
-			<p>Nenhum parceria cadastrada.</p>
-		</div>
-	</div><!-- Fragment Nenhum relato -->
 	<div th:fragment="parceria-externa">
-	<div id="parceria-externa-form-div" style="display:none;">
+		<div id="parceria-externa-form-div" style="display:none;">
  			<form class="col-md-6" role="form" th:object="${parceriaExterna}" method="POST" id="formParceriaExterna">
 				<div class="box-body with-border">
 					<div class="alert alert-warning alert-dismissible" id="error-parceiro" style="display: none;">
@@ -20,13 +13,17 @@
 						<p>Selecionar parceiro</p>
 					</div>
 					<div class="form-group">
-						<label>Instituição Parceira: </label>
+						<div class="row" style="margin-bottom: 5px;">
+							<div class="col-xs-6" style="padding-top: 10px;"><strong>Instituição Parceira:</strong></div>
+							<div class="col-xs-4 col-xs-offset-2">
+								<button class="btn btn-block btn-primary" id="criarNovoParceiro">Criar parceiro</button>
+							</div>
+						</div>
 						<select class="form-control selectParceiro" id="selectParceiro" th:field="${parceriaExterna.parceiro}" required="required">
 							<option value="">Selecionar Parceiro</option>
-							<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option>
+<!-- 							<option th:each="par : ${parceiros}" th:value="${par.id}" th:text="${par.nome}"></option> -->
 						</select>
 						<br/>
-						<button class="btn btn-block btn-primary btn-xs" id="criarNovoParceiro">Criar parceiro</button>
 					</div>
 					<div class="alert alert-warning alert-dismissible" id="checkBoxAlert" style="display: none;">
 						<button type="button" class="close" data-dismiss="alert"
@@ -97,18 +94,16 @@
 							<span><label th:for="${{tipo}}" th:text="${tipo.descricao}"></label></span>
 						</div>
 					</div>
-					<br />
-					<div class="form-group">
-					   	<div class="col-lg-10 col-lg-offset-2">
-					   		<button id="cancelarAdicaoParceiro" class="btn btn-default pull-left">Cancelar</button>
-					       	<button id="submitBtnParceiroForm" class="btn btn-primary pull-right">Salvar</button>
-					   	</div>
+					<div class="box-footer text-center">
+						<button id="submitBtnParceiroForm" class="btn btn-primary">Salvar</button>
+						<button id="cancelarAdicaoParceiro" class="btn btn-default">Cancelar</button>
 					</div>
 				</div>
 			</form>
- 				</div>
- 				<div>
- 					<table th:if="${not #lists.isEmpty(acaoExtensao.parceriasExternas)}" class="table-parceria-externa table table-striped table-bordered" id="table-participacoes-externas">
+ 		</div>
+	</div>
+	<div th:fragment="table-parceria-externa" th:unless="${#lists.isEmpty(parceriasExternas)}" class="col-md-12 table-responsive">
+ 			<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -125,7 +120,7 @@
 				
 				<tbody>
 					
-					<tr th:each="parceria, rowStat : ${acaoExtensao.parceriasExternas}" id="row+${rowStat.count}">
+					<tr th:each="parceria, rowStat : ${parceriasExternas}" id="row+${rowStat.count}">
 						<td th:text="${rowStat.count}"></td>
 						<td th:text="${parceria.parceiro.nome}"></td>
 						<td>
@@ -149,17 +144,16 @@
 						<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
 						<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
 						<td data-toogle="tooltip" title="Excluir">
-							<a id="excluir-parceria-externa"
+							<a class="btn btn-danger btn-xs" 
+								id="excluir-parceria-externa"
 								data-toggle="modal"
 								data-target="#confirm-delete-parceria-externa"
-								th:attr="data-href=${parceria.id}"
-								th:attrappend="data-row=${rowStat.count}">
-								<i class="glyphicon glyphicon-trash"></i>
+								th:attr="data-href=${parceria.id}">
+								<i class="fa fa-trash-o"></i>
 							</a>
-                         		</td>
+                         </td>
 					</tr>
 				</tbody>
 			</table>
  		</div>
-	</div>
 </html>

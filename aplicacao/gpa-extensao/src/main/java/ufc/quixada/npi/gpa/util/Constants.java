@@ -72,6 +72,7 @@ public class Constants {
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
 
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
