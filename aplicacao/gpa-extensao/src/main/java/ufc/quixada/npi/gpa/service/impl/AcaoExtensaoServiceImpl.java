@@ -1,7 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_ERROR;
 
 import javax.inject.Named;
 
@@ -28,22 +27,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 
-		if(!(arquivo.getOriginalFilename().toString().equals(""))){
-			try{
-				acaoExtensao.setStatus(Status.NOVO);
-				acaoExtensaoRepository.save(acaoExtensao);
-				
-				String idAcao = acaoExtensao.getId().toString();
-				idAcao = completeToLeft(idAcao, '0', 4);
-				acaoExtensao.setIdentificador("EXT-".concat(idAcao));
-				
-				Documento documento = documentoService.save(arquivo, acaoExtensao);
-				
-				if(documento != null){
-					acaoExtensao.setAnexo(documento);
-				}
-			}catch(GpaExtensaoException e){
-				throw new GpaExtensaoException(MESSAGE_CADASTRO_ERROR);
+		acaoExtensao.setStatus(Status.NOVO);
+		acaoExtensaoRepository.save(acaoExtensao);
+		
+		String idAcao = acaoExtensao.getId().toString();
+		idAcao = completeToLeft(idAcao, '0', 4);
+		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
+		
+		if(!(arquivo.getOriginalFilename().toString().equals(""))){	
+			Documento documento = documentoService.save(arquivo, acaoExtensao);
+			
+			if(documento != null){
+				acaoExtensao.setAnexo(documento);
 			}
 		}
 		

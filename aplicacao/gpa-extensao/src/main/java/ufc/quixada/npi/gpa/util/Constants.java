@@ -106,6 +106,7 @@ public class Constants {
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
 	public static final String A_DEFINIR = "a definir";
+	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 		
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";

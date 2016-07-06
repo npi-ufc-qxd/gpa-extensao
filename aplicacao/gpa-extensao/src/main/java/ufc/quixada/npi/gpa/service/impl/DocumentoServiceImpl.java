@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMETER_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 import static ufc.quixada.npi.gpa.util.PersonalConstants.PASTA_DOCUMENTOS_GPA;
 
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class DocumentoServiceImpl implements DocumentoService{
 				
 				return documento;
 			}catch(IOException e){
-				throw new GpaExtensaoException(MESSAGE_SUBMETER_ERROR);
+				throw new GpaExtensaoException(MESSAGE_SALVAR_ARQUIVO_ERROR);
 			}
 		}
 		return null;
