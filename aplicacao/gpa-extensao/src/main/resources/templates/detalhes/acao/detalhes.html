@@ -360,10 +360,10 @@
 					<div class="modal-body">
 						<form action="#" th:action="@{/salvarNovoCoordenador/}+${acaoExtensao.id}" method="post">
 							<label class="col-sm-3">Novo:</label>
-							<Select class="col-sm-9 form-control" name = "idNovoCoordenador" required="required">
+							<!-- <select class="col-sm-9 form-control" name = "idNovoCoordenador" required="required">
 								<option value="">Selecionar novo coordenador</option>
 								<option th:each="coordenador: ${possiveisCoordenadores}" th:value="${coordenador.id}" th:text="${coordenador.nome}"></option>
-							</Select>
+							</select> -->
 							
 							<label class="col-sm-3">Data de inicio:</label>
 							<input name="dataInicio" type="date" class="col-sm-3" required="required" id="dtCoordenadorInicio"/>

@@ -105,10 +105,22 @@ $(document).ready(function() {
 	});
 	
 	$("#formNovaParticipacao").bootstrapValidator({
-		feedbackIcons: {
-            invalid: 'glyphicon'
-         },
+		group: ".form-item",
         fields: {
+        	funcao: {
+        		validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+        	},
+        	cargaHoraria: {
+        		validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+        	},
         	descricaoFuncao: {
                 validators: {
                     notEmpty:{

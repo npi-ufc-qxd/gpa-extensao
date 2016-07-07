@@ -10,11 +10,7 @@ $(document).ready(function(){
 	function validator() {
 		$("#submeterAcaoExtensaoForm").bootstrapValidator({
 			group: ".form-item",
-			row: {
-		        invalid: 'has-error',
-	        	valid: 'valid'
-		    },
-		    fields:{
+			fields:{
 	        	titulo:{
 	        		validators:{
 	        			notEmpty:{
