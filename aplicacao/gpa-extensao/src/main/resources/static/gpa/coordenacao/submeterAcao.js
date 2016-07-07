@@ -1,6 +1,5 @@
 $(document
 		).ready(function(){
-	
 	if($("#action").val() != "submeter") {
 		$("#submeter-dataInicio, #submeter-dataTermino").removeAttr('required');
 		validator();

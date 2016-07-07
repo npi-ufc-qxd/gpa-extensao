@@ -31,7 +31,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
@@ -313,15 +312,6 @@ public class ExtensaoController {
 			}
 		}
 		return funcoes;
-	}
-	
-	@RequestMapping(value="/novaParceria/{id}",method=RequestMethod.GET)
-	public String novaParceriaExternaForm(@PathVariable("id") Integer id, Model model){
-		model.addAttribute(ACAO_EXTENSAO_ID, id);
-		model.addAttribute(PARCEIRO, new Parceiro());
-		model.addAttribute(PARCERIA_EXTERNA, new ParceriaExterna());
-		model.addAttribute(PARCEIROS,parceiroRepository.findAll());
-		return PAGINA_CRIAR_PARCERIA_EXTERNA;
 	}
 
 	@RequestMapping("/cadastrar")

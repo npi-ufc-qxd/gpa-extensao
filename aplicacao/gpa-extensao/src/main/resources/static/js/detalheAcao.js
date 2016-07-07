@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	modalMessage();
     $("#input-codigo").hide();
     $("#input-bolsas").hide();
     var acaoExtensaoId = $("#acaoExtensaoId").val();
@@ -24,6 +25,18 @@ $(document).ready(function(){
 	 $('#dtCoordenadorTermino').datepicker({
          format: "dd/mm/yyyy"
      });  
-	
-	
+
+
+		
+	 function modalMessage() {
+		console.log($("#message-sucess").val());
+		if ($("#message-sucess").val() != null) {
+			var alertDiv = document.getElementById("message-modal-alert");
+			$(alertDiv).append("<p>" + $("#message-sucess").val() + "</p>");
+			$(alertDiv).show();
+			setTimeout(function() {
+				$(alertDiv).fadeOut('slow');
+			}, 5000);
+		}
+	}
 });
