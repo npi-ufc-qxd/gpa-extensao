@@ -153,7 +153,6 @@ $(document).ready(function() {
 	
 //	Busca no controller todas as parcerias externas atualizadas
 	function carregarTabelaParceriasExternas() {
-		console.log(acaoExtensaoId);
 		var url = "/gpa-extensao/parceria/buscarParceriasExternas/" + acaoExtensaoId;
 		$("#tableResultsBlock").load(url, function() {
 			$("table-parcerias-externas").DataTable({
@@ -188,7 +187,6 @@ $(document).ready(function() {
 				var newOption = $('<option value="" selected="selected">A Selecionar...</option>');
 				$('#selectParceiro').append(newOption);
 				for (var i = 0; i < data.length; i++) {
-					console.log(data[i]);
 					var newOption = $('<option value=' + data[i].id +'>'
 							+ data[i].nome
 							+ '</option>');

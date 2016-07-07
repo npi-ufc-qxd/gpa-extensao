@@ -12,6 +12,8 @@
 			<!-- Main content -->
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
+				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
+				
 				
 				<!-- Mensagens -->
             	<div th:if="${message}" class="alert alert-success alert-dismissible">
@@ -61,10 +63,10 @@
 										<div th:text="${acaoExtensao.coordenador.nome}"></div>
 									</li>
 									<li>
-										<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" class="fa fa-pencil-square-o" aria-hidden="true" 
-										 title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
-									</div>
+										<div th:if="${acaoExtensao.status.name()} == 'APROVADO'">
+											<i id="buscarCoordenadores" class="fa fa-pencil-square-o" aria-hidden="true" 
+										 	title="Editar" data-toggle="modal" data-target="#editarCoordenador"></i>
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -111,7 +113,7 @@
 							</div>
 							<div class="col-sm-3">
 								<label>Término</label>
-								<div th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
+								<div id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
 							</div>
 							<div class="col-sm-3">
 								<label>Bolsas solicitadas</label>
@@ -348,7 +350,7 @@
 			</div>
 		</div>
 		
-		<div id="editarcoordenador" class="modal fade" role="dialog">
+		<div id="editarCoordenador" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
@@ -360,15 +362,13 @@
 					<div class="modal-body">
 						<form action="#" th:action="@{/salvarNovoCoordenador/}+${acaoExtensao.id}" method="post">
 							<label class="col-sm-3">Novo:</label>
-							<Select class="col-sm-9 form-control" name = "idNovoCoordenador" required="required">
-								<option value="">Selecionar novo coordenador</option>
-								<option th:each="coordenador: ${possiveisCoordenadores}" th:value="${coordenador.id}" th:text="${coordenador.nome}"></option>
+							<Select id="listCoordenadores" class="col-sm-9 form-control" name ="idNovoCoordenador" required="required">
 							</Select>
 							
 							<label class="col-sm-3">Data de inicio:</label>
 							<input name="dataInicio" type="date" class="col-sm-3" required="required" id="dtCoordenadorInicio"/>
-							<label class="col-sm-3">Data de término:</label>
-							<input name="dataTermino" type="date" class="col-sm-3" required="required" id="dtCoordenadorTermino"/>
+							<label class="col-sm-3">Carga Horária:</label>
+							<input name="chNovoCoordenador" type="number" class="col-sm-3" required="required" id="chNovoCoordenador"/>
 							<div class="modal-footer">
 								<input type="submit" class="btn btn-success" value="Salvar"/>
 								<button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
