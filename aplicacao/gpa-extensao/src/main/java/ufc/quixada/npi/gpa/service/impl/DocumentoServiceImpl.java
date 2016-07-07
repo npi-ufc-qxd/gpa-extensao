@@ -1,7 +1,7 @@
 package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
-import static ufc.quixada.npi.gpa.util.PersonalConstants.PASTA_DOCUMENTOS_GPA;
+import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
 
 import java.io.IOException;
 

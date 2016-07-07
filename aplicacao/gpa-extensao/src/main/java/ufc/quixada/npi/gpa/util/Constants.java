@@ -112,4 +112,11 @@ public class Constants {
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 	
+	/**
+	 * Caminho da pasta de uploads no sistema de arquivos local.
+	 * 
+	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
+	 * deve-se deixar o caminho original.
+	 */
+	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
 }
