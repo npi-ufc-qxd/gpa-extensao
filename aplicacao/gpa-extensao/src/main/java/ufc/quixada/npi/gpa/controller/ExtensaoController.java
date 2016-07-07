@@ -19,7 +19,6 @@ import static ufc.quixada.npi.gpa.util.Constants.A_DEFINIR;
 import static ufc.quixada.npi.gpa.util.Constants.CARGA_HORARIA_12;
 import static ufc.quixada.npi.gpa.util.Constants.DEDICACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FUNCOES;
 import static ufc.quixada.npi.gpa.util.Constants.INSTITUICOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
@@ -29,11 +28,9 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
-import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CRIAR_PARCERIA_EXTERNA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
@@ -45,12 +42,11 @@ import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
-import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -58,9 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -75,7 +69,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -94,7 +87,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
-import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
@@ -109,9 +101,6 @@ public class ExtensaoController {
 
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-	
-	@Autowired
-	private ParceriaExternaRepository parceriaExternaRepository;
 	
 	@Autowired
 	private ServidorRepository servirdorRepository;
@@ -367,23 +356,6 @@ public class ExtensaoController {
 
 	}
 	
-	@RequestMapping(value="/salvarParceria/{id}", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
-			Model model, BindingResult binding){
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(binding.hasErrors()){
-			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
-			map.put(RESPONSE_DATA, binding.getFieldErrors());
-			return map;
-		}
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
-		parceria.setAcaoExtensao(acaoExtensao);
-		parceriaExternaRepository.save(parceria);
-		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
-		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return map;
-	}
-	
 	private void participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
 		
 		Participacao participacao = new Participacao();
@@ -408,19 +380,6 @@ public class ExtensaoController {
 		
 		participacaoRepository.save(participacao);
 	}
-	
-	@RequestMapping(value="/excluir/{idParceria}")
-	public @ResponseBody Map<String, Object> deleteParceriaExterna(@RequestParam("idAcao") Integer idAcaoExtensao, @PathVariable("idParceria") Integer idParceriaExterna){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-		ParceriaExterna parceria = parceriaExternaRepository.findOne(idParceriaExterna);
-		acao.getParceriasExternas().remove(parceria);
-		acaoExtensaoRepository.save(acao);
-		parceriaExternaRepository.delete(idParceriaExterna);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
-		return map;
-	}	
-	
 	
 	
 	@RequestMapping("/submeter/{idAcao}")

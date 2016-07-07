@@ -72,6 +72,7 @@ public class Constants {
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
 
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
@@ -107,7 +108,7 @@ public class Constants {
 	public static final String RESPONSE_DATA = "result";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
-		
+	
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 	
