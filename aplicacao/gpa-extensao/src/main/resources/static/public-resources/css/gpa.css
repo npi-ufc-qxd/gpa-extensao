@@ -1,4 +1,4 @@
-/* Página de detalhe */
+/* Pï¿½gina de detalhe */
 
 .box-header h3{
 	font-weight: bold;
@@ -16,4 +16,17 @@
 
 #box-details .row div {
 	text-align: justify;
+}
+
+.has-success .control-label {
+	color: #333;
+}
+
+.has-success .form-control {
+	border-color: #d2d6de;
+}
+
+.has-success .form-control:focus {
+	box-shadow: none;
+	border-color: #3c8dbc;
 }

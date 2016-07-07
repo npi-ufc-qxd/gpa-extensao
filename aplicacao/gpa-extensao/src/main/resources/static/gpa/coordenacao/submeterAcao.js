@@ -1,5 +1,4 @@
-$(document
-		).ready(function(){
+$(document).ready(function(){
 	
 	if($("#action").val() != "submeter") {
 		$("#submeter-dataInicio, #submeter-dataTermino").removeAttr('required');
@@ -10,19 +9,16 @@ $(document
 	
 	function validator() {
 		$("#submeterAcaoExtensaoForm").bootstrapValidator({
-	        feedbackIcons: {
-	            valid: false,
-	        	invalid: "glyphicon"
-	        },
-	        fields:{
+			group: ".form-item",
+			row: {
+		        invalid: 'has-error',
+	        	valid: 'valid'
+		    },
+		    fields:{
 	        	titulo:{
 	        		validators:{
 	        			notEmpty:{
 	        				message:"Campo obrigátorio"
-	        			},
-	        			stringLength:{
-	        				min:5,
-	        				message:"Mínimo 5 caracteres"
 	        			}
 	        		}
 	        	},
@@ -30,10 +26,20 @@ $(document
 	        		validators:{
 	        			notEmpty:{
 	        				message:"Campo obrigátorio"
-	        			},
-	        			stringLength:{
-	        				min:5,
-	        				message:"Mínimo 5 caracteres"
+	        			}
+	        		}
+	        	},
+	        	cargaHoraria: {
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			}
+	        		}
+	        	},
+	        	bolsasSolicitadas: {
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
 	        			}
 	        		}
 	        	},
@@ -55,24 +61,34 @@ $(document
 	                    }
 	            	}
 	        	},
+	        	termino: {
+	        		
+	        	},
 	        	horasPraticas:{
-	        		integer:{
-	         		   message: "Digite um número válido"
-	         	   }
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			integer:{
+	 	         		   message: "Digite um número válido"
+	 	         	   	}
+	        		}
+	        		
 	        	},
 	        	horasTeoricas:{
-	        		integer:{
-	         		   message: "Digite um número válido"
-	         	   }
+	        		validators:{
+	        			notEmpty:{
+	        				message:"Campo obrigátorio"
+	        			},
+	        			integer:{
+	 	         		   message: "Digite um número válido"
+	        			}
+	        		}
 	        	},
 	        	ementa:{
 	        		validators:{
 	        			notEmpty:{
 	        				message:"Campo obrigátorio"
-	        			},
-	        			stringLength:{
-	        				min:5,
-	        				message:"Mínimo 5 caracteres"
 	        			}
 	        		}
 	        	},
@@ -80,10 +96,6 @@ $(document
 	        		validators:{
 	        			notEmpty:{
 	        				message:"Campo obrigátorio"
-	        			},
-	        			stringLength:{
-	        				min:5,
-	        				message:"Mínimo 5 caracteres"
 	        			}
 	        		}
 	        	}
@@ -92,7 +104,7 @@ $(document
 	}
 
 	checkForm();
-	$("#sandbox-container .input-group.date").datepicker({
+	$(".date").datepicker({
 	    format: "dd/mm/yyyy",
 	    maxViewMode: 2,
 	    language: "pt-BR",
