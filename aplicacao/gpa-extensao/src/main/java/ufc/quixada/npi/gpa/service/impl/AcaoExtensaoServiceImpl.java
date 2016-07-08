@@ -117,6 +117,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		old.setModalidade(nova.getModalidade());
 		old.setHorasPraticas(nova.getHorasPraticas());
 		old.setHorasTeoricas(nova.getHorasTeoricas());
+		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
 		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());
