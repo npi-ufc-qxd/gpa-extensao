@@ -63,7 +63,7 @@
 										<div th:text="${acaoExtensao.coordenador.nome}"></div>
 									</li>
 									<li>
-										<div th:if="${acaoExtensao.status.name()} == 'APROVADO'">
+										<div th:if="${acaoExtensao.status.name()} == 'APROVADO' and ${#authentication.name == acaoExtensao.coordenador.cpf}">
 											<i id="buscarCoordenadores" class="fa fa-pencil-square-o" aria-hidden="true" 
 										 	title="Editar" data-toggle="modal" data-target="#editarCoordenador"></i>
 										</div>
