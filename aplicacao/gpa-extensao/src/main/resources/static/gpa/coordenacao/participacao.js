@@ -8,12 +8,12 @@ $(document).ready(function() {
 	$("#formNovaParticipacao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function() {
-		$("#formNovaParticipacao").show("slow");
+		$("#formNovaParticipacao").fadeIn(500);
 		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
 	});
 	
 	$("#cancelarNovaParticipacao").click(function() {
-		$("#formNovaParticipacao").hide("slow");
+		$("#formNovaParticipacao").hide();
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
@@ -29,9 +29,9 @@ $(document).ready(function() {
 		if(funcao == "OUTRA") {
 			reset();
 			$("#selectPessoa").attr("selectedIndex", -1);
-			$("#divSelectPessoa").hide("slow");
+			$("#divSelectPessoa").hide();
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
-			$(".funcaoOutra").show("slow");
+			$(".funcaoOutra").fadeIn(500);
 			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "ALUNO_VOLUNTARIO") {
 			reset();
@@ -45,8 +45,8 @@ $(document).ready(function() {
 	
 	function reset() {
 		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$(".funcaoOutra").hide("slow");
-		$("#divSelectPessoa").show("slow");
+		$(".funcaoOutra").hide();
+		$("#divSelectPessoa").fadeIn(500);
 	}
 	
 	function buscaPessoas(funcao) {
@@ -84,9 +84,9 @@ $(document).ready(function() {
 	$("#selectInstituicao").change(function() {
 		var instituicao = $("#selectInstituicao").val();
 		if(instituicao != "UFC") {
-			$("#divNomeInstituicao").attr('required', 'required').show("slow");
+			$("#divNomeInstituicao").attr('required', 'required').fadeIn(500);
 		} else {
-			$("#divNomeInstituicao").removeAttr('required').hide("slow");
+			$("#divNomeInstituicao").removeAttr('required').hide();
 			$("#nomeInstituicao").val(null);
 		}
 	});
