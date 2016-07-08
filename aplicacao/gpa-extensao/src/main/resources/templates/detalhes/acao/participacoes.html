@@ -14,7 +14,9 @@
 					<th>CPF</th>
 					<th>FUNCÃO</th>
 					<th>INSTITUIÇÃO</th>
-					<th>CARGA HORÁRIA</th>
+					<th>CH</th>
+					<th>PERÍODO</th>
+					<th>COORDENADOR</th>
 					<th></th>
 					<th></th>
 				</tr>
@@ -32,6 +34,10 @@
 					<td th:if="${participacao.instituicao.name()} == 'UFC'" th:text="${participacao.instituicao.descricao}"></td>
 					<td th:if="${participacao.instituicao.name()} != 'UFC'" th:text="${participacao.nomeInstituicao}"></td>
 					<td th:text="${participacao.cargaHoraria}+ ' Horas'"></td>
+					<td th:text="'De ' + ${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
+					<td>
+						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-info'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
+					</td>
 					<td data-toogle="tooltip" title="excluir"> 
 						<a class="btn btn-danger btn-xs" data-toggle="modal" 
 							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}"

@@ -243,12 +243,16 @@ public class ExtensaoController {
 		
 		Pessoa velhoCoordenador = acao.getCoordenador();
 		
-		Participacao pVelhoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(velhoCoordenador, acao);
+		List<Participacao> pVelhoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao, velhoCoordenador);
 		
 		if(pVelhoCoordenador != null) {
-			pVelhoCoordenador.setDataTermino(dataI);
-			pVelhoCoordenador.setCoordenador(false);
-			participacaoRepository.save(pVelhoCoordenador);
+			for(Participacao p : pVelhoCoordenador) {
+				if(p.isCoordenador()) {
+					p.setDataTermino(dataI);
+					p.setCoordenador(false);
+					participacaoRepository.save(p);
+				}
+			}
 		}
 		
 		Pessoa novoCoordenador = pessoaRepository.findOne(idNovoCoordenador);
@@ -402,7 +406,7 @@ public class ExtensaoController {
 		}
 		
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
-		return REDIRECT_PAGINA_INICIAL;
+		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 	
 	@RequestMapping("/editar/{id}")

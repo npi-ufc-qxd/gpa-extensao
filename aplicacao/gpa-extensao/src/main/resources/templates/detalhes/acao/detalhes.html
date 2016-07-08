@@ -362,9 +362,7 @@
 					<div class="modal-body">
 						<form action="#" th:action="@{/salvarNovoCoordenador/}+${acaoExtensao.id}" method="post">
 							<label class="col-sm-3">Novo:</label>
-							<Select id="listCoordenadores" class="col-sm-9 form-control" name ="idNovoCoordenador" required="required">
-							</Select>
-							
+							<Select id="listCoordenadores" class="col-sm-9 form-control" name ="idNovoCoordenador" required="required"></Select>
 							<label class="col-sm-3">Data de inicio:</label>
 							<input name="dataInicio" type="date" class="col-sm-3" required="required" id="dtCoordenadorInicio"/>
 							<label class="col-sm-3">Carga Horária:</label>
