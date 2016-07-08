@@ -93,6 +93,7 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
+import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @Transactional
@@ -313,8 +314,7 @@ public class ExtensaoController {
 
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao, Authentication authentication) {
-		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
-		Servidor servidor = servirdorRepository.findByPessoa(pessoa);
+		Servidor servidor = servirdorRepository.findByPessoa_cpf(authentication.getName());
 		model.addAttribute(DEDICACAO, servidor.getDedicacao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
@@ -358,7 +358,7 @@ public class ExtensaoController {
 		participacao.setNomeParticipante("");
 		participacao.setParticipante(acaoExtensao.getCoordenador());
 		
-		Servidor servidor = servirdorRepository.findByPessoa(acaoExtensao.getCoordenador());
+		Servidor servidor = servirdorRepository.findByPessoa_cpf(acaoExtensao.getCoordenador().getCpf());
 		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
 			participacao.setFuncao(Funcao.DOCENTE);
 		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
@@ -458,6 +458,6 @@ public class ExtensaoController {
 	
 	@RequestMapping("/buscarCoordenadores/{id}")
 	public @ResponseBody List<Servidor> buscarCoordenadores(@PathVariable("id") Integer idCoordenadorAtual) {
-		return servirdorRepository.findAll();
+		return servirdorRepository.findByPessoa_idNotIn(idCoordenadorAtual);
 	}
 }
