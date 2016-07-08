@@ -412,7 +412,7 @@ public class ExtensaoController {
 		}
 		
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
-		return REDIRECT_PAGINA_INICIAL;
+		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 	
 	@RequestMapping("/editar/{id}")

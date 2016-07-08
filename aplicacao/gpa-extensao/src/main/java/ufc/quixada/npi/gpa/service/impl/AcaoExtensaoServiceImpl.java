@@ -50,10 +50,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old=checkAcaoExtensao(old,acaoExtensao);
 		
-		Documento documento = documentoService.save(arquivo, acaoExtensao);
+		Documento documento = documentoService.save(arquivo, old);
 		
 		if(documento != null) {
-			acaoExtensao.setAnexo(documento);
+			old.setAnexo(documento);
 		}
 		
 		switch (old.getStatus()) {

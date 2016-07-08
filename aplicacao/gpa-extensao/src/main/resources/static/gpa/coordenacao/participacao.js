@@ -207,11 +207,13 @@ $(document).ready(function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "dt-center", "targets": [1, 4, 5, 6]},            
-				        {"targets" : 4, "orderable" : false},
-				        {"targets" : 5, "orderable" : false},
+					    {className: "text-center", "targets": [1, 3, 5, 6, 7, 8]},
+					    {"targets" : 4, "orderable" : false},
+					    {"targets" : 5, "orderable" : false},
 				        {"targets" : 6, "orderable" : false},
-				        { "width": "15%", "targets":4 },
+				        {"targets" : 7, "orderable" : false},
+				        {"targets" : 8, "orderable" : false},
+				        { "width": "7%", "targets":4 },
 					],
 					"language": {
 				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
