@@ -244,9 +244,12 @@ public class ExtensaoController {
 		Pessoa velhoCoordenador = acao.getCoordenador();
 		
 		Participacao pVelhoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(velhoCoordenador, acao);
-		pVelhoCoordenador.setDataTermino(dataI);
-		pVelhoCoordenador.setCoordenador(false);
-		participacaoRepository.save(pVelhoCoordenador);
+		
+		if(pVelhoCoordenador != null) {
+			pVelhoCoordenador.setDataTermino(dataI);
+			pVelhoCoordenador.setCoordenador(false);
+			participacaoRepository.save(pVelhoCoordenador);
+		}
 		
 		Pessoa novoCoordenador = pessoaRepository.findOne(idNovoCoordenador);
 		
