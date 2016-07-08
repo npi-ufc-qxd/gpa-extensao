@@ -25,7 +25,9 @@ $(document).ready(function(){
         maxViewMode: 2,
  	    language: "pt-BR",
  	    autoclose: true,
- 	    todayHighlight: true
+ 	    todayHighlight: true,
+ 	    startDate: $("#dataInicio").text(),
+ 	    endDate: $("#dataTermino").text()
      }); 
 	 
 	 $("#listCoordenadores").select2();
@@ -42,7 +44,6 @@ $(document).ready(function(){
 			url: "/gpa-extensao/buscarCoordenadores/" + id,
 			contentType: 'application/json',
 			success : function(data) {
-				console.log(data);
 				$('#listCoordenadores').empty();
 				var newOption = $('<option value="" selected="selected">A Selecionar...</option>');
 				$('#listCoordenadores').append(newOption);
@@ -54,8 +55,20 @@ $(document).ready(function(){
 			}
 		});
 	});
-	var dataAtual = $.datepicker.formatDate('dd/mm/yy', new Date());
-	if($("#dataTermino").text() <= dataAtual) {
+	
+	var dataAtual = moment();
+	var dataTermino = moment($("#dataTermino").text(), "DD-MM-YYYY");
+	
+	if(moment(dataTermino).isSameOrBefore(dataAtual)) {
 		$("#buscarCoordenadores").hide();
 	}
+	
+	$("#listCoordenadores").change(function() {
+		var dedicacao = $(this).children(":selected").attr("id");
+		if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+			$("#chNovoCoordenador").attr({"max" : "16", "min" : "4"});
+		} else if(dedicacao == "H20") {
+			$("#chNovoCoordenador").attr({"max" : "12", "min" : "4"});
+		}
+	});
 });
