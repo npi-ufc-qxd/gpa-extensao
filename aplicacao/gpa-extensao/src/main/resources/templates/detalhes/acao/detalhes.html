@@ -155,6 +155,8 @@
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success btn-flat pull-right"
 							th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+						<a sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acaoExtensao.id}"
+							class="btn btn-primary btn-flat pull-right">Homologar</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
