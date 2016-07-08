@@ -93,7 +93,6 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
-import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @Transactional
