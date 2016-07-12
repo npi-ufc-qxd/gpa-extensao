@@ -30,6 +30,7 @@ public class Constants {
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
 	public static final String ACAO_EXTENSAO = "acaoExtensao";
+	public static final String PARCERIAS_EXTERNAS = "parceriasExternas";
 	public static final String PERMISSAO_COORDENADOR = "coordenador";
 	public static final String PERMISSAO_DIRETOR = "diretor";
 	public static final String PERMISSAO_PARECERISTA = "parecerista";
