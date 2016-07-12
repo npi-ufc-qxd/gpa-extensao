@@ -53,99 +53,103 @@
 						<h3 class="box-title" th:text="${acaoExtensao.titulo}"></h3>
 					</div>
 					<div id="box-details" class="box-body with-border">
-						<div class="row">
-							<div class="col-sm-6">
-								<ul class="list-inline">
-									<li>
-										<label>Coordenador</label>
-										<div th:text="${acaoExtensao.coordenador.nome}"></div>
-									</li>
-									<li>
+						<div id="detalhes-gerais-acao">
+							<div class="row">
+								<div class="col-sm-6">
+									<ul class="list-inline">
+										<li>
+											<label>Coordenador</label>
+											<div th:text="${acaoExtensao.coordenador.nome}"></div>
+										</li>
+										<li>
+											<div th:switch="${acaoExtensao.status.descricao}">
+											<i th:case="APROVADO" class="fa fa-pencil-square-o" aria-hidden="true" 
+											 title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
+										</div>
+										</li>
+									</ul>
+								</div>
+								<div class="col-sm-6">
+									<label>Status:</label>
+									<div>
+										<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-3">
+									<label>Identificador</label>
+									<div th:text="${acaoExtensao.identificador}"></div>
+								</div>
+								<div class="col-sm-3">
+									<label>Código</label>
+									<div th:text="${acaoExtensao.codigo}">
+										<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}" method="post" id="codigo-form">
+											<input type="text" id="input-codigo" name="codigoAcao" />
+										</form>
 										<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" class="fa fa-pencil-square-o" aria-hidden="true" 
-										 title="Editar" data-toggle="modal" data-target="#editarcoordenador"></i>
-									</div>
-									</li>
-								</ul>
-							</div>
-							<div class="col-sm-6">
-								<label>Status:</label>
-								<div>
-									<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-3">
-								<label>Identificador</label>
-								<div th:text="${acaoExtensao.identificador}"></div>
-							</div>
-							<div class="col-sm-3">
-								<label>Código</label>
-								<div th:text="${acaoExtensao.codigo}">
-									<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}" method="post" id="codigo-form">
-										<input type="text" id="input-codigo" name="codigoAcao" />
-									</form>
-									<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" 
-											data-toggle="tooltip" title="Editar"></i>
+											<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" 
+												data-toggle="tooltip" title="Editar"></i>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-sm-3">
-								<label>Prorrogável</label>
-								<div th:if="${acaoExtensao.prorrogavel} != null" th:switch="${acaoExtensao.prorrogavel}">
-									<div th:case="true">Sim</div>
-									<div th:case="false">Não</div>
+								<div class="col-sm-3">
+									<label>Prorrogável</label>
+									<div th:if="${acaoExtensao.prorrogavel} != null" th:switch="${acaoExtensao.prorrogavel}">
+										<div th:case="true">Sim</div>
+										<div th:case="false">Não</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<label>Vinculo</label>
+									<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
 								</div>
 							</div>
-							<div class="col-sm-3">
-								<label>Vinculo</label>
-								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-3">
-								<label>Início</label>
-								<div th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></div>
-							</div>
-							<div class="col-sm-3">
-								<label>Término</label>
-								<div th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
-							</div>
-							<div class="col-sm-3">
-								<label>Bolsas solicitadas</label>
-								<div th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></div>
-							</div>
-							<div class="col-sm-3">
-								<label>Bolsas recebidas</label>
-								<div id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}">
-									<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
-										id="bolsas-form">
-										<input id="input-bolsas" type="number" min="0"
-											name="bolsasRecebidas" pattern="[0-9]+" />
-									</form>
-									<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true"
-											data-toggle="tooltip" title="Editar"></i>
+							<div class="row">
+								<div class="col-sm-3">
+									<label>Início</label>
+									<div th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></div>
+								</div>
+								<div class="col-sm-3">
+									<label>Término</label>
+									<div th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
+								</div>
+								<div class="col-sm-3">
+									<label>Bolsas solicitadas</label>
+									<div th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></div>
+								</div>
+								<div class="col-sm-3">
+									<label>Bolsas recebidas</label>
+									<div id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}">
+										<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
+											id="bolsas-form">
+											<input id="input-bolsas" type="number" min="0"
+												name="bolsasRecebidas" pattern="[0-9]+" />
+										</form>
+										<div th:switch="${acaoExtensao.status.descricao}">
+											<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true"
+												data-toggle="tooltip" title="Editar"></i>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<label>Resumo</label>
-								<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label>Resumo</label>
+									<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
+								</div>
 							</div>
+							<div class="row">
+	                            <div class="col-sm-12">
+	                                <label>Arquivo</label>
+	                                <div th:if="${acaoExtensao.anexo} != null">
+	                                    <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
+	                                </div>
+	                            </div>
+	                        </div>
 						</div>
-						<div class="row">
-                            <div class="col-sm-12">
-                                <label>Arquivo</label>
-                                <div th:if="${acaoExtensao.anexo} != null">
-                                    <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
-                                </div>
-                            </div>
-                        </div>
+
+						<div th:replace="detalhes/acao/fragments-detalhes-homologacao :: homologacao-fragment"></div>
 					</div>
 					<div class="box-footer">
 						
@@ -155,7 +159,7 @@
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success btn-flat pull-right"
 							th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
-						<a sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acaoExtensao.id}"
+						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" title="Homologar Ação" href="#homologar-form"
 							class="btn btn-primary btn-flat pull-right">Homologar</a>
 					</div>
 				</div> <!-- Box detalhes  -->
