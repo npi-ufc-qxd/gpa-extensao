@@ -23,6 +23,7 @@ import static ufc.quixada.npi.gpa.util.Constants.FUNCOES;
 import static ufc.quixada.npi.gpa.util.Constants.INSTITUICOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ANEXO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
@@ -44,6 +45,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 
 import java.text.DateFormat;
@@ -52,7 +54,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -217,12 +221,19 @@ public class ExtensaoController {
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
 	
-	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+	@RequestMapping(value = "/salvarCodigo/{idAcao}", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(codigo==null || codigo==""){
+			map.put(ERRO, "Valor invalido");
+			return map;
+		}
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setCodigo(codigo);
 		acaoExtensaoRepository.save(acao);
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		map.put(MESSAGE_STATUS_RESPONSE, "SUCESSO");
+		map.put(RESPONSE_DATA, codigo);
+		return map;
 	}
 	
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method=RequestMethod.POST)

@@ -86,15 +86,15 @@
 								<div th:text="${acaoExtensao.identificador}"></div>
 							</div>
 							<div class="col-sm-3">
-								<label>Código</label>
-								<div th:text="${acaoExtensao.codigo}">
-									<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}" method="post" id="codigo-form">
-										<input type="text" id="input-codigo" name="codigoAcao" />
-									</form>
-									<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" 
+								<label>Código <i th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-codigo-acao-extensao" class="fa fa-pencil-square-o" aria-hidden="true" 
 											data-toggle="tooltip" title="Editar"></i>
-									</div>
+								</label>
+								<div><p id="codigo-acao-extensao" th:text="${acaoExtensao.codigo}"></p></div>
+								<div id="div-codigo-acao-extensao" style="display:none;">
+									<input type="text" id="input-codigo-acao-extensao" name="codigoAcao"/>
+									<a id="submeter-codigo-acao-extensao" data-toggle="tooltip" title="Submeter Codigo">
+										<span class="fa fa-check"></span>
+									</a>
 								</div>
 							</div>
 						</div>

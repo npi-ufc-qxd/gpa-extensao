@@ -1,18 +1,44 @@
 $(document).ready(function(){
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	
-    $("#input-codigo").hide();
-    $("#input-bolsas").hide();
+	modalMessage();
     var acaoExtensaoId = $("#acaoExtensaoId").val();
     $(".alert-success").hide();
 	
-	$("#editar-codigo").click(function(){
-        $("#input-codigo").show();
-        $("#codigo-acao").hide();
-        $("#editar-codigo").hide();
+    $("#div-codigo-acao-extensao").hide();
+	$("#editar-codigo-acao-extensao").click(function(){
+		if($("#input-codigo-acao-extensao").is(":visible")){
+			$("#div-codigo-acao-extensao").hide();
+		}else{
+			$("#div-codigo-acao-extensao").show();
+		}
     });
 	
+	$("#submeter-codigo-acao-extensao").click(function(e){
+		var codigo = $("#input-codigo-acao-extensao").val();
+		if(codigo!=null && codigo!=""){
+			$.ajax({
+				type:"GET",
+				beforeSend: function (request)
+		        {
+					 request.setRequestHeader(header, token);
+		        },
+				url: "/gpa-extensao/salvarCodigo/" + acaoExtensaoId,
+				data:{
+					codigoAcao:codigo
+				},
+				success : function(data) {
+					console.log(data.result);
+					if(data.status=="SUCESSO"){
+						$("#codigo-acao-extensao").text(data.result);
+						$("#div-codigo-acao-extensao").hide('slow');
+					}else{
+						alert("Error");
+					}
+				}
+			});
+		}
+	});
 	$("#editar-bolsas").click(function(){
 		$("#input-bolsas").show();
 		$("#bolsas-recebidas").hide();
@@ -71,4 +97,14 @@ $(document).ready(function(){
 			$("#chNovoCoordenador").attr({"max" : "12", "min" : "4"});
 		}
 	});
+	function modalMessage() {
+		if ($("#message-sucess").val() != null) {
+			var alertDiv = document.getElementById("message-modal-alert");
+			$(alertDiv).append("<p>" + $("#message-sucess").val() + "</p>");
+			$(alertDiv).show();
+			setTimeout(function() {
+				$(alertDiv).fadeOut('slow');
+			}, 5000);
+		}
+	}
 });
