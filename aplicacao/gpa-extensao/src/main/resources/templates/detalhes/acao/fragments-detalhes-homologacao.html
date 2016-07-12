@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <body>
-	<div th:fragment="homologacao-fragment" id="homologar-form" class="attachment-block clearfix" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+	<div th:fragment="homologacao-fragment" id="homologar-form" class="inline-card clearfix" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
 			style="display: none;">
 			
 		<h4 class="box-header">Homologar Ação de Extensão</h4>
