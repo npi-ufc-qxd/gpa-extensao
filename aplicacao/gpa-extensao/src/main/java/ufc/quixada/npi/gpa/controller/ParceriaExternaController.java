@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
+import static ufc.quixada.npi.gpa.util.Constants.PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
@@ -45,7 +46,7 @@ public class ParceriaExternaController {
 	@RequestMapping(value="/buscarParceriasExternas/{idAcao}", method=RequestMethod.GET)
 	public String buscarParceriasExternas(@PathVariable("idAcao") Integer idAcao, Model model){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		model.addAttribute("parceriasExternas", parceriaExternaRepository.findByAcaoExtensao(acao));
+		model.addAttribute(PARCERIAS_EXTERNAS, parceriaExternaRepository.findByAcaoExtensao(acao));
 		return FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 	}
 	

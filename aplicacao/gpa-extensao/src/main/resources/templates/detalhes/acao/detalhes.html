@@ -12,6 +12,11 @@
 			<!-- Main content -->
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
+				<input th:if="${message}" id="message-sucess" type="hidden" th:value="${message}"/>
+       			<!-- Mensagens -->
+	            <div id="message-modal-alert" class="callout callout-success" style="display:none;">
+	         		<h4><i class="icon fa fa-check"></i></h4>
+	       		</div>
 				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
 				
 				
@@ -56,7 +61,7 @@
 					</div>
 					<div id="box-details" class="box-body with-border">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<ul class="list-inline">
 									<li>
 										<label>Coordenador</label>
@@ -70,14 +75,12 @@
 									</li>
 								</ul>
 							</div>
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<label>Status:</label>
 								<div>
 									<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
 								</div>
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-sm-3">
 								<label>Identificador</label>
 								<div th:text="${acaoExtensao.identificador}"></div>
@@ -94,6 +97,8 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-3">
 								<label>Prorrogável</label>
 								<div th:if="${acaoExtensao.prorrogavel} != null" th:switch="${acaoExtensao.prorrogavel}">
@@ -101,8 +106,8 @@
 									<div th:case="false">Não</div>
 								</div>
 							</div>
-							<div class="col-sm-3">
-								<label>Vinculo</label>
+							<div class="col-sm-9">
+								<label>Vínculo</label>
 								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
 							</div>
 						</div>
@@ -155,13 +160,15 @@
 							 class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modalexcluir">Excluir</button>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
-						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
+						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+						<a sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acaoExtensao.id}"
+							class="btn btn-primary btn-flat pull-right">Homologar</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
       			<!-- Participações -->
-      			<div th:replace="modulos/fragment-form-participacao :: formParticipacao"></div>
+      			<div th:replace="detalhes/acao/fragment-form-participacao :: formParticipacao"></div>
 
 				<!-- Parceria Externa -->
    				<div class="box box-primary">
@@ -267,7 +274,7 @@
                 <h4 class="modal-title">Excluir Parceria Externa</h4>
               </div>
               <div class="modal-body">
-              	<p>Tem certeza que deseja excluir essa parceria?</p>
+              	<p>Tem certeza de que deseja excluir essa parceria?</p>
               </div>
               <div class="modal-footer">
               	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
@@ -291,12 +298,12 @@
                 		<h4 class="modal-title">Excluir Participação</h4>
               		</div>
               		<div class="modal-body">
-              			<p>Tem certeza que deseja excluir essa participação?</p>
+              			<p>Tem certeza de que deseja excluir essa participação?</p>
               		</div>
               		<div class="modal-footer">
               			<input type="hidden" id="deleteParticipacaoHiddenId" name="deleteParticipacaoHiddenId" value="" />
-                		<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok" id="deleteParticipacaoHiddenBtn">Confirmar</a>
+                		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="deleteParticipacaoHiddenBtn">Confirmar</a>
               		</div>
             	</div>
             <!-- /.modal-content -->

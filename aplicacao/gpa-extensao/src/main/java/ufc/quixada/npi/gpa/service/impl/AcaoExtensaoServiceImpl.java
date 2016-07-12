@@ -121,6 +121,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());
+		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
 		return old;
 	}
 }
