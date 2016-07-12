@@ -153,10 +153,10 @@
 						
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modalexcluir">Excluir</button>
-						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO'} or ${acaoExtensao.status.name() == 'RESOLVENDO PENDÊNCIAS DO PARECER'} or ${acaoExtensao.status.name() == 'RESOLVENDO RESTRIÇÕES DO RELATO'})"
+						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
-						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-success btn-flat pull-right"
-							th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
+							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
@@ -173,7 +173,11 @@
     				</div>
     				<div id="tableResultsBlock" class="box-body with-border"></div>
     				<div class="box-footer">
-    					<button class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar</button>
+    					<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' 
+    						OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
+    						'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
+    						class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
+    					</button>
     				</div>
    				</div>
       			
