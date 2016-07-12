@@ -50,10 +50,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old=checkAcaoExtensao(old,acaoExtensao);
 		
-		Documento documento = documentoService.save(arquivo, acaoExtensao);
+		Documento documento = documentoService.save(arquivo, old);
 		
 		if(documento != null) {
-			acaoExtensao.setAnexo(documento);
+			old.setAnexo(documento);
 		}
 		
 		switch (old.getStatus()) {
@@ -117,6 +117,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		old.setModalidade(nova.getModalidade());
 		old.setHorasPraticas(nova.getHorasPraticas());
 		old.setHorasTeoricas(nova.getHorasTeoricas());
+		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
 		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());

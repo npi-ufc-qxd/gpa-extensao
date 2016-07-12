@@ -18,4 +18,6 @@ public interface ParticipacaoRepository extends CrudRepository<Participacao, Int
 	public List<Participacao> findByAcaoExtensaoAndFuncao(AcaoExtensao acao, Funcao funcao);
 	
 	public Participacao findByParticipanteAndAcaoExtensao(Pessoa participante, AcaoExtensao acaoExtensao);
+	
+	public List<Participacao> findByAcaoExtensaoAndParticipante(AcaoExtensao acaoExtensao, Pessoa participante);
 }

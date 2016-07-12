@@ -1,8 +1,4 @@
 $(document).ready(function() {
-	$(".homologados").hide();
-	$(".parecerRelator").hide();
-	$(".parecerTecnico").hide();
-	$(".participacao").hide();
 	$(".card").click(function() {
         $(".card").find("i").removeClass("fa-folder-open-o");
         $(".card").find(".small-box").removeClass("bg-blue");
@@ -24,9 +20,13 @@ $(document).ready(function() {
 		}
 	});
 });
+
+$(".tramitacao").fadeIn(500);
+$(".novos").fadeIn(500);
+
 function showNaoHomologados() {
-	$(".tramitacao").show();
-	$(".novos").show();
+	$(".tramitacao").fadeIn(500);
+	$(".novos").fadeIn(500);
 	$(".homologados").hide();
 	$(".parecerRelator").hide();
 	$(".parecerTecnico").hide();
@@ -35,7 +35,7 @@ function showNaoHomologados() {
 function showHomologados() {
 	$(".tramitacao").hide();
 	$(".novos").hide();
-	$(".homologados").show();
+	$(".homologados").fadeIn(500);
 	$(".parecerRelator").hide();
 	$(".parecerTecnico").hide();
 	$(".participacao").hide();
@@ -44,8 +44,8 @@ function showParecer() {
 	$(".tramitacao").hide();
 	$(".novos").hide();
 	$(".homologados").hide();
-	$(".parecerRelator").show();
-	$(".parecerTecnico").show();
+	$(".parecerRelator").fadeIn(500);
+	$(".parecerTecnico").fadeIn(500);
 	$(".participacao").hide();
 }
 function showParticipacao() {
@@ -54,5 +54,5 @@ function showParticipacao() {
 	$(".homologados").hide();
 	$(".parecerRelator").hide();
 	$(".parecerTecnico").hide();
-	$(".participacao").show();
+	$(".participacao").fadeIn(500);
 }

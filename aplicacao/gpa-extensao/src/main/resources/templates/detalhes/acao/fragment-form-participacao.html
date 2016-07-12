@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+</body>
+<div th:fragment="formParticipacao" class="box box-primary">
+	<div class="box-header with-border">
+ 		<h3 class="box-title">Equipe de Trabalho</h3>
+  	</div>
+  	<div class="box-body">
+  		<div class="text-center col-md-6 col-md-offset-3">
+			<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+				<p>Participação Cadastrada com Sucesso</p>
+			</div>
+			<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4><i class="icon fa fa-ban"></i> Erro!</h4>
+			</div>
+		</div>
+  		<form id="formNovaParticipacao" method="post" th:object="${novaParticipacao}" role="form">
+			<div class="box-header with-border ">
+				<h4 class="box-tittle text-center">Adicionar Nova Participação</h4>
+			</div>
+			<div class="box-body">
+				<div class="form-group row">
+					<div class="col-lg-6 form-item">
+						<label for="funcao" class="control-label">* Função</label>
+						<select id="selectFuncao" name="funcaoSelect" class="form-control" required="required" th:field="*{funcao}">
+							<option value="">A Selecionar...</option>
+							<option th:each="funcao : ${funcoes}" th:value="${funcao}" th:text="${funcao.descricao}"/>
+						</select>
+					</div>
+					<div class="col-lg-6 form-item">
+						<label for="cargaHoraria" class="control-label">* Carga Horária Semanal (hrs)</label>
+						<input id="cargaHoraria" type="number" name="cargaHoraria" class="form-control" required="required" th:field="*{cargaHoraria}" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<div id="divSelectPessoa" class="col-lg-6 form-item">
+						<label for="participante" class="control-label">Participante</label>
+						<select id="selectPessoa" name="selectParticipante" class="form-control" th:field="*{participante}">
+							<option value="" selected="selected">A Selecionar...</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<div class="funcaoOutra form-item col-lg-4">
+						<label for="descricaoFuncao" class="control-label">* Descrição da Função</label>
+						<input id="descricaoFuncao" name="descricaoFuncao" class="form-control" th:field="*{descricaoFuncao}" type="text"/>
+					</div>
+					<div class="funcaoOutra form-item col-lg-4">
+						<label for="nomeParticipante" class="control-label">* Nome do Participante</label>
+						<input id="nomeParticipante" type="text" name="nomeParticipante" class="form-control" th:field="*{nomeParticipante}" /> 
+					</div>
+					
+					<div class="funcaoOutra form-item col-lg-4">
+						<label for="cpfParticipante" class="control-label">* CPF do Participante</label>
+						<input id="cpfParticipante" type="text" name="cpfParticipante" class="form-control" th:field="*{cpfParticipante}" pattern="^[0-9]+$"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<div class="col-lg-6 form-item">
+						<label for="instituicao" class="control-label">Instituição</label>
+						<select id="selectInstituicao" class="form-control" required="required" th:field="*{instituicao}">
+							<option th:each="instituicao : ${instituicoes}" th:value="${instituicao}" th:text="${instituicao.descricao}" />
+						</select>
+					</div>
+					<div id="divNomeInstituicao" class="col-lg-6 form-item">
+						<label for="nomeInstituicao" class="control-label">* Nome da Instituição</label> 
+						<input id="nomeInstituicao" type="text" name="nomeInstituicao" class="form-control" th:field="*{nomeInstituicao}" />
+					</div>
+				</div>
+			</div>
+			<div class="box-footer text-center">
+				<input id="submitParticipacao" name="salvar" type="submit" class="btn btn-primary btn-flat" value="Salvar" />
+				<a id="cancelarNovaParticipacao" class="btn btn-default btn-flat">Cancelar</a>
+			</div>
+		</form>
+		<div class="box-body with-border" id="resultsBlock"></div>
+	</div>
+	<div class="box-footer">
+		<button id="buttonAdicionarParticipacao" type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
+	</div>
+</div>
+</html>

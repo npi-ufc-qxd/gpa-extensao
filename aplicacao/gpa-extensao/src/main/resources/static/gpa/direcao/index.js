@@ -11,8 +11,10 @@ $(document).ready(function() {
 		$(this).find(".small-box").toggleClass("bg-blue bg-aqua");
 	});
 	
+	$(".parecer").fadeIn(500);
+	
 	$("#parecer-card").on("click", function(){
-		$(".parecer").show();
+		$(".parecer").fadeIn(500);
 		$(".relato").hide();
 		$(".homologacao").hide();
 		$(".homologado").hide();
@@ -20,7 +22,7 @@ $(document).ready(function() {
 	
 	$("#relato-card").on("click", function(){
 		$(".parecer").hide();
-		$(".relato").show();
+		$(".relato").fadeIn(500);
 		$(".homologacao").hide();
 		$(".homologado").hide();
 	})
@@ -28,7 +30,7 @@ $(document).ready(function() {
 	$("#homologacao-card").on("click", function(){
 		$(".parecer").hide();
 		$(".relato").hide();
-		$(".homologacao").show();
+		$(".homologacao").fadeIn(500);
 		$(".homologado").hide();
 	})
 	
@@ -36,7 +38,7 @@ $(document).ready(function() {
 		$(".parecer").hide();
 		$(".relato").hide();
 		$(".homologacao").hide();
-		$(".homologado").show();
+		$(".homologado").fadeIn(500);
 	})
 
 	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";

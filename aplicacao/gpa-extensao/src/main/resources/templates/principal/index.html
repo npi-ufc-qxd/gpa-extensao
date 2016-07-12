@@ -21,7 +21,7 @@
           					<div class="small-box bg-blue cursor-pointer">
             					<div class="inner">
               						<h3 th:text="${acoesTramitacao.size() + acoesNovas.size()}"></h3>
-              						<p>Tramitação</p>
+              						<p>Tramitação e Novas</p>
             					</div>
             					<div class="icon">
               						<i class="fa fa-folder-open-o"></i>
@@ -34,7 +34,7 @@
           					<div class="small-box bg-aqua cursor-pointer">
             					<div class="inner">
               						<h3 th:text="${acoesHomologadas.size()}"></h3>
-              						<p>Homologação</p>
+              						<p>Homologadas</p>
             					</div>
             					<div class="icon">
               						<i class="fa fa-folder-o"></i>
@@ -76,7 +76,7 @@
       				<span th:text="${erro}"></span>
       			</div>
       			
-				<div class="row tramitacao">
+				<div class="row tramitacao" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -112,7 +112,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row novos">
+	  			<div class="row novos" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -145,7 +145,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row homologados">
+	  			<div class="row homologados" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -178,7 +178,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row parecerRelator">
+	  			<div class="row parecerRelator" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -211,7 +211,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row parecerTecnico">
+	  			<div class="row parecerTecnico" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -244,7 +244,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row participacao">
+	  			<div class="row participacao" style="display: none">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">

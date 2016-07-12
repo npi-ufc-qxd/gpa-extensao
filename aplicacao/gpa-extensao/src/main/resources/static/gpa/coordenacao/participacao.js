@@ -8,12 +8,12 @@ $(document).ready(function() {
 	$("#formNovaParticipacao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function() {
-		$("#formNovaParticipacao").show("slow");
+		$("#formNovaParticipacao").fadeIn(500);
 		$("#buttonAdicionarParticipacao").attr('disabled','disabled');
 	});
 	
 	$("#cancelarNovaParticipacao").click(function() {
-		$("#formNovaParticipacao").hide("slow");
+		$("#formNovaParticipacao").hide();
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
@@ -29,9 +29,9 @@ $(document).ready(function() {
 		if(funcao == "OUTRA") {
 			reset();
 			$("#selectPessoa").attr("selectedIndex", -1);
-			$("#divSelectPessoa").hide("slow");
+			$("#divSelectPessoa").hide();
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
-			$(".funcaoOutra").show("slow");
+			$(".funcaoOutra").fadeIn(500);
 			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "ALUNO_VOLUNTARIO") {
 			reset();
@@ -45,8 +45,8 @@ $(document).ready(function() {
 	
 	function reset() {
 		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$(".funcaoOutra").hide("slow");
-		$("#divSelectPessoa").show("slow");
+		$(".funcaoOutra").hide();
+		$("#divSelectPessoa").fadeIn(500);
 	}
 	
 	function buscaPessoas(funcao) {
@@ -84,9 +84,9 @@ $(document).ready(function() {
 	$("#selectInstituicao").change(function() {
 		var instituicao = $("#selectInstituicao").val();
 		if(instituicao != "UFC") {
-			$("#divNomeInstituicao").attr('required', 'required').show("slow");
+			$("#divNomeInstituicao").attr('required', 'required').fadeIn(500);
 		} else {
-			$("#divNomeInstituicao").removeAttr('required').hide("slow");
+			$("#divNomeInstituicao").removeAttr('required').hide();
 			$("#nomeInstituicao").val(null);
 		}
 	});
@@ -105,10 +105,22 @@ $(document).ready(function() {
 	});
 	
 	$("#formNovaParticipacao").bootstrapValidator({
-		feedbackIcons: {
-            invalid: 'glyphicon'
-         },
+		group: ".form-item",
         fields: {
+        	funcao: {
+        		validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+        	},
+        	cargaHoraria: {
+        		validators: {
+                    notEmpty:{
+        				message: "Campo obrigatório"
+        			}
+                }
+        	},
         	descricaoFuncao: {
                 validators: {
                     notEmpty:{
@@ -195,11 +207,13 @@ $(document).ready(function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "dt-center", "targets": [1, 4, 5, 6]},            
-				        {"targets" : 4, "orderable" : false},
-				        {"targets" : 5, "orderable" : false},
+					    {className: "text-center", "targets": [1, 3, 5, 6, 7, 8]},
+					    {"targets" : 4, "orderable" : false},
+					    {"targets" : 5, "orderable" : false},
 				        {"targets" : 6, "orderable" : false},
-				        { "width": "15%", "targets":4 },
+				        {"targets" : 7, "orderable" : false},
+				        {"targets" : 8, "orderable" : false},
+				        { "width": "7%", "targets":4 },
 					],
 					"language": {
 				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
