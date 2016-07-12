@@ -255,6 +255,7 @@
 								<thead>
 	    							<tr>
 	      								<th>TÍTULO</th>
+	      								<th>COORDENADOR</th>
 	      								<th>MODALIDADE</th>
 	      								<th>STATUS</th>
 	      								<th>INÍCIO</th>
@@ -264,6 +265,7 @@
 	  							<tbody>
 	  								<tr th:each="acao : ${acoesParticipacao}">
 	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	  									<td th:text="${acao.coordenador.nome}"></td>
 	  									<td th:text="${acao.modalidade}"></td>
 	  									<td>
 											<span class="label label-primary" th:text="${acao.status.descricao}"></span>

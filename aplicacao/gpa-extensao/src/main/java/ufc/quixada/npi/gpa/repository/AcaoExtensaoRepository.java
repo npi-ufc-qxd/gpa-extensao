@@ -22,7 +22,7 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerTecnico.responsavel.id = :id)")
 	List<AcaoExtensao> getParecerTecnico(@Param("id") Integer id);
 	
-	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id")
+	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id AND ac.coordenador.id != :id")
 	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);
 	
 	List<AcaoExtensao> findByCoordenador(Pessoa pessoa);
