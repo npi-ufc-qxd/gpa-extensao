@@ -33,19 +33,19 @@
 					<td th:if="${participacao.funcao.name()} != 'OUTRA'" th:text="${participacao.funcao.descricao}"></td>
 					<td th:if="${participacao.instituicao.name()} == 'UFC'" th:text="${participacao.instituicao.descricao}"></td>
 					<td th:if="${participacao.instituicao.name()} != 'UFC'" th:text="${participacao.nomeInstituicao}"></td>
-					<td th:text="${participacao.cargaHoraria}+ ' Horas'"></td>
-					<td th:text="'De ' + ${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
+					<td th:text="${participacao.cargaHoraria}+ 'h'"></td>
+					<td th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
 					<td>
-						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-info'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
+						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-default'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
 					</td>
-					<td data-toogle="tooltip" title="excluir"> 
-						<a class="btn btn-danger btn-xs" data-toggle="modal" 
-							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}"
-							><i class="fa fa-trash-o"></i>
+					<td data-toogle="tooltip"> 
+						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
+							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}">
+							<i class="fa fa-trash-o"></i>
 						</a>
 					</td>
-					<td th:if="${participacao.nomeParticipante} == 'a definir'" data-toogle="tooltip" title="vincular bolsista"> 
-						<a class="btn btn-info btn-xs" data-toggle="modal" 
+					<td th:if="${participacao.nomeParticipante} == 'a definir'" data-toogle="tooltip"> 
+						<a class="btn btn-info btn-xs" data-toggle="modal" title="Vincular bolsista"
 							data-target="#vincular-bolsista" th:attr="data-id=${participacao.id}">
 							<i class="fa fa-pencil-square-o"></i>
 						</a>
