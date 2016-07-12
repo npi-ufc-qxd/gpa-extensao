@@ -12,6 +12,11 @@
 			<!-- Main content -->
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
+				<input th:if="${message}" id="message-sucess" type="hidden" th:value="${message}"/>
+       			<!-- Mensagens -->
+	            <div id="message-modal-alert" class="callout callout-success" style="display:none;">
+	         		<h4><i class="icon fa fa-check"></i></h4>
+	       		</div>
 				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
 				
 				
