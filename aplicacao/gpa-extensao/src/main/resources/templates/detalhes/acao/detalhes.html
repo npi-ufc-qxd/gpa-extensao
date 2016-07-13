@@ -60,6 +60,7 @@
 						<h3 class="box-title" th:text="${acaoExtensao.titulo}"></h3>
 					</div>
 					<div id="box-details" class="box-body with-border">
+
 						<div class="row">
 							<div class="col-sm-3">
 								<ul class="list-inline">
@@ -81,6 +82,7 @@
 									<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
 								</div>
 							</div>
+
 							<div class="col-sm-3">
 								<label>Identificador</label>
 								<div th:text="${acaoExtensao.identificador}"></div>
@@ -97,6 +99,7 @@
 									</div>
 								</div>
 							</div>
+
 						</div>
 						<div class="row">
 							<div class="col-sm-3">
@@ -106,11 +109,14 @@
 									<div th:case="false">Não</div>
 								</div>
 							</div>
+
 							<div class="col-sm-9">
 								<label>Vínculo</label>
 								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
 							</div>
+
 						</div>
+						
 						<div class="row">
 							<div class="col-sm-3">
 								<label>Início</label>
@@ -153,6 +159,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div th:replace="detalhes/acao/fragments-detalhes-homologacao :: homologacao-fragment"></div>
 					</div>
 					<div class="box-footer">
 						
@@ -162,8 +170,9 @@
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
-						<a sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acaoExtensao.id}"
-							class="btn btn-primary btn-flat pull-right">Homologar</a>
+						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+							title="Homologar Ação" href="#homologar-form" class="btn btn-primary btn-flat pull-right">Homologar</a>
+					
 					</div>
 				</div> <!-- Box detalhes  -->
       			
