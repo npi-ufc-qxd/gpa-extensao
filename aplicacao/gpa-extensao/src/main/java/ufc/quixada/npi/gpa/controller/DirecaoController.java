@@ -1,6 +1,5 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_HOMOLOGACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
@@ -9,9 +8,9 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,21 +77,18 @@ public class DirecaoController {
 		return PAGINA_INICIAL_DIRECAO;
 	}
 	
-	@RequestMapping(value = "/homologacao/{id}", method = RequestMethod.GET)
-	public String homologacao(@PathVariable("id") Integer id, Model model, Authentication authentication){
-
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(id));
-
-		return PAGINA_HOMOLOGACAO_ACAO_EXTENSAO;	
-	}
 	@RequestMapping(value = "/homologar/{id}", method = RequestMethod.POST)
 	public String homologar(@PathVariable("id") Integer id, @ModelAttribute("acaoextensao") AcaoExtensao acaoExtensao, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		
 		acao.setStatus(acaoExtensao.getStatus());
 		acao.setDataDeHomologacao(acaoExtensao.getDataDeHomologacao());
+		acao.setNumeroProcesso(acaoExtensao.getNumeroProcesso());
+		acao.setObservacaoHomologacao(acaoExtensao.getObservacaoHomologacao());
+		
 		acaoExtensaoRepository.save(acao);
 		
 		redirectAttributes.addFlashAttribute("homologado", true);
-		return "redirect:/detalhes/" + id;
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 }

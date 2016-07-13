@@ -60,5 +60,12 @@ $(document).ready(function() {
 		}
 	});
 	
-	$( "#dataHomologacao" ).datepicker('setDate', new Date());
+	$("#dataHomologacao").datepicker({
+		format: "dd/mm/yyyy",
+	    language: "pt-BR",
+	    autoclose: true,
+	    todayHighlight: true,
+	    maxViewMode: 2,
+	    todayBtn: true
+	});
 });
