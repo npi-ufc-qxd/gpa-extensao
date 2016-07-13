@@ -107,6 +107,7 @@ public class ParecerServiceImpl implements ParecerService {
 				acao.getParecerTecnico().setDataRealizacao(new Date());
 				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
 				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
+				acao.getParecerTecnico().setObservacoes(acaoExtensao.getParecerTecnico().getObservacoes());
 				acao.setStatus(Status.AGUARDANDO_RELATOR);
 				break;
 
@@ -116,6 +117,7 @@ public class ParecerServiceImpl implements ParecerService {
 				acao.getParecerRelator().setDataRealizacao(new Date());
 				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
 				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
+				acao.getParecerRelator().setObservacoes(acaoExtensao.getParecerRelator().getObservacoes());
 				acao.setStatus(Status.AGUARDANDO_HOMOLOGACAO);
 				break;
 

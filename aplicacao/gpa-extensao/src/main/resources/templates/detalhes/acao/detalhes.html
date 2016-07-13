@@ -220,7 +220,7 @@
 							<div id="parecer-tecnico-acoes" class="box-footer with-border"
 								 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
 								
-								<div class="btn-group pull-right">
+								<div class="pull-right">
 										<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
 											id="alterar-parecerista-button" class="btn btn-warning btn-flat" href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar parecerista</a>
 										
@@ -254,7 +254,7 @@
                             <div id="parecer-relator-acoes" class="box-footer with-border"
                             	 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
 									
-								<div class="btn-group pull-right">
+								<div class="pull-right">
 									<a  sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
 										id="alterar-relator-button" class="btn btn-warning btn-flat" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>
 									
