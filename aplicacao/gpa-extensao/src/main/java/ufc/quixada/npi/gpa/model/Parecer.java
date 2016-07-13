@@ -33,6 +33,9 @@ public class Parecer {
 	@Column(columnDefinition="TEXT")
 	private String parecer;
 	
+	@Column(columnDefinition = "TEXT")
+	private String observacoes;
+
 	private Date dataAtribuicao;
 	
 	private Date dataRealizacao;
@@ -89,6 +92,14 @@ public class Parecer {
 
 	public void setParecer(String parecer) {
 		this.parecer = parecer;
+	}
+	
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
 	}
 
 	public Date getDataAtribuicao() {

@@ -43,6 +43,10 @@
 			<dd
 				th:text="${acaoExtensao.parecerTecnico.parecer} ? ${acaoExtensao.parecerTecnico.parecer} : '-'"></dd>
 		</dl>
+		<dl class="dl-horizontal" th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR ${#authentication.name == acaoExtensao.parecerTecnico.responsavel?.cpf}">
+			<dt>Observaçoes:</dt>
+			<dd th:text="${acaoExtensao.parecerTecnico.observacoes} ?: '-'"></dd>
+		</dl>
 		<dl class="dl-horizontal">
 			<dt>Arquivo:</dt>
 			<dd><div th:if="${ acaoExtensao.parecerTecnico.arquivo != null}">
@@ -117,6 +121,10 @@
 					<textarea rows="4" cols="40" id="comentarios-parecerista" class="form-control" th:field="*{parecerTecnico.parecer}" required="required" style="resize: none;"></textarea>
 				</div>
 				<div class="form-group">
+					<label class="control-label" for="observacoes-parecerista">Observações:</label>
+					<textarea rows="4" cols="40" id="observacoes-parecerista" class="form-control" th:field="*{parecerTecnico.observacoes}" style="resize: none;"></textarea>
+				</div>
+				<div class="form-group">
 					<label class="control-label" for="arquivo-parecerista">Arquivo:</label>
 					<input type="file" id="arquivo-parecerista" name="arquivo-parecerista"/>
 				</div>
@@ -166,6 +174,10 @@
 			<dt>Parecer:</dt>
 			<dd
 				th:text="${acaoExtensao.parecerRelator.parecer} ? ${acaoExtensao.parecerRelator.parecer} : '-'"></dd>
+		</dl>
+		<dl class="dl-horizontal" th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acaoExtensao.parecerRelator.responsavel != null} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf})">
+			<dt>Observaçoes:</dt>
+			<dd th:text="${acaoExtensao.parecerRelator.observacoes} ?: '-'"></dd>
 		</dl>
 		<dl class="dl-horizontal">
 			<dt>Arquivo:</dt>
@@ -241,6 +253,10 @@
 				<div class="form-group">
 					<label class="control-label" for="comentarios-relator">Parecer:</label>
 					<textarea rows="4" cols="40" id="comentarios-relator" class="form-control" th:field="*{parecerRelator.parecer}" required="required" style="resize: none;"></textarea>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="observacoes-relator">Observações:</label>
+					<textarea rows="4" cols="40" id="observacoes-relator" class="form-control" th:field="*{parecerRelator.observacoes}" style="resize: none;"></textarea>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="arquivo-relator">Arquivo:</label>
