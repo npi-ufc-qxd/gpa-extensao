@@ -16,6 +16,7 @@
        			<!-- Mensagens -->
 	            <div id="message-modal-alert" class="callout callout-success" style="display:none;">
 	         		<h4><i class="icon fa fa-check"></i></h4>
+	         		<p></p>
 	       		</div>
 				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
 				
@@ -88,18 +89,21 @@
 								<p th:text="${acaoExtensao.identificador}"/>
 							</div>
 							<div class="col-sm-3">
-								<label>Código</label>
-								<div th:text="${acaoExtensao.codigo}">
-									<form action="#" th:action="@{/salvarcodigo/}+${acaoExtensao.id}" method="post" id="codigo-form">
-										<input type="text" id="input-codigo" name="codigoAcao" />
-									</form>
-									<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" id="editar-codigo" class="fa fa-pencil-square-o" aria-hidden="true" 
-											data-toggle="tooltip" title="Editar"></i>
-									</div>
-								</div>
-							</div>
-
+                                <label>Código</label>
+                                <div id="codigo-info">
+                                    <span id="codigo-acao-extensao" th:text="${acaoExtensao.codigo}"></span>
+                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-codigo-acao-extensao" class="fa fa-fw fa-edit" title="Editar o código"></a>
+                                </div>
+                                
+                                <div id="div-codigo-acao-extensao" class="input-group input-group-sm" style="display: none;">
+                                    <input type="text" id="input-codigo-acao-extensao" class="form-control" required="required" placeholder="Código" />
+                                    <span class="input-group-btn">
+                                        <button id="submeter-codigo-acao-extensao" type="button" class="btn btn-success btn-flat" title="Salvar novo código">Salvar</button>
+                                        <button id="cancelar-salvar-codigo-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
+                                    </span>
+                                </div>
+                                <span id="codigo-error" class="text-red" hidden="hidden">Não pode ficar vazio!</span>
+                            </div>
 						</div>
 						<div class="row">
 							<div class="col-sm-3">
@@ -131,19 +135,21 @@
 								<p th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"/>
 							</div>
 							<div class="col-sm-3">
-								<label>Bolsas recebidas</label>
-								<div id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}">
-									<form action="#" th:action="@{/salvarbolsas/}+${acaoExtensao.id}" method="post"
-										id="bolsas-form">
-										<input id="input-bolsas" type="number" min="0"
-											name="bolsasRecebidas" pattern="[0-9]+" />
-									</form>
-									<div th:switch="${acaoExtensao.status.descricao}">
-										<i th:case="APROVADO" id="editar-bolsas" class="fa fa-pencil-square-o" aria-hidden="true"
-											data-toggle="tooltip" title="Editar"></i>
-									</div>
-								</div>
-							</div>
+                                <label>Bolsas recebidas</label>
+                                <div id="numero-bolsas-info" th:fragment="numero-bolsas-info">
+                                    <span id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}"></span>
+                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-numero-bolsas-button" class="fa fa-fw fa-edit" title="Setar o número de bolsas recebidas"></a>
+                                </div>
+                                
+                                <div id="editar-bolsas-recebidas-form" class="input-group input-group-sm" style="display: none;">
+                                    <input type="number" id="input-bolsas-recebidas-acao-extensao" class="form-control" required="required" min="0" pattern="[0-9]+" placeholder="Nº de bolsas" />
+                                    <span class="input-group-btn">
+                                        <button id="salvar-numero-bolsas-button" type="button" class="btn btn-success btn-flat" title="Setar o número de bolsas recebidas">Salvar</button>
+                                        <button id="cancelar-salvar-bolsas-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
+                                    </span>
+                                </div>
+                                <span id="bolsas-recebidas-error" class="text-red" hidden="hidden">Não pode ficar vazio!</span>
+                            </div>
 						</div>
 						
 						<div class="row col-sm-12">
