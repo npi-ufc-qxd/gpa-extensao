@@ -5,15 +5,17 @@ $(document).ready(function(){
     var acaoExtensaoId = $("#acaoExtensaoId").val();
     $(".alert-success").hide();
 	
-    $("#div-codigo-acao-extensao").hide();
-	$("#editar-codigo-acao-extensao").click(function(){
-		if($("#input-codigo-acao-extensao").is(":visible")){
-			$("#div-codigo-acao-extensao").hide();
-		}else{
-			$("#div-codigo-acao-extensao").show();
-		}
+	$("#editar-codigo-acao-extensao").on("click", function(){
+        $("#codigo-info").hide();
+        $("#div-codigo-acao-extensao").fadeIn(500);
     });
-	
+    
+    $("#cancelar-salvar-codigo-button").on("click", function(){
+        $("#div-codigo-acao-extensao").hide();
+        $("#div-codigo-acao-extensao").removeClass("has-error");
+        $("#codigo-error").hide();
+        $("#codigo-info").fadeIn(500);
+    });
 	$("#submeter-codigo-acao-extensao").click(function(e){
 		var codigo = $("#input-codigo-acao-extensao").val();
 		if(codigo!=null && codigo!=""){
@@ -29,21 +31,20 @@ $(document).ready(function(){
 				},
 				success : function(data) {
 					console.log(data.result);
-					if(data.status=="SUCESSO"){
+					if(data.status=="sucesso"){
 						$("#codigo-acao-extensao").text(data.result);
-						$("#div-codigo-acao-extensao").hide('slow');
-					}else{
-						alert("Error");
+						console.log(data.message);
+						$("#div-codigo-acao-extensao").hide();
+				        $("#codigo-info").fadeIn(500);
+				        $("#div-codigo-acao-extensao").removeClass("has-error");
+				        $("#codigo-error").hide();
 					}
 				}
 			});
+		}else{
+			$("#div-codigo-acao-extensao").addClass("has-error");
+			$("#codigo-error").show();
 		}
-	});
-	$("#editar-bolsas").click(function(){
-		$("#input-bolsas").show();
-		$("#bolsas-recebidas").hide();
-		$("#editar-bolsas").hide();
-
 	});
 	
 	 $('#dtCoordenadorInicio').datepicker({

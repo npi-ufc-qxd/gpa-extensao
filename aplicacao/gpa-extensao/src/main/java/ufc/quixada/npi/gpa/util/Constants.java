@@ -90,6 +90,7 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
+	public static final String SUCESSO = "sucesso";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";
 	public static final String MESSAGE = "message";

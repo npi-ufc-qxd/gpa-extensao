@@ -47,6 +47,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
+import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -231,7 +232,7 @@ public class ExtensaoController {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setCodigo(codigo);
 		acaoExtensaoRepository.save(acao);
-		map.put(MESSAGE_STATUS_RESPONSE, "SUCESSO");
+		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
 		map.put(RESPONSE_DATA, codigo);
 		return map;
 	}
@@ -283,13 +284,21 @@ public class ExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
-	@RequestMapping(value = "/salvarbolsas/{id}", method=RequestMethod.POST)
-	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+	@RequestMapping(value = "/salvarBolsas/{idAcao}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("idAcao") Integer idAcao){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(numeroBolsas < 0){
+			map.put(MESSAGE_STATUS_RESPONSE, ERRO);
+			return map;
+		}
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setBolsasRecebidas(numeroBolsas);
 		incluirAlunosBolsistas(acao, numeroBolsas);
 		acaoExtensaoRepository.save(acao);
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
+		map.put(MESSAGE,MESSAGE_EDITADO_SUCESSO);
+		map.put(RESPONSE_DATA, numeroBolsas);
+		return map;
 	}
 	
 	private void incluirAlunosBolsistas(AcaoExtensao acao, Integer numeroBolsas) {
