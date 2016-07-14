@@ -9,7 +9,7 @@
 		<div class="attachment-text">
 			<form role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoExtensao.id}" th:object="${acaoExtensao}">
 				<div class="row form-group">
-					<div class="col-sm-6">
+					<div class="col-sm-4">
 						<label class="label-control">Resultado: </label>
 						<select th:field="*{status}"
 							class="form-control" required="required">
@@ -18,9 +18,17 @@
 							<option value="REPROVADO">Reprovado</option>
 						</select>
 					</div>
-					<div class="col-sm-6">
+					<div class="col-sm-4">
 						<label class="label-control">Data de Homologação: </label>
-						<input type="text" id="dataHomologacao" th:field="*{dataDeHomologacao}" class="form-control" autocomplete="off" />
+						<input type="text" id="dataHomologacao" th:field="*{dataDeHomologacao}" class="form-control" required="required" autocomplete="off" />
+					</div>
+					<div class="col-sm-4">
+						<label class="label-control">Número do Processo: </label>
+						<input type="text" th:field="*{numeroProcesso}" class="form-control" required="required"/>
+					</div>
+					<div class="col-sm-12">
+						<label class="label-control">Observação: </label>
+						<textarea th:field="*{observacaoHomologacao}" class="form-control" maxlength="255"></textarea>
 					</div>
 				</div>
 				<div class="text-center">

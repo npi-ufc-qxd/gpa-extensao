@@ -63,7 +63,12 @@ public class AcaoExtensao {
 	
 	private Integer bolsasSolicitadas;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dataDeHomologacao;
+	
+	private String observacaoHomologacao;
+	
+	private String numeroProcesso;
 	
 	private Integer bolsasRecebidas;
 	
@@ -271,6 +276,22 @@ public class AcaoExtensao {
 	public void setDataDeHomologacao(Date dataDeHomologacao) {
 		this.dataDeHomologacao = dataDeHomologacao;
 	}
+	
+	public String getObservacaoHomologacao() {
+		return observacaoHomologacao;
+	}
+
+	public void setObservacaoHomologacao(String observacaoHomologacao) {
+		this.observacaoHomologacao = observacaoHomologacao;
+	}
+
+	public String getNumeroProcesso() {
+		return numeroProcesso;
+	}
+
+	public void setNumeroProcesso(String numeroProcesso) {
+		this.numeroProcesso = numeroProcesso;
+	}
 
 	public Integer getBolsasRecebidas() {
 		return bolsasRecebidas;
@@ -336,5 +357,4 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-
 }

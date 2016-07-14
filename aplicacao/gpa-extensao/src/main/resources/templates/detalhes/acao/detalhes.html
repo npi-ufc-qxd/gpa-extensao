@@ -66,7 +66,7 @@
 								<ul class="list-inline">
 									<li>
 										<label>Coordenador</label>
-										<div th:text="${acaoExtensao.coordenador.nome}"></div>
+										<p th:text="${acaoExtensao.coordenador.nome}"/>
 									</li>
 									<li>
 										<div th:if="${acaoExtensao.status.name()} == 'APROVADO' and ${#authentication.name == acaoExtensao.coordenador.cpf}">
@@ -85,7 +85,7 @@
 
 							<div class="col-sm-3">
 								<label>Identificador</label>
-								<div th:text="${acaoExtensao.identificador}"></div>
+								<p th:text="${acaoExtensao.identificador}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Código</label>
@@ -112,7 +112,7 @@
 
 							<div class="col-sm-9">
 								<label>Vínculo</label>
-								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
+								<p th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"/>
 							</div>
 
 						</div>
@@ -120,15 +120,15 @@
 						<div class="row">
 							<div class="col-sm-3">
 								<label>Início</label>
-								<div id="dataInicio" th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></div>
+								<p id="dataInicio" th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Término</label>
-								<div id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
+								<p id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Bolsas solicitadas</label>
-								<div th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></div>
+								<p th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Bolsas recebidas</label>
@@ -145,18 +145,23 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<label>Resumo</label>
-								<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
-							</div>
+						
+						<div class="row col-sm-12">
+							<label>Resumo</label>
+							<p th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></p>
 						</div>
-						<div class="row">
-                            <div class="col-sm-12">
-                                <label>Arquivo</label>
-                                <div th:if="${acaoExtensao.anexo} != null">
-                                    <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
-                                </div>
+						<div class="row col-sm-4">
+							<label>Número do Processo</label>
+							<p th:if="${acaoExtensao.numeroProcesso} != null" th:text="${acaoExtensao.numeroProcesso}"></p>
+						</div>
+						<div class="row col-sm-8">
+							<label>Observação</label>
+							<p th:if="${acaoExtensao.observacaoHomologacao} != null" th:text="${acaoExtensao.observacaoHomologacao}"></p>
+						</div>
+                        <div class="row col-sm-12">
+                            <label>Arquivo</label>
+                            <div th:if="${acaoExtensao.anexo} != null">
+                                <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
                             </div>
                         </div>
                         
