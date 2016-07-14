@@ -35,9 +35,13 @@ public class AuthenticationProviderExtensao implements AuthenticationProvider {
         
         Pessoa pessoa = pessoaRepository.findByCpf(cpf);
         
+        if(pessoa == null) {
+        	throw new BadCredentialsException(Constants.LOGIN_INVALIDO);
+        }
+        
         Collection<? extends GrantedAuthority> authorities = pessoa.getAuthorities();
         
-        if (pessoaRepository.findByCpf(cpf) == null || !usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
+        if (!usuarioService.autentica(cpf, password) || authorities == null || authorities.isEmpty()) {
             throw new BadCredentialsException(Constants.LOGIN_INVALIDO);
         }
         

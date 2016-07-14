@@ -95,4 +95,15 @@ $(document).ready(function(){
 		$("#emitir-relato-form").hide();
 		$("#parecer-relator-info").show(1000);
 	});
+	
+	$("#homologar-button").on("click", function(){
+		$("#homologar-form").show(1000);
+		$(this).hide();
+	});
+	
+	$("#cancelar-homologacao-button").on("click", function(){
+		$("#homologar-form").fadeOut("slow", function(){
+			$("#homologar-button").show("slow");
+		});
+	});
 });

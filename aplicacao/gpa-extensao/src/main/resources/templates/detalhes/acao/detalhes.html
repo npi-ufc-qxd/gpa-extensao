@@ -61,12 +61,13 @@
 						<h3 class="box-title" th:text="${acaoExtensao.titulo}"></h3>
 					</div>
 					<div id="box-details" class="box-body with-border">
+
 						<div class="row">
 							<div class="col-sm-3">
 								<ul class="list-inline">
 									<li>
 										<label>Coordenador</label>
-										<div th:text="${acaoExtensao.coordenador.nome}"></div>
+										<p th:text="${acaoExtensao.coordenador.nome}"/>
 									</li>
 									<li>
 										<div th:if="${acaoExtensao.status.name()} == 'APROVADO' and ${#authentication.name == acaoExtensao.coordenador.cpf}">
@@ -82,9 +83,10 @@
 									<span class="label label-primary" th:text="${acaoExtensao.status.descricao}"></span>
 								</div>
 							</div>
+
 							<div class="col-sm-3">
 								<label>Identificador</label>
-								<div th:text="${acaoExtensao.identificador}"></div>
+								<p th:text="${acaoExtensao.identificador}"/>
 							</div>
 							<div class="col-sm-3">
                                 <label>Código</label>
@@ -111,23 +113,26 @@
 									<div th:case="false">Não</div>
 								</div>
 							</div>
+
 							<div class="col-sm-9">
 								<label>Vínculo</label>
-								<div th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"></div>
+								<p th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"/>
 							</div>
+
 						</div>
+						
 						<div class="row">
 							<div class="col-sm-3">
 								<label>Início</label>
-								<div id="dataInicio" th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"></div>
+								<p id="dataInicio" th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Término</label>
-								<div id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"></div>
+								<p id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Bolsas solicitadas</label>
-								<div th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"></div>
+								<p th:if="${acaoExtensao.bolsasSolicitadas} != null" th:text="${acaoExtensao.bolsasSolicitadas}"/>
 							</div>
 							<div class="col-sm-3">
                                 <label>Bolsas recebidas</label>
@@ -146,29 +151,39 @@
                                 <span id="bolsas-recebidas-error" class="text-red" hidden="hidden">Não pode ficar vazio!</span>
                             </div>
 						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<label>Resumo</label>
-								<div th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></div>
-							</div>
+						
+						<div class="row col-sm-12">
+							<label>Resumo</label>
+							<p th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></p>
 						</div>
-						<div class="row">
-                            <div class="col-sm-12">
-                                <label>Arquivo</label>
-                                <div th:if="${acaoExtensao.anexo} != null">
-                                    <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
-                                </div>
+						<div class="row col-sm-4">
+							<label>Número do Processo</label>
+							<p th:if="${acaoExtensao.numeroProcesso} != null" th:text="${acaoExtensao.numeroProcesso}"></p>
+						</div>
+						<div class="row col-sm-8">
+							<label>Observação</label>
+							<p th:if="${acaoExtensao.observacaoHomologacao} != null" th:text="${acaoExtensao.observacaoHomologacao}"></p>
+						</div>
+                        <div class="row col-sm-12">
+                            <label>Arquivo</label>
+                            <div th:if="${acaoExtensao.anexo} != null">
+                                <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
                             </div>
                         </div>
+                        
+                        <div th:replace="detalhes/acao/fragments-detalhes-homologacao :: homologacao-fragment"></div>
 					</div>
 					<div class="box-footer">
 						
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modalexcluir">Excluir</button>
-						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO'} or ${acaoExtensao.status.name() == 'RESOLVENDO PENDÊNCIAS DO PARECER'} or ${acaoExtensao.status.name() == 'RESOLVENDO RESTRIÇÕES DO RELATO'})"
+						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
-						<a th:if="${acaoExtensao.status.descricao == 'NOVO'}" class="btn btn-primary btn-flat pull-right"
-							th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
+							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+							title="Homologar Ação" href="#homologar-form" class="btn btn-primary btn-flat pull-right">Homologar</a>
+					
 					</div>
 				</div> <!-- Box detalhes  -->
       			
@@ -185,7 +200,11 @@
     				</div>
     				<div id="tableResultsBlock" class="box-body with-border"></div>
     				<div class="box-footer">
-    					<button class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar</button>
+    					<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' 
+    						OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
+    						'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
+    						class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
+    					</button>
     				</div>
    				</div>
       			
@@ -212,7 +231,7 @@
 							<div id="parecer-tecnico-acoes" class="box-footer with-border"
 								 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
 								
-								<div class="btn-group pull-right">
+								<div class="pull-right">
 										<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
 											id="alterar-parecerista-button" class="btn btn-warning btn-flat" href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar parecerista</a>
 										
@@ -246,7 +265,7 @@
                             <div id="parecer-relator-acoes" class="box-footer with-border"
                             	 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
 									
-								<div class="btn-group pull-right">
+								<div class="pull-right">
 									<a  sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
 										id="alterar-relator-button" class="btn btn-warning btn-flat" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>
 									

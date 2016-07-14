@@ -261,7 +261,6 @@
 											<th>Coordenador</th>
 											<th>Modalidade</th>
 											<th>Status</th>
-											<th></th>
 										</tr>
 									</thead>
 
@@ -274,11 +273,6 @@
 											<td th:text="${acao.modalidade.descricao}"></td>
 											<td>
 												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
-											</td>
-											<td class="acoes" align="center">
-												<a title="Homologar Ação" th:href="@{/direcao/homologacao/} + ${acao.id}">
-													<button class="btn btn-primary btn-xs"><i class="fa fa-gavel"></i></button>
-												</a>
 											</td>
 										</tr>
 
