@@ -3,7 +3,6 @@ $(document).ready(function() {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var acaoExtensaoId = $("#acaoExtensaoId").val();
 	carregarTabelaParceriasExternas();
-	buscarParceiros();
 	$("#outrasFormasCheckBox").change(function(){
 		if($(this).is(":checked")){
 			$("#divDescricaoOutrasFormas").show();
@@ -121,6 +120,7 @@ $(document).ready(function() {
 	});
 	$("#adicionarNovaParceriaExterna").click(function(e){
 		$("#parceria-externa-form-div").show();
+		buscarParceiros();
 		e.preventDefault();
 	});
 	$("#cancelarAdicaoParceriaExterna").click(function(e){

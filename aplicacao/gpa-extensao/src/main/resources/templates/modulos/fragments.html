@@ -109,6 +109,13 @@
 			</a></li>
 			
 		</ul>
+		
+		<ul class="sidebar-menu">
+			<li class="header">BUSCAR</li>
+			<li class="menu-item"><a th:href="@{/buscar/acao-extensao}"> <i class="fa fa-search"></i>
+				<span>Ações</span><span class="label label-primary pull-right"></span></a>
+			</li>
+		</ul>
 		<!-- /.sidebar-menu-direção -->
 	</section>
 	<!-- /.sidebar -->
@@ -141,6 +148,9 @@
 	<script th:src="@{/js/detalhes-acao.js}"></script>
 	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
 	<script th:src="@{/gpa/coordenacao/participacao.js}"></script>
+	
+	<!-- Pagina de busca -->
+	<script th:src="@{/gpa/busca/buscar-acao.js}"></script>
 	
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
