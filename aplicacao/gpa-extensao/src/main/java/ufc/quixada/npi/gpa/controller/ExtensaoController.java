@@ -225,7 +225,7 @@ public class ExtensaoController {
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method=RequestMethod.GET)
 	public @ResponseBody Map<String, Object> salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao){
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(codigo==null || codigo.equals("")){
+		if(codigo.isEmpty() || ("").equals(codigo)){
 			map.put(ERRO, "Valor invalido");
 			return map;
 		}
