@@ -48,6 +48,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -226,7 +227,7 @@ public class ExtensaoController {
 	public @ResponseBody Map<String, Object> salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao){
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(codigo.isEmpty() || ("").equals(codigo)){
-			map.put(ERRO, "Valor invalido");
+			map.put(ERRO, VALOR_INVALIDO);
 			return map;
 		}
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
