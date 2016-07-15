@@ -90,6 +90,7 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
+	public static final String SUCESSO = "sucesso";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";
 	public static final String MESSAGE = "message";
@@ -107,6 +108,7 @@ public class Constants {
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
+	public static final String VALOR_INVALIDO = "Valor inválido!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	
