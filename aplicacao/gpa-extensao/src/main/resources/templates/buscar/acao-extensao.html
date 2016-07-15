@@ -28,7 +28,7 @@
 								</div>
 								<div class="form-group col-sm-4">
 									<label class="control-label">Modalidade</label>
-									<select id="kkkkkkk" name="modalidade" class="form-control">
+									<select id="modalidadeSelect" name="modalidade" class="form-control">
 										<option value="" selected="selected">Selecionar modalidade...</option>
 										<option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
 									</select>

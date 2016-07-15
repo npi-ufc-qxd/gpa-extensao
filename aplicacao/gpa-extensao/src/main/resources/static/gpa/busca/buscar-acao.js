@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#selectCoordenador,#kkkkkkk").select2();
+	$("#selectCoordenador,#modalidadeSelect").select2();
 	
 	$("#tableAcoes").DataTable({
 		"order" : [[ 0, "asc" ]],
