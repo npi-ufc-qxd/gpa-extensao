@@ -40,7 +40,6 @@ public final class AcaoExtensaoEspecification {
 						predicate = builder.and(predicate, builder.lessThanOrEqualTo(root.<Date>get("inicio"), finalAno));
 						predicate = builder.and(predicate, builder.greaterThanOrEqualTo(root.<Date>get("termino"), inicioAno));
 					} catch (ParseException e) {
-						e.printStackTrace();
 					}
 				}
 				

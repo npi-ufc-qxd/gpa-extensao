@@ -1,5 +1,13 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -19,34 +27,34 @@ import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Controller
-@RequestMapping("buscar")
+@RequestMapping(BUSCAR)
 @Transactional
 public class BuscarController {
 	
 	@Autowired
-	ServidorRepository servidorRespository;
+	private ServidorRepository servidorRespository;
 	
 	@Autowired
-	AcaoExtensaoRepository acaoExtensaoRepository;
+	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
-	PessoaRepository pessoaRepository;
+	private PessoaRepository pessoaRepository;
 
-	@RequestMapping("/acao-extensao")
+	@RequestMapping(PAGINA_ACAO_EXTENSAO)
 	public String buscarAcaoForm(Model model) {
-		model.addAttribute("coordenadores", servidorRespository.findAll());
-		model.addAttribute("acoes", acaoExtensaoRepository.findByStatus(Status.APROVADO));
-		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute(COORDENADORES, servidorRespository.findAll());
+		model.addAttribute(ACOES, acaoExtensaoRepository.findByStatus(Status.APROVADO));
+		model.addAttribute(MODALIDADES, Modalidade.values());
 		
-		return "buscar/acao-extensao";
+		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 	
-	@RequestMapping(value="/acao-extensao", method = RequestMethod.POST)
+	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, method = RequestMethod.POST)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador, @RequestParam("modalidade") Modalidade modalidade,
 			@RequestParam("ano") Integer ano, Model model)  {
 		
 		if(idCoordenador == null && modalidade == null && ano == null) {
-			return "redirect:/buscar/acao-extensao";
+			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
 		
 		Pessoa coordenador = null;
@@ -56,11 +64,11 @@ public class BuscarController {
 		}
 		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, ano);
 		
-		model.addAttribute("acoes", acaoExtensaoRepository.findAll(specification));
-		model.addAttribute("coordenadores", servidorRespository.findAll());
-		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
+		model.addAttribute(COORDENADORES, servidorRespository.findAll());
+		model.addAttribute(MODALIDADES, Modalidade.values());
 		
 		
-		return "buscar/acao-extensao";
+		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 }
