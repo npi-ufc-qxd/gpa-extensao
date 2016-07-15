@@ -3,6 +3,8 @@ package ufc.quixada.npi.gpa.repository;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +16,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
-public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer> {
+public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer>, JpaSpecificationExecutor<AcaoExtensao> {
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
 	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
@@ -38,4 +40,9 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.status !=:status")
 	Integer countAcoesTramitacao(@Param("status") Status status);
+	
+	List<AcaoExtensao> findAll(Specification<AcaoExtensao> spec);
+	
+	List<AcaoExtensao> findByStatus(Status status);
+	
 }

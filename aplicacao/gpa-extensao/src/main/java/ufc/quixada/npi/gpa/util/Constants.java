@@ -23,6 +23,7 @@ public class Constants {
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
 	public static final String MODALIDADES = "modalidades";
+	public static final String ACOES = "acoes";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -46,7 +47,7 @@ public class Constants {
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACTION = "action";
 	public static final String SUBMETER = "submeter";
-
+	public static final String BUSCAR = "buscar";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
 	public static final String DEDICACAO = "dedicacao";
@@ -59,6 +60,7 @@ public class Constants {
 	public static final String PENDENTE = "pendente";
 	public static final String ERROR_UPPERCASE = "ERROR";
 	public static final String OK_UPPERCASE = "OK";
+	public static final String COORDENADORES = "coordenadores";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -70,6 +72,8 @@ public class Constants {
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
+	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
+	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
@@ -79,6 +83,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
+	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
