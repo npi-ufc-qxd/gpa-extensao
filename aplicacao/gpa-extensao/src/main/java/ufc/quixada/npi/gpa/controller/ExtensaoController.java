@@ -43,7 +43,9 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 
 import java.text.DateFormat;
@@ -51,6 +53,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +78,8 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Papel;
+import ufc.quixada.npi.gpa.model.Papel.Tipo;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Parecer;
@@ -92,6 +97,7 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
+import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 @Controller
 @Transactional
@@ -122,6 +128,9 @@ public class ExtensaoController {
 	@Autowired
 	private DirecaoService direcaoService;
 	
+	@Autowired
+	private ParticipacaoService participacaoService;
+	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
@@ -137,9 +146,30 @@ public class ExtensaoController {
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
 	
-	@RequestMapping("/")
-	public String listagem(Model model, Authentication authentication) {
+	@RequestMapping(value = "/")
+	public String index(Authentication authentication){
+		Collection<Papel> papeis = (Collection<Papel>) authentication.getAuthorities();
 		
+		List<Tipo> tipos = new ArrayList<Tipo>();
+		for(Papel p : papeis){
+			tipos.add(p.getNome());
+		}
+		
+		if(tipos.contains(Tipo.ADMINISTRACAO)){
+			return REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
+			
+		}else if(tipos.contains(Tipo.DIRECAO)){
+			return REDIRECT_PAGINA_INICIAL_DIRECAO;
+			
+		}else if(tipos.contains(Tipo.SERVIDOR)){
+			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping("/listagem")
+	public String listagem(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
 		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
 				Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
@@ -164,7 +194,7 @@ public class ExtensaoController {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
 		
-		return REDIRECT_PAGINA_INICIAL;
+		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 	}
 
 	@Transactional(readOnly = true)
@@ -176,7 +206,7 @@ public class ExtensaoController {
 			
 		if(acao == null){
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL;
+			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 		}
 
 		model.addAttribute(PARCEIRO, new Parceiro());
@@ -237,7 +267,7 @@ public class ExtensaoController {
 		
 		if(acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL;
+			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 		}
 		
 		Pessoa velhoCoordenador = acao.getCoordenador();
@@ -264,7 +294,7 @@ public class ExtensaoController {
 		}
 		
 		acao.setCoordenador(novoCoordenador);
-		Participacao pNovaNovoCoordenador = participacaoCoordenador(acao, cargaHoraria);
+		Participacao pNovaNovoCoordenador = participacaoService.participacaoCoordenador(acao, cargaHoraria);
 		pNovaNovoCoordenador.setDataInicio(dataI);
 		
 		participacaoRepository.save(pNovaNovoCoordenador);
@@ -328,7 +358,7 @@ public class ExtensaoController {
 		try {
 			acaoExtensao.setCoordenador(coordenador);
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
-			participacaoCoordenador(acaoExtensao, cargaHoraria);
+			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 			return PAGINA_SUBMETER_ACAO_EXTENSAO;
@@ -338,33 +368,6 @@ public class ExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();		
 
 	}
-	
-	private Participacao participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
-		
-		Participacao participacao = new Participacao();
-		participacao.setAcaoExtensao(acaoExtensao);
-		participacao.setCoordenador(true);
-		participacao.setCargaHoraria(cargaHoraria);
-		participacao.setCpfParticipante("");
-		participacao.setDataInicio(acaoExtensao.getInicio());
-		participacao.setDataTermino(acaoExtensao.getTermino());
-		participacao.setDescricaoFuncao("");
-		participacao.setInstituicao(Instituicao.UFC);
-		participacao.setNomeInstituicao("");
-		participacao.setNomeParticipante("");
-		participacao.setParticipante(acaoExtensao.getCoordenador());
-		
-		Servidor servidor = servirdorRepository.findByPessoa_cpf(acaoExtensao.getCoordenador().getCpf());
-		if(servidor.getFuncao().equals(Servidor.Funcao.DOCENTE)){
-			participacao.setFuncao(Funcao.DOCENTE);
-		}else if(servidor.getFuncao().equals(Servidor.Funcao.STA)){
-			participacao.setFuncao(Funcao.STA);
-		}
-		
-		participacaoRepository.save(participacao);
-		return participacao;
-	}
-	
 	
 	@RequestMapping("/submeter/{idAcao}")
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model){

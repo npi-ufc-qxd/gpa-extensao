@@ -70,6 +70,7 @@ public class Constants {
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
+	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
@@ -78,7 +79,9 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
-	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
+	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
+	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
+	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/admin/cadastrar";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
