@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="modulos/fragments :: head"></head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"> Detalhes do bolsista</h3>
+					</div>
+					<div class="box-body with-border">
+						<div class="col-sm-3">
+							<label>Nome:</label>
+							<div>
+								<p th:text="${aluno.pessoa.nome}"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label>Matrícula:</label>
+							<div>
+								<p th:text="${aluno.matricula}"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label>Curso:</label>
+							<div>
+								<p th:text="${aluno.curso}"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer th:replace="modulos/fragments :: footer"></footer>
+	</div>
+</body>
+</html>
