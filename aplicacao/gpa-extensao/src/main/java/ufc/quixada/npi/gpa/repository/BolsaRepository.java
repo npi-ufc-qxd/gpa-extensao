@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
 
 public interface BolsaRepository extends CrudRepository<Bolsa, Integer>{
 	List<Bolsa> findAll();
+	List<Bolsa> findByBolsista(Aluno aluno);
 }

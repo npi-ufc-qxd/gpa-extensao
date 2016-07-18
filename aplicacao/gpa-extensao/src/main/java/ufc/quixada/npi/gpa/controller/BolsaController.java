@@ -6,6 +6,9 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +35,7 @@ import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 
 @Controller
@@ -48,6 +52,8 @@ public class BolsaController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
+	@Autowired
+	private BolsaRepository bolsaRepository;
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
@@ -79,7 +85,9 @@ public class BolsaController {
 	}
 	@RequestMapping(value="/detalhes/{id}",method=RequestMethod.GET)
 	public String detalhesBolsista(@PathVariable("id") Integer idAluno, Model model){
-		model.addAttribute("aluno", alunoRepository.findOne(idAluno));
-		return "/detalhes/bolsista/detalhes-bolsista";
+		Aluno aluno = alunoRepository.findOne(idAluno);
+		model.addAttribute(ALUNO, aluno);
+		model.addAttribute(BOLSAS, bolsaRepository.findByBolsista(aluno));
+		return PAGINA_DETALHES_BOLSISTA;
 	}
 }

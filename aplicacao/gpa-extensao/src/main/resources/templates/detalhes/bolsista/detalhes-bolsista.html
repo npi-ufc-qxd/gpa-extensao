@@ -33,7 +33,20 @@
 								<p th:text="${aluno.curso}"></p>
 							</div>
 						</div>
-						<div>
+					</div>
+				</div>
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"> Bolsas</h3>
+					</div>
+					<div class="box-body with-border">
+						<div th:if="${#lists.isEmpty(bolsas)}">
+							<div class="callout callout-info">
+								<h4>Informação!</h4>
+								<p>Nenhum bolsa registrada para esse estudante.</p>
+							</div>
+						</div>
+						<div th:unless="${#lists.isEmpty(bolsas)}" class="col-md-12 table-responsive">
 							<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
 								<thead>
 									<tr>
@@ -41,6 +54,7 @@
 										<th>Nome da Acão de Extensão</th>
 										<th>Início da Bolsa</th>
 										<th>Término da Bolsa</th>
+										<th>Exercendo Função?</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -54,6 +68,10 @@
 										<td>
 											<p th:if="${bolsa.termino} !=null" th:text="${bolsa.termino}"></p>
 											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
+										</td>
+										<td>
+											<p th:if="${bolsa.ativo}">SIM</p>
+											<p th:if="!${bolsa.ativo}">NÃO</p>
 										</td>
 									</tr>
 								</tbody>
