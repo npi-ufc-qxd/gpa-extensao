@@ -338,6 +338,7 @@ public class ExtensaoController {
 		
 		try {
 			acaoExtensao.setCoordenador(coordenador);
+			acaoExtensao.setAtivo(true);
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
 			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {

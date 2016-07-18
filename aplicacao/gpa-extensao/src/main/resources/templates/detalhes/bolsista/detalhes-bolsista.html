@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="modulos/fragments :: head"></head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"> Detalhes do bolsista</h3>
+					</div>
+					<div class="box-body with-border">
+						<div class="col-sm-3">
+							<label>Nome:</label>
+							<div>
+								<p th:text="${aluno.pessoa.nome}"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label>Matrícula:</label>
+							<div>
+								<p th:text="${aluno.matricula}"></p>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<label>Curso:</label>
+							<div>
+								<p th:text="${aluno.curso}"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title"> Bolsas</h3>
+					</div>
+					<div class="box-body with-border">
+						<div th:if="${#lists.isEmpty(bolsas)}">
+							<div class="callout callout-info">
+								<h4>Informação!</h4>
+								<p>Nenhum bolsa registrada para esse estudante.</p>
+							</div>
+						</div>
+						<div th:unless="${#lists.isEmpty(bolsas)}" class="col-md-12 table-responsive">
+							<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Nome da Acão de Extensão</th>
+										<th>Início da Bolsa</th>
+										<th>Término da Bolsa</th>
+										<th>Exercendo Função?</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="bolsa, rowStat : ${bolsas}" id="row+${rowStat.count}">
+										<td th:text="${rowStat.count}"></td>
+										<td th:text="${bolsa.acaoExtensao.titulo}"></td>
+										<td>
+											<p th:if="${bolsa.inicio} !=null" th:text="${bolsa.inicio}"></p>
+											<span th:if="${bolsa.inicio}==null" class="glyphicon glyphicon-minus"></span>
+										</td>
+										<td>
+											<p th:if="${bolsa.termino} !=null" th:text="${bolsa.termino}"></p>
+											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
+										</td>
+										<td>
+											<p th:if="${bolsa.ativo}">SIM</p>
+											<p th:if="!${bolsa.ativo}">NÃO</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer th:replace="modulos/fragments :: footer"></footer>
+	</div>
+</body>
+</html>

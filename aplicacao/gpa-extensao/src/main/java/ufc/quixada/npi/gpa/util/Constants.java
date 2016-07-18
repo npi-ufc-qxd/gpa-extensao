@@ -31,6 +31,8 @@ public class Constants {
 	public static final String ACOES_AGUARDANDO_HOMOLOGACAO = "acoesAguardandoHomologacao";
 	public static final String ACOES_HOMOLOGADAS = "acoesHomologadas";
 	public static final String ACAO_EXTENSAO = "acaoExtensao";
+	public static final String ALUNO = "aluno";
+	public static final String BOLSAS = "bolsas";
 	public static final String PARCERIAS_EXTERNAS = "parceriasExternas";
 	public static final String PERMISSAO_COORDENADOR = "coordenador";
 	public static final String PERMISSAO_DIRETOR = "diretor";
@@ -77,6 +79,7 @@ public class Constants {
 	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
 	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
+	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
