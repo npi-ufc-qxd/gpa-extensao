@@ -14,6 +14,7 @@ import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
+import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
@@ -23,11 +24,24 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	
 	@Autowired
 	private DocumentoService documentoService;
+	
+	@Autowired
+	private ParticipacaoService participacaoService;
 		
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-
 		acaoExtensao.setStatus(Status.NOVO);
+		salvarAcao(acaoExtensao, arquivo);
+	}
+	
+	@Override
+	public void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador) throws GpaExtensaoException {
+		acaoExtensao.setStatus(Status.APROVADO);
+		salvarAcao(acaoExtensao, arquivo);
+		participacaoService.participacaoCoordenador(acaoExtensao, cargaHorariaCoordenador);
+	}
+	
+	private void salvarAcao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException{
 		acaoExtensaoRepository.save(acaoExtensao);
 		
 		String idAcao = acaoExtensao.getId().toString();
