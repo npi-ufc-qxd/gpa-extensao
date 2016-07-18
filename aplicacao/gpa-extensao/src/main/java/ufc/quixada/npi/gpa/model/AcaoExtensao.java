@@ -89,7 +89,7 @@ public class AcaoExtensao {
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
-
+	private boolean ativo;
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}
@@ -299,6 +299,14 @@ public class AcaoExtensao {
 
 	public void setBolsasRecebidas(Integer bolsasRecebidas) {
 		this.bolsasRecebidas = bolsasRecebidas;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public enum Modalidade {
