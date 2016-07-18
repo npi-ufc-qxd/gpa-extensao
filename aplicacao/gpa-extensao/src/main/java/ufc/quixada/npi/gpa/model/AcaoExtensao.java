@@ -31,6 +31,7 @@ public class AcaoExtensao {
 	private String identificador;
 	
 	private String titulo;
+	
 	@Column(columnDefinition = "TEXT")
 	private String resumo;
 	
@@ -89,7 +90,9 @@ public class AcaoExtensao {
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
+	
 	private boolean ativo;
+	
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}

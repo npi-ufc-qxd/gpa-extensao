@@ -8,13 +8,18 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class FrequenciaBolsista {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	@ManyToOne
 	private Bolsa bolsa;
+	
 	private Integer mes;
+	
 	private Integer ano;
+	
 	private boolean entregue;
 	
 	public FrequenciaBolsista(){

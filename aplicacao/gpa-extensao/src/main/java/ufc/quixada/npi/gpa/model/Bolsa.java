@@ -15,24 +15,32 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Bolsa {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@ManyToOne
 	private Aluno bolsista;
+	
 	private Date inicio;
+	
 	private Date termino;
+	
 	private Integer cargaHoraria;
+	
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
+	
 	private boolean ativo;
+	
 	@OneToMany
 	private List<FrequenciaBolsista> frenquencias;
-	
-	public Bolsa(){
-		
+
+	public Bolsa() {
+
 	}
-	
+
 	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, Tipo tipo) {
 		super();
 		this.bolsista = bolsista;
@@ -46,87 +54,78 @@ public class Bolsa {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public Aluno getBolsista() {
 		return bolsista;
 	}
 
-
 	public void setBolsista(Aluno bolsista) {
 		this.bolsista = bolsista;
 	}
-
 
 	public Date getInicio() {
 		return inicio;
 	}
 
-
 	public void setInicio(Date inicio) {
 		this.inicio = inicio;
 	}
-
 
 	public Date getTermino() {
 		return termino;
 	}
 
-
 	public void setTermino(Date termino) {
 		this.termino = termino;
 	}
-
 
 	public Integer getCargaHoraria() {
 		return cargaHoraria;
 	}
 
-
 	public void setCargaHoraria(Integer cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
-
 
 	public Tipo getTipo() {
 		return tipo;
 	}
 
-
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-
 
 	public boolean isAtivo() {
 		return ativo;
 	}
 
-	public List<FrequenciaBolsista> getFrequencias(){
+	public List<FrequenciaBolsista> getFrequencias() {
 		return frenquencias;
 	}
-	public void addFrequencia(FrequenciaBolsista frequencia){
-		if(this.frenquencias==null){
+
+	public void addFrequencia(FrequenciaBolsista frequencia) {
+		if (this.frenquencias == null) {
 			this.frenquencias = new ArrayList<>();
 		}
 		this.frenquencias.add(frequencia);
 	}
-	enum Tipo{
-		REMUNERADO("Remunerado"),VOLUNTARIO("Voluntário");
+
+	enum Tipo {
+		REMUNERADO("Remunerado"), VOLUNTARIO("Voluntário");
 		private String descricao;
-		
-		private Tipo(String descricao){
-			this.descricao=descricao;
+
+		private Tipo(String descricao) {
+			this.descricao = descricao;
 		}
 
 		public String getDescricao() {
 			return descricao;
 		}
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -151,6 +150,5 @@ public class Bolsa {
 			return false;
 		return true;
 	}
-	
-	
+
 }

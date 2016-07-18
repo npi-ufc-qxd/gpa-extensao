@@ -1,13 +1,10 @@
 package ufc.quixada.npi.gpa.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -23,22 +20,15 @@ public class Documento {
 	@NotNull
 	private String nome;
 	
-	private Date data;
-	
-	@ManyToOne
-	private Pessoa autor;
-	
 	private String caminho;
 	
 	public Documento() {
 	}
 	
-	public Documento(byte[] arquivo, String nome, Date date, Pessoa autor, String caminho) {
+	public Documento(byte[] arquivo, String nome, String caminho) {
 		super();
 		this.arquivo = arquivo;
 		this.nome = nome;
-		this.data = date;
-		this.autor = autor;
 		this.caminho = caminho;
 	}
 	
@@ -64,22 +54,6 @@ public class Documento {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
-	public Pessoa getAutor() {
-		return autor;
-	}
-
-	public void setAutor(Pessoa autor) {
-		this.autor = autor;
 	}
 
 	public String getCaminho() {
