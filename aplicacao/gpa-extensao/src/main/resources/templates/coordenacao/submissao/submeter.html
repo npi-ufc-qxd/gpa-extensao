@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:attr="data-page = ${action == 'cadastrar'} ? 'cadastrar-acao'">
 <head th:replace="modulos/fragments :: head">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
