@@ -29,10 +29,6 @@ public class Bolsa {
 	@OneToMany
 	private List<FrequenciaBolsista> frenquencias;
 	
-	public Bolsa(){
-		
-	}
-	
 	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, Tipo tipo) {
 		super();
 		this.bolsista = bolsista;
@@ -106,10 +102,6 @@ public class Bolsa {
 		return ativo;
 	}
 
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
 	public List<FrequenciaBolsista> getFrequencias(){
 		return frenquencias;
 	}
