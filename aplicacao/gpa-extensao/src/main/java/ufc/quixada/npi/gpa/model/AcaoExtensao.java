@@ -82,6 +82,9 @@ public class AcaoExtensao {
 	private List<Participacao> equipeDeTrabalho;
 	
 	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
+	private List<Bolsa> bolsistas;
+	
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<ParceriaExterna> parceriasExternas;
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
@@ -89,7 +92,7 @@ public class AcaoExtensao {
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
-
+	private boolean ativo;
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}
@@ -301,6 +304,14 @@ public class AcaoExtensao {
 		this.bolsasRecebidas = bolsasRecebidas;
 	}
 
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(
 				"Prestação de Serviço");
@@ -356,5 +367,13 @@ public class AcaoExtensao {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Bolsa> getBolsistas() {
+		return bolsistas;
+	}
+
+	public void setBolsistas(List<Bolsa> bolsistas) {
+		this.bolsistas = bolsistas;
 	}
 }

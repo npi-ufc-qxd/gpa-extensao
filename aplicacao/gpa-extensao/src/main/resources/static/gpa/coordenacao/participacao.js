@@ -17,7 +17,7 @@ $(document).ready(function() {
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
-	$("#selectPessoa, #selectInstituicao, #selectBolsista").select2();
+	$("#selectPessoa, #selectInstituicao").select2();
 	
 	$(".funcaoOutra ,#divNomeInstituicao").hide();
 	
@@ -191,12 +191,11 @@ $(document).ready(function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 3, 5, 6, 7, 8]},
+					    {className: "text-center", "targets": [1, 3, 5, 6, 7]},
 					    {"targets" : 4, "orderable" : false},
 					    {"targets" : 5, "orderable" : false},
 				        {"targets" : 6, "orderable" : false},
 				        {"targets" : 7, "orderable" : false},
-				        {"targets" : 8, "orderable" : false},
 				        { "width": "7%", "targets":4 },
 					],
 					"language": {

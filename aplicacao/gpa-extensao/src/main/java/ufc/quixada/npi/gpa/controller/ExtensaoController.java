@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.controller;
 
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.NOVA_BOLSA;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
@@ -46,6 +47,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.TIPOS;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
 import java.text.DateFormat;
@@ -78,6 +80,8 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Bolsa;
+import ufc.quixada.npi.gpa.model.Bolsa.TipoBolsa;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Parecer;
@@ -188,6 +192,8 @@ public class ExtensaoController {
 		
 		model.addAttribute(NOVA_PARTICIPACAO, new Participacao());
 		model.addAttribute(FUNCOES, Funcao.values());
+		model.addAttribute(NOVA_BOLSA, new Bolsa());
+		model.addAttribute(TIPOS, TipoBolsa.values());
 		model.addAttribute(INSTITUICOES, Instituicao.values());
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
