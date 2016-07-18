@@ -25,6 +25,7 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/").authenticated()
 			.antMatchers("/public-resources/**").permitAll()
 			.antMatchers("/direcao/**").hasAuthority("DIRECAO").anyRequest().authenticated()
+			.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO").anyRequest().authenticated()
 			.and()
 				.formLogin().loginProcessingUrl("/login").loginPage("/login").permitAll()
 			.and()

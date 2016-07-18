@@ -50,7 +50,7 @@ public class Papel implements GrantedAuthority {
 		return this.nome.toString();
 	}
 
-	enum Tipo{
+	public enum Tipo{
 		ALUNO,SERVIDOR,DIRECAO,ADMINISTRACAO;
 	}
 

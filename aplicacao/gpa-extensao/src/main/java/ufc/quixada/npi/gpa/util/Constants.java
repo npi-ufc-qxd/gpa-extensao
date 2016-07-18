@@ -72,6 +72,7 @@ public class Constants {
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
+	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
 	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	
@@ -82,6 +83,9 @@ public class Constants {
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
+	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
+	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/admin/cadastrar";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
 	
