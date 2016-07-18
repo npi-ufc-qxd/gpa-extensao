@@ -15,20 +15,18 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
 import static ufc.quixada.npi.gpa.util.Constants.ACTION;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
-import static ufc.quixada.npi.gpa.util.Constants.A_DEFINIR;
-import static ufc.quixada.npi.gpa.util.Constants.CARGA_HORARIA_12;
 import static ufc.quixada.npi.gpa.util.Constants.DEDICACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FUNCOES;
 import static ufc.quixada.npi.gpa.util.Constants.INSTITUICOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ANEXO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
@@ -53,7 +51,6 @@ import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -190,7 +187,7 @@ public class ExtensaoController {
 		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
 		
 		model.addAttribute(NOVA_PARTICIPACAO, new Participacao());
-		model.addAttribute(FUNCOES, listaDeFuncoes());
+		model.addAttribute(FUNCOES, Funcao.values());
 		model.addAttribute(INSTITUICOES, Instituicao.values());
 		
 		model.addAttribute(ACAO_EXTENSAO, acao);
@@ -283,50 +280,6 @@ public class ExtensaoController {
 		participacaoRepository.save(pNovaNovoCoordenador);
 		acaoExtensaoRepository.save(acao);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
-	}
-	
-	@RequestMapping(value = "/salvarBolsas/{idAcao}", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("idAcao") Integer idAcao){
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(numeroBolsas < 0){
-			map.put(MESSAGE_STATUS_RESPONSE, ERRO);
-			return map;
-		}
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		acao.setBolsasRecebidas(numeroBolsas);
-		incluirAlunosBolsistas(acao, numeroBolsas);
-		acaoExtensaoRepository.save(acao);
-		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
-		map.put(MESSAGE,MESSAGE_EDITADO_SUCESSO);
-		map.put(RESPONSE_DATA, numeroBolsas);
-		return map;
-	}
-	
-	private void incluirAlunosBolsistas(AcaoExtensao acao, Integer numeroBolsas) {
-		List<Participacao> p = participacaoRepository.findByAcaoExtensaoAndFuncao(acao, Funcao.ALUNO_BOLSISTA);
-		Integer restantes = numeroBolsas - p.size();
-		
-		if(restantes > 0) {
-			for(int i = 0; i < restantes; i++) {
-				Participacao participacao = new Participacao();
-				participacao.setAcaoExtensao(acao);
-				participacao.setNomeParticipante(A_DEFINIR);
-				participacao.setFuncao(Funcao.ALUNO_BOLSISTA);
-				participacao.setInstituicao(Instituicao.UFC);
-				participacao.setCargaHoraria(CARGA_HORARIA_12);
-				participacaoRepository.save(participacao);
-			}
-		} 
-	}
-	
-	private List<Funcao> listaDeFuncoes() {
-		List<Funcao> funcoes = new ArrayList<Funcao>();
-		for(Funcao funcao: Funcao.values()) {
-			if(funcao != Funcao.ALUNO_BOLSISTA) {
-				funcoes.add(funcao);
-			}
-		}
-		return funcoes;
 	}
 
 	@RequestMapping("/cadastrar")

@@ -4,9 +4,8 @@ import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
@@ -46,9 +43,6 @@ public class ParticipacaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
-	private AlunoRepository alunoRepository;
 	
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
@@ -111,31 +105,9 @@ public class ParticipacaoController {
 	    
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
-	
-	@RequestMapping(value = "/vincularBolsistas/{idParticipacao}/{idAluno}", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> vincularBolsistas(@PathVariable("idAluno") Integer idAluno,
-			@PathVariable("idParticipacao") Integer idParticipacao) {
-		Participacao participacao = participacaoRepository.findOne(idParticipacao);
-		Pessoa aluno = pessoaRepository.findOne(idAluno);
-		
-		participacao.setNomeParticipante("");
-		participacao.setCpfParticipante("");
-		participacao.setParticipante(aluno);
-		participacaoRepository.save(participacao);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
-		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return map;
-	}
 
 	@RequestMapping("/buscarServidores")
 	public @ResponseBody List<Servidor> buscarServidores() {
 		return servirdorRepository.findAll();
-	}
-	
-	@RequestMapping("/buscarAlunos")
-	public @ResponseBody List<Aluno> buscarAlunos() {
-		return alunoRepository.findAll();
 	}
 }
