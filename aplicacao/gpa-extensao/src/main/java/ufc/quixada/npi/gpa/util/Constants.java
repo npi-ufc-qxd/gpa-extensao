@@ -54,8 +54,10 @@ public class Constants {
 	public static final String PARCEIRO = "parceiro";
 	public static final String PARCERIA_EXTERNA = "parceriaExterna";
 	public static final String NOVA_PARTICIPACAO = "novaParticipacao";
+	public static final String NOVA_BOLSA = "novaBolsa";
 	public static final String ACOES_VINCULO = "acoesParaVinculo";
 	public static final String FUNCOES = "funcoes";
+	public static final String TIPOS = "tipos";
 	public static final String INSTITUICOES = "instituicoes";
 	public static final String PENDENTE = "pendente";
 	public static final String ERROR_UPPERCASE = "ERROR";
@@ -72,16 +74,21 @@ public class Constants {
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
+	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
 	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	
 	//fragments
-	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
 
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
+	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
+	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
+	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/admin/cadastrar";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
 	
@@ -126,5 +133,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/paulo.nobre/Documentos/gpa-extensao-uploads";
 }

@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 @Controller
 @RequestMapping("direcao")
 @Transactional
+@EnableGlobalAuthentication
 public class DirecaoController {
 
 	@Autowired
