@@ -1,23 +1,50 @@
 $(document).ready(function(){
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	
-    $("#input-codigo").hide();
-    $("#input-bolsas").hide();
+	modalMessage();
     var acaoExtensaoId = $("#acaoExtensaoId").val();
     $(".alert-success").hide();
 	
-	$("#editar-codigo").click(function(){
-        $("#input-codigo").show();
-        $("#codigo-acao").hide();
-        $("#editar-codigo").hide();
+	$("#editar-codigo-acao-extensao").on("click", function(){
+        $("#codigo-info").hide();
+        $("#div-codigo-acao-extensao").fadeIn(500);
     });
-	
-	$("#editar-bolsas").click(function(){
-		$("#input-bolsas").show();
-		$("#bolsas-recebidas").hide();
-		$("#editar-bolsas").hide();
-
+    
+    $("#cancelar-salvar-codigo-button").on("click", function(){
+        $("#div-codigo-acao-extensao").hide();
+        $("#div-codigo-acao-extensao").removeClass("has-error");
+        $("#codigo-error").hide();
+        $("#codigo-info").fadeIn(500);
+    });
+	$("#submeter-codigo-acao-extensao").click(function(e){
+		var codigo = $("#input-codigo-acao-extensao").val();
+		if(codigo!=null && codigo!=""){
+			$.ajax({
+				type:"GET",
+				beforeSend: function (request)
+		        {
+					 request.setRequestHeader(header, token);
+		        },
+				url: "/gpa-extensao/salvarCodigo/" + acaoExtensaoId,
+				data:{
+					codigoAcao:codigo
+				},
+				success : function(data) {
+					console.log(data.result);
+					if(data.status=="sucesso"){
+						$("#codigo-acao-extensao").text(data.result);
+						console.log(data.message);
+						$("#div-codigo-acao-extensao").hide();
+				        $("#codigo-info").fadeIn(500);
+				        $("#div-codigo-acao-extensao").removeClass("has-error");
+				        $("#codigo-error").hide();
+					}
+				}
+			});
+		}else{
+			$("#div-codigo-acao-extensao").addClass("has-error");
+			$("#codigo-error").show();
+		}
 	});
 	
 	 $('#dtCoordenadorInicio').datepicker({
@@ -71,4 +98,14 @@ $(document).ready(function(){
 			$("#chNovoCoordenador").attr({"max" : "12", "min" : "4"});
 		}
 	});
+	function modalMessage() {
+		if ($("#message-sucess").val() != null) {
+			var alertDiv = document.getElementById("message-modal-alert");
+			$(alertDiv).append("<p>" + $("#message-sucess").val() + "</p>");
+			$(alertDiv).show();
+			setTimeout(function() {
+				$(alertDiv).fadeOut('slow');
+			}, 5000);
+		}
+	}
 });

@@ -23,6 +23,7 @@ public class Constants {
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
 	public static final String MODALIDADES = "modalidades";
+	public static final String ACOES = "acoes";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -46,7 +47,7 @@ public class Constants {
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACTION = "action";
 	public static final String SUBMETER = "submeter";
-
+	public static final String BUSCAR = "buscar";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
 	public static final String DEDICACAO = "dedicacao";
@@ -59,6 +60,7 @@ public class Constants {
 	public static final String PENDENTE = "pendente";
 	public static final String ERROR_UPPERCASE = "ERROR";
 	public static final String OK_UPPERCASE = "OK";
+	public static final String COORDENADORES = "coordenadores";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -71,6 +73,8 @@ public class Constants {
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
 	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
+	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
+	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
@@ -82,6 +86,8 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
 	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
 	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/admin/cadastrar";
+	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
+	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -93,6 +99,7 @@ public class Constants {
 	
 	//Mensagens
 	public static final String ERRO = "erro";
+	public static final String SUCESSO = "sucesso";
 	public static final String ALERTA_PARECER = "alertaParecer";
 	public static final String ALERTA_RELATO = "alertaRelato";
 	public static final String MESSAGE = "message";
@@ -110,6 +117,7 @@ public class Constants {
 	public static final String ACAO_EXTENSAO_ID = "acaoExtensaoId";
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
+	public static final String VALOR_INVALIDO = "Valor inválido!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	
@@ -122,5 +130,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/ruben.silva/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
 }

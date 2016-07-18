@@ -28,6 +28,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
@@ -46,7 +47,10 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
+import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -55,7 +59,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -247,12 +253,19 @@ public class ExtensaoController {
 		return PAGINA_DETALHES_ACAO_EXTENSAO;	
 	}
 	
-	@RequestMapping(value = "/salvarcodigo/{id}", method=RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+	@RequestMapping(value = "/salvarCodigo/{idAcao}", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(codigo.isEmpty() || ("").equals(codigo)){
+			map.put(ERRO, VALOR_INVALIDO);
+			return map;
+		}
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setCodigo(codigo);
 		acaoExtensaoRepository.save(acao);
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
+		map.put(RESPONSE_DATA, codigo);
+		return map;
 	}
 	
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method=RequestMethod.POST)
@@ -302,13 +315,21 @@ public class ExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
-	@RequestMapping(value = "/salvarbolsas/{id}", method=RequestMethod.POST)
-	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("id") Integer id){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+	@RequestMapping(value = "/salvarBolsas/{idAcao}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas, @PathVariable("idAcao") Integer idAcao){
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(numeroBolsas < 0){
+			map.put(MESSAGE_STATUS_RESPONSE, ERRO);
+			return map;
+		}
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setBolsasRecebidas(numeroBolsas);
 		incluirAlunosBolsistas(acao, numeroBolsas);
 		acaoExtensaoRepository.save(acao);
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
+		map.put(MESSAGE,MESSAGE_EDITADO_SUCESSO);
+		map.put(RESPONSE_DATA, numeroBolsas);
+		return map;
 	}
 	
 	private void incluirAlunosBolsistas(AcaoExtensao acao, Integer numeroBolsas) {
