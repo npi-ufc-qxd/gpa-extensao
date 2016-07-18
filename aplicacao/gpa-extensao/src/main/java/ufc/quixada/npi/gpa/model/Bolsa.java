@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -30,18 +31,22 @@ public class Bolsa {
 	private Integer cargaHoraria;
 	
 	@Enumerated(EnumType.STRING)
-	private Tipo tipo;
+	private TipoBolsa tipo;
 	
 	private boolean ativo;
 	
 	@OneToMany
 	private List<FrequenciaBolsista> frenquencias;
+	
+	@ManyToOne
+	@JoinColumn(name = "acao_id")
+	private AcaoExtensao acaoExtensao;
 
 	public Bolsa() {
 
 	}
 
-	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, Tipo tipo) {
+	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, TipoBolsa tipo) {
 		super();
 		this.bolsista = bolsista;
 		this.inicio = inicio;
@@ -90,16 +95,20 @@ public class Bolsa {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public Tipo getTipo() {
+	public TipoBolsa getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Tipo tipo) {
+	public void setTipo(TipoBolsa tipo) {
 		this.tipo = tipo;
 	}
 
 	public boolean isAtivo() {
 		return ativo;
+	}
+	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	public List<FrequenciaBolsista> getFrequencias() {
@@ -112,12 +121,20 @@ public class Bolsa {
 		}
 		this.frenquencias.add(frequencia);
 	}
+	
+	public AcaoExtensao getAcaoExtensao() {
+		return acaoExtensao;
+	}
 
-	enum Tipo {
+	public void setAcaoExtensao(AcaoExtensao acaoExtensao) {
+		this.acaoExtensao = acaoExtensao;
+	}
+
+	public enum TipoBolsa {
 		REMUNERADO("Remunerado"), VOLUNTARIO("Voluntário");
 		private String descricao;
 
-		private Tipo(String descricao) {
+		private TipoBolsa(String descricao) {
 			this.descricao = descricao;
 		}
 

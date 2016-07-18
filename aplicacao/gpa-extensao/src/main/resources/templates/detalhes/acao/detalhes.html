@@ -189,6 +189,9 @@
       			
       			<!-- Participações -->
       			<div th:replace="detalhes/acao/fragment-form-participacao :: formParticipacao"></div>
+      			
+      			<!-- bolsas -->
+      			<div th:replace="detalhes/acao/fragment-form-bolsa :: formBolsa"></div>
 
 				<!-- Parceria Externa -->
    				<div class="box box-primary">
@@ -330,31 +333,6 @@
           	</div>
           <!-- /.modal-dialog -->
         </div>
-		
-		<!-- Modal vincular bolsista -->
-		<div class="modal fade" id="vincular-bolsista">
-        	<div class="modal-dialog">
-            	<div class="modal-content">
-             		<div class="modal-header">
-                		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  		<span aria-hidden="true">×</span></button>
-                		<h4 class="modal-title">Vincular Bolsita</h4>
-              		</div>
-              		<div class="modal-body">
-              			<label for="participante">Bolsista</label>
-						<select id="selectBolsista" name="selectBolsista" class="form-control">
-						</select>
-              		</div>
-              		<div class="modal-footer">
-              			<input type="hidden" id="participacaoHiddenId" name="participacaoHiddenId" value="" />
-                		<button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok" id="vincularBolsistaHiddenBtn">Confirmar</a>
-              		</div>
-            	</div>
-            <!-- /.modal-content -->
-          	</div>
-          <!-- /.modal-dialog -->
-        </div>
 
 		<!-- Modal excluir ação -->
 		<div id="modalexcluir" class="modal fade" role="dialog">
@@ -377,7 +355,6 @@
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		

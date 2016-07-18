@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+</body>
+<div th:if="${acaoExtensao.status.name() == 'APROVADO'}" th:fragment="formBolsa" class="box box-primary">
+	<div class="box-header with-border">
+ 		<h3 class="box-title">Bolsistas</h3>
+  	</div>
+  	<div class="box-body">
+  		<div class="text-center col-md-6 col-md-offset-3">
+			<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
+				<p>Bolsista Cadastrado com Sucesso</p>
+			</div>
+			<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4><i class="icon fa fa-ban"></i> Erro!</h4>
+			</div>
+		</div>
+  		<form id="formNovaBolsa" method="post" th:object="${novaBolsa}" role="form">
+			<div class="box-header with-border ">
+				<h4 class="box-tittle text-center">Adicionar Novo Bolsista</h4>
+			</div>
+			<div class="box-body">
+				<div class="form-group row">
+					<div class="col-lg-6 form-item">
+						<label for="tipo" class="control-label">* Tipo de Bolsa</label>
+						<select id="selectTipo" class="form-control" required="required" th:field="*{tipo}">
+							<option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo.descricao}"/>
+						</select>
+					</div>
+					<div class="col-lg-6 form-item">
+						<label for="cargaHoraria" class="control-label">* Carga Horária Semanal (hrs)</label>
+						<input id="cargaHoraria" type="number" name="cargaHorariaBolsista" class="form-control" 
+							min="1" max="12" required="required" th:field="*{cargaHoraria}" />
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<div id="divSelectPessoa" class="col-lg-6 form-item">
+						<label for="bolsista" class="control-label">Bolsista</label>
+						<select id="selectBolsista" name="selectBolsista" class="form-control" th:field="*{bolsista}">
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer text-center">
+				<input id="submitBolsita" name="salvar" type="submit" class="btn btn-primary btn-flat" value="Salvar" />
+				<a id="cancelarNovoBolsista" class="btn btn-default btn-flat">Cancelar</a>
+			</div>
+		</form>
+		<div class="box-body with-border" id="resultsBlockBolsas"></div>
+	</div>
+	<div class="box-footer">
+		<button id="buttonAdicionarBolsista"
+			th:if="${#authentication.name == acaoExtensao.coordenador.cpf}"
+    		type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
+	</div>
+</div>
+</html>

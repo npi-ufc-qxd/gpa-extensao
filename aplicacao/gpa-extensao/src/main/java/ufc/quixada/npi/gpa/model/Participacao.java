@@ -155,7 +155,7 @@ public class Participacao {
 	}
 
 	public enum Funcao {
-		ALUNO_VOLUNTARIO("Aluno Voluntário"), ALUNO_BOLSISTA("Aluno Bolsista"), STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
+		STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
 		
 		private String descricao;
 		
