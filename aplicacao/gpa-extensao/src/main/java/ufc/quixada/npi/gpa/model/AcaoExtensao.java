@@ -82,6 +82,9 @@ public class AcaoExtensao {
 	private List<Participacao> equipeDeTrabalho;
 	
 	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
+	private List<Bolsa> bolsistas;
+	
+	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<ParceriaExterna> parceriasExternas;
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
@@ -364,5 +367,13 @@ public class AcaoExtensao {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Bolsa> getBolsistas() {
+		return bolsistas;
+	}
+
+	public void setBolsistas(List<Bolsa> bolsistas) {
+		this.bolsistas = bolsistas;
 	}
 }

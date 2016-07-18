@@ -17,9 +17,13 @@ $(document).ready(function() {
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 	});
 	
-	$("#selectPessoa, #selectInstituicao, #selectBolsista").select2();
+	$("#selectPessoa, #selectInstituicao").select2();
 	
 	$(".funcaoOutra ,#divNomeInstituicao").hide();
+	
+	$("#buttonAdicionarParticipacao").click(function () {
+		buscaServidores();
+	});
 	
 	
 	//Essa funcao oculta e mostra os campos do form conforme a opcao selecionada
@@ -27,43 +31,26 @@ $(document).ready(function() {
 		var funcao = $("#selectFuncao").val();
 		
 		if(funcao == "OUTRA") {
-			reset();
 			$("#selectPessoa").attr("selectedIndex", -1);
 			$("#divSelectPessoa").hide();
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").attr('required', 'required');
 			$(".funcaoOutra").fadeIn(500);
 			$("#cargaHoraria").attr({"min" : "1"});
-		} else if(funcao == "ALUNO_VOLUNTARIO") {
-			reset();
-			$("#cargaHoraria").attr({"max" : "12", "min" : "12"});
-			buscaPessoas(funcao);
 		} else if(funcao == "STA" || funcao == "DOCENTE") {
-			reset();
-			buscaPessoas(funcao);
+			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
+			$(".funcaoOutra").hide();
+			$("#divSelectPessoa").fadeIn(500);
 		}
 	});
 	
-	function reset() {
-		$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
-		$(".funcaoOutra").hide();
-		$("#divSelectPessoa").fadeIn(500);
-	}
-	
-	function buscaPessoas(funcao) {
-		
-		if(funcao == "ALUNO_VOLUNTARIO") {
-			var caminho = "/gpa-extensao/participacao/buscarAlunos";
-		} else {
-			var caminho = "/gpa-extensao/participacao/buscarServidores";
-		}
-		
+	function buscaServidores() {
 		$.ajax({
 			type:"GET",
 			 beforeSend: function (request)
 	         {
 	                request.setRequestHeader(header, token);
 	            },
-			url: caminho,
+			url: "/gpa-extensao/participacao/buscarServidores",
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectPessoa').empty();
@@ -93,14 +80,11 @@ $(document).ready(function() {
 	
 	//Faz a validação do valor min e max da carga horaria quando um servidor é selecionado
 	$("#selectPessoa").change(function() {
-		var funcao = $("#selectFuncao").val();
 		var dedicacao = $(this).children(":selected").attr("id");
-		if(funcao == "STA" || funcao == "DOCENTE") {
-			if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
-				$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
-			} else if(dedicacao == "H20") {
-				$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
-			}
+		if(dedicacao == "EXCLUSIVA" || dedicacao == "H40") {
+			$("#cargaHoraria").attr({"max" : "16", "min" : "4"});
+		} else if(dedicacao == "H20") {
+			$("#cargaHoraria").attr({"max" : "12", "min" : "4"});
 		}
 	});
 	
@@ -203,16 +187,15 @@ $(document).ready(function() {
 	
 	function carregarTabelaParticipacoes() {
 		 var url = "/gpa-extensao/participacao/buscarParticipacoes/" + acaoExtensaoId;
-		 $("#resultsBlock").load(url, function() {
+		 $("#resultsBlockParticipacoes").load(url, function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 3, 5, 6, 7, 8]},
+					    {className: "text-center", "targets": [1, 3, 5, 6, 7]},
 					    {"targets" : 4, "orderable" : false},
 					    {"targets" : 5, "orderable" : false},
 				        {"targets" : 6, "orderable" : false},
 				        {"targets" : 7, "orderable" : false},
-				        {"targets" : 8, "orderable" : false},
 				        { "width": "7%", "targets":4 },
 					],
 					"language": {
@@ -244,105 +227,4 @@ $(document).ready(function() {
 		});
 		carregarTabelaParticipacoes();
 	});
-	
-	$("#vincular-bolsista").on("show.bs.modal", function(e) {
-		$("#participacaoHiddenId").val($(e.relatedTarget).data("id"));
-		var caminho = "/gpa-extensao/participacao/buscarAlunos";
-		$.ajax({
-			type:"GET",
-			 beforeSend: function (request)
-	         {
-	                request.setRequestHeader(header, token);
-	            },
-			url: caminho,
-			contentType: 'application/json',
-			success : function(data) {
-				$('#selectBolsista').empty();
-				for (var i = 0; i < data.length; i++) {
-					var newOption = $('<option value=' + data[i].pessoa.id + '>'
-							+ data[i].pessoa.nome
-							+ '</option>');
-					$('#selectBolsista').append(newOption);
-				}
-			}
-		});
-	});
-	
-	$("#vincularBolsistaHiddenBtn").click(function(e) {
-		e.preventDefault();
-        var baseURL = '/gpa-extensao/participacao/vincularBolsistas/';
-        var idParticipacao = $("#participacaoHiddenId").val();
-        var idAluno = $("#selectBolsista").val();
-        $("#vincular-bolsista").modal('hide');
-        $.ajax({
-			url : baseURL + idParticipacao + "/" + idAluno,
-			beforeSend: function (request)
-		    {
-				 request.setRequestHeader(header, token);
-		    },
-			type : 'POST',
-			async: false,
-			error: function(){
-		        return false;
-		    },
-			success : function(result) {
-				if(result.status=="OK"){
-					console.log(result);
-					var alertDiv = $("#divSucesso");
-					alertDiv.show();
-					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
-					carregarTabelaParticipacoes();
-				}else{
-					for (var i = 0; i < result.result.length; i++) {
-						var alertDiv = $("#divError");
-						console.log(result);
-						alertDiv.append("<p>"+result.result[i].code+"</p>");
-						alertDiv.show();
-				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
-					}
-					return false;
-				}
-			}
-		});
-	});
-	$("#salvar-numero-bolsas-button").click(function(e){
-		var bolsas = $("#input-bolsas-recebidas-acao-extensao").val();
-		if(bolsas!=null && bolsas!=""){
-			$.ajax({
-				type:"POST",
-				beforeSend: function (request)
-		        {
-					 request.setRequestHeader(header, token);
-		        },
-				url: "/gpa-extensao/salvarBolsas/" + acaoExtensaoId,
-				data:{
-					bolsasRecebidas:bolsas
-				},
-				success : function(data) {
-					if(data.status=="sucesso"){
-						$("#bolsas-recebidas").text(data.result);
-						$("#editar-bolsas-recebidas-form").hide();
-				        $("#numero-bolsas-info").fadeIn(500);
-				        $("#editar-bolsas-recebidas-form").removeClass("has-error");
-				        $("#bolsas-recebidas-error").hide();
-						carregarTabelaParticipacoes();
-					}
-				}
-			});
-		}else {
-			$("#editar-bolsas-recebidas-form").addClass("has-error");
-			$("#bolsas-recebidas-error").show();
-		}
-	});
-	$("#editar-numero-bolsas-button").on("click", function(){
-        $("#numero-bolsas-info").hide();
-        $("#editar-bolsas-recebidas-form").fadeIn(500);
-    });
-    
-    $("#cancelar-salvar-bolsas-button").on("click", function(){
-        $("#editar-bolsas-recebidas-form").hide();
-        $("#editar-bolsas-recebidas-form").removeClass("has-error");
-        $("#bolsas-recebidas-error").hide();
-        $("#numero-bolsas-info").fadeIn(500);
-    });
 });

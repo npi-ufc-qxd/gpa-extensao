@@ -54,8 +54,10 @@ public class Constants {
 	public static final String PARCEIRO = "parceiro";
 	public static final String PARCERIA_EXTERNA = "parceriaExterna";
 	public static final String NOVA_PARTICIPACAO = "novaParticipacao";
+	public static final String NOVA_BOLSA = "novaBolsa";
 	public static final String ACOES_VINCULO = "acoesParaVinculo";
 	public static final String FUNCOES = "funcoes";
+	public static final String TIPOS = "tipos";
 	public static final String INSTITUICOES = "instituicoes";
 	public static final String PENDENTE = "pendente";
 	public static final String ERROR_UPPERCASE = "ERROR";
@@ -77,7 +79,8 @@ public class Constants {
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	
 	//fragments
-	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
+	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
 
 	// Redirects
@@ -130,5 +133,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/paulo.nobre/Documentos/gpa-extensao-uploads";
 }
