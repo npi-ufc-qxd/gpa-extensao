@@ -194,8 +194,8 @@
     				</div>
     				<div id="tableResultsBlock" class="box-body with-border"></div>
     				<div class="box-footer">
-    					<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' 
-    						OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
+    					<button th:if="(${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
+    						AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
     						'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
     						class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
     					</button>
