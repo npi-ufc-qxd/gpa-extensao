@@ -29,6 +29,10 @@ public class Bolsa {
 	@OneToMany
 	private List<FrequenciaBolsista> frenquencias;
 	
+	public Bolsa(){
+		
+	}
+	
 	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, Tipo tipo) {
 		super();
 		this.bolsista = bolsista;

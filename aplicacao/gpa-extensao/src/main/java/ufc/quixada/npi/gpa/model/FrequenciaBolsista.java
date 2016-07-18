@@ -17,6 +17,9 @@ public class FrequenciaBolsista {
 	private Integer ano;
 	private boolean entregue;
 	
+	public FrequenciaBolsista(){
+		
+	}
 	public FrequenciaBolsista(Bolsa bolsa, Integer mes, Integer ano, boolean entregue) {
 		super();
 		this.bolsa = bolsa;
