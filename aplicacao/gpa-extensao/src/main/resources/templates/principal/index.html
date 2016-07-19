@@ -11,7 +11,7 @@
 
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>Ações de Extensão</h1>
+				<h1>Minhas Ações de Extensão</h1>
 			</section>
 			<section class="content">
 				<!-- Linha dos Cards de Status -->
@@ -20,8 +20,8 @@
         				<div class="col-lg-3 col-xs-6 card">
           					<div class="small-box bg-blue cursor-pointer">
             					<div class="inner">
-              						<h3 th:text="${acoesTramitacao.size() + acoesNovas.size()}"></h3>
-              						<p>Tramitação e Novas</p>
+              						<h3 th:text="${acoesTramitacao.size()}"></h3>
+              						<p>Em Tramitação</p>
             					</div>
             					<div class="icon">
               						<i class="fa fa-folder-open-o"></i>
@@ -76,11 +76,11 @@
       				<span th:text="${erro}"></span>
       			</div>
       			
-				<div class="row tramitacao" style="display: none">
+				<div class="row tramitacao no-display">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
-                                <h3>Tramitação</h3>
+                                <h3>Em Tramitação</h3>
                             </div>
                             <div class="box-body table-responsive">
       							<table border="1" class="table-acoes table table-striped table-bordered">
@@ -112,40 +112,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row novos" style="display: none">
-                    <div class="col-xs-12">
-                        <div class="box box-info">
-                            <div class="box-header">
-                                <h3>Novas</h3>
-                            </div>
-                            <div class="box-body table-responsive">
-      							<table border="1" class="table-acoes table table-striped table-bordered">
-								<thead>
-	    							<tr>
-	      								<th>TÍTULO</th>
-	      								<th>MODALIDADE</th>
-	      								<th>STATUS</th>
-	      								<th>INÍCIO</th>
-	      								<th>TÉRMINO</th>
-	    							</tr>
-	  							</thead>
-	  							<tbody>
-	  								<tr th:each="acao : ${acoesNovas}">
-	  									<td><a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-	  									<td th:text="${acao.modalidade}"></td>
-	  									<td>
-	  										<span class="label label-primary" th:text="${acao.status.descricao}"></span>
-	  									</td>
-	  									<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"></td>
-	  									<td th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"></td>
-	  								</tr>
-	  							</tbody>
-	  							</table>
-	  						</div>
-	  					</div>
-	  				</div>
-	  			</div>
-	  			<div class="row homologados" style="display: none">
+	  			<div class="row homologados no-display">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -178,7 +145,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row parecerRelator" style="display: none">
+	  			<div class="row parecerRelator no-display">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -211,7 +178,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row parecerTecnico" style="display: none">
+	  			<div class="row parecerTecnico no-display">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">
@@ -244,7 +211,7 @@
 	  					</div>
 	  				</div>
 	  			</div>
-	  			<div class="row participacao" style="display: none">
+	  			<div class="row participacao no-display">
                     <div class="col-xs-12">
                         <div class="box box-info">
                             <div class="box-header">

@@ -30,3 +30,7 @@
 	box-shadow: none;
 	border-color: #3c8dbc;
 }
+
+.no-display {
+	display: none;
+}

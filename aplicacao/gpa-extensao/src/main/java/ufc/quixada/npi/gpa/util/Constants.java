@@ -44,7 +44,6 @@ public class Constants {
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
 	public static final String ACOES_COORDENADOR_SIZE = "acoesCoordenadorSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
-	public static final String ACOES_NOVAS = "acoesNovas";
 	public static final String ACOES_PARECER_RELATOR = "acoesParecerRelator";
 	public static final String ACOES_PARECER_TECNICO = "acoesParecerTecnico";
 	public static final String ACTION = "action";
