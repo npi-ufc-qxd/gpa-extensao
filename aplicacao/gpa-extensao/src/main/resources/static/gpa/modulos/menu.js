@@ -17,6 +17,16 @@ $(document).ready(function(){
 			$("#menu-item-cadastrar-acao").addClass("active");
 			break;
 			
+		case "cadastrar-acao-retroativa":
+			zerarMenu();
+			$("#menu-item-cadastrar-acao-retroativa").addClass("active");
+			break;
+		
+		case "buscar-acao":
+			zerarMenu();
+			$("#menu-item-buscar-acoes").addClass("active");
+			break;
+			
 		default:
 			zerarMenu();
 			break;

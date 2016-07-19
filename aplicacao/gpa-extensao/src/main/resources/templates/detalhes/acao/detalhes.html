@@ -180,7 +180,7 @@
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
-							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter</a>
+							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
 						<a th:if="${acaoExtensao.ativo}" sec:authorize="hasAuthority('ADMINISTRACAO')"
 							class="btn btn-danger btn-flat pull-right" th:href="@{/admin/encerrarAcao/} + ${acaoExtensao.id}">Encerrar</a>
 						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
