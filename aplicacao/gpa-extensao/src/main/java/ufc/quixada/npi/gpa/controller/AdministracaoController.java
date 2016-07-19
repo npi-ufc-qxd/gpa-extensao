@@ -30,7 +30,6 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
