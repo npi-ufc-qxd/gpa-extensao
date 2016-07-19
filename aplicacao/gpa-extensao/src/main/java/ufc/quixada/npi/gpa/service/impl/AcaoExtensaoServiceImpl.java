@@ -41,6 +41,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	@Override
 	public void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador) throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.APROVADO);
+		acaoExtensao.setAtivo(true);
 		salvarAcao(acaoExtensao, arquivo);
 		participacaoService.participacaoCoordenador(acaoExtensao, cargaHorariaCoordenador);
 	}
