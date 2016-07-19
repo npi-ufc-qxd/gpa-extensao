@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,9 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
@@ -47,6 +50,9 @@ public class AdministracaoController {
 	
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
+	
+	@Autowired
+	private BolsaRepository bolsaRepository;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication){
@@ -84,4 +90,12 @@ public class AdministracaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 	
+	@RequestMapping(value="/encerrarAcao/{idAcao}")
+	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, Model model){
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
+		acao.setAtivo(false);
+		bolsaRepository.inativarBolsas(idAcao);
+		acaoExtensaoRepository.save(acao);
+		return "";
+	}
 }

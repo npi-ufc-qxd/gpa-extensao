@@ -204,7 +204,7 @@ public class ExtensaoController {
 		
 		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 	}
-
+	
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model,
