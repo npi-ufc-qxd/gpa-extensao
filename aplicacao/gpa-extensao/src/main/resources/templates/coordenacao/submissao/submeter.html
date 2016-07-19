@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" data-page="cadastrar-acao">
 <head th:replace="modulos/fragments :: head">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
@@ -13,9 +13,9 @@
 			<section class="content">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 th:if="${action == 'submeter'}" class="box-title">Submeter Ação Extensão</h3>
-						<h3 th:if="${action == 'editar'}" class="box-title">Editar Ação Extensão</h3>
-						<h3 th:if="${action == 'cadastrar'}" class="box-title">Cadastrar Ação Extensão</h3>
+						<h3 th:if="${action == 'submeter'}" class="box-title">Submeter Ação de Extensão</h3>
+						<h3 th:if="${action == 'editar'}" class="box-title">Editar Ação de Extensão</h3>
+						<h3 th:if="${action == 'cadastrar'}" class="box-title">Cadastrar Ação de Extensão</h3>
 						<input id="action" type="hidden" th:value="${action}"/>
 					</div>
 					
