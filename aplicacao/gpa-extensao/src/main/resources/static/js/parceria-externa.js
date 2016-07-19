@@ -3,6 +3,40 @@ $(document).ready(function() {
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var acaoExtensaoId = $("#acaoExtensaoId").val();
 	carregarTabelaParceriasExternas();
+	
+	$("#formParceriaExterna, #divDescricaoOutrasFormas, #formParceiro").hide();
+	
+	// Adicionar parceria externa
+	$("#adicionarNovaParceriaExterna").click(function(e){
+		$("#formParceriaExterna").fadeIn(500);
+		$("#adicionarNovaParceriaExterna").attr('disabled','disabled');
+		$("#criarNovoParceiro").show();
+		buscarParceiros();
+		e.preventDefault();
+	});
+	
+	// Cancelar cadastro de parceria
+	$("#cancelarAdicaoParceriaExterna").click(function(e){
+		$("#formParceriaExterna").hide();
+		$("#adicionarNovaParceriaExterna").removeAttr("disabled");
+		$("#criarNovoParceiro").hide();
+		e.preventDefault();
+	});
+	
+	// Adicionar parceiro
+	$("#criarNovoParceiro").click(function(e){
+		$("#formParceriaExterna").hide();
+		$("#formParceiro").fadeIn(500);
+		e.preventDefault();
+	});
+	
+	// Cancelar cadastro de parceiro
+	$("#cancelarAdicaoParceiro").click(function(e){
+		$("#formParceiro").hide();
+		$("#formParceriaExterna").fadeIn(500);
+		e.preventDefault();
+	});
+	
 	$("#outrasFormasCheckBox").change(function(){
 		if($(this).is(":checked")){
 			$("#divDescricaoOutrasFormas").show();
@@ -45,7 +79,8 @@ $(document).ready(function() {
 			success : function(data) {
 				if(data.status=="OK"){
 					e.preventDefault();
-					$("#parceria-externa-form-div").hide('slow');
+					$("#formParceriaExterna, #criarNovoParceiro").hide();
+					$("#adicionarNovaParceriaExterna").removeAttr("disabled");
 					carregarTabelaParceriasExternas();
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
@@ -92,8 +127,8 @@ $(document).ready(function() {
 				if(data.status=="OK"){
 					e.preventDefault();
 					buscarParceiros();
-					$("#parceiro-form-div").hide();
-					$("#parceria-externa-form-div").show();
+					$("#formParceiro").hide();
+					$("#formParceriaExterna").fadeIn(500);
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
 						var alertDiv = document.getElementById("error-"+data.result[i].field);
@@ -108,25 +143,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$("#criarNovoParceiro").click(function(e){
-		$("#parceria-externa-form-div").hide();
-		$("#parceiro-form-div").show();
-		e.preventDefault();
-	});
-	$("#cancelarAdicaoParceiro").click(function(e){
-		$("#parceiro-form-div").hide();
-		$("#parceria-externa-form-div").show();
-		e.preventDefault();
-	});
-	$("#adicionarNovaParceriaExterna").click(function(e){
-		$("#parceria-externa-form-div").show();
-		buscarParceiros();
-		e.preventDefault();
-	});
-	$("#cancelarAdicaoParceriaExterna").click(function(e){
-		$("#parceria-externa-form-div").hide();
-		e.preventDefault();
-	});
+	
 	$(".selectParceiro").select2();
 	
 	$("#confirm-delete-parceria-externa").on("show.bs.modal", function(e) {

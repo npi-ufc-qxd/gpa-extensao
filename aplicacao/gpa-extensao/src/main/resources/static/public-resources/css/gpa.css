@@ -8,7 +8,7 @@
 	margin-left: 5px;
 }
 
-#box-details .row {
+.box-details .row {
 	margin-bottom: 25px;
 	margin-left: 0;
 	margin-right: 0;
@@ -33,4 +33,8 @@
 
 .no-display {
 	display: none;
+}
+
+#resumo-acao {
+	text-align: justify;
 }

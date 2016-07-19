@@ -61,7 +61,7 @@
 						<h3 class="box-title" th:text="${acaoExtensao.titulo}"></h3>
 						<label th:if="!${acaoExtensao.ativo}" class="label label-danger">Encerrado</label>
 					</div>
-					<div id="box-details" class="box-body with-border">
+					<div class="box-body with-border box-details">
 
 						<div class="row">
 							<div class="col-sm-3">
@@ -99,7 +99,7 @@
                                 <div id="div-codigo-acao-extensao" class="input-group input-group-sm" style="display: none;">
                                     <input type="text" id="input-codigo-acao-extensao" class="form-control" required="required" placeholder="Código" />
                                     <span class="input-group-btn">
-                                        <button id="submeter-codigo-acao-extensao" type="button" class="btn btn-success btn-flat" title="Salvar novo código">Salvar</button>
+                                        <button id="submeter-codigo-acao-extensao" type="button" class="btn btn-primary btn-flat" title="Salvar novo código">Salvar</button>
                                         <button id="cancelar-salvar-codigo-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
                                     </span>
                                 </div>
@@ -145,7 +145,7 @@
                                 <div id="editar-bolsas-recebidas-form" class="input-group input-group-sm" style="display: none;">
                                     <input type="number" id="input-bolsas-recebidas-acao-extensao" class="form-control" required="required" min="0" pattern="[0-9]+" placeholder="Nº de bolsas" />
                                     <span class="input-group-btn">
-                                        <button id="salvar-numero-bolsas-button" type="button" class="btn btn-success btn-flat" title="Setar o número de bolsas recebidas">Salvar</button>
+                                        <button id="salvar-numero-bolsas-button" type="button" class="btn btn-primary btn-flat" title="Setar o número de bolsas recebidas">Salvar</button>
                                         <button id="cancelar-salvar-bolsas-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
                                     </span>
                                 </div>
@@ -155,7 +155,7 @@
 						
 						<div class="row col-sm-12">
 							<label>Resumo</label>
-							<p th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></p>
+							<p id="resumo-acao" th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></p>
 						</div>
 						<div class="row col-sm-4">
 							<label>Número do Processo</label>
@@ -180,7 +180,7 @@
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
-							 class="btn btn-success btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
+							 class="btn btn-primary btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
 						<a th:if="${acaoExtensao.ativo}" sec:authorize="hasAuthority('ADMINISTRACAO')"
 							class="btn btn-danger btn-flat pull-right" th:href="@{/admin/encerrarAcao/} + ${acaoExtensao.id}">Encerrar</a>
 						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
@@ -196,95 +196,23 @@
       			<div th:replace="detalhes/acao/fragment-form-bolsa :: formBolsa"></div>
 
 				<!-- Parceria Externa -->
-   				<div class="box box-primary">
-   					<div class="box-header with-border">
-						<h3 class="box-title">Parcerias Externas</h3>
-   					</div>
-   					<div class="box-body" th:replace="detalhes/acao/fragmento-parceria-externa :: parceria-externa">
-   						
-    				</div>
-    				<div id="tableResultsBlock" class="box-body with-border"></div>
-    				<div class="box-footer">
-    					<button th:if="(${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
-    						AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
-    						'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
-    						class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
-    					</button>
-    				</div>
-   				</div>
-      			
-      			<!-- Parecer -->
-      			<div class="row">
-      			
-      				<!-- Parecer técnico -->
-					<div class="col-md-6 col-xs-12">
-						<div class="box box-primary">
-						
-							<div class="box-header with-border">
-								<h3 class="box-title">Parecer Técnico</h3>
-							</div><!-- Box header -->
-							
-							<div class="box-body">
-								<div th:if="${acaoExtensao.parecerTecnico == null}">
-									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
-								</div>
-								<div  th:unless="${acaoExtensao.parecerTecnico == null}">
-									<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-tecnico"></div>
-								</div>
-							</div><!-- Box body -->
-							
-							<div id="parecer-tecnico-acoes" class="box-footer with-border"
-								 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
-								
-								<div class="pull-right">
-										<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
-											id="alterar-parecerista-button" class="btn btn-warning btn-flat" href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar parecerista</a>
-										
-										<a 	th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
-											th:id="pendencias-parecer-button" class="btn btn-warning btn-flat" href="#pendencias-parecer-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
-										
-										<a 	th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf}"
-											id="emitir-parecer-button" class="btn btn-success btn-flat" href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir parecer</a>
-								</div>
-							</div><!-- Box footer -->
-						</div><!-- Box parecer técnico -->
-					</div><!-- Parecer técnico -->
-
-
-                    <!-- Parecer relator -->
-                    <div class="col-md-6 col-xs-12">
-                        <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Parecer do Relator</h3>
-                            </div>
-                            
-                            <div class="box-body">
-                            	<div th:if="${acaoExtensao.parecerRelator == null}">
-                        			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
-                        		</div>
-                        		<div th:unless="${acaoExtensao.parecerRelator == null}">
-                        			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator"></div>
-                        		</div>
-                            </div><!-- Box body -->
-                            
-                            <div id="parecer-relator-acoes" class="box-footer with-border"
-                            	 th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND (${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf} OR ${#authorization.expression('hasAuthority(''DIRECAO'')')})">
-									
-								<div class="pull-right">
-									<a  sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
-										id="alterar-relator-button" class="btn btn-warning btn-flat" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>
-									
-									<a  th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
-										id="pendencias-relato-button" class="btn btn-warning btn-flat" href="#pendencias-relato-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
-									
-									<a  th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acaoExtensao.parecerRelator.responsavel.cpf}"
-										id="emitir-relato-button" class="btn btn-success btn-flat" href="#emitir-relato-form" title="Emitir o parecer da ação">Emitir parecer</a>
-								</div>
-									
-                            </div><!-- Box footer -->
-                        </div>
-                    </div><!-- Parecer do relator -->
-                </div>
+				<div th:replace="detalhes/acao/fragmento-parceria-externa :: parceria-externa"></div>
+				
+				<!-- Parecer técnico -->
+				<div th:if="${acaoExtensao.parecerTecnico == null}">
+					<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
+				</div>
+				<div  th:unless="${acaoExtensao.parecerTecnico == null}">
+					<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-tecnico"></div>
+				</div>
+				
+				<!-- Parecer relator -->
+				<div th:if="${acaoExtensao.parecerRelator == null}">
+           			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
+           		</div>
+           		<div th:unless="${acaoExtensao.parecerRelator == null}">
+           			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator"></div>
+           		</div>
 			</section>
 			<!-- /.content -->
 		</div>
@@ -304,8 +232,8 @@
               <div class="modal-footer">
               	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
               	<input type="hidden" id="deleteParceriaTableIndex" name="deleteParceriaTableIndex" value="" />
-                <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary btn-ok" id="deleteParceriaHiddenBtn">Confirmar</a>
+                <button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary btn-ok btn-flat" id="deleteParceriaHiddenBtn">Confirmar</a>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -327,8 +255,8 @@
               		</div>
               		<div class="modal-footer">
               			<input type="hidden" id="deleteParticipacaoHiddenId" name="deleteParticipacaoHiddenId" value="" />
-                		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="deleteParticipacaoHiddenBtn">Confirmar</a>
+                		<button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok pull-right btn-flat" id="deleteParticipacaoHiddenBtn">Confirmar</a>
               		</div>
             	</div>
             <!-- /.modal-content -->
@@ -395,14 +323,11 @@
 						<h4 class="modal-title">Excluir Ação</h4>
 					</div>
 					<div class="modal-body">
-						<h5>Tem certeza que deseja excluir esta ação?</h5>
+						<h5>Tem certeza de que deseja excluir esta ação?</h5>
 					</div>
 					<div class="modal-footer">
-						
-							<a th:href="@{/deletar/__${acaoExtensao.id}__}" class="btn btn-success"
-							>Sim</a>
-		
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-default btn-flat pull-right" data-dismiss="modal">Cancelar</button>
+						<a th:href="@{/deletar/__${acaoExtensao.id}__}" class="btn btn-danger btn-flat pull-right">Sim</a>
 					</div>
 				</div>
 			</div>
