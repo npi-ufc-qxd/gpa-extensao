@@ -334,6 +334,54 @@
           <!-- /.modal-dialog -->
         </div>
 
+		<!-- Modal excluir bolsa -->
+        <div class="modal fade" id="confirm-delete-bolsa">
+        	<div class="modal-dialog">
+            	<div class="modal-content">
+             		<div class="modal-header">
+                		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  		<span aria-hidden="true">×</span></button>
+                		<h4 class="modal-title">Excluir Bolsista</h4>
+              		</div>
+              		<div class="modal-body">
+              			<p>Tem certeza de que deseja excluir esse bolsista?</p>
+              		</div>
+              		<div class="modal-footer">
+              			<input type="hidden" id="deleteBolsaHiddenId" name="deleteBolsaHiddenId" value="" />
+                		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="deleteBolsaHiddenBtn">Confirmar</a>
+              		</div>
+            	</div>
+            <!-- /.modal-content -->
+          	</div>
+          <!-- /.modal-dialog -->
+        </div>
+        
+        <!-- Modal encerrar bolsa -->
+        <div class="modal fade" id="confirm-encerrar-bolsa">
+        	<div class="modal-dialog">
+            	<div class="modal-content">
+             		<div class="modal-header">
+                		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  		<span aria-hidden="true">×</span></button>
+                		<h4 class="modal-title">Encerrar Bolsa</h4>
+              		</div>
+              		<div class="modal-body">
+              			<p>Tem certeza de que deseja encerrar essa bolsa?</p>
+              		</div>
+              		<div class="modal-footer">
+              			<label class="col-sm-3">Data de Término:</label>
+						<input type="date" class="col-sm-3" required="required" id="dataTerminoBolsa" autocomplete="off"/>
+              			<input type="hidden" id="encerrarBolsaHiddenId" name="encerrarBolsaHiddenId" value="" />
+                		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="encerrarBolsaHiddenBtn">Confirmar</a>
+              		</div>
+            	</div>
+            <!-- /.modal-content -->
+          	</div>
+          <!-- /.modal-dialog -->
+        </div>
+        
 		<!-- Modal excluir ação -->
 		<div id="modalexcluir" class="modal fade" role="dialog">
 			<div class="modal-dialog">

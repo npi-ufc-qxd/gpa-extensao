@@ -37,6 +37,7 @@ public class Constants {
 	public static final String PERMISSAO_PARECERISTA = "parecerista";
 	public static final String PERMISSAO_RELATOR = "relator";
 	public static final String PARTICIPANTE = "participante";
+	public static final String BOLSISTA = "bolsista";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
@@ -123,9 +124,13 @@ public class Constants {
 	public static final String VALOR_INVALIDO = "Valor inválido!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
+	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
 	
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
+	public static final String ERROR_ALUNO_JA_BOLSISTA = "Esse aluno já é bolsista desse projeto";
+	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
+	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.

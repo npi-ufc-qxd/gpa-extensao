@@ -12,20 +12,37 @@
 				<tr>
 					<th>NOME</th>
 					<th>CPF</th>
-					<th>FUNCÃO</th>
+					<th>TIPO DE BOLSA</th>
 					<th>CH</th>
 					<th>PERÍODO</th>
 					<th>ATIVO</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="bolsa : ${bolsas}">
-					<td th:text="${bolsa.bolsista.nome}"></td>
-					<td th:text="${bolsa.bolsista.cpf}"></td>
-					<td th:text="${bolsa.funcao.name()}"></td>
-					<td th:text="${bolsa.cargaHoraria}"></td>
-					<td th:text="${#dates.format(bolsa.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(bolsa.dataTermino, 'dd/MM/yyyy')}"></td>
-					<td th:text="${bolsa.ativo}"></td>
+					<td th:text="${bolsa.bolsista.pessoa.nome} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
+					<td th:text="${bolsa.bolsista.pessoa.cpf} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
+					<td th:text="${bolsa.tipo.descricao} ? ${bolsa.tipo.descricao}: ''"></td>
+					<td th:text="${bolsa.cargaHoraria} ? ${bolsa.cargaHoraria}: ''"></td>
+					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+					<td th:if="${bolsa.ativo}">
+						<div class="checkbox">
+							<input checked="checked" data-toggle="modal" type="checkbox" 
+								data-target="#confirm-encerrar-bolsa" th:attr="data-id=${bolsa.id}"/>
+						</div>
+					</td>
+					<td th:unless="${bolsa.ativo}">
+						<div class="checkbox">
+							<input data-toggle="toggle" type="checkbox" disabled="disabled" />
+						</div>
+					</td>
+					<td data-toogle="tooltip"> 
+						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
+							data-target="#confirm-delete-bolsa" th:attr="data-id=${bolsa.id}">
+							<i class="fa fa-trash-o"></i>
+						</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -110,7 +110,7 @@ $(document).ready(function(){
     	$(this).datepicker("hide");
     	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "inicio");
     	$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "termino");
-    });;
+    });
     
     $("#submeter-modalidadeAcaoExtensao").on('change',function(){
     	checkForm();
