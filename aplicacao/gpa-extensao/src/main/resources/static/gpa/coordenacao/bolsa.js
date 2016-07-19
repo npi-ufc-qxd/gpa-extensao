@@ -16,8 +16,12 @@ $(document).ready(function() {
 			 $('#table-bolsas').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 3, 5]},
+					    {className: "text-center", "targets": [1, 2, 3, 4, 5, 6]},
+					    {"targets" : 1, "orderable" : false},
+					    {"targets" : 3, "orderable" : false},
 					    {"targets" : 4, "orderable" : false},
+					    {"targets" : 5, "orderable" : false},
+					    {"targets" : 6, "orderable" : false},
 					],
 					"language": {
 				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"

@@ -5,6 +5,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
@@ -17,10 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -84,4 +87,10 @@ public class AdministracaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 	
+	@RequestMapping(value="/encerrarAcao/{idAcao}")
+	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect) throws GpaExtensaoException{
+		acaoExtensaoService.encerrarAcao(idAcao);
+		redirect.addFlashAttribute(MESSAGE,MESSAGE_ACAO_ENCERRADA);
+		return REDIRECT_PAGINA_DETALHES_ACAO +idAcao;
+	}
 }

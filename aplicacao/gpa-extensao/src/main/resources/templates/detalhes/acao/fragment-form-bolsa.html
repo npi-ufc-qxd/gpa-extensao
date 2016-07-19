@@ -66,7 +66,7 @@
 	</div>
 	<div class="box-footer">
 		<button id="buttonAdicionarBolsista"
-			th:if="${#authentication.name == acaoExtensao.coordenador.cpf}"
+			th:if="${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}"
     		type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
 	</div>
 </div>

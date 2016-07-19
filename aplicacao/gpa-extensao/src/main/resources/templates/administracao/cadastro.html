@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" data-page="cadastrar-acao-retroativa">
 <head th:replace="modulos/fragments :: head">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
@@ -13,10 +13,10 @@
 			<section class="content">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Cadastrar ação extensão retroativa</h3>
+						<h3 class="box-title">Cadastrar ação de extensão retroativa</h3>
 					</div>
 					
-					<form role="form" th:action="@{/admin/cadastrar}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
+					<form id="form-admin-acao-retroativa" role="form" th:action="@{/admin/cadastrar}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
 						<div class="box-body">
 							<div class="callout callout-danger" th:if="${message}">
 				                <h4>Atenção</h4>
@@ -30,14 +30,14 @@
 								</select>
 							</div>
            					
-							<div class="form-group">
+							<div id="admin-form-acao-titulo" class="form-group">
 								<div class="form-item">
 									<label class="control-label" for="titulo">* Título</label>
 									<input class="form-control" th:field="${acaoExtensao.titulo}" name="titulo" type="text" required="required"/>
 								</div>
 							</div>
 							
-							<div class="form-group">
+							<div id="admin-form-acao-resumo" class="form-group">
 								<div class="form-item">
 									<label class="control-label">* Resumo</label>
 									<textarea class="form-control" th:field="${acaoExtensao.resumo}" name="resumo" required="required" style="resize: none;"></textarea>

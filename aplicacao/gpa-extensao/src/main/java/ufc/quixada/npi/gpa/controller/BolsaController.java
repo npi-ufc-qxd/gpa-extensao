@@ -10,6 +10,9 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -144,5 +147,12 @@ public class BolsaController {
 	@RequestMapping("/buscarAlunos")
 	public @ResponseBody List<Aluno> buscarAlunos() {
 		return alunoRepository.findAll();
+	}
+	
+	@RequestMapping(value="/detalhes/{id}",method=RequestMethod.GET)
+	public String detalhesBolsista(@PathVariable("id") Integer idAluno, Model model){
+		model.addAttribute(ALUNO, alunoRepository.findOne(idAluno));
+		model.addAttribute(BOLSAS, bolsaRepository.findByBolsista_id(idAluno));
+		return PAGINA_DETALHES_BOLSISTA;
 	}
 }
