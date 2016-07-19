@@ -17,4 +17,6 @@ public interface AcaoExtensaoService {
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
 	void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException;
+	
+	void encerrarAcao(Integer idAcao) throws GpaExtensaoException;
 }

@@ -85,9 +85,8 @@ public class BolsaController {
 	}
 	@RequestMapping(value="/detalhes/{id}",method=RequestMethod.GET)
 	public String detalhesBolsista(@PathVariable("id") Integer idAluno, Model model){
-		Aluno aluno = alunoRepository.findOne(idAluno);
-		model.addAttribute(ALUNO, aluno);
-		model.addAttribute(BOLSAS, bolsaRepository.findByBolsista(aluno));
+		model.addAttribute(ALUNO, alunoRepository.findOne(idAluno));
+		model.addAttribute(BOLSAS, bolsaRepository.findByBolsista_id(idAluno));
 		return PAGINA_DETALHES_BOLSISTA;
 	}
 }
