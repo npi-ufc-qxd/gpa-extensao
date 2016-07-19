@@ -5,6 +5,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
@@ -51,9 +52,6 @@ public class AdministracaoController {
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
 	
-	@Autowired
-	private BolsaRepository bolsaRepository;
-	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
@@ -91,12 +89,9 @@ public class AdministracaoController {
 	}
 	
 	@RequestMapping(value="/encerrarAcao/{idAcao}")
-	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		acao.setAtivo(false);
-		bolsaRepository.inativarBolsas(idAcao);
-		acaoExtensaoRepository.save(acao);
-		redirect.addFlashAttribute(MESSAGE, "Acão encerrada com sucesso!");
+	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect) throws GpaExtensaoException{
+		acaoExtensaoService.encerrarAcao(idAcao);
+		redirect.addFlashAttribute(MESSAGE,MESSAGE_ACAO_ENCERRADA);
 		return REDIRECT_PAGINA_DETALHES_ACAO +idAcao;
 	}
 }
