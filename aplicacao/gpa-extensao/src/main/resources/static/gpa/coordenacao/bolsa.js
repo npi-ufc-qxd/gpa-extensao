@@ -16,8 +16,12 @@ $(document).ready(function() {
 			 $('#table-bolsas').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 3, 5]},
+					    {className: "text-center", "targets": [1, 2, 3, 4, 5, 6]},
+					    {"targets" : 1, "orderable" : false},
+					    {"targets" : 3, "orderable" : false},
 					    {"targets" : 4, "orderable" : false},
+					    {"targets" : 5, "orderable" : false},
+					    {"targets" : 6, "orderable" : false},
 					],
 					"language": {
 				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
@@ -54,6 +58,27 @@ $(document).ready(function() {
         				max: 12
         			}
                 }
+        	},
+        	inicio:{
+        		validators: {
+            		callback: {
+                        message: "A data de início deve ser anterior à data de término",
+                        callback: function(value, validator) {
+                        	var termino = validator.getFieldElements("termino").val();
+                        	if(value != "" && termino != "") {
+                        		termino = moment(termino, "DD/MM/YYYY").format("DD/MM/YYYY");
+	                        	var inicio = moment(value, "DD/MM/YYYY").format("DD/MM/YYYY");
+	                        	if(moment(termino, "DD/MM/YYYY").isBefore(moment(inicio, "DD/MM/YYYY"))) {
+	                        		return false;
+	                        	}
+                        	}
+                        	return true;
+                        }
+                    }
+            	}
+        	},
+        	termino: {
+        		
         	}
         }
 	})
@@ -76,14 +101,14 @@ $(document).ready(function() {
  				$("#formNovaBolsa").bootstrapValidator('resetForm', true);
  				resetForm();
  				if(result.status=="OK"){
- 					var alertDiv = $("#divSucesso");
+ 					var alertDiv = $("#divSucessoBolsa");
  					alertDiv.show();
  					setTimeout(function(){$(alertDiv).fadeOut('slow');}, 3000);
- 					carregarTabelaParticipacoes();
+ 					carregarTabelaBolsas();
  				}else{
  					for (var i = 0; i < result.result.length; i++) {
  						$("#er").remove();
- 						var alertDiv = $("#divError");
+ 						var alertDiv = $("#divErrorBolsa");
  						alertDiv.append("<p id='er'>"+result.result[i].code+"</p>");
  						alertDiv.show();
  				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
@@ -93,6 +118,13 @@ $(document).ready(function() {
  			}
  		});
      });
+	
+	function resetForm() {
+		$("#formNovaBolsa").hide();
+		$("#buttonAdicionarBolsista").removeAttr("disabled");
+		$("#formNovaBolsa")[0].reset();
+		setData();
+	}
 	
 	$("#salvar-numero-bolsas-button").click(function(e){
 		var bolsas = $("#input-bolsas-recebidas-acao-extensao").val();
@@ -114,7 +146,6 @@ $(document).ready(function() {
 				        $("#numero-bolsas-info").fadeIn(500);
 				        $("#editar-bolsas-recebidas-form").removeClass("has-error");
 				        $("#bolsas-recebidas-error").hide();
-						carregarTabelaParticipacoes();
 					}
 				}
 			});
@@ -136,10 +167,8 @@ $(document).ready(function() {
 			success : function(data) {
 				$('#selectBolsista').empty();
 				for (var i = 0; i < data.length; i++) {
-					console.log(data[i].pessoa.id);
 					var newOption = $('<option value=' + data[i].id + '>'
-							+ data[i].pessoa.nome
-							+ '</option>');
+							+ data[i].pessoa.nome + '</option>');
 					$('#selectBolsista').append(newOption);
 				}
 			}
@@ -147,7 +176,6 @@ $(document).ready(function() {
 	}
 	
 	$("#editar-numero-bolsas-button").on("click", function(){
-		console.log("Ta clicando?");
         $("#numero-bolsas-info").hide();
         $("#editar-bolsas-recebidas-form").fadeIn(500);
     });
@@ -158,4 +186,84 @@ $(document).ready(function() {
         $("#bolsas-recebidas-error").hide();
         $("#numero-bolsas-info").fadeIn(500);
     });
+    
+    $('#inicioBolsa, #terminoBolsa, #dataTerminoBolsa').datepicker({
+        format: "dd/mm/yyyy",
+        maxViewMode: 2,
+ 	    language: "pt-BR",
+ 	    autoclose: true,
+ 	    todayHighlight: true,
+ 	    startDate: $("#dataInicio").text(),
+ 	    endDate: $("#dataTermino").text()
+     }).on("changeDate",function(e){
+    	$(this).datepicker("hide");
+    	$("#formNovaBolsa").bootstrapValidator("revalidateField", "inicio");
+    	$("#formNovaBolsa").bootstrapValidator("revalidateField", "termino");
+    });
+    
+    setData();
+    function setData() {
+    	var date = $("#dataInicio").text().split("/");
+    	$("#inicioBolsa").datepicker("setDate", new Date(date[2], date[1]-1, date[0]));
+    
+    	var date = $("#dataTermino").text().split("/");
+    	$("#terminoBolsa").datepicker("setDate", new Date(date[2], date[1]-1, date[0]));
+    	$("#dataTerminoBolsa").datepicker("setDate", new Date(date[2], date[1]-1, date[0]));
+    }
+    
+    $("#confirm-delete-bolsa").on("show.bs.modal", function(e) {
+		$("#deleteBolsaHiddenId").val($(e.relatedTarget).data("id"));
+	});
+
+	$("#deleteBolsaHiddenBtn").click(function(e) {
+		e.preventDefault();
+		var bolsaId = $("#deleteBolsaHiddenId").val();
+	    $("#confirm-delete-bolsa").modal('hide');
+		$.ajax({
+			url : '/gpa-extensao/bolsa/excluir/'+ bolsaId,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+			type : 'GET',
+			async: false,
+		});
+		carregarTabelaBolsas();
+	});
+	
+	$("#confirm-encerrar-bolsa").on("shown.bs.modal", function(e) {
+		$("#encerrarBolsaHiddenId").val($(e.relatedTarget).data("id"));
+	});
+
+	$("#encerrarBolsaHiddenBtn").click(function(e) {
+		e.preventDefault();
+		var bolsaId = $("#encerrarBolsaHiddenId").val();
+		var dataTermino = $("#dataTerminoBolsa").val();
+	    $("#confirm-encerrar-bolsa").modal('hide');
+	    if(dataTermino) {
+			$.ajax({
+				url : '/gpa-extensao/bolsa/encerrar/'+ bolsaId,
+				data : {dataTermino: dataTermino},
+				beforeSend: function (request)
+	            {
+					 request.setRequestHeader(header, token);
+	            },
+				type : 'POST',
+				async: false,
+				success : function(result) {
+					console.log(result)
+	 				if(result.status=="ERROR"){
+	 					$("#er").remove();
+ 						var alertDiv = $("#divErrorBolsa");
+ 						alertDiv.append("<p id='er'>"+result.result +"</p>");
+ 						alertDiv.show();
+ 				    	setTimeout(function(){$(alertDiv).fadeOut('slow');}, 5000);
+ 				    	setData();
+	 				} else {
+	 					carregarTabelaBolsas();
+	 				}
+	 			}
+			});
+	    }
+	});
 });
