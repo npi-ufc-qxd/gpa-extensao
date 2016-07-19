@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -91,11 +91,12 @@ public class AdministracaoController {
 	}
 	
 	@RequestMapping(value="/encerrarAcao/{idAcao}")
-	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, Model model){
+	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
 		acao.setAtivo(false);
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
-		return "";
+		redirect.addFlashAttribute(MESSAGE, "Acão encerrada com sucesso!");
+		return REDIRECT_PAGINA_DETALHES_ACAO +idAcao;
 	}
 }

@@ -35,7 +35,7 @@ public class Bolsa {
 	
 	private boolean ativo;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "bolsa")
 	private List<FrequenciaBolsista> frenquencias;
 	
 	@ManyToOne
