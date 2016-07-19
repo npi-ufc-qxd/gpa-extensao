@@ -110,6 +110,7 @@ public class Constants {
 	public static final String MESSAGE = "message";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
+	public static final String MESSAGE_ACAO_ENCERRADA ="Acão encerrada com sucesso!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_EDITADO_SUCESSO = "Editado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
@@ -135,5 +136,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/paulo.nobre/Documentos/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
 }
