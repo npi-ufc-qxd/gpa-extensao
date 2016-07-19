@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Bolsa {
 	
@@ -24,8 +26,10 @@ public class Bolsa {
 	@ManyToOne
 	private Aluno bolsista;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
 	
 	private Integer cargaHoraria;
