@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,6 +31,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
+import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
@@ -107,7 +109,7 @@ public class ParticipacaoController {
 	}
 
 	@RequestMapping("/buscarServidores")
-	public @ResponseBody List<Servidor> buscarServidores() {
-		return servirdorRepository.findAll();
+	public @ResponseBody List<Servidor> buscarServidores(@RequestParam("funcao") Funcao funcao) {
+		return servirdorRepository.findByFuncao(funcao);
 	}
 }
