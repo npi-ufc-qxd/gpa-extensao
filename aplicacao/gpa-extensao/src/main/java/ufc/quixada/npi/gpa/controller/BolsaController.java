@@ -13,6 +13,7 @@ import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
+import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -113,9 +114,9 @@ public class BolsaController {
 	}
 	
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
-	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
+	public String showGuestList(@PathVariable("idAcao") Integer id, Model model,Authentication auth) {
 	    model.addAttribute("bolsas", bolsaRepository.findByAcaoExtensao_id(id));
-	    
+	    model.addAttribute(CPF_COORDENADOR,acaoExtensaoRepository.findOne(id).getCoordenador().getCpf());
 	    return FRAGMENTS_TABLE_BOLSAS;
 	}
 	

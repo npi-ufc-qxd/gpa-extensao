@@ -67,6 +67,7 @@ public class Constants {
 	public static final String ERROR_UPPERCASE = "ERROR";
 	public static final String OK_UPPERCASE = "OK";
 	public static final String COORDENADORES = "coordenadores";
+	public static final String CPF_COORDENADOR="cpfCoordenador";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";

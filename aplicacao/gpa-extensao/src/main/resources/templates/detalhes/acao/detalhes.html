@@ -181,7 +181,7 @@
 							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-primary btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
-						<a th:if="${acaoExtensao.ativo}" sec:authorize="hasAuthority('ADMINISTRACAO')"
+						<a th:if="${acaoExtensao.ativo} AND ${acaoExtensao.status.name() == 'APROVADO'}" sec:authorize="hasAuthority('ADMINISTRACAO')"
 							class="btn btn-danger btn-flat pull-right" th:href="@{/admin/encerrarAcao/} + ${acaoExtensao.id}">Encerrar</a>
 						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
 							title="Homologar Ação" href="#homologar-form" class="btn btn-primary btn-flat pull-right">Homologar</a>

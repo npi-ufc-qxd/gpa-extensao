@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +103,7 @@ public class ParticipacaoController {
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-	    
+	    model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
 
