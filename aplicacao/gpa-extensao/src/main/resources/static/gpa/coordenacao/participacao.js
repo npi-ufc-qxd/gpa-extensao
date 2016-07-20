@@ -179,11 +179,11 @@ $(document).ready(function() {
      });
 	
 	function resetForm() {
-		$("#formNovaParticipacao").hide();
-			$("#buttonAdicionarParticipacao").removeAttr("disabled");
-			$("#formNovaParticipacao")[0].reset();
-			$('#selectPessoa').empty();
-			$("#select2-chosen-2").html("A Selecionar...");
+		$("#formParceriaExterna").hide();
+		$("#buttonAdicionarParticipacao").removeAttr("disabled");
+		$("#formNovaParticipacao")[0].reset();
+		$('#selectPessoa').empty();
+		$("#select2-chosen-2").html("A Selecionar...");
 	}
 	
 	function carregarTabelaParticipacoes() {
