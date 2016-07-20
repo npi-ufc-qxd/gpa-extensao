@@ -55,18 +55,22 @@ public class ParceriaExternaController {
 		parceriaExternaRepository.delete(idParceriaExterna);
 	}
 	
-	@RequestMapping(value="/salvar/{id}", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("id") Integer id, @ModelAttribute @Valid ParceriaExterna parceria,
+	@RequestMapping(value="/salvar/{idAcao}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> novaParceriaExterna(@PathVariable("idAcao") Integer idAcao, 
+			@ModelAttribute @Valid ParceriaExterna parceria,
 			Model model, BindingResult binding){
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(binding.hasErrors()){
 			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(id);
+		
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 		parceria.setAcaoExtensao(acaoExtensao);
 		parceriaExternaRepository.save(parceria);
+		
 		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
