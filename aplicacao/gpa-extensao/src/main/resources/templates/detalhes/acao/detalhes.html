@@ -13,20 +13,12 @@
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				<input th:if="${message}" id="message-sucess" type="hidden" th:value="${message}"/>
+				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
+       			
        			<!-- Mensagens -->
-	            <div id="message-modal-alert" class="callout callout-success" style="display:none;">
-	         		<h4><i class="icon fa fa-check"></i></h4>
+	            <div id="message-modal-alert" class="callout callout-success no-display" >
 	         		<p></p>
 	       		</div>
-				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
-				
-				
-				<!-- Mensagens -->
-            	<div th:if="${message}" class="alert alert-success alert-dismissible">
-         			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-         			<h4><i class="icon fa fa-check"></i></h4>
-         			<p th:text="${message}"></p>
-       			</div>
        			
 				<!-- Box visualização das Pendências -->
 				<div th:if="(${acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER'} AND (${#authentication.name == acaoExtensao.parecerTecnico.responsavel.cpf} OR ${#authentication.name == acaoExtensao.coordenador.cpf})) OR
@@ -92,7 +84,7 @@
 							<div class="col-sm-3">
                                 <label>Código</label>
                                 <div id="codigo-info">
-                                    <span id="codigo-acao-extensao" th:text="${acaoExtensao.codigo}"></span>
+                                    <span id="codigo-acao-extensao" th:text="${acaoExtensao.codigo} ? ${acaoExtensao.codigo} : '-'"></span>
                                     <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-codigo-acao-extensao" class="fa fa-fw fa-edit" title="Editar o código"></a>
                                 </div>
                                 
@@ -117,7 +109,7 @@
 
 							<div class="col-sm-9">
 								<label>Vínculo</label>
-								<p th:if="${acaoExtensao.vinculo} != null" th:text="${acaoExtensao.vinculo.identificador}"/>
+								<p th:text="${acaoExtensao.vinculo} ? ${acaoExtensao.vinculo.titulo} : '-'"/>
 							</div>
 
 						</div>
@@ -125,11 +117,11 @@
 						<div class="row">
 							<div class="col-sm-3">
 								<label>Início</label>
-								<p id="dataInicio" th:if="${acaoExtensao.inicio} != null" th:text="${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')}"/>
+								<p id="dataInicio" th:text="${acaoExtensao.inicio} ? ${#dates.format(acaoExtensao.inicio, 'dd/MM/yyyy')} : '-'"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Término</label>
-								<p id="dataTermino" th:if="${acaoExtensao.termino} != null" th:text="${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')}"/>
+								<p id="dataTermino" th:text="${acaoExtensao.termino} ? ${#dates.format(acaoExtensao.termino, 'dd/MM/yyyy')} : '-'"/>
 							</div>
 							<div class="col-sm-3">
 								<label>Bolsas solicitadas</label>
@@ -138,7 +130,7 @@
 							<div class="col-sm-3">
                                 <label>Bolsas recebidas</label>
                                 <div id="numero-bolsas-info" th:fragment="numero-bolsas-info">
-                                    <span id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas}"></span>
+                                    <span id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas} ? ${acaoExtensao.bolsasRecebidas} : '-'"></span>
                                     <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-numero-bolsas-button" class="fa fa-fw fa-edit" title="Setar o número de bolsas recebidas"></a>
                                 </div>
                                 
@@ -159,16 +151,17 @@
 						</div>
 						<div class="row col-sm-4">
 							<label>Número do Processo</label>
-							<p th:if="${acaoExtensao.numeroProcesso} != null" th:text="${acaoExtensao.numeroProcesso}"></p>
+							<p th:text="${acaoExtensao.numeroProcesso} ? ${acaoExtensao.numeroProcesso} : '-'"></p>
 						</div>
 						<div class="row col-sm-8">
-							<label>Observação</label>
-							<p th:if="${acaoExtensao.observacaoHomologacao} != null" th:text="${acaoExtensao.observacaoHomologacao}"></p>
+							<label>Observação homologação</label>
+							<p th:text="${acaoExtensao.observacaoHomologacao} ? ${acaoExtensao.observacaoHomologacao} : '-'"></p>
 						</div>
                         <div class="row col-sm-12">
                             <label>Arquivo</label>
-                            <div th:if="${acaoExtensao.anexo} != null">
-                                <a th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
+                            <div>
+                                <a th:if="${acaoExtensao.anexo} != null" th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}" th:text="${acaoExtensao.anexo.nome}"></a>
+                            	<p th:if="${acaoExtensao.anexo} == null">-</p>
                             </div>
                         </div>
                         
@@ -192,7 +185,7 @@
       			<!-- Participações -->
       			<div th:replace="detalhes/acao/fragment-form-participacao :: formParticipacao"></div>
       			
-      			<!-- bolsas -->
+      			<!-- Bolsistas -->
       			<div th:replace="detalhes/acao/fragment-form-bolsa :: formBolsa"></div>
 
 				<!-- Parceria Externa -->
@@ -200,7 +193,7 @@
 				
 				<!-- Parecer técnico -->
 				<div th:if="${acaoExtensao.parecerTecnico == null}">
-					<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
+					<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer-tecnico"></div>
 				</div>
 				<div  th:unless="${acaoExtensao.parecerTecnico == null}">
 					<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-tecnico"></div>
@@ -208,7 +201,7 @@
 				
 				<!-- Parecer relator -->
 				<div th:if="${acaoExtensao.parecerRelator == null}">
-           			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer"></div>
+           			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer-relator"></div>
            		</div>
            		<div th:unless="${acaoExtensao.parecerRelator == null}">
            			<div th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator"></div>

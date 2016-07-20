@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-</head>
-
-<body>
-</body>
 <div th:if="${acaoExtensao.status.name() == 'APROVADO'}" th:fragment="formBolsa" class="box box-primary">
 	<div class="box-header with-border">
  		<h3 class="box-title">Bolsistas</h3>
@@ -14,7 +9,6 @@
   		<div class="text-center col-md-6 col-md-offset-3">
 			<div id="divSucessoBolsa" class="alert alert-success alert-dismissible" hidden="true">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
 				<p>Bolsista Cadastrado com Sucesso</p>
 			</div>
 			<div id="divErrorBolsa" class="alert alert-danger alert-dismissible" hidden="true">
@@ -65,9 +59,7 @@
 		<div class="box-body with-border" id="resultsBlockBolsas"></div>
 	</div>
 	<div class="box-footer">
-		<button id="buttonAdicionarBolsista"
-			th:if="${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}"
-    		type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
+		<button id="buttonAdicionarBolsista" type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
 	</div>
 </div>
 </html>

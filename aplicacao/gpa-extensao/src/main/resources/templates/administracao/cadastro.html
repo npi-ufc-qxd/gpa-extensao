@@ -63,7 +63,7 @@
 								</div>
 							</div>
 							
-							<div id="cargas-horarias-acao-cr" class="form-group row" style="display: none;">
+							<div id="cargas-horarias-acao-cr" class="form-group row no-display">
                                	<div class="col-lg-6 form-item">
 									<label class="control-label">* Carga horária prática:</label>
 									<input th:field="${acaoExtensao.horasPraticas}" name="horasPraticas" type="number" min="0" class="form-control"/>
@@ -74,14 +74,14 @@
 								</div>
 							</div>
 							
-							<div id="ementa-acao-cr" class="form-group" style="display: none;">
+							<div id="ementa-acao-cr" class="form-group no-display">
 								<div class="form-item">
 									<label class="control-label">* Ementa/Conteúdo programático</label>
 									<textarea class="form-control" id="textarea-ementa-acao-cr" th:field="${acaoExtensao.ementa}" name="ementa" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
 								</div>
 							</div>
 							
-							<div id="programacao-acao-cr" class="form-group" style="display: none;">
+							<div id="programacao-acao-cr" class="form-group no-display">
 								<div class="form-item">
 									<label class="control-label">* Programação</label>
 									<textarea class="form-control" id="textarea-programacao-acao-cr" th:field="${acaoExtensao.programacao}" name="programacao" placeholder="Escreva a programação..."></textarea>
