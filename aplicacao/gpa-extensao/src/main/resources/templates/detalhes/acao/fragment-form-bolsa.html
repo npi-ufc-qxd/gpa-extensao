@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-</head>
-
-<body>
-</body>
 <div th:if="${acaoExtensao.status.name() == 'APROVADO'}" th:fragment="formBolsa" class="box box-primary">
 	<div class="box-header with-border">
  		<h3 class="box-title">Bolsistas</h3>
   	</div>
   	<div class="box-body">
   		<div class="text-center col-md-6 col-md-offset-3">
-			<div id="divSucesso" class="alert alert-success alert-dismissible" hidden="true">
+			<div id="divSucessoBolsa" class="alert alert-success alert-dismissible" hidden="true">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icon fa fa-check"></i> Sucesso!</h4>
 				<p>Bolsista Cadastrado com Sucesso</p>
 			</div>
-			<div id="divError" class="alert alert-danger alert-dismissible" hidden="true">
+			<div id="divErrorBolsa" class="alert alert-danger alert-dismissible" hidden="true">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 				<h4><i class="icon fa fa-ban"></i> Erro!</h4>
 			</div>
@@ -42,10 +36,18 @@
 				</div>
 				
 				<div class="form-group row">
-					<div id="divSelectPessoa" class="col-lg-6 form-item">
+					<div class="col-lg-6 form-item">
 						<label for="bolsista" class="control-label">Bolsista</label>
 						<select id="selectBolsista" name="selectBolsista" class="form-control" th:field="*{bolsista}">
 						</select>
+					</div>
+					<div class="col-lg-3 form-item">
+						<label for="inicio" class="control-label">Data de início</label>
+						<input id="inicioBolsa" type="text" name="inicio" class="form-control" th:field="*{inicio}" required="required" autocomplete="off" />
+					</div>
+					<div class="col-lg-3 form-item">
+						<label for="termino" class="control-label">Data de término</label>
+						<input id="terminoBolsa"  type="text" name="termino" class="form-control" th:field="*{termino}" required="required" autocomplete="off" />
 					</div>
 				</div>
 			</div>
@@ -57,9 +59,7 @@
 		<div class="box-body with-border" id="resultsBlockBolsas"></div>
 	</div>
 	<div class="box-footer">
-		<button id="buttonAdicionarBolsista"
-			th:if="${#authentication.name == acaoExtensao.coordenador.cpf}"
-    		type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
+		<button id="buttonAdicionarBolsista" type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
 	</div>
 </div>
 </html>

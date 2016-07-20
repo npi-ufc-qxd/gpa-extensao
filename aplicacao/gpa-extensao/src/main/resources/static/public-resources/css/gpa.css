@@ -8,7 +8,7 @@
 	margin-left: 5px;
 }
 
-#box-details .row {
+.box-details .row {
 	margin-bottom: 25px;
 	margin-left: 0;
 	margin-right: 0;
@@ -29,4 +29,16 @@
 .has-success .form-control:focus {
 	box-shadow: none;
 	border-color: #3c8dbc;
+}
+
+.no-display {
+	display: none;
+}
+
+#resumo-acao {
+	text-align: justify;
+}
+
+.callout {
+	text-align: center;
 }

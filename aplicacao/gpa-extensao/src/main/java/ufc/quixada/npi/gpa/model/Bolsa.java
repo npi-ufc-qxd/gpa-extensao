@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,29 +14,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Bolsa {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@ManyToOne
 	private Aluno bolsista;
+	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date inicio;
+	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date termino;
+	
 	private Integer cargaHoraria;
+	
 	@Enumerated(EnumType.STRING)
 	private TipoBolsa tipo;
+	
 	private boolean ativo;
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	
+	@OneToMany(mappedBy = "bolsa")
 	private List<FrequenciaBolsista> frenquencias;
+	
 	@ManyToOne
 	@JoinColumn(name = "acao_id")
 	private AcaoExtensao acaoExtensao;
-	
-	public Bolsa(){
-		
+
+	public Bolsa() {
+
 	}
-	
+
 	public Bolsa(Aluno bolsista, Date inicio, Date termino, Integer cargaHoraria, TipoBolsa tipo) {
 		super();
 		this.bolsista = bolsista;
@@ -51,87 +63,90 @@ public class Bolsa {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public Aluno getBolsista() {
 		return bolsista;
 	}
 
-
 	public void setBolsista(Aluno bolsista) {
 		this.bolsista = bolsista;
 	}
-
 
 	public Date getInicio() {
 		return inicio;
 	}
 
-
 	public void setInicio(Date inicio) {
 		this.inicio = inicio;
 	}
-
 
 	public Date getTermino() {
 		return termino;
 	}
 
-
 	public void setTermino(Date termino) {
 		this.termino = termino;
 	}
-
 
 	public Integer getCargaHoraria() {
 		return cargaHoraria;
 	}
 
-
 	public void setCargaHoraria(Integer cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
-
 
 	public TipoBolsa getTipo() {
 		return tipo;
 	}
 
-
 	public void setTipo(TipoBolsa tipo) {
 		this.tipo = tipo;
 	}
 
-
 	public boolean isAtivo() {
 		return ativo;
 	}
+	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 
-	public List<FrequenciaBolsista> getFrequencias(){
+	public List<FrequenciaBolsista> getFrequencias() {
 		return frenquencias;
 	}
-	public void addFrequencia(FrequenciaBolsista frequencia){
-		if(this.frenquencias==null){
+
+	public void addFrequencia(FrequenciaBolsista frequencia) {
+		if (this.frenquencias == null) {
 			this.frenquencias = new ArrayList<>();
 		}
 		this.frenquencias.add(frequencia);
 	}
-	public enum TipoBolsa{
-		REMUNERADO("Remunerado"),VOLUNTARIO("Voluntário");
+	
+	public AcaoExtensao getAcaoExtensao() {
+		return acaoExtensao;
+	}
+
+	public void setAcaoExtensao(AcaoExtensao acaoExtensao) {
+		this.acaoExtensao = acaoExtensao;
+	}
+
+	public enum TipoBolsa {
+		REMUNERADO("Remunerado"), VOLUNTARIO("Voluntário");
 		private String descricao;
-		
-		private TipoBolsa(String descricao){
-			this.descricao=descricao;
+
+		private TipoBolsa(String descricao) {
+			this.descricao = descricao;
 		}
 
 		public String getDescricao() {
 			return descricao;
 		}
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -157,25 +172,4 @@ public class Bolsa {
 		return true;
 	}
 
-	public List<FrequenciaBolsista> getFrenquencias() {
-		return frenquencias;
-	}
-
-	public void setFrenquencias(List<FrequenciaBolsista> frenquencias) {
-		this.frenquencias = frenquencias;
-	}
-
-	public AcaoExtensao getAcaoExtensao() {
-		return acaoExtensao;
-	}
-
-	public void setAcaoExtensao(AcaoExtensao acaoExtensao) {
-		this.acaoExtensao = acaoExtensao;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
-	
-	
 }

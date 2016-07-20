@@ -37,6 +37,7 @@ public class Constants {
 	public static final String PERMISSAO_PARECERISTA = "parecerista";
 	public static final String PERMISSAO_RELATOR = "relator";
 	public static final String PARTICIPANTE = "participante";
+	public static final String BOLSISTA = "bolsista";
 	public static final String PERMISSAO = "permissao";
 	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
@@ -50,6 +51,9 @@ public class Constants {
 	public static final String BUSCAR = "buscar";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
+		
+	public static final String ALUNO = "aluno";
+	public static final String BOLSAS = "bolsas";
 	public static final String DEDICACAO = "dedicacao";
 	public static final String PARCEIRO = "parceiro";
 	public static final String PARCERIA_EXTERNA = "parceriaExterna";
@@ -79,6 +83,8 @@ public class Constants {
 	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	public static final String PAGINA_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas";
+	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
+
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
@@ -111,6 +117,7 @@ public class Constants {
 	public static final String MESSAGE = "message";
 	public static final String MESSAGE_PARECERISTA_NAO_ATRIBUIDO = "O parecerista ainda não foi atribuído!";
 	public static final String MESSAGE_RELATOR_NAO_ATRIBUIDO = "O relator ainda não foi atribuído!";
+	public static final String MESSAGE_ACAO_ENCERRADA ="Acão encerrada com sucesso!";
 	public static final String MESSAGE_CADASTRO_SUCESSO = "Cadastrado com sucesso!";
 	public static final String MESSAGE_EDITADO_SUCESSO = "Editado com sucesso!";
 	public static final String MESSAGE_CADASTRO_ERROR = "Não foi possível cadastrar!";
@@ -126,9 +133,13 @@ public class Constants {
 	public static final String VALOR_INVALIDO = "Valor inválido!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
+	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
 	
 	//Errors
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
+	public static final String ERROR_ALUNO_JA_BOLSISTA = "Esse aluno já é bolsista desse projeto";
+	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
+	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.
@@ -136,5 +147,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/ruben.silva/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
 }

@@ -17,16 +17,15 @@ $(document).ready(function(){
 			$("#menu-item-cadastrar-acao").addClass("active");
 			break;
 			
-		case "cadastro-retroativo":
+		case "cadastrar-acao-retroativa":
 			zerarMenu();
-			$("#menu-item-cadastrar-acao").addClass("active");
+			$("#menu-item-cadastrar-acao-retroativa").addClass("active");
 			break;
-			
-		case "busca-acao":
+		
+		case "buscar-acao":
 			zerarMenu();
-			$("#menu-item-busca-acao").addClass("active");
-			break;
-			
+			$("#menu-item-buscar-acoes").addClass("active");
+
 		case "listagem-bolsistas":
 			zerarMenu();
 			$("#menu-item-listagem-bolsistas").addClass("active");

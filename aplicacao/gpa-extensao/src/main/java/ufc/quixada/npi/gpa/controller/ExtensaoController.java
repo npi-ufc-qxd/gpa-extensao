@@ -6,7 +6,6 @@ import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_NOVAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
@@ -179,13 +178,11 @@ public class ExtensaoController {
 	@RequestMapping("/listagem")
 	public String listagem(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
-		List<Status> statusTramitacao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
+		List<Status> statusTramitacao = Arrays.asList(Status.NOVO, Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO, Status.AGUARDANDO_RELATOR, 
 				Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.RESOLVENDO_PENDENCIAS_PARECER, Status.RESOLVENDO_PENDENCIAS_RELATO);
-		List<Status> statusNovo = Arrays.asList(Status.NOVO);
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
 
 		model.addAttribute(ACOES_TRAMITACAO, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
-		model.addAttribute(ACOES_NOVAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusNovo));
 		model.addAttribute(ACOES_HOMOLOGADAS, acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
 		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoRepository.getParecerRelator(pessoa.getId()));
 		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
@@ -204,7 +201,7 @@ public class ExtensaoController {
 		
 		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 	}
-
+	
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model,
@@ -338,6 +335,7 @@ public class ExtensaoController {
 		
 		try {
 			acaoExtensao.setCoordenador(coordenador);
+			acaoExtensao.setAtivo(true);
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
 			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {

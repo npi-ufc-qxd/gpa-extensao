@@ -13,7 +13,7 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>Ações de Extensão</h1>
+				<h1>Coordenação de Extensão - Ações em Tramitação</h1>
 			</section>
 
 			<!-- Main content -->
@@ -60,29 +60,14 @@
 							</div>
 						</div>
 					</div>
-					
-					<div id="homologado-card" class="card col-lg-3 col-xs-6">
-						<!-- small box -->
-						<div class="small-box bg-aqua cursor-pointer">
-							<div class="inner">
-								<h3 th:text="${acoesHomologadas.size()}"></h3>
-
-								<p>Homologadas</p>
-							</div>
-							<div class="icon">
-								<i class="fa fa-folder-o"></i>
-							</div>
-						</div>
-					</div>
-
 				</div>
 
-				<div class="row parecer" style="display: none">
+				<div class="row parecer no-display">
 					<div class="col-xs-12">
 						<div class="box box-info">
 
 							<div class="box-header">
-								<h3>Ações Aguardando Parecerista</h3>
+								<h3>Aguardando Parecerista</h3>
 							</div>
 
 							<div class="box-body table-responsive">
@@ -117,12 +102,12 @@
 					</div>
 				</div><!-- /.tabela aguardando parecerista -->
 
-				<div class="row parecer" style="display: none">
+				<div class="row parecer no-display">
 					<div class="col-xs-12">
 						<div class="box box-info">
 
 							<div class="box-header">
-								<h3>Ações Aguardando Parecer</h3>
+								<h3>Aguardando Parecer</h3>
 							</div>
 
 							<div class="box-body table-responsive">
@@ -160,12 +145,12 @@
 				</div>
 				<!-- /.tabela aguardando parecer -->
 
-				<div class="row relato" style="display: none">
+				<div class="row relato no-display">
 					<div class="col-xs-12">
 						<div class="box box-info">
 
 							<div class="box-header">
-								<h3>Ações Aguardando Relator</h3>
+								<h3>Aguardando Relator</h3>
 							</div>
 
 							<div class="box-body table-responsive">
@@ -201,12 +186,12 @@
 				</div>
 				<!-- /.tabela aguardando relator -->
 
-				<div class="row relato" style="display: none">
+				<div class="row relato no-display">
 					<div class="col-xs-12">
 						<div class="box box-info">
 
 							<div class="box-header">
-								<h3>Ações Aguardando Relato</h3>
+								<h3>Aguardando Parecer do Relator</h3>
 							</div>
 
 							<div class="box-body table-responsive">
@@ -244,12 +229,12 @@
 				</div>
 				<!-- /.tabela aguardando relato -->
 
-				<div class="row homologacao" style="display: none">
+				<div class="row homologacao no-display">
 					<div class="col-xs-12">
 						<div class="box box-info">
 
 							<div class="box-header">
-								<h3>Ações Aguardando Homologação</h3>
+								<h3>Aguardando Homologação</h3>
 							</div>
 
 							<div class="box-body table-responsive">
@@ -282,49 +267,7 @@
 
 						</div>
 					</div>
-				</div>
-				<!-- /.tabela aguardando homologacao -->
-
-				<div class="row homologado" style="display: none">
-					<div class="col-xs-12">
-						<div class="box box-info">
-
-							<div class="box-header">
-								<h3>Ações Homologadas</h3>
-							</div>
-
-							<div class="box-body table-responsive">
-								<table class="table-direcao-homologadas table table-striped table-bordered">
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>Título</th>
-											<th>Coordenador</th>
-											<th>Modalidade</th>
-											<th>Status</th>
-										</tr>
-									</thead>
-
-									<tbody>
-
-										<tr th:each="acao: ${acoesHomologadas}">
-											<td class="vcenter" th:text="${acao.identificador}"></td>
-											<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
-											<td th:text="${acao.coordenador.nome}"></td>
-											<td th:text="${acao.modalidade.descricao}"></td>
-											<td>
-												<span class="label label-primary" th:text="${acao.status.descricao}"></span>
-											</td>
-										</tr>
-
-									</tbody>
-								</table>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<!-- /.tabela acoes homologadas -->
+				</div> <!-- /.tabela aguardando homologacao -->
 			</section>
 			<!-- /.content -->
 		</div>
@@ -332,8 +275,5 @@
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>
 	<!-- ./wrapper -->
-	
-	
-	
 </body>
 </html>

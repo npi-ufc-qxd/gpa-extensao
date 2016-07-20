@@ -31,6 +31,7 @@ public class AcaoExtensao {
 	private String identificador;
 	
 	private String titulo;
+	
 	@Column(columnDefinition = "TEXT")
 	private String resumo;
 	
@@ -92,7 +93,9 @@ public class AcaoExtensao {
 	
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private Parecer parecerRelator;
+	
 	private boolean ativo;
+	
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}
@@ -311,6 +314,14 @@ public class AcaoExtensao {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	
+	public List<Bolsa> getBolsistas() {
+		return bolsistas;
+	}
+
+	public void setBolsistas(List<Bolsa> bolsistas) {
+		this.bolsistas = bolsistas;
+	}
 
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(
@@ -367,13 +378,5 @@ public class AcaoExtensao {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public List<Bolsa> getBolsistas() {
-		return bolsistas;
-	}
-
-	public void setBolsistas(List<Bolsa> bolsistas) {
-		this.bolsistas = bolsistas;
 	}
 }

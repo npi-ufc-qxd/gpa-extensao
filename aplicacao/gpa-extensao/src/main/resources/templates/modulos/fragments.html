@@ -86,11 +86,11 @@
 		<!-- sidebar menu: : style can be found in sidebar.less -->
 		<ul sec:authorize="hasAuthority('DIRECAO') OR hasAuthority('SERVIDOR')" class="sidebar-menu">
 
-			<li class="header">COORDENAÇÃO</li>
+			<li class="header">MINHAS AÇÕES DE EXTENSÃO</li>
 			<li id="menu-item-cadastrar-acao" class="menu-item"><a th:href="@{/cadastrar}"> <i class="fa fa-plus"></i>
 					<span>Nova Ação</span>
 			</a></li>
-			<li id="menu-item-acoes-coordenacao" class="menu-item"><a th:href="@{/listagem}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+			<li id="menu-item-acoes-coordenacao" class="menu-item"><a th:href="@{/listagem}"> <i class="fa fa-folder-o"></i> <span>Minhas Ações</span>
 					<span class="label label-primary pull-right" th:text="${acoesCoordenadorSize}"></span>
 			</a></li>
 			
@@ -99,16 +99,12 @@
 		
 		<ul sec:authorize="hasAuthority('DIRECAO')" class="sidebar-menu">
 		
-			<li class="header">DIREÇÃO</li>
-			<li id="menu-item-acoes-direcao" class="menu-item"><a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações</span>
+			<li class="header">COORDENAÇÃO DE EXTENSÃO</li>
+			<li id="menu-item-acoes-direcao" class="menu-item">
+				<a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações em Tramitação</span>
 					<span class="label label-primary pull-right" th:text="${acoesDirecaoSize}"></span>
-			</a></li>
-			<li id="menu-item-relatorios" class="menu-item"><a href="#"> <i class="fa fa-file-text-o"></i> <span>Relatórios</span>
-			</a></li>
-			<li id="menu-item-usuarios" class="menu-item"><a href="#"> <i class="fa fa-users" aria-hidden="true"></i>
-					<span>Usuários</span> <span
-					class="label label-primary pull-right">60</span>
-			</a></li>
+				</a>
+			</li>
 			
 		</ul>
 		<!-- /.sidebar-menu-direção -->
@@ -116,7 +112,7 @@
 		<ul sec:authorize="hasAuthority('ADMINISTRACAO')" class="sidebar-menu">
 		
 			<li class="header">ADMINISTRAÇÃO</li>
-			<li id="menu-item-cadastrar-acao" class="menu-item"><a th:href="@{/admin/cadastrar}">
+			<li id="menu-item-cadastrar-acao-retroativa" class="menu-item"><a th:href="@{/admin/cadastrar}">
 				<i class="fa fa-plus"></i> <span>Cadastrar ação retroativa</span>
 			</a></li>
 			<li id="menu-item-listagem-bolsistas" class="menu-item"><a th:href="@{/admin/bolsistas}">
@@ -127,7 +123,7 @@
 		
 		<ul class="sidebar-menu">
 			<li class="header">BUSCAR</li>
-			<li id="menu-item-busca-acao" class="menu-item"><a th:href="@{/buscar/acao-extensao}"> <i class="fa fa-search"></i>
+			<li id="menu-item-buscar-acoes"><a th:href="@{/buscar/acao-extensao}"> <i class="fa fa-search"></i>
 				<span>Ações</span><span class="label label-primary pull-right"></span></a>
 			</li>
 		</ul>

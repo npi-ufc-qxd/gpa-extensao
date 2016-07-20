@@ -22,7 +22,6 @@ $(document).ready(function() {
 	$(".funcaoOutra ,#divNomeInstituicao").hide();
 	
 	$("#buttonAdicionarParticipacao").click(function () {
-		buscaServidores();
 	});
 	
 	
@@ -37,15 +36,17 @@ $(document).ready(function() {
 			$(".funcaoOutra").fadeIn(500);
 			$("#cargaHoraria").attr({"min" : "1"});
 		} else if(funcao == "STA" || funcao == "DOCENTE") {
+			buscaServidores(funcao);
 			$("#nomeParticipante, #cpfParticipante, #descricaoFuncao").removeAttr('required').val(null);
 			$(".funcaoOutra").hide();
 			$("#divSelectPessoa").fadeIn(500);
 		}
 	});
 	
-	function buscaServidores() {
+	function buscaServidores(funcao) {
 		$.ajax({
 			type:"GET",
+			data: {funcao : funcao},
 			 beforeSend: function (request)
 	         {
 	                request.setRequestHeader(header, token);
@@ -178,11 +179,11 @@ $(document).ready(function() {
      });
 	
 	function resetForm() {
-		$("#formNovaParticipacao").hide();
-			$("#buttonAdicionarParticipacao").removeAttr("disabled");
-			$("#formNovaParticipacao")[0].reset();
-			$('#selectPessoa').empty();
-			$("#select2-chosen-2").html("A Selecionar...");
+		$("#formParceriaExterna").hide();
+		$("#buttonAdicionarParticipacao").removeAttr("disabled");
+		$("#formNovaParticipacao")[0].reset();
+		$('#selectPessoa').empty();
+		$("#select2-chosen-2").html("A Selecionar...");
 	}
 	
 	function carregarTabelaParticipacoes() {
@@ -191,12 +192,12 @@ $(document).ready(function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 3, 5, 6, 7]},
+					    {className: "text-center", "targets": [1, 4, 5, 6, 7]},
+					    {"targets" : 1, "orderable" : false},
 					    {"targets" : 4, "orderable" : false},
 					    {"targets" : 5, "orderable" : false},
 				        {"targets" : 6, "orderable" : false},
 				        {"targets" : 7, "orderable" : false},
-				        { "width": "7%", "targets":4 },
 					],
 					"language": {
 				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
