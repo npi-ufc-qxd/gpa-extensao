@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,7 +28,7 @@ public class Bolsa {
 	@Enumerated(EnumType.STRING)
 	private TipoBolsa tipo;
 	private boolean ativo;
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<FrequenciaBolsista> frenquencias;
 	@ManyToOne
 	@JoinColumn(name = "acao_id")

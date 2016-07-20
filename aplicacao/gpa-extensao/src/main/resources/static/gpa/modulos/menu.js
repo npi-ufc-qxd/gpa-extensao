@@ -27,6 +27,11 @@ $(document).ready(function(){
 			$("#menu-item-busca-acao").addClass("active");
 			break;
 			
+		case "listagem-bolsistas":
+			zerarMenu();
+			$("#menu-item-listagem-bolsistas").addClass("active");
+			break;
+			
 		default:
 			zerarMenu();
 			break;

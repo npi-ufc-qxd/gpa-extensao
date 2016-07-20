@@ -4,12 +4,17 @@ import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
+import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.FREQUENCIAS;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,62 +31,93 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.FrequenciaView;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
+import ufc.quixada.npi.gpa.service.BolsaService;
 
 @Controller
 @RequestMapping("admin")
 @Transactional
 public class AdministracaoController {
-	
+
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private ServidorRepository servidorRepository;
-	
+
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
-	
+
+	@Autowired
+	private BolsaRepository bolsaRepository;
+
+	@Autowired
+	private BolsaService bolsaService;
+
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication){
+	public Integer acoesDirecaoSize(Authentication authentication) {
 		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
 	}
-	
+
 	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication){
+	public Integer acoesCoordenadorSize(Authentication authentication) {
 		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
 	}
-	
+
 	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication){
+	public String pessoaLogada(Authentication authentication) {
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
-	
+
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
-	public String cadastrarForm(Model model){
+	public String cadastrarForm(Model model) {
 		model.addAttribute(POSSIVEIS_COORDENADORES, servidorRepository.findAll());
 		model.addAttribute(ACAO_EXTENSAO, new AcaoExtensao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
 		return PAGINA_CADASTRO_RETROATIVO_ACAO;
 	}
-	
+
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public String cadastroRetroativoAcao(@RequestParam("anexoAcao") MultipartFile arquivo, @RequestParam("cargaHoraria") Integer cargaHoraria, @ModelAttribute AcaoExtensao acaoExtensao, Model model){
+	public String cadastroRetroativoAcao(@RequestParam("anexoAcao") MultipartFile arquivo,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, @ModelAttribute AcaoExtensao acaoExtensao,
+			Model model) {
 		try {
 			acaoExtensaoService.salvarAcaoRetroativa(acaoExtensao, arquivo, cargaHoraria);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(MESSAGE, e.getMessage());
 			return PAGINA_CADASTRO_RETROATIVO_ACAO;
 		}
-		
+
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
-	
+
+	@RequestMapping(value = "/bolsistas", method = RequestMethod.GET)
+	public String paginaListagemBolsistas(Model model) {
+		model.addAttribute("anos", bolsaRepository.findAnosInicio());
+		return PAGINA_LISTAGEM_BOLSISTAS;
+	}
+
+	@RequestMapping(value = "/bolsistas", method = RequestMethod.POST)
+	public String listaDeBolsistas(Integer ano, Model model) {
+		List<FrequenciaView> frequenciasView = bolsaService.getBolsas(ano);
+
+		model.addAttribute(FREQUENCIAS, frequenciasView);
+
+		return FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
+	}
+
+	@RequestMapping(value = "/frequencia", method = RequestMethod.POST)
+	public void cadastrarFrequencia(Integer bolsaId, Integer mes, Integer ano) {
+		bolsaService.adicionarFrequencia(bolsaId, mes, ano);
+	}
+
 }

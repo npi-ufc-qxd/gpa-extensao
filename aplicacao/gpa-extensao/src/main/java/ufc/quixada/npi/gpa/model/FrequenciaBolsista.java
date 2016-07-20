@@ -9,50 +9,54 @@ import javax.persistence.ManyToOne;
 @Entity
 public class FrequenciaBolsista {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne
 	private Bolsa bolsa;
 	private Integer mes;
 	private Integer ano;
-	private boolean entregue;
-	
-	public FrequenciaBolsista(){
-		
+
+	public FrequenciaBolsista() {
+
 	}
-	public FrequenciaBolsista(Bolsa bolsa, Integer mes, Integer ano, boolean entregue) {
+
+	public FrequenciaBolsista(Bolsa bolsa, Integer mes, Integer ano) {
 		super();
 		this.bolsa = bolsa;
 		this.mes = mes;
 		this.ano = ano;
-		this.entregue = entregue;
 	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Bolsa getBolsa() {
 		return bolsa;
 	}
+
 	public void setBolsa(Bolsa bolsa) {
 		this.bolsa = bolsa;
 	}
+
 	public Integer getMes() {
 		return mes;
 	}
+
 	public void setMes(Integer mes) {
 		this.mes = mes;
 	}
+
 	public Integer getAno() {
 		return ano;
 	}
+
 	public void setAno(Integer ano) {
 		this.ano = ano;
-	}
-	public boolean isEntregue() {
-		return entregue;
 	}
 
 	@Override
@@ -79,5 +83,5 @@ public class FrequenciaBolsista {
 			return false;
 		return true;
 	}
-	
+
 }
