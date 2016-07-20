@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 	<div th:fragment="parceria-externa" class="box box-primary">
+		<!-- Cabeçalho -->
 		<div class="box-header with-border">
 	 		<h3 class="box-title">Parcerias</h3>
 	  	</div>
+		
+		<!-- Corpo -->
 		<div class="box-body">
+			<!-- Formulário de parceria externa -->
  			<form id="formParceriaExterna" role="form" th:object="${parceriaExterna}" method="POST">
 				<div class="box-header with-border">
 					<h4 class="box-tittle text-center">Adicionar Nova Parceria</h4>
@@ -62,7 +66,7 @@
 					<div class="form-group row">
 						<div id="divDescricaoOutrasFormas" class="col-lg-6">
 							<label class="control-label">Descreva outras formas</label>
-							<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+							<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}" required="required"/>
 						</div>
 					</div>
 				</div>
@@ -72,6 +76,7 @@
 				</div>
 			</form>
 			
+			<!-- Formulário de parceiro -->
 			<form id="formParceiro" role="form" th:object="${parceiro}" method="POST">
 				<div class="box-header with-border">
 					<h4 class="box-tittle text-center">Adicionar Novo Parceiro</h4>
@@ -105,12 +110,12 @@
 					<button id="cancelarAdicaoParceiro" class="btn btn-default btn-flat">Cancelar</button>
 				</div>
 			</form>
-		</div>
-		<div th:fragment="table-parceria-externa" th:unless="${#lists.isEmpty(parceriasExternas)}" class="col-md-12 table-responsive">
+			
+			<!-- Tabela de parcerias -->
+			<div th:fragment="table-parceria-externa" th:unless="${#lists.isEmpty(parceriasExternas)}" class="col-md-12 table-responsive">
 	 			<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Nome da Instituição</th>
 							<th data-toogle="tooltip" title="Gera Demanda">GD</th>
 							<th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
@@ -125,7 +130,6 @@
 					<tbody>
 						
 						<tr th:each="parceria, rowStat : ${parceriasExternas}" id="row+${rowStat.count}">
-							<td th:text="${rowStat.count}"></td>
 							<td th:text="${parceria.parceiro.nome}"></td>
 							<td>
 								<span th:if="${parceria.geraDemanda}" class="glyphicon glyphicon-ok"></span>
@@ -163,14 +167,16 @@
 	 		</div>
 	 		
 	 		<div id="tableResultsBlock" class="box-body with-border"></div>
-	 		
-	 		<div class="box-footer">
-				<button th:if="(${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
-					AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
-					'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
-					class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
-				</button>
-				<button class="btn btn-flat btn-primary pull-right no-display" id="criarNovoParceiro">Criar parceiro</button>
-			</div>
+		</div>
+		
+ 		<!-- Rodapé -->
+ 		<div class="box-footer">
+			<button th:if="(${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
+				AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
+				'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
+				class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
+			</button>
+			<button class="btn btn-flat btn-primary pull-right no-display" id="criarNovoParceiro">Criar parceiro</button>
+		</div>
 		</div>
 </html>

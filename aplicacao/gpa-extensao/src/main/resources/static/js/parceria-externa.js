@@ -77,10 +77,9 @@ $(document).ready(function() {
 		        return false;
 		    },
 			success : function(data) {
+				resetFormParceiria();
 				if(data.status=="OK"){
 					e.preventDefault();
-					$("#formParceriaExterna, #criarNovoParceiro").hide();
-					$("#adicionarNovaParceriaExterna").removeAttr("disabled");
 					carregarTabelaParceriasExternas();
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
@@ -96,6 +95,16 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	function resetFormParceiria() {
+		$("#formParceriaExterna").hide();
+		$("#adicionarNovaParceriaExterna").removeAttr("disabled");
+		$("#criarNovoParceiro").hide();	
+		$("#formParceriaExterna")[0].reset();
+		$("#divDescricaoOutrasFormas").hide();
+		$("#select2-chosen-2").html("A Selecionar...");
+	}
+	
 	$("#submitBtnParceiroForm").click(function(e){
 		if($("#nomeParceiro").val()==""){
 			$("#error-nome").show();
@@ -124,11 +133,10 @@ $(document).ready(function() {
 	            return false;
 	        },
 			success : function(data) {
+				resetFormParceiro();
 				if(data.status=="OK"){
 					e.preventDefault();
 					buscarParceiros();
-					$("#formParceiro").hide();
-					$("#formParceriaExterna").fadeIn(500);
 				}else{
 					for (var i = 0; i < data.result.length; i++) {
 						var alertDiv = document.getElementById("error-"+data.result[i].field);
@@ -143,6 +151,12 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	function resetFormParceiro() {
+		$("#formParceiro").hide();
+		$("#formParceriaExterna").fadeIn(500);
+		$("#formParceiro")[0].reset();
+	}
 	
 	$(".selectParceiro").select2();
 	
