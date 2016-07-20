@@ -116,7 +116,7 @@ public class BolsaController {
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model,Authentication auth) {
 	    model.addAttribute("bolsas", bolsaRepository.findByAcaoExtensao_id(id));
-	    model.addAttribute(CPF_COORDENADOR,acaoExtensaoRepository.findOne(id).getCoordenador().getCpf());
+	    model.addAttribute(CPF_COORDENADOR,acaoExtensaoRepository.findCoordenadorById(id));
 	    return FRAGMENTS_TABLE_BOLSAS;
 	}
 	
