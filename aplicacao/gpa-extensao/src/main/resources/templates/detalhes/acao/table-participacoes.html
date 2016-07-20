@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
 </head>
@@ -38,8 +38,10 @@
 					<td>
 						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-default'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
 					</td>
-					<td data-toogle="tooltip"> 
-						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
+					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
+					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}">
+						<a th:if="${cpfCoordenador} != ${participacao.participante.cpf} AND ${!participacao.coordenador}"
+							class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}">
 							<i class="fa fa-trash-o"></i>
 						</a>

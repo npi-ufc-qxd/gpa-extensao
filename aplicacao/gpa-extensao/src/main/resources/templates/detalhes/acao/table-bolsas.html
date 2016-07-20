@@ -37,7 +37,8 @@
 							<input data-toggle="toggle" type="checkbox" disabled="disabled" />
 						</div>
 					</td>
-					<td data-toogle="tooltip"> 
+					<td th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
+					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}"> 
 						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-bolsa" th:attr="data-id=${bolsa.id}">
 							<i class="fa fa-trash-o"></i>
