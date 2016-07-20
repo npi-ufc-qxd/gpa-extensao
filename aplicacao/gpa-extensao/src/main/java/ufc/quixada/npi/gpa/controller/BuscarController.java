@@ -49,7 +49,7 @@ public class BuscarController {
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 	
-	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, method = RequestMethod.POST)
+	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, params = {"coordenador", "modalidade", "ano"}, method = RequestMethod.GET)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador, @RequestParam("modalidade") Modalidade modalidade,
 			@RequestParam("ano") Integer ano, Model model)  {
 		
@@ -62,6 +62,7 @@ public class BuscarController {
 		if(idCoordenador != null) {
 			coordenador = pessoaRepository.findOne(idCoordenador);
 		}
+		
 		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, ano);
 		
 		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));

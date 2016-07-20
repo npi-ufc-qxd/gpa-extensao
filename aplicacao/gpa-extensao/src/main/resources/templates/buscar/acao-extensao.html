@@ -18,7 +18,7 @@
 							<h3 class="box-title">Buscar Ações de Extensão</h3>
 						</div>
 						<div class="box-body">
-							<form th:action="@{/buscar/acao-extensao}" role="form" method="post">
+							<form th:action="@{/buscar/acao-extensao}" role="form" method="get">
 								<div class="form-group col-sm-6">
 									<label class="control-label">Coordenador</label>
 									<select id="selectCoordenador" name="coordenador" class="form-control">
@@ -54,7 +54,7 @@
 										<th>Título</th>
 										<th>Coordenador</th>
 										<th>Modalidade</th>
-										<th>Status</th>
+										<th>Período</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -63,9 +63,7 @@
 										<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
-										<td>
-											<span class="label label-primary" th:text="${acao.status.descricao}"></span>
-										</td>
+										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
 									</tr>
 								</tbody>
 							</table>
