@@ -54,7 +54,9 @@
 						</thead>
 						<tbody>
 							<tr th:each="frequencia :${frequencias}">
-								<td th:text="${frequencia.bolsa.bolsista.pessoa.nome}"></td>
+								<td>
+									<a th:href="@{/bolsa/detalhes/} + ${frequencia.bolsa.bolsista.id}" th:text="${frequencia.bolsa.bolsista.pessoa.nome}"></a>
+								</td>
 								<td th:text="${frequencia.bolsa.tipo.descricao}"></td>
 								<td th:text="${frequencia.bolsa.acaoExtensao.coordenador.nome}"></td>
 								<td th:text="${#dates.format(frequencia.bolsa.inicio, 'dd/MMM/yyyy')} + ' à ' + ${#dates.format(frequencia.bolsa.termino, 'dd/MMM/yyyy')}"></td>

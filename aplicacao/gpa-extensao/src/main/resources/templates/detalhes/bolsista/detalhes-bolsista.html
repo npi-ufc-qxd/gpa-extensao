@@ -62,11 +62,11 @@
 										<td th:text="${rowStat.count}"></td>
 										<td th:text="${bolsa.acaoExtensao.titulo}"></td>
 										<td>
-											<p th:if="${bolsa.inicio} !=null" th:text="${bolsa.inicio}"></p>
+											<p th:if="${bolsa.inicio} !=null" th:text="${#dates.format(bolsa.inicio, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.inicio}==null" class="glyphicon glyphicon-minus"></span>
 										</td>
 										<td>
-											<p th:if="${bolsa.termino} !=null" th:text="${bolsa.termino}"></p>
+											<p th:if="${bolsa.termino} !=null" th:text="${#dates.format(bolsa.termino, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
 										</td>
 										<td>
