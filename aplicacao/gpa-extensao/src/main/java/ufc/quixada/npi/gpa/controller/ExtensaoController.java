@@ -45,6 +45,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
@@ -386,7 +387,7 @@ public class ExtensaoController {
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 		
 		if(acaoExtensao == null) {
-			return PAGINA_INICIAL;
+			return REDIRECT_PAGINA_INICIAL;
 		}
 		
 		if(!(acaoExtensao.getStatus().equals(Status.NOVO) || acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)

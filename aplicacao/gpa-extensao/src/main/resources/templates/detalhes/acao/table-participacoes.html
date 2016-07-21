@@ -38,8 +38,8 @@
 					<td>
 						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-default'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
 					</td>
-					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
-					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}">
+					<td data-toogle="tooltip" th:if="(${#authentication.principal.cpf} != ${cpfCoordenador} and !(${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})) or !(${participacao.acaoExtensao.ativo})"></td>
+					<td data-toogle="tooltip" th:if="(${#authentication.principal.cpf} == ${cpfCoordenador} or ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) and ${participacao.acaoExtensao.ativo}">
 						<a th:if="${participacao.participante} == null or (${cpfCoordenador} != ${participacao.participante.cpf} and ${!participacao.coordenador})"
 							class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}">

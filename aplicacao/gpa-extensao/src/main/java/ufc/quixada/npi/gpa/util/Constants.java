@@ -39,7 +39,6 @@ public class Constants {
 	public static final String PARTICIPANTE = "participante";
 	public static final String BOLSISTA = "bolsista";
 	public static final String PERMISSAO = "permissao";
-	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
 	public static final String ACOES_COORDENADOR_SIZE = "acoesCoordenadorSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
@@ -144,5 +143,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/paulo.nobre/Documentos/gpa-extensao-uploads";
 }

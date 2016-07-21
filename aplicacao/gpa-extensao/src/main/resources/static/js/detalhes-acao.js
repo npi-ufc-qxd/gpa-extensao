@@ -16,6 +16,7 @@ $(document).ready(function(){
         $("#codigo-error").hide();
         $("#codigo-info").fadeIn(500);
     });
+	
 	$("#submeter-codigo-acao-extensao").click(function(e){
 		var codigo = $("#input-codigo-acao-extensao").val();
 		if(codigo!=null && codigo!=""){
@@ -44,6 +45,49 @@ $(document).ready(function(){
 		}else{
 			$("#div-codigo-acao-extensao").addClass("has-error");
 			$("#codigo-error").show();
+		}
+	});
+	
+	 $("#editar-numero-processo").on("click", function(){
+        $("#numero-processo-info").hide();
+        $("#div-numero-processo").fadeIn(500);
+    });
+	
+	$("#cancelar-numero-processo").on("click", function(){
+        $("#div-numero-processo").hide();
+        $("#div-numero-processo").removeClass("has-error");
+        $("#numero-error").hide();
+        $("#numero-processo-info").fadeIn(500);
+    });
+	
+	$("#submeter-numero-processo").click(function(e){
+		var numero = $("#input-numero-processo").val();
+		if(numero!=null && numero!=""){
+			$.ajax({
+				type:"GET",
+				beforeSend: function (request)
+		        {
+					 request.setRequestHeader(header, token);
+		        },
+				url: "../admin/salvarNumeroProcesso/" + acaoExtensaoId,
+				data:{
+					numeroProcesso : numero
+				},
+				success : function(data) {
+					console.log(data.result);
+					if(data.status=="sucesso"){
+						$("#numero-processo").text(data.result);
+						console.log(data.message);
+						$("#div-numero-processo").hide();
+				        $("#numero-processo-info").fadeIn(500);
+				        $("#div-numero-processo").removeClass("has-error");
+				        $("#numero-error").hide();
+					}
+				}
+			});
+		}else{
+			$("#div-numero-processo").addClass("has-error");
+			$("#numero-error").show();
 		}
 	});
 	
