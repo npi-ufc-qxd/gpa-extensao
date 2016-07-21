@@ -21,9 +21,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="bolsa : ${bolsas}">
-					<td th:text="${bolsa.bolsista.pessoa.nome} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
-					<td th:text="${bolsa.bolsista.pessoa.cpf} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
-					<td th:text="${bolsa.tipo.descricao} ? ${bolsa.tipo.descricao}: ''"></td>
+					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
+					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
+					<td th:text="${bolsa.tipo} ? ${bolsa.tipo.descricao}: ''"></td>
 					<td th:text="${bolsa.cargaHoraria} ? ${bolsa.cargaHoraria}: ''"></td>
 					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
 					<td th:if="${bolsa.ativo}">
@@ -37,7 +37,8 @@
 							<input data-toggle="toggle" type="checkbox" disabled="disabled" />
 						</div>
 					</td>
-					<td data-toogle="tooltip"> 
+					<td th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
+					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}"> 
 						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-bolsa" th:attr="data-id=${bolsa.id}">
 							<i class="fa fa-trash-o"></i>

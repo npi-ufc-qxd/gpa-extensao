@@ -151,8 +151,9 @@
 							</td>
 							<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
 							<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
-							<td data-toogle="tooltip" title="Excluir">
-								<a class="btn btn-danger btn-xs" 
+							<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
+							<td data-toogle="tooltip" title="Excluir" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}">
+								<a class="btn btn-danger btn-flat btn-xs" 
 									id="excluir-parceria-externa"
 									data-toggle="modal"
 									data-target="#confirm-delete-parceria-externa"

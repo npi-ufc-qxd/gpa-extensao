@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
@@ -29,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
-import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -79,9 +79,7 @@ public class ParticipacaoController {
 			return map;
 		}
 		
-		Pessoa usuario = pessoaRepository.findByCpf(authentication.getName());
-		
-		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == usuario.getId()) {
+		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == acao.getCoordenador().getId()) {
 			participacao.setCoordenador(true);
 		}
 		
@@ -104,7 +102,7 @@ public class ParticipacaoController {
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-	    
+	    model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
 	    return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
 

@@ -25,7 +25,7 @@ $(document).ready(function(){
 		        {
 					 request.setRequestHeader(header, token);
 		        },
-				url: "/gpa-extensao/salvarCodigo/" + acaoExtensaoId,
+				url: "../salvarCodigo/" + acaoExtensaoId,
 				data:{
 					codigoAcao:codigo
 				},
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	         {
 	                request.setRequestHeader(header, token);
 	            },
-			url: "/gpa-extensao/buscarCoordenadores/" + id,
+			url: "../buscarCoordenadores/" + id,
 			contentType: 'application/json',
 			success : function(data) {
 				$('#listCoordenadores').empty();

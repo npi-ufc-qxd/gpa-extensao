@@ -71,6 +71,7 @@ public class Constants {
 	public static final String OK_UPPERCASE = "OK";
 	public static final String COORDENADORES = "coordenadores";
 	public static final String FREQUENCIAS = "frequencias";
+	public static final String CPF_COORDENADOR="cpfCoordenador";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -150,5 +151,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/ruben.silva/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
 }

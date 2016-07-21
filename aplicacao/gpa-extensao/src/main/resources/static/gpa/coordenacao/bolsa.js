@@ -11,7 +11,7 @@ $(document).ready(function() {
 	$("#selectBolsista, #selectTipo").select2();
 	
 	function carregarTabelaBolsas() {
-		var url = "/gpa-extensao/bolsa/buscarBolsas/" + acaoExtensaoId;
+		var url = "../bolsa/buscarBolsas/" + acaoExtensaoId;
 		 $("#resultsBlockBolsas").load(url, function() {
 			 $('#table-bolsas').DataTable({
 					"order" : [[ 0, "asc" ]],
@@ -24,7 +24,7 @@ $(document).ready(function() {
 					    {"targets" : 6, "orderable" : false},
 					],
 					"language": {
-				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
+				        "url": "../json/Portuguese-Brasil.json"
 				    },
 					"paging":   false,
 			        "searching": false,
@@ -84,7 +84,7 @@ $(document).ready(function() {
 	})
 	.on('success.form.bv', function(e) {
 		 e.preventDefault();
-         var baseURL = '/gpa-extensao/bolsa/cadastrar/';
+         var baseURL = '../bolsa/cadastrar/';
          $.ajax({
  			url : baseURL + acaoExtensaoId,
  			beforeSend: function (request)
@@ -135,7 +135,7 @@ $(document).ready(function() {
 		        {
 					 request.setRequestHeader(header, token);
 		        },
-				url: "/gpa-extensao/bolsa/salvarBolsas/" + acaoExtensaoId,
+				url: "../bolsa/salvarBolsas/" + acaoExtensaoId,
 				data:{
 					bolsasRecebidas:bolsas
 				},
@@ -162,7 +162,7 @@ $(document).ready(function() {
 	         {
 	                request.setRequestHeader(header, token);
 	            },
-			url: "/gpa-extensao/bolsa/buscarAlunos",
+			url: "../bolsa/buscarAlunos",
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectBolsista').empty();
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		var bolsaId = $("#deleteBolsaHiddenId").val();
 	    $("#confirm-delete-bolsa").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/bolsa/excluir/'+ bolsaId,
+			url : '../bolsa/excluir/'+ bolsaId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
@@ -242,7 +242,7 @@ $(document).ready(function() {
 	    $("#confirm-encerrar-bolsa").modal('hide');
 	    if(dataTermino) {
 			$.ajax({
-				url : '/gpa-extensao/bolsa/encerrar/'+ bolsaId,
+				url : '../bolsa/encerrar/'+ bolsaId,
 				data : {dataTermino: dataTermino},
 				beforeSend: function (request)
 	            {

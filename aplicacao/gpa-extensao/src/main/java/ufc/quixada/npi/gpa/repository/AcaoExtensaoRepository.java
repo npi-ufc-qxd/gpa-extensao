@@ -45,4 +45,7 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	List<AcaoExtensao> findByStatus(Status status);
 	
+	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
+	String findCoordenadorById(@Param("idAcao") Integer id);
+	
 }
