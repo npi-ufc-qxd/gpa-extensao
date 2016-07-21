@@ -51,7 +51,7 @@ $(document).ready(function() {
 	         {
 	                request.setRequestHeader(header, token);
 	            },
-			url: "/gpa-extensao/participacao/buscarServidores",
+			url: "../participacao/buscarServidores",
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectPessoa').empty();
@@ -143,7 +143,7 @@ $(document).ready(function() {
 	})
 	.on('success.form.bv', function(e) {
 		 e.preventDefault();
-         var baseURL = '/gpa-extensao/participacao/cadastrar/';
+         var baseURL = '../participacao/cadastrar/';
          $.ajax({
  			url : baseURL + acaoExtensaoId,
  			beforeSend: function (request)
@@ -179,7 +179,7 @@ $(document).ready(function() {
      });
 	
 	function resetForm() {
-		$("#formParceriaExterna").hide();
+		$("#formNovaParticipacao").hide();
 		$("#buttonAdicionarParticipacao").removeAttr("disabled");
 		$("#formNovaParticipacao")[0].reset();
 		$('#selectPessoa').empty();
@@ -187,7 +187,7 @@ $(document).ready(function() {
 	}
 	
 	function carregarTabelaParticipacoes() {
-		 var url = "/gpa-extensao/participacao/buscarParticipacoes/" + acaoExtensaoId;
+		 var url = "../participacao/buscarParticipacoes/" + acaoExtensaoId;
 		 $("#resultsBlockParticipacoes").load(url, function() {
 			 $('#table-participacoes').DataTable({
 					"order" : [[ 0, "asc" ]],
@@ -200,7 +200,7 @@ $(document).ready(function() {
 				        {"targets" : 7, "orderable" : false},
 					],
 					"language": {
-				        "url": "/gpa-extensao/js/Portuguese-Brasil.json"
+				        "url": "../json/Portuguese-Brasil.json"
 				    },
 					"paging":   false,
 			        "searching": false,
@@ -218,7 +218,7 @@ $(document).ready(function() {
 		var participacaoId = $("#deleteParticipacaoHiddenId").val();
 	    $("#confirm-delete-participacao").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/participacao/excluir/'+ participacaoId,
+			url : '../participacao/excluir/'+ participacaoId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);

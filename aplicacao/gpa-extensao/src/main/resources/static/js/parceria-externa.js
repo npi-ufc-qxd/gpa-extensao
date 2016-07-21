@@ -63,7 +63,7 @@ $(document).ready(function() {
 		}
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-		var baseURL = '/gpa-extensao/parceria/salvar/';
+		var baseURL = '../parceria/salvar/';
 		$.ajax({
 			url : baseURL + acaoExtensaoId,
 			beforeSend: function (request)
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		}
 		var token = $("meta[name='_csrf']").attr("content");
 	    var header = $("meta[name='_csrf_header']").attr("content");
-	    var baseURL = '/gpa-extensao/parceiro/novo/';
+	    var baseURL = '../parceiro/novo/';
 		$.ajax({
 			url : baseURL + acaoExtensaoId,
 			beforeSend: function (request)
@@ -171,7 +171,7 @@ $(document).ready(function() {
 		var parceriaId = $("#deleteParceriaHiddenId").val();
 	    $("#confirm-delete-parceria-externa").modal('hide');
 		$.ajax({
-			url : '/gpa-extensao/parceria/excluir/'+parceriaId,
+			url : '../parceria/excluir/'+parceriaId,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);
@@ -184,7 +184,7 @@ $(document).ready(function() {
 	
 //	Busca no controller todas as parcerias externas atualizadas
 	function carregarTabelaParceriasExternas() {
-		var url = "/gpa-extensao/parceria/buscarParceriasExternas/" + acaoExtensaoId;
+		var url = "../parceria/buscarParceriasExternas/" + acaoExtensaoId;
 		$("#tableResultsBlock").load(url, function() {
 			$("table-parcerias-externas").DataTable({
 				"order" : [[ 0, "asc" ]],
@@ -193,7 +193,7 @@ $(document).ready(function() {
 			                    {"targets" : [2,3,4,5,6,7,8], "orderable" : false}
 			    ],
 			    "language": {
-			    	"url": "/gpa-extensao/js/Portuguese-Brasil.json"
+			    	"url": "../json/Portuguese-Brasil.json"
 			    },
 			    "paging":   false,
 			    "searching": false,
@@ -210,7 +210,7 @@ $(document).ready(function() {
 	        {
 				request.setRequestHeader(header, token);
 	        },
-			url: "/gpa-extensao/parceria/buscarParceiros",
+			url: "../parceria/buscarParceiros",
 			contentType: 'application/json',
 			success : function(data) {
 				$('#selectParceiro').empty();

@@ -10,7 +10,7 @@ $(document).ready(function() {
 		                {"targets" : 4, "orderable" : false},
 		                ],
 		"language": {
-			"url": "/gpa-extensao/js/Portuguese-Brasil.json"
+			"url": "../json/Portuguese-Brasil.json"
 					}
 		
 	});

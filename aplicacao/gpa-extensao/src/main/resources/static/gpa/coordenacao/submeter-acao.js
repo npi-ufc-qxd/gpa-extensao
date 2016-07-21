@@ -142,7 +142,7 @@ $(document).ready(function(){
     	var header = $("meta[name='_csrf_header']").attr("content");
     	idAcao = $("#acaoExtensaoId").val();
     	$.ajax({
-			url : '/gpa-extensao/documento/excluir/'+ idAcao,
+			url : '../documento/excluir/'+ idAcao,
 			beforeSend: function (request)
             {
 				 request.setRequestHeader(header, token);

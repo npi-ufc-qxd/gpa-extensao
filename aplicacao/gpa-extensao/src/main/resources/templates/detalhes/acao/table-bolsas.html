@@ -21,9 +21,9 @@
 			</thead>
 			<tbody>
 				<tr th:each="bolsa : ${bolsas}">
-					<td th:text="${bolsa.bolsista.pessoa.nome} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
-					<td th:text="${bolsa.bolsista.pessoa.cpf} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
-					<td th:text="${bolsa.tipo.descricao} ? ${bolsa.tipo.descricao}: ''"></td>
+					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
+					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
+					<td th:text="${bolsa.tipo} ? ${bolsa.tipo.descricao}: ''"></td>
 					<td th:text="${bolsa.cargaHoraria} ? ${bolsa.cargaHoraria}: ''"></td>
 					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
 					<td th:if="${bolsa.ativo}">

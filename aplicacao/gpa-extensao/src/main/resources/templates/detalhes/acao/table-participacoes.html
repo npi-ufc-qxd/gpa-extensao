@@ -40,7 +40,7 @@
 					</td>
 					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
 					<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}">
-						<a th:if="${cpfCoordenador} != ${participacao.participante.cpf} AND ${!participacao.coordenador}"
+						<a th:if="${participacao.participante} == null or (${cpfCoordenador} != ${participacao.participante.cpf} and ${!participacao.coordenador})"
 							class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}">
 							<i class="fa fa-trash-o"></i>

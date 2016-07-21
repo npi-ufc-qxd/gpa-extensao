@@ -41,7 +41,7 @@ $(document).ready(function() {
 		$(".homologado").fadeIn(500);
 	})
 
-	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
+	var ptBR_url = "../json/Portuguese-Brasil.json";
 	
 	$(".table-direcao").DataTable({
 		"filter" : false,
