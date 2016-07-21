@@ -10,7 +10,7 @@ $(document).ready(function() {
         $(this).find(".small-box").toggleClass("bg-blue bg-aqua");
     });
 	
-	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
+	var ptBR_url = "../json/Portuguese-Brasil.json";
 	$(".table-acoes").DataTable({
 		"filter" : false,
 		"paginate" : false,
