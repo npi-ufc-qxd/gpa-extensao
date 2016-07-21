@@ -25,6 +25,7 @@ $(document).ready(function(){
 		case "buscar-acao":
 			zerarMenu();
 			$("#menu-item-buscar-acoes").addClass("active");
+			break;
 
 		case "listagem-bolsistas":
 			zerarMenu();

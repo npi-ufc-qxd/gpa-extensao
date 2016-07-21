@@ -11,6 +11,8 @@ public class Constants {
 	
 	// Values
 	public static final Integer CARGA_HORARIA_12 = 12;
+	public static final String CADASTRAR_FREQUENCIA = "cadastrar";
+	public static final String REMOVER_FREQUENCIA = "remover";
 
 	//Mensagens
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
@@ -51,7 +53,8 @@ public class Constants {
 	public static final String BUSCAR = "buscar";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
-		
+	public static final String ANO_ATUAL = "anoAtual";
+	public static final String ANOS = "anos";
 	public static final String ALUNO = "aluno";
 	public static final String BOLSAS = "bolsas";
 	public static final String DEDICACAO = "dedicacao";
@@ -107,7 +110,7 @@ public class Constants {
 	public static final String EXCEPTION_ARQUIVO = "Falha ao salvar o arquivo! Tente novamente.";
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String EXCEPTION_PARECERISTA_DA_EQUIPE = "Não foi possível atribuir! O parecerista faz parte da equipe!";
-	
+	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	
 	//Mensagens
 	public static final String ERRO = "erro";
@@ -147,5 +150,5 @@ public class Constants {
 	 * Pode ser necessário personalizar para fins de teste, mas ao fazer o commit
 	 * deve-se deixar o caminho original.
 	 */
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/ruben.silva/gpa-extensao-uploads";
 }

@@ -4,6 +4,8 @@ import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
+import static ufc.quixada.npi.gpa.util.Constants.ANO_ATUAL;
+import static ufc.quixada.npi.gpa.util.Constants.ANOS;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.FREQUENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
@@ -18,6 +20,8 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,7 +109,21 @@ public class AdministracaoController {
 
 	@RequestMapping(value = "/bolsistas", method = RequestMethod.GET)
 	public String paginaListagemBolsistas(Model model) {
-		model.addAttribute("anos", bolsaRepository.findAnosInicio());
+		List<Integer> anos = bolsaRepository.findAnosInicio();
+		
+		model.addAttribute(ANOS, anos);
+		
+		if(anos != null && !anos.isEmpty()){
+			Integer ano = 0;
+			for(Integer aux : anos){
+				if(aux > ano){
+					ano = aux;
+				}
+			}
+			
+			model.addAttribute(ANO_ATUAL, ano);
+		}
+		
 		return PAGINA_LISTAGEM_BOLSISTAS;
 	}
 
@@ -114,13 +132,19 @@ public class AdministracaoController {
 		List<FrequenciaView> frequenciasView = bolsaService.getBolsas(ano);
 
 		model.addAttribute(FREQUENCIAS, frequenciasView);
+		model.addAttribute(ANO_ATUAL, ano);
 
 		return FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
 	}
 
 	@RequestMapping(value = "/frequencia", method = RequestMethod.POST)
-	public void cadastrarFrequencia(Integer bolsaId, Integer mes, Integer ano) {
-		bolsaService.adicionarFrequencia(bolsaId, mes, ano);
+	public ResponseEntity<String> cadastrarFrequencia(Integer bolsaId, Integer mes, Integer ano, String acao) {
+		try {
+			bolsaService.setarFrequencia(bolsaId, mes, ano, acao);
+		} catch (GpaExtensaoException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
 	
 	@RequestMapping(value="/encerrarAcao/{idAcao}")

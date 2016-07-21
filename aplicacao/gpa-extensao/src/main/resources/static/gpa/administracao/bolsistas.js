@@ -14,11 +14,52 @@ $(document).ready(function(){
 	
 	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
 	
-	carregaTabelaBolsistas();
+	selecionarPeriodoBolsas();
 	
 	$(".select-periodo-bolsas").on("change", function(e){
 		e.preventDefault();
+		selecionarPeriodoBolsas();
+	});
+	
+	$("#table-listagem-bolsistas").on("change", ".checkbox-frequencia-mes", function(e){
+		e.preventDefault();
 		
+		var acao;
+		
+		if(this.checked){
+			acao = "cadastrar";
+		}else{
+			acao = "remover";
+		}
+		
+			
+		var bolsaId = $(this).attr("data-bolsa");
+		var mes = $(this).attr("data-mes");
+		var ano = $(this).attr("data-ano");
+		
+		$.ajax({
+			type: "POST",
+			beforeSend: function (request)
+	         {
+				request.setRequestHeader(header, token);
+	         },
+	         url : "/gpa-extensao/admin/frequencia",
+	         data : {
+	        	 bolsaId : bolsaId,
+	        	 mes : mes,
+	        	 ano : ano,
+	        	 acao : acao
+	         },
+	         statusCode : {
+	        	 406 : function(data){
+	     			$("#message-pagina-bolsistas").text(data.responseText);
+	     			$("#callout-pagina-bolsistas").fadeIn("slow").delay("7000").fadeOut("slow");
+	     		}
+	         }
+		});
+	});
+	
+	function selecionarPeriodoBolsas(){
 		var ano = getAno();
 		
 		if(ano != ""){
@@ -43,34 +84,7 @@ $(document).ready(function(){
 				}
 			});
 		}
-	});
-	
-	$("#table-listagem-bolsistas").on("change", ".checkbox-frequencia-mes", function(e){
-		e.preventDefault();
-		if(this.checked){
-			
-			var bolsaId = $(this).attr("data-bolsa");
-			var mes = $(this).attr("data-mes");
-			var ano = $(this).attr("data-ano");
-			
-			$.ajax({
-				type: "POST",
-				beforeSend: function (request)
-		         {
-					request.setRequestHeader(header, token);
-		         },
-		         url : "/gpa-extensao/admin/frequencia",
-		         data : {
-		        	 bolsaId : bolsaId,
-		        	 mes : mes,
-		        	 ano : ano
-		         }
-			});
-			
-		}else{
-			
-		}
-	});
+	}
 	
 	function carregaTabelaBolsistas(){
 		$("#table-listagem-bolsistas").DataTable({

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" data-page="cadastro-retroativo">
+<html xmlns:th="http://www.thymeleaf.org" data-page="cadastrar-acao-retroativa">
 <head th:replace="modulos/fragments :: head">
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
@@ -111,7 +111,7 @@
                                     <label class="control-label">* Vínculo com programa de extensão:</label>
                                     <select class="form-control" id="cadastrarVinculoAcaoExtensao" th:field="${acaoExtensao.vinculo}" name="vinculo">
                                         <option value="">Selecione...</option>
-                                        <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo}" th:text="${vinculo.titulo}"></option>
+                                        <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo.id}" th:text="${vinculo.titulo}"></option>
                                     </select>
                                    </div>
 							</div>
