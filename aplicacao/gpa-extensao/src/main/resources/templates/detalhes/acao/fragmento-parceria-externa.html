@@ -151,8 +151,8 @@
 							</td>
 							<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
 							<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
-							<td data-toogle="tooltip" th:if="${#authentication.principal.cpf} != ${cpfCoordenador}"></td>
-							<td data-toogle="tooltip" title="Excluir" th:if="${#authentication.principal.cpf} == ${cpfCoordenador}">
+							<td data-toogle="tooltip" th:if="(${#authentication.principal.cpf} != ${cpfCoordenador} and !(${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})) or !(${parceria.acaoExtensao.ativo})"></td>
+							<td data-toogle="tooltip" title="Excluir" th:if="(${#authentication.principal.cpf} == ${cpfCoordenador} or !(${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})) and (${parceria.acaoExtensao.ativo})">
 								<a class="btn btn-danger btn-flat btn-xs" 
 									id="excluir-parceria-externa"
 									data-toggle="modal"
@@ -171,9 +171,9 @@
 		
  		<!-- Rodapé -->
  		<div class="box-footer">
-			<button th:if="(${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
+			<button th:if="((${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
 				AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
-				'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})"  
+				'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})) AND ${acaoExtensao.ativo}"  
 				class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
 			</button>
 			<button class="btn btn-flat btn-primary pull-right no-display" id="criarNovoParceiro">Criar parceiro</button>
