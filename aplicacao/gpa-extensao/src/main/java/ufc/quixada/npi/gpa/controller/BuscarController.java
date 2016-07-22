@@ -44,7 +44,7 @@ public class BuscarController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
-
+	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication){
 		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
@@ -56,7 +56,7 @@ public class BuscarController {
 	}
 	
 	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication) {
+	public String pessoaLogada(Authentication authentication){
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
 	

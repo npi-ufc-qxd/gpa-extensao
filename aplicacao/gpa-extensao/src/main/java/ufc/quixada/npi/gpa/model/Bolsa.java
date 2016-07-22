@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,7 +40,7 @@ public class Bolsa {
 	
 	private boolean ativo;
 	
-	@OneToMany(mappedBy = "bolsa")
+	@OneToMany(mappedBy = "bolsa", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<FrequenciaBolsista> frenquencias;
 	
 	@ManyToOne
@@ -124,6 +125,17 @@ public class Bolsa {
 			this.frenquencias = new ArrayList<>();
 		}
 		this.frenquencias.add(frequencia);
+	}
+	
+	public void removeFrequencia(Integer mes, Integer ano){
+		if(this.frenquencias != null && !this.frenquencias.isEmpty()){
+			for(FrequenciaBolsista frequencia : frenquencias){
+				if(frequencia.getMes().equals(mes) && frequencia.getAno().equals(ano)){
+					this.frenquencias.remove(frequencia);
+					break;
+				}
+			}
+		}
 	}
 	
 	public AcaoExtensao getAcaoExtensao() {

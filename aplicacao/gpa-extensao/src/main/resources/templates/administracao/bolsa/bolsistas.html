@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-page="listagem-bolsistas">
+
+<head th:replace="modulos/fragments ::head"></head>
+
+<body class="hold-transition skin-blue sidebar-mini fixed">
+
+	<div th:replace="modulos/fragments :: header"></div>
+	<div th:replace="modulos/fragments :: menu"></div>
+
+	<div class="content-wrapper">
+		<section class="content-header"></section>
+		<section class="content">
+		
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Controle de bolsistas</h3>
+					
+					<div class="box-tools pull-right">
+						<select id="select-ano-listagem-bolsistas" class="select-periodo-bolsas" title="Selecione um ano">
+							<option value="">Ano:</option>
+							<option th:selected="${anoAtual == ano} ? 'selected'" th:value="${ano}" th:each="ano : ${anos}" th:text="${ano}"></option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="box-body table-responsive">
+				
+					<div id="callout-pagina-bolsistas" class="callout callout-warning" style="display: none;">
+						<h4>Operação não concluída</h4>
+						<p id="message-pagina-bolsistas"></p>
+					</div>
+					
+					<table id="table-listagem-bolsistas" th:fragment="table-listagem-bolsistas" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>NOME</th>
+								<th>TIPO</th>
+								<th>ORIENTADOR</th>
+								<th>PERÍODO</th>
+								<th>JAN</th>
+								<th>FEV</th>
+								<th>MAR</th>
+								<th>ABR</th>
+								<th>MAI</th>
+								<th>JUN</th>
+								<th>JUL</th>
+								<th>AGO</th>
+								<th>SET</th>
+								<th>OUT</th>
+								<th>NOV</th>
+								<th>DEZ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="frequencia :${frequencias}">
+								<td>
+									<a th:href="@{/bolsa/detalhes/} + ${frequencia.bolsa.bolsista.id}" th:text="${frequencia.bolsa.bolsista.pessoa.nome}"></a>
+								</td>
+								<td th:text="${frequencia.bolsa.tipo.descricao}"></td>
+								<td th:text="${frequencia.bolsa.acaoExtensao.coordenador.nome}"></td>
+								<td th:text="${#dates.format(frequencia.bolsa.inicio, 'dd/MMM/yyyy')} + ' à ' + ${#dates.format(frequencia.bolsa.termino, 'dd/MMM/yyyy')}"></td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 1)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 1}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 1} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 1)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 1, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 2)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 2}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 2} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 2)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 2, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 3)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 3}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 3} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 3)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 3, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 4)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 4}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 4} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 4)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 4, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 5)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 5}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 5} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 5)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 5, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 6)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 6}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 6} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 6)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 6, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 7)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 7}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 7} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 7)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 7, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 8)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 8}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 8} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 8)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 8, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 9)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 9}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 9} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 9)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 9, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 10)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 10}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 10} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 10)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 10, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 11)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 11}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 11} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 11)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 11, data-ano = ${anoAtual}" />
+								</td>
+								<td><input
+									th:disabled="${NOT frequencia.bolsa.ativo AND NOT #maps.containsKey(frequencia.frequencia, 12)}
+									OR ${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 12}
+									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 12} ? ''"
+									type="checkbox" class="checkbox-frequencia-mes"
+									th:checked="${#maps.containsKey(frequencia.frequencia, 11)} ? ''"
+									th:attr="data-bolsa = ${frequencia.bolsa.id}, data-mes = 11, data-ano = ${ano}" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="box-footer"></div>
+			</div>
+		
+		</section>
+	</div>
+	
+	<footer th:replace="modulos/fragments :: footer"></footer>
+
+</body>
+</html>
