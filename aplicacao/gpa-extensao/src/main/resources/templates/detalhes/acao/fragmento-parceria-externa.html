@@ -66,12 +66,13 @@
 					<div class="form-group row">
 						<div id="divDescricaoOutrasFormas" class="col-lg-6">
 							<label class="control-label">Descreva outras formas</label>
-							<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}" required="required"/>
+							<input class="form-control" type="text" id="descricaoOutrasFormas" name="descricaoOutrasFormas" th:field="${parceriaExterna.descricaoOutrasFormas}"/>
+							<div class="help-block with-errors"></div>
 						</div>
 					</div>
 				</div>
 				<div class="box-footer text-center">
-				    <button id="submitBtnParceriaExternaForm" class="btn btn-primary btn-flat">Salvar</button>
+				    <button id="submitBtnParceriaExternaForm" class="btn btn-primary btn-flat" type="submit">Salvar</button>
 					<button id="cancelarAdicaoParceriaExterna" class="btn btn-default btn-flat">Cancelar</button>
 				</div>
 			</form>

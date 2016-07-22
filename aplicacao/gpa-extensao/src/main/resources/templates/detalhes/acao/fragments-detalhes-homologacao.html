@@ -6,31 +6,30 @@
 		<h4 class="box-header">Homologar Ação de Extensão</h4>
 		
 		<div class="attachment-text">
-			<form role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoExtensao.id}" th:object="${acaoExtensao}">
-				<div class="row form-group">
-					<div class="col-sm-4">
+			<form id="form-homologar-acao" role="form" method="post" th:action="@{/direcao/homologar/} + ${acaoExtensao.id}" th:object="${acaoExtensao}">
+				<div class="row">
+					<div class="col-sm-4 form-group">
 						<label class="label-control">Resultado: </label>
 						<select th:field="*{status}"
-							class="form-control" required="required">
-							<option value=""></option>
+							class="form-control">
 							<option value="APROVADO">Aprovado</option>
 							<option value="REPROVADO">Reprovado</option>
 						</select>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-group">
 						<label class="label-control">Data de Homologação: </label>
 						<input type="text" id="dataHomologacao" th:field="*{dataDeHomologacao}" class="form-control" required="required" autocomplete="off" />
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4 form-group">
 						<label class="label-control">Número do Processo: </label>
 						<input type="text" th:field="*{numeroProcesso}" class="form-control" required="required"/>
 					</div>
-					<div class="col-sm-12">
+					<div class="col-sm-12 form-group">
 						<label class="label-control">Observação: </label>
-						<textarea th:field="*{observacaoHomologacao}" class="form-control" maxlength="255"></textarea>
+						<textarea th:field="*{observacaoHomologacao}" class="form-control"></textarea>
 					</div>
 				</div>
-				<div class="text-center">
+				<div class="text-center form-group">
 					<input type="submit" class="btn btn-primary btn-flat" id="homologar" title="Homologar Ação" value="Homologar" />
 					<a id="cancelar-homologacao-button" class="btn btn-default btn-flat" href="#box-details" title="Cancelar operação">Cancelar</a>
 				</div>

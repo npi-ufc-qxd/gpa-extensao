@@ -67,6 +67,7 @@ public class AcaoExtensao {
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dataDeHomologacao;
 	
+	@Column(columnDefinition = "TEXT")
 	private String observacaoHomologacao;
 	
 	private String numeroProcesso;
