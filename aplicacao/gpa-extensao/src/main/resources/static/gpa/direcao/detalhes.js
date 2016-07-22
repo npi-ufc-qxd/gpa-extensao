@@ -108,4 +108,123 @@ $(document).ready(function(){
 			$("#homologar-button").show();
 		});
 	});
+	
+	$("#parecerista-form").bootstrapValidator({
+		fields: {
+			"parecerTecnico.prazo": {
+				validators: {
+					date: {
+                        format: 'DD/MM/YYYY',
+                        message: "Formato incorreto"
+                    },
+                    notEmpty: {
+                        message: "Especifique o prazo"
+                    }
+                }
+			}
+		}
+	});
+	
+	$("#parecerista-form").on("change", function(){
+		$(this).bootstrapValidator("revalidateField", "parecerTecnico.prazo");
+	});
+	
+	$("#relator-form").bootstrapValidator({
+		fields: {
+			"parecerRelator.prazo": {
+				validators: {
+					date: {
+                        format: 'DD/MM/YYYY',
+                        message: "Formato incorreto"
+                    },
+                    notEmpty: {
+                        message: "Especifique o prazo"
+                    }
+                }
+			}
+		}
+	});
+	
+	$("#relator-form").on("change", function(){
+		$(this).bootstrapValidator("revalidateField", "parecerRelator.prazo");
+	});
+	
+	$(".pendencias-form").bootstrapValidator({
+		fields: {
+			descricao:{
+				validators:{
+					notEmpty:{
+						message: "Descreva as pendências"
+					}
+				}
+			}
+		}
+	});
+	
+	$("#parecer-form").bootstrapValidator({
+		fields:{
+			"parecerTecnico.parecer":{
+				validators:{
+					notEmpty:{
+						message: "Especifique o parecer"
+					}
+				}
+			}
+		}
+	});
+	
+	$("#relato-form").bootstrapValidator({
+		fields: {
+			"parecerRelator.parecer":{
+				validators:{
+					notEmpty:{
+						message: "Especifique o parecer"
+					}
+				}
+			}
+		}
+	});
+	
+	$("#formParceriaExterna").bootstrapValidator({
+		rules: {
+			descricaoOutrasFormas:{required:"#outrasFormasCheckBox:checked"}
+		},
+		fields: {
+			descricaoOutrasFormas:{
+				validators:{
+					notEmpty:{
+						message: "Campo obrigatório"
+					}
+				}
+			}
+		}
+	});
+	
+	$("#formParceriaExterna").on("change", "#outrasFormasCheckBox", function(){
+		$("#formParceriaExterna").bootstrapValidator("revalidateField", "descricaoOutrasFormas");
+	});
+	
+	$("#form-homologar-acao").bootstrapValidator({
+		fields:{
+			dataDeHomologacao:{
+				validators:{
+					notEmpty:{
+						message: "Especifique a data de homologação"
+					}
+				}
+			},
+			numeroProcesso:{
+				validators:{
+					notEmpty:{
+						message: "Especifique o número do processo"
+					}
+				}
+			}
+		}
+	});
+	
+	$("#form-homologar-acao").on("change", function(){
+		$("#form-homologar-acao").bootstrapValidator("revalidateField", "dataDeHomologacao");
+		$("#form-homologar-acao").bootstrapValidator("revalidateField", "numeroProcesso");
+	});
 });
