@@ -12,7 +12,7 @@ $(document).ready(function(){
 		minimumResultsForSearch: -1
 	});
 	
-	var ptBR_url = "/gpa-extensao/json/Portuguese-Brasil.json";
+	var ptBR_url = "../json/Portuguese-Brasil.json";
 	
 	selecionarPeriodoBolsas();
 	
@@ -43,7 +43,7 @@ $(document).ready(function(){
 	         {
 				request.setRequestHeader(header, token);
 	         },
-	         url : "/gpa-extensao/admin/frequencia",
+	         url : "../admin/frequencia",
 	         data : {
 	        	 bolsaId : bolsaId,
 	        	 mes : mes,
@@ -69,7 +69,7 @@ $(document).ready(function(){
 		         {
 		                request.setRequestHeader(header, token);
 		            },
-				url: "/gpa-extensao/admin/bolsistas",
+				url: "../admin/bolsistas",
 				data : {
 					ano : ano
 				},
