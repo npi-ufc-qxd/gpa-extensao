@@ -19,18 +19,26 @@
 						</div>
 						<div class="box-body">
 							<form th:action="@{/buscar/acao-extensao}" role="form" method="get">
-								<div class="form-group col-sm-6">
+								<div class="form-group col-sm-5">
 									<label class="control-label">Coordenador</label>
 									<select id="selectCoordenador" name="coordenador" class="form-control">
 										<option value="" selected="selected">Selecionar coordenador...</option>
 										<option th:each="coordenador : ${coordenadores}" th:value="${coordenador.pessoa.id}" th:text="${coordenador.pessoa.nome}"></option>
 									</select>
 								</div>
-								<div class="form-group col-sm-4">
+								<div class="form-group col-sm-3">
 									<label class="control-label">Modalidade</label>
 									<select id="modalidadeSelect" name="modalidade" class="form-control">
-										<option value="" selected="selected">Selecionar modalidade...</option>
+										<option value="" selected="selected">Selecionar...</option>
 										<option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
+									</select>
+								</div>
+								<div class="form-group col-sm-2">
+									<label>Estado</label>
+									<select id="estadoSelect" name="estado" class="form-control">
+										<option value="" selected="selected">Selecionar...</option>
+										<option th:value="true" >Ativo</option>
+										<option th:value="false" >Inativo</option>
 									</select>
 								</div>
 								<div class="form-group col-sm-2">
@@ -53,6 +61,10 @@
 									<label>Modalidade:</label>
 									<p th:text="${modalidade}"></p>
 								</div>
+								<div th:if="${estado}" class="col-md-2">
+									<label>Estado:</label>
+									<p th:text="${estado}"></p>
+								</div>
 								<div th:if="${ano}" class="col-md-2">
 									<label>Ano:</label>
 									<p th:text="${ano}"></p>
@@ -69,6 +81,7 @@
 										<th>Coordenador</th>
 										<th>Modalidade</th>
 										<th>Período</th>
+										<th>Estado</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -78,6 +91,7 @@
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
 										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+										<td><label th:text="${acao.ativo} ? 'Ativo': 'Inativo'" class="label label-primary"></label></td>
 									</tr>
 								</tbody>
 							</table>

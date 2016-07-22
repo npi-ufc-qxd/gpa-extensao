@@ -1,10 +1,10 @@
 $(document).ready(function() {
-	$("#selectCoordenador,#modalidadeSelect").select2();
+	$("#selectCoordenador, #modalidadeSelect, #estadoSelect").select2();
 	
 	$("#tableAcoes").DataTable({
 		"order" : [[ 0, "asc" ]],
 		"columnDefs" : [
-		                {className: "text-center", "targets": [0, 3, 4]},
+		                {className: "text-center", "targets": [0, 3, 4, 5]},
 		                {"targets" : 0, "orderable" : false},
 		                {"targets" : 1, "orderable" : false},
 		                {"targets" : 4, "orderable" : false},
