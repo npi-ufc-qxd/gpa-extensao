@@ -4,6 +4,7 @@ import static ufc.quixada.npi.gpa.util.Constants.BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QUANTIDADE_BOLSAS_EXEDIDAS;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_INFORMAR_BOLSAS_RECEBIDAS;
 
 import java.util.List;
 
@@ -38,10 +39,12 @@ public class BolsaValidator implements Validator{
 
 	private void validaQuantidadeBolsas(Bolsa b, Errors errors) {
 		if(b.getTipo().equals(TipoBolsa.REMUNERADO)) {
-			int quantidadeBolsasRecebidas = b.getAcaoExtensao().getBolsasRecebidas();
-			int quantidadeBolsasAtual = bolsaRepository.countByAcaoExtensaoAndTipoAndAtivo(b.getAcaoExtensao(), TipoBolsa.REMUNERADO, true);
+			Integer quantidadeBolsasRecebidas = b.getAcaoExtensao().getBolsasRecebidas();
+			Integer quantidadeBolsasAtual = bolsaRepository.countByAcaoExtensaoAndTipoAndAtivo(b.getAcaoExtensao(), TipoBolsa.REMUNERADO, true);
 			
-			if(quantidadeBolsasAtual >= quantidadeBolsasRecebidas) {
+			if(quantidadeBolsasRecebidas == null) {
+				errors.rejectValue(BOLSISTA, ERROR_INFORMAR_BOLSAS_RECEBIDAS);
+			}else if(quantidadeBolsasAtual >= quantidadeBolsasRecebidas) {
 				errors.rejectValue(BOLSISTA, ERROR_QUANTIDADE_BOLSAS_EXEDIDAS);
 			}
 		}

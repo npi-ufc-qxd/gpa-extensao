@@ -41,7 +41,6 @@ public class Constants {
 	public static final String PARTICIPANTE = "participante";
 	public static final String BOLSISTA = "bolsista";
 	public static final String PERMISSAO = "permissao";
-	public static final String PAPEL_DIRECAO = "direcao";
 	public static final String ACOES_DIRECAO_SIZE = "acoesDirecaoSize";
 	public static final String ACOES_COORDENADOR_SIZE = "acoesCoordenadorSize";
 	public static final String ACOES_TRAMITACAO = "acoesTramitacao";
@@ -72,6 +71,7 @@ public class Constants {
 	public static final String COORDENADORES = "coordenadores";
 	public static final String FREQUENCIAS = "frequencias";
 	public static final String CPF_COORDENADOR="cpfCoordenador";
+	public static final String ESTADO ="estado";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -145,6 +145,7 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA = "Esse aluno já é bolsista desse projeto";
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
+	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
 	
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.
