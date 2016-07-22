@@ -124,7 +124,7 @@
 								<div th:if="${acaoExtensao.anexo} != null">
 									<a th:text="${acaoExtensao.anexo.nome}" th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}"></a>
 									<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" type="hidden"/>
-									<a id="excluirArquivo" class="btn btn-danger btn-xs excluirArquivo" data-toogle="tooltip" title="excluir arquivo">
+									<a id="excluirArquivo" class="btn btn-danger btn-xs" data-toogle="tooltip" title="excluir arquivo">
 										<i class="fa fa-trash-o"></i>
 									</a>
 								</div>
