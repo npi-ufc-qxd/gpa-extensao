@@ -2,17 +2,22 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +44,21 @@ public class BuscarController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@ModelAttribute(ACOES_DIRECAO_SIZE)
+	public Integer acoesDirecaoSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
+	}
+	
+	@ModelAttribute(ACOES_COORDENADOR_SIZE)
+	public Integer acoesCoordenadorSize(Authentication authentication){
+		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
+	}
+	
+	@ModelAttribute(PESSOA_LOGADA)
+	public String pessoaLogada(Authentication authentication){
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
+	}
 
 	@RequestMapping(PAGINA_ACAO_EXTENSAO)
 	public String buscarAcaoForm(Model model) {

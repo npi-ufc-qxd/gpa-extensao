@@ -11,6 +11,8 @@ public class Constants {
 	
 	// Values
 	public static final Integer CARGA_HORARIA_12 = 12;
+	public static final String CADASTRAR_FREQUENCIA = "cadastrar";
+	public static final String REMOVER_FREQUENCIA = "remover";
 
 	//Mensagens
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
@@ -51,7 +53,8 @@ public class Constants {
 	public static final String BUSCAR = "buscar";
 	public static final String ACOES_PARTICIPACAO = "acoesParticipacao";
 	public static final String PENDENCIAS = "pendencias";
-		
+	public static final String ANO_ATUAL = "anoAtual";
+	public static final String ANOS = "anos";
 	public static final String ALUNO = "aluno";
 	public static final String BOLSAS = "bolsas";
 	public static final String DEDICACAO = "dedicacao";
@@ -67,6 +70,7 @@ public class Constants {
 	public static final String ERROR_UPPERCASE = "ERROR";
 	public static final String OK_UPPERCASE = "OK";
 	public static final String COORDENADORES = "coordenadores";
+	public static final String FREQUENCIAS = "frequencias";
 	public static final String CPF_COORDENADOR="cpfCoordenador";
 	
 	//Paginas
@@ -79,22 +83,25 @@ public class Constants {
 	public static final String PAGINA_HOMOLOGACAO_ACAO_EXTENSAO = "direcao/homologacao";
 	public static final String PAGINA_CRIAR_PARCERIA_EXTERNA = "coordenacao/crud/criar-parceria-externa";
 	public static final String PAGINA_SUBMETER_ACAO_EXTENSAO = "coordenacao/submissao/submeter";
-	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro";
+	public static final String PAGINA_CADASTRO_RETROATIVO_ACAO = "administracao/cadastro-acao/cadastro";
 	public static final String PAGINA_BUSCAR_ACAO_EXTENSAO = "buscar/acao-extensao";
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
+	public static final String PAGINA_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas";
 	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
+
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
 	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
-
+	public static final String FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas :: table-listagem-bolsistas";
+	
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO= "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
 	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
-	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/admin/cadastrar";
+	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/buscar/acao-extensao";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
 	
@@ -104,7 +111,7 @@ public class Constants {
 	public static final String EXCEPTION_ARQUIVO = "Falha ao salvar o arquivo! Tente novamente.";
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String EXCEPTION_PARECERISTA_DA_EQUIPE = "Não foi possível atribuir! O parecerista faz parte da equipe!";
-	
+	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	
 	//Mensagens
 	public static final String ERRO = "erro";
