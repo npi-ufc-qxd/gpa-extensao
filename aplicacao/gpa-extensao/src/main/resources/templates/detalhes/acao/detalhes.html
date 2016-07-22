@@ -63,7 +63,7 @@
 										<p th:text="${acaoExtensao.coordenador.nome}"/>
 									</li>
 									<li>
-										<div th:if="${acaoExtensao.status.name()} == 'APROVADO' and ${#authentication.name == acaoExtensao.coordenador.cpf}">
+										<div th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})">
 											<i id="buscarCoordenadores" class="fa fa-pencil-square-o" aria-hidden="true" 
 										 	title="Editar" data-toggle="modal" data-target="#editarCoordenador"></i>
 										</div>
@@ -85,7 +85,7 @@
                                 <label>Código</label>
                                 <div id="codigo-info">
                                     <span id="codigo-acao-extensao" th:text="${acaoExtensao.codigo} ? ${acaoExtensao.codigo} : '-'"></span>
-                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-codigo-acao-extensao" class="fa fa-fw fa-edit" title="Editar o código"></a>
+                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})" id="editar-codigo-acao-extensao" class="fa fa-fw fa-edit" title="Editar o código"></a>
                                 </div>
                                 
                                 <div id="div-codigo-acao-extensao" class="input-group input-group-sm" style="display: none;">
@@ -131,7 +131,7 @@
                                 <label>Bolsas recebidas</label>
                                 <div id="numero-bolsas-info" th:fragment="numero-bolsas-info">
                                     <span id="bolsas-recebidas" th:text="${acaoExtensao.bolsasRecebidas} ? ${acaoExtensao.bolsasRecebidas} : '-'"></span>
-                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'}" id="editar-numero-bolsas-button" class="fa fa-fw fa-edit" title="Setar o número de bolsas recebidas"></a>
+                                    <a th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})" id="editar-numero-bolsas-button" class="fa fa-fw fa-edit" title="Setar o número de bolsas recebidas"></a>
                                 </div>
                                 
                                 <div id="editar-bolsas-recebidas-form" class="input-group input-group-sm" style="display: none;">

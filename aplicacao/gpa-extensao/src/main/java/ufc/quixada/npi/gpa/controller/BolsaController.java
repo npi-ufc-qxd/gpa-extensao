@@ -11,6 +11,8 @@ import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
+import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
@@ -42,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
@@ -67,11 +70,6 @@ public class BolsaController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication) {
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
