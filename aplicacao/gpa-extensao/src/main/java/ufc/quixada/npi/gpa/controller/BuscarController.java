@@ -59,7 +59,7 @@ public class BuscarController {
 	public String pessoaLogada(Authentication authentication){
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
-
+	
 	@RequestMapping(PAGINA_ACAO_EXTENSAO)
 	public String buscarAcaoForm(Model model) {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());

@@ -59,7 +59,8 @@
 		<div class="box-body with-border" id="resultsBlockBolsas"></div>
 	</div>
 	<div class="box-footer">
-		<button id="buttonAdicionarBolsista" type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
+		<button th:if="${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})" 
+			id="buttonAdicionarBolsista" type="button" class="btn btn-primary btn-flat pull-right">Adicionar</button>
 	</div>
 </div>
 </html>

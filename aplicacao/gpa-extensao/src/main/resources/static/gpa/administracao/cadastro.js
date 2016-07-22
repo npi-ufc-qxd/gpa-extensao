@@ -149,7 +149,32 @@ $(document).ready(function(){
         				message:"Campo obrigátorio"
         			}
         		}
+        	},
+        	anexoAcao:{
+        		validators:{
+        			notEmpty:{
+        				message:"Por favor insira um arquivo"
+        			}
+        		}
         	}
         }
+    });
+    
+    $("#excluirArquivoAdmin").click(function(e) {
+    	e.preventDefault();
+    	var token = $("meta[name='_csrf']").attr("content");
+    	var header = $("meta[name='_csrf_header']").attr("content");
+    	idAcao = $("#acaoExtensaoId").val();
+    	$.ajax({
+			url : '../../documento/excluir/'+ idAcao,
+			beforeSend: function (request)
+            {
+				 request.setRequestHeader(header, token);
+            },
+			type : 'POST',
+			success: function(result) {
+				location.reload();
+			}
+		});
     });
 });

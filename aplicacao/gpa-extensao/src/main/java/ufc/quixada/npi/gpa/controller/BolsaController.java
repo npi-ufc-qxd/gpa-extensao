@@ -1,5 +1,8 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
+import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
@@ -7,13 +10,10 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
-import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
-import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -67,9 +67,9 @@ public class BolsaController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-
+	
 	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication) {
+		public String pessoaLogada(Authentication authentication) {
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
 

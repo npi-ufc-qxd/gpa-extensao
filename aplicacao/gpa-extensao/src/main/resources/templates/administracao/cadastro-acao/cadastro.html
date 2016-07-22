@@ -13,31 +13,40 @@
 			<section class="content">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">Cadastrar ação extensão retroativa</h3>
+						<h3 th:if="${action == 'cadastrar'}" class="box-title">Cadastrar ação de extensão retroativa</h3>
+						<h3 th:if="${action == 'editar'}" class="box-title">Editar ação de extensão</h3>
+						
 					</div>
 					
-					<form role="form" th:action="@{/admin/cadastrar}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
+					<form id="form-admin-acao-retroativa" role="form" th:action="@{/admin/} + ${action}" enctype="multipart/form-data" method="POST" th:object="${acaoExtensao}" >
+						<input id="acaoExtensaoId" name="id" type="hidden" th:value="${acaoExtensao.id}"/>
 						<div class="box-body">
 							<div class="callout callout-danger" th:if="${message}">
 				                <h4>Atenção</h4>
 				                <p th:text="${message}"></p>
            					</div>
            					
-           					<div th:if="${possiveisCoordenadores}" class="form-group form-item">
+           					<div th:if="${action == 'editar'}" class="form-group">
+								<label>Identificador</label>
+								<input class="form-control" th:field="${acaoExtensao.identificador}" name="identificador" type="text" readonly="readonly"/>
+							</div>
+							
+           					<div class="form-group form-item">
 								<label class="control-label" for="coordenador">* Coordenador:</label>
-								<select id="select-coordenador-acao-cr" class="form-control" th:field="${acaoExtensao.coordenador}" name="coordenador" required="required">
+								<select th:if="${action == 'cadastrar'}" id="select-coordenador-acao-cr" class="form-control" th:field="${acaoExtensao.coordenador}" name="coordenador" required="required">
 									<option th:each="servidor : ${possiveisCoordenadores}" th:value="${servidor.pessoa.id}" th:text="${servidor.pessoa.nome}" th:attr="data-dedicacao = ${servidor.dedicacao}"></option>
 								</select>
+								<input th:if="${action == 'editar'}" class="form-control" th:field="${acaoExtensao.coordenador.nome}" name="coordenador" type="text" readonly="readonly"/>
 							</div>
            					
-							<div class="form-group">
+							<div id="admin-form-acao-titulo" class="form-group">
 								<div class="form-item">
 									<label class="control-label" for="titulo">* Título</label>
 									<input class="form-control" th:field="${acaoExtensao.titulo}" name="titulo" type="text" required="required"/>
 								</div>
 							</div>
 							
-							<div class="form-group">
+							<div id="admin-form-acao-resumo" class="form-group">
 								<div class="form-item">
 									<label class="control-label">* Resumo</label>
 									<textarea class="form-control" th:field="${acaoExtensao.resumo}" name="resumo" required="required" style="resize: none;"></textarea>
@@ -51,7 +60,7 @@
 										<option th:each="modalidade : ${modalidades}" th:value="${modalidade}" th:text="${modalidade.descricao}"></option>
 									</select>
 								</div>
-								<div class="col-lg-4 form-item">
+								<div th:if="${action == 'cadastrar'}" class="col-lg-4 form-item">
 									<label for="cargaHoraria" class="control-label">* Carga horária semanal (hrs) do coordenador</label>
 									<input id="carga-horaria-coordenador-cr" type="number" required="required" name="cargaHoraria"
 										class="form-control"/>
@@ -63,7 +72,7 @@
 								</div>
 							</div>
 							
-							<div id="cargas-horarias-acao-cr" class="form-group row" style="display: none;">
+							<div id="cargas-horarias-acao-cr" class="form-group row no-display">
                                	<div class="col-lg-6 form-item">
 									<label class="control-label">* Carga horária prática:</label>
 									<input th:field="${acaoExtensao.horasPraticas}" name="horasPraticas" type="number" min="0" class="form-control"/>
@@ -74,14 +83,14 @@
 								</div>
 							</div>
 							
-							<div id="ementa-acao-cr" class="form-group" style="display: none;">
+							<div id="ementa-acao-cr" class="form-group no-display">
 								<div class="form-item">
 									<label class="control-label">* Ementa/Conteúdo programático</label>
 									<textarea class="form-control" id="textarea-ementa-acao-cr" th:field="${acaoExtensao.ementa}" name="ementa" placeholder="Escreva o conteúdo programático/ementa..."></textarea>
 								</div>
 							</div>
 							
-							<div id="programacao-acao-cr" class="form-group" style="display: none;">
+							<div id="programacao-acao-cr" class="form-group no-display">
 								<div class="form-item">
 									<label class="control-label">* Programação</label>
 									<textarea class="form-control" id="textarea-programacao-acao-cr" th:field="${acaoExtensao.programacao}" name="programacao" placeholder="Escreva a programação..."></textarea>
@@ -106,9 +115,9 @@
 								</div>
 							</div>
 							
-							<div class="form-group">
-								<div class="form-item">
-                                    <label class="control-label">* Vínculo com programa de extensão:</label>
+							<div class="form-group row">
+								<div class="col-lg-12 form-item">
+                                    <label class="control-label">Vínculo com programa de extensão:</label>
                                     <select class="form-control" id="cadastrarVinculoAcaoExtensao" th:field="${acaoExtensao.vinculo}" name="vinculo">
                                         <option value="">Selecione...</option>
                                         <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo.id}" th:text="${vinculo.titulo}"></option>
@@ -118,7 +127,14 @@
 							
 							<div class="form-group form-item">
 								<label class="control-label" for="submeter-anexoAcaoExtensao">* Anexo</label>
-								<input id="anexo-acao-cr" name="anexoAcao" class="file" required="required" type="file"/>
+								<input id="anexo-acao-cr" th:if="${acaoExtensao.anexo} == null" name="anexoAcao" class="file" type="file" required="required"/>
+								<div th:if="${acaoExtensao.anexo} != null">
+									<a th:text="${acaoExtensao.anexo.nome}" th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}"></a>
+									<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" type="hidden"/>
+									<a id="excluirArquivoAdmin" class="btn btn-danger btn-xs " data-toogle="tooltip" title="excluir arquivo">
+										<i class="fa fa-trash-o"></i>
+									</a>
+								</div>
 							</div>
 						</div>
 						

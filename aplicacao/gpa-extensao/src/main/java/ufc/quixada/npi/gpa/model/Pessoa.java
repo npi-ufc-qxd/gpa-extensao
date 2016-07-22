@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gpa.model;
 
-import static  ufc.quixada.npi.gpa.util.Constants.PAPEL_DIRECAO;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -159,7 +157,16 @@ public class Pessoa implements UserDetails {
 	}
 	public boolean isDirecao() {
 		for (Papel p : papeis) {
-			if (p.getNome().equals(PAPEL_DIRECAO)) {
+			if (p.getNome() == Papel.Tipo.DIRECAO) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isAdministracao() {
+		for (Papel p : papeis) {
+			if (p.getNome() == Papel.Tipo.ADMINISTRACAO) {
 				return true;
 			}
 		}
