@@ -193,6 +193,8 @@
 							class="btn btn-danger btn-flat pull-right" th:href="@{/admin/encerrarAcao/} + ${acaoExtensao.id}">Encerrar</a>
 						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
 							title="Homologar Ação" href="#homologar-form" class="btn btn-primary btn-flat pull-right">Homologar</a>
+						<a th:if="${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')} AND ${acaoExtensao.status.name() == 'APROVADO'} AND ${acaoExtensao.ativo}"
+							class="btn btn-primary btn-flat pull-right" th:href="@{/admin/editar/} + ${acaoExtensao.id}">Editar</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
