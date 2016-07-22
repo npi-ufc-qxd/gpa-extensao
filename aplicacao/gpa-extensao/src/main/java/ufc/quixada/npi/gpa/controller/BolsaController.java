@@ -70,6 +70,11 @@ public class BolsaController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@ModelAttribute(PESSOA_LOGADA)
+		public String pessoaLogada(Authentication authentication) {
+		return pessoaRepository.findByCpf(authentication.getName()).getNome();
+	}
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
