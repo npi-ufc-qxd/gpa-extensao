@@ -233,6 +233,7 @@ $(document).ready(function() {
 	
 	$("#confirm-encerrar-bolsa").on("shown.bs.modal", function(e) {
 		$("#encerrarBolsaHiddenId").val($(e.relatedTarget).data("id"));
+		$(e.relatedTarget).prop('checked', true);
 	});
 
 	$("#encerrarBolsaHiddenBtn").click(function(e) {

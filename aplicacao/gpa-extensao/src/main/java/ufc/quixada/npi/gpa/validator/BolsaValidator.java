@@ -50,26 +50,27 @@ public class BolsaValidator implements Validator{
 		}
 	}
 
-	private void validaTodosProjetos(Bolsa b, Errors errors) {
-		if(b.getTipo().equals(TipoBolsa.REMUNERADO)) {
-			List<Bolsa> bolsas = b.getAcaoExtensao().getBolsistas();
+	private void validaProjetoAtual(Bolsa b, Errors errors) {
+		List<Bolsa> bolsas = b.getAcaoExtensao().getBolsistas();
 			
-			for(Bolsa bolsa : bolsas) {
-				if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo()) {
-					errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA);
-					break;
-				}
+		for(Bolsa bolsa : bolsas) {
+			if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo()) {
+				errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA);
+				break;
 			}
 		}
 	}
 
-	private void validaProjetoAtual(Bolsa b, Errors errors) {
-		List<Bolsa> bolsas = bolsaRepository.findByBolsista(b.getBolsista());
-		
-		for(Bolsa bolsa : bolsas) {
-			if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo()) {
-				errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO);
-				break;
+	private void validaTodosProjetos(Bolsa b, Errors errors) {
+		if(b.getTipo().equals(TipoBolsa.REMUNERADO)) {
+			List<Bolsa> bolsas = bolsaRepository.findByBolsista(b.getBolsista());
+			
+			for(Bolsa bolsa : bolsas) {
+				if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo() 
+						&& bolsa.getTipo().equals(TipoBolsa.REMUNERADO)) {
+					errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO);
+					break;
+				}
 			}
 		}
 	}

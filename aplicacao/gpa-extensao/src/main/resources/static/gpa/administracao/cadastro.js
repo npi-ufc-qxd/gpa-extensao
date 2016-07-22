@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	
+	checkForm();
 	$("#anexo-acao-cr").fileinput({
 		'showUpload':false
 	});
