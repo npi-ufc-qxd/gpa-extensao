@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
@@ -91,9 +92,9 @@ public class BuscarController {
 		}
 		if(!estado.isEmpty()) {
 			if("true".equals(estado)) {
-				model.addAttribute("estado", "Ativo");
+				model.addAttribute(ESTADO, "Ativo");
 			} else if("false".equals(estado)) {
-				model.addAttribute("estado", "Inativo");
+				model.addAttribute(ESTADO, "Inativo");
 			}
 		}
 		
