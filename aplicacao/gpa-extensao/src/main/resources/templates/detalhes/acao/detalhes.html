@@ -145,6 +145,30 @@
                             </div>
 						</div>
 						
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Modalidade</label>
+								<p th:text="${acaoExtensao.modalidade.descricao}"></p>
+							</div>
+							<div th:if="${acaoExtensao.modalidade.name() == 'CURSO'} or ${acaoExtensao.modalidade.name() == 'EVENTO'}">
+								<div class="col-sm-2">
+									<label>Carga Horária prática</label>
+									<p th:text="${acaoExtensao.horasPraticas} + ' horas'"></p>
+								</div>
+								<div class="col-sm-2">
+									<label>Carga Horária teóricas</label>
+									<p th:text="${acaoExtensao.horasTeoricas} + ' horas'"></p>
+								</div>
+								<div class="col-md-5" th:if="${acaoExtensao.modalidade.name() == 'CURSO'}">
+									<label>Ementa/Conteúdo programático</label>
+									<p th:text="${acaoExtensao.ementa}"></p>
+								</div>
+								<div class="col-md-5" th:if="${acaoExtensao.modalidade.name() == 'EVENTO'}">
+									<label>Programação</label>
+									<p th:text="${acaoExtensao.programacao}"></p>
+								</div>
+							</div>
+						</div>
 						<div class="row col-sm-12">
 							<label>Resumo</label>
 							<p id="resumo-acao" th:if="${acaoExtensao.resumo} != null" th:text="${acaoExtensao.resumo}"></p>
