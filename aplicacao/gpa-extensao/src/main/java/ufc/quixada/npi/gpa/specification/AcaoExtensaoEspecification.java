@@ -18,7 +18,7 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 public final class AcaoExtensaoEspecification {
 
-	public static Specification<AcaoExtensao> buscar(Pessoa coordenador, Modalidade modalidade, Integer ano) {
+	public static Specification<AcaoExtensao> buscar(Pessoa coordenador, Modalidade modalidade, String estado, Integer ano) {
 		return new Specification<AcaoExtensao>() {
 			public Predicate toPredicate(Root<AcaoExtensao> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				Predicate predicate = builder.and();
@@ -28,6 +28,10 @@ public final class AcaoExtensaoEspecification {
 				}
 				if(modalidade != null) {
 					predicate = builder.and(predicate, builder.equal(root.<Modalidade>get("modalidade"), modalidade));
+				}
+				if(!estado.isEmpty()) {
+					Boolean ativo = Boolean.valueOf(estado);
+					predicate = builder.and(predicate, builder.equal(root.<Boolean>get("ativo"), ativo));
 				}
 				if(ano != null) {
 					String inicioAnoString = "01/01/" + ano;

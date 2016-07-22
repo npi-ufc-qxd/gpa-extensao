@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
@@ -71,9 +72,9 @@ public class BuscarController {
 	
 	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, params = {"coordenador", "modalidade", "ano"}, method = RequestMethod.GET)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador, @RequestParam("modalidade") Modalidade modalidade,
-			@RequestParam("ano") Integer ano, Model model)  {
+			@RequestParam("estado") String estado, @RequestParam("ano") Integer ano, Model model)  {
 		
-		if(idCoordenador == null && modalidade == null && ano == null) {
+		if(idCoordenador == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
 		
@@ -89,8 +90,15 @@ public class BuscarController {
 		if(ano != null) {
 			model.addAttribute("ano", ano);
 		}
+		if(!estado.isEmpty()) {
+			if("true".equals(estado)) {
+				model.addAttribute(ESTADO, "Ativo");
+			} else if("false".equals(estado)) {
+				model.addAttribute(ESTADO, "Inativo");
+			}
+		}
 		
-		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, ano);
+		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado, ano);
 		
 		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
