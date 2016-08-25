@@ -88,7 +88,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 			fileInputStream.read(bFile);
 			fileInputStream.close();
 		} catch (IOException e) {
-			throw new GpaExtensaoException(EXCEPTION_BUSCAR_ARQUIVO);
+			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
 		}
 		
 		documento.setArquivo(bFile);
