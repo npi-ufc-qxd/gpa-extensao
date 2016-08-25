@@ -44,8 +44,10 @@ public class DirecaoController {
 	private PessoaRepository pessoaRepository;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication){
-		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
+	public Integer acoesDirecaoSize(Authentication authentication) {
+		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
+				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
+		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
 	}
 	
 	@ModelAttribute(ACOES_COORDENADOR_SIZE)
