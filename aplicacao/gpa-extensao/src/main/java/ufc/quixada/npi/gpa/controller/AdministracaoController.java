@@ -24,6 +24,7 @@ import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,9 @@ public class AdministracaoController {
 
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication) {
-		return acaoExtensaoRepository.countAcoesTramitacao(Status.NOVO);
+		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
+				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
+		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
 	}
 
 	@ModelAttribute(ACOES_COORDENADOR_SIZE)

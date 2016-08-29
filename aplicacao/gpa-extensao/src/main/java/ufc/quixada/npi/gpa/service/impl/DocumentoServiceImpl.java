@@ -37,12 +37,10 @@ public class DocumentoServiceImpl implements DocumentoService{
 	public Documento save(MultipartFile arquivo, AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		if(arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))){
 			try{
-				String data = String.valueOf(System.currentTimeMillis());
-				
 				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(data + "_" + arquivo.getOriginalFilename().toString());
-				documento.setCaminho(PASTA_DOCUMENTOS_GPA+"/" + acaoExtensao.getIdentificador() + "/" + documento.getNome());
+				documento.setNome(acaoExtensao.getIdentificador() + "_" + arquivo.getOriginalFilename().toString());
+				documento.setCaminho(PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + acaoExtensao.getIdentificador() + ".pdf");
 				documentoRepository.save(documento);
 				
 				return documento;

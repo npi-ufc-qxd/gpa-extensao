@@ -58,12 +58,10 @@ public class BolsaServiceImpl implements BolsaService {
 				Calendar termino = Calendar.getInstance();
 				termino.setTime(bolsa.getTermino());
 
-				Integer anoInicio = inicio.get(Calendar.YEAR);
-				Integer anoTermino = termino.get(Calendar.YEAR);
 				Integer mesInicio = inicio.get(Calendar.MONTH) + 1;
 				Integer mesTermino = termino.get(Calendar.MONTH) + 1;
-
-				if ((ano >= anoInicio && mes >= mesInicio) && (ano <= anoTermino && mes <= mesTermino)) {
+				
+				if ((mes >= mesInicio) && (mes <= mesTermino)) {
 
 					bolsa.addFrequencia(new FrequenciaBolsista(bolsa, mes, ano));
 					bolsaRepository.save(bolsa);
