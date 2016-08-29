@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-@EntityListeners(AlunoEntityListener.class)
+//@EntityListeners(AlunoEntityListener.class)
 public class Aluno{
 
 	@Id
