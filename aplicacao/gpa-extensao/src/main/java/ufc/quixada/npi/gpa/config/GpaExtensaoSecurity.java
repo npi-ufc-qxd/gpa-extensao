@@ -14,14 +14,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @ComponentScan
 public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
-
-	 @Autowired
-	 private UserDetailsService userDetailsService;
-
-	// @Autowired
-	// @Qualifier("authenticationProviderExtensao")
-	// private AuthenticationProvider provider;
-
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	//@Autowired
+	//@Qualifier("authenticationProviderExtensao")
+	//private AuthenticationProvider provider;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").authenticated().antMatchers("/public-resources/**").permitAll()
@@ -34,7 +34,7 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	//	auth.authenticationProvider(provider);
 		auth.userDetailsService(userDetailsService);
-		// auth.authenticationProvider(provider);
 	}
 }
