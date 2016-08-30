@@ -30,6 +30,8 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	List<AcaoExtensao> findByCoordenador(Pessoa pessoa);
 
 	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
+	
+	List<AcaoExtensao> findByStatusAndAtivoIn (Status status, boolean ativo);
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 	
