@@ -94,6 +94,15 @@ $(document).ready(function(){
 	        				message:"Campo obrigátorio"
 	        			}
 	        		}
+	        	},
+	        	anexoAcao:{
+	        		validators:{
+	        			file:{
+	        				extension: "pdf",
+	                        type: "application/pdf",
+	                        message:"Somente o formato PDF é suportado"
+	        			}
+	        		}
 	        	}
 	        }
 	    });
@@ -162,6 +171,10 @@ $(document).ready(function(){
 	}
 	
 	$("#anexoAcao").fileinput({
-		'showUpload':false
+		'showUpload':false,
+		"allowedFileTypes ": "application/pdf",
+		"allowedPreviewTypes ": "application/pdf"
+	}).on("fileclear", function(){
+		$("#submeterAcaoExtensaoForm").bootstrapValidator("revalidateField", "anexoAcao");
 	});
 });

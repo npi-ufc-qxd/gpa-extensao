@@ -147,6 +147,9 @@ public class Constants {
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
 	
+	//Tipos de arquivos
+	public static final String PDF = "application/pdf";
+	
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.
 	 * 

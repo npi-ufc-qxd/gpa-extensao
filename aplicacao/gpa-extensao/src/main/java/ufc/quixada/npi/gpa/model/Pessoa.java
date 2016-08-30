@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@EntityListeners(PessoaEntityListener.class)
+//@EntityListeners(PessoaEntityListener.class)
 public class Pessoa implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;

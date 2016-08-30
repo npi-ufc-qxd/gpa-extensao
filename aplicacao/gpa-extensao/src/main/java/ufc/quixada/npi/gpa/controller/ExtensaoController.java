@@ -42,10 +42,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
@@ -342,8 +342,8 @@ public class ExtensaoController {
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
 			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
-			return PAGINA_SUBMETER_ACAO_EXTENSAO;
+			redirect.addFlashAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 		
 		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
@@ -376,7 +376,7 @@ public class ExtensaoController {
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 		}
 		
@@ -428,7 +428,7 @@ public class ExtensaoController {
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 		
