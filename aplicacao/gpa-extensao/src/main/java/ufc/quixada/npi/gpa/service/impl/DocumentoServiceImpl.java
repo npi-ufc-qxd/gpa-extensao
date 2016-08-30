@@ -39,7 +39,7 @@ public class DocumentoServiceImpl implements DocumentoService{
 			try{
 				Documento documento = new Documento();
 				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(acaoExtensao.getIdentificador() + "_" + arquivo.getOriginalFilename().toString());
+				documento.setNome(acaoExtensao.getIdentificador() + ".pdf");
 				documento.setCaminho(PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + acaoExtensao.getIdentificador() + ".pdf");
 				documentoRepository.save(documento);
 				
