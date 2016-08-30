@@ -60,7 +60,7 @@
 								<tbody>
 									<tr th:each="bolsa, rowStat : ${bolsas}" id="row+${rowStat.count}">
 										<td th:text="${rowStat.count}"></td>
-										<td th:text="${bolsa.acaoExtensao.titulo}"></td>
+										<td><a th:href="@{/detalhes/} + ${bolsa.acaoExtensao.id}" title="Detalhes da ação" th:text="${bolsa.acaoExtensao.titulo}"></a></td>
 										<td>
 											<p th:if="${bolsa.inicio} !=null" th:text="${#dates.format(bolsa.inicio, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.inicio}==null" class="glyphicon glyphicon-minus"></span>
