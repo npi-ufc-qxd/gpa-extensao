@@ -70,7 +70,6 @@ public class BuscarController {
 	@RequestMapping(PAGINA_ACAO_EXTENSAO)
 	public String buscarAcaoForm(Model model) {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
-		//model.addAttribute(ACOES, acaoExtensaoRepository.findByStatus(Status.APROVADO));
 		model.addAttribute(ACOES, acaoExtensaoRepository.findByStatusAndAtivoIn(Status.APROVADO, true));
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		
