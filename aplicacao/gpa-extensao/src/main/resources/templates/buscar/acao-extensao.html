@@ -91,7 +91,7 @@
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
 										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
-										<td><label th:text="${acao.ativo} ? 'Ativo': 'Inativo'" class="label label-primary"></label></td>
+										<td><label th:text="${acao.ativo} ? 'ATIVO': 'INATIVO'" class="label label-primary"></label></td>
 									</tr>
 								</tbody>
 							</table>
