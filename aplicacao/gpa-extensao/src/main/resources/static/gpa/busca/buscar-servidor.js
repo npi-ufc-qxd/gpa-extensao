@@ -6,6 +6,9 @@ $(document).ready(function() {
 		"columnDefs" : [
 		                {className: "text-center", "targets": [1, 2, 3, 4]},
 		                {"defaultContent": "-", "targets": "_all"},
+		                {"targets" : 2, "orderable" : false},
+		                {"targets" : 3, "orderable" : false},
+		                {"targets" : 4, "orderable" : false},
 		                ],
 		"language": {
 		        	"url": "../json/Portuguese-Brasil.json"
