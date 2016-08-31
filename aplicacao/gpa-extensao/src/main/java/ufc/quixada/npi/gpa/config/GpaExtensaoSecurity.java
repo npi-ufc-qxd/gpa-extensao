@@ -18,9 +18,9 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	//@Autowired
-	//@Qualifier("authenticationProviderExtensao")
-	//private AuthenticationProvider provider;
+//	@Autowired
+//	@Qualifier("authenticationProviderExtensao")
+//	private AuthenticationProvider provider;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +34,7 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	//	auth.authenticationProvider(provider);
+//		auth.authenticationProvider(provider);
 		auth.userDetailsService(userDetailsService);
 	}
 }
