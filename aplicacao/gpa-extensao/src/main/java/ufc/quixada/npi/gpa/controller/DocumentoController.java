@@ -2,6 +2,8 @@ package ufc.quixada.npi.gpa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.DownloadDocumento;
@@ -36,7 +39,12 @@ public class DocumentoController {
 	public HttpEntity<?> downloadArquivo(@PathVariable("id-arquivo") Integer idArquivo){
 		
 		Documento documento = documentoService.getDocumento(idArquivo);
-		byte[] arquivo = documentoService.getArquivo(documento);
+		byte[] arquivo = null;
+		try {
+			arquivo = documentoService.getArquivo(documento);
+		} catch (GpaExtensaoException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return new DownloadDocumento(arquivo, documento.getNome());
 	}
 	

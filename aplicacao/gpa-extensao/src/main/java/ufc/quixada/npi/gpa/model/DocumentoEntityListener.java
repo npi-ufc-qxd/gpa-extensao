@@ -76,21 +76,4 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 		}
 		file.delete();
 	}
-	
-	@PostLoad
-	public void carregarArquivo(Documento documento) throws GpaExtensaoException{
-		FileInputStream fileInputStream = null;
-		File file = new File(documento.getCaminho());
-		byte[] bFile = new byte[(int) file.length()];
-
-		try {
-			fileInputStream = new FileInputStream(file);
-			fileInputStream.read(bFile);
-			fileInputStream.close();
-		} catch (IOException e) {
-			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
-		}
-		
-		documento.setArquivo(bFile);
-	}
 }

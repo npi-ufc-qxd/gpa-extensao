@@ -13,11 +13,16 @@
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				<input th:if="${message}" id="message-sucess" type="hidden" th:value="${message}"/>
+				<input th:if="${erro}" id="message-error" type="hidden" th:value="${erro}" />
 				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
        			
        			<!-- Mensagens -->
 	            <div id="message-modal-alert" class="callout callout-success no-display" >
 	         		<p></p>
+	       		</div>
+	       		
+	       		<div id="error-modal-alert" class="callout callout-warning callout-dismissible no-display">
+	       			<button type="button" class="close" data-dismiss="callout" aria-hidden="true">×</button>
 	       		</div>
        			
 				<!-- Box visualização das Pendências -->

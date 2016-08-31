@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -63,21 +64,21 @@ public class ParecerController {
 	}
 
 	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)
-	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, RedirectAttributes redirect){
 		try {
 			parecerService.emitirParecer(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute(ERRO, e.getMessage());
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 	
 	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
-	public String emitirParecerTecnico(@RequestParam("arquivo-parecerista") MultipartFile arquivo, AcaoExtensao acaoExtensao, Model model){
+	public String emitirParecerTecnico(@RequestParam("arquivo-parecerista") MultipartFile arquivo, AcaoExtensao acaoExtensao, RedirectAttributes redirect){
 		try {
 			parecerService.emitirParecer(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute(ERRO, e.getMessage());
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}

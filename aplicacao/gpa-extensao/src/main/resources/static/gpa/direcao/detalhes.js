@@ -13,11 +13,19 @@ $(document).ready(function(){
 	});
 	
 	$("#arquivo-parecerista").fileinput({
-		'showUpload':false
+		'showUpload':false,
+		"allowedFileTypes ": "application/pdf",
+		"allowedPreviewTypes ": "application/pdf"
+	}).on("fileclear", function(){
+		$("#parecer-form").bootstrapValidator("revalidateField", "arquivo-parecerista");
 	});
 	
 	$("#arquivo-relator").fileinput({
-		'showUpload':false
+		'showUpload':false,
+		"allowedFileTypes ": "application/pdf",
+		"allowedPreviewTypes ": "application/pdf"
+	}).on("fileclear", function(){
+		$("#relato-form").bootstrapValidator("revalidateField", "arquivo-relator");
 	});
 	
 	$(".prazo-parecer").datepicker({
@@ -169,6 +177,15 @@ $(document).ready(function(){
 						message: "Especifique o parecer"
 					}
 				}
+			},
+			"arquivo-parecerista":{
+				validators:{
+					file:{
+        				extension: "pdf",
+                        type: "application/pdf",
+                        message:"Somente o formato PDF é suportado"
+        			}
+				}
 			}
 		}
 	});
@@ -180,6 +197,15 @@ $(document).ready(function(){
 					notEmpty:{
 						message: "Especifique o parecer"
 					}
+				}
+			},
+			"arquivo-relator":{
+				validators:{
+					file:{
+        				extension: "pdf",
+                        type: "application/pdf",
+                        message:"Somente o formato PDF é suportado"
+        			}
 				}
 			}
 		}
