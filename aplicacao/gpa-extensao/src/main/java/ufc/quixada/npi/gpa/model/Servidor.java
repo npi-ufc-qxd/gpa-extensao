@@ -1,7 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;

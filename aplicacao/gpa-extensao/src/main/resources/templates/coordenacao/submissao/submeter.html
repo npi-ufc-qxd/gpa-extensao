@@ -120,7 +120,7 @@
 							
 							<div class="form-group form-item">
 								<label class="control-label" for="submeter-anexoAcaoExtensao">Anexo</label>
-								<input id="anexoAcao" th:if="${acaoExtensao.anexo} == null" name="anexoAcao" class="file" type="file"/>
+								<input id="anexoAcao" th:if="${acaoExtensao.anexo} == null" name="anexoAcao" class="file" type="file" accept="application/pdf"/>
 								<div th:if="${acaoExtensao.anexo} != null">
 									<a th:text="${acaoExtensao.anexo.nome}" th:href="@{/documento/download/} + ${acaoExtensao.anexo.id}"></a>
 									<input id="submeter-anexoAcaoExtensao" th:field="${acaoExtensao.anexo}" type="hidden"/>
