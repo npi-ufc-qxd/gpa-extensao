@@ -1,7 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -10,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-@EntityListeners(ServidorEntityListener.class)
+//@EntityListeners(ServidorEntityListener.class)
 public class Servidor {
 
 	@Id
@@ -94,7 +93,7 @@ public class Servidor {
 	}
 
 	enum Dedicacao {
-		EXCLUSIVA("Exclusiva"), H40("40h"), H20("20h");
+		EXCLUSIVA("Exclusiva"), H40("40 horas"), H20("20 horas");
 
 		private String descricao;
 

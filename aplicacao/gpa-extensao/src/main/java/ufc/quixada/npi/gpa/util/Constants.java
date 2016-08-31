@@ -26,6 +26,7 @@ public class Constants {
 	public static final String PENDENCIA = "pendencia";
 	public static final String MODALIDADES = "modalidades";
 	public static final String ACOES = "acoes";
+	public static final String PARTICIPACOES = "participacoes";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -55,6 +56,8 @@ public class Constants {
 	public static final String ANO_ATUAL = "anoAtual";
 	public static final String ANOS = "anos";
 	public static final String ALUNO = "aluno";
+	public static final String SERVIDOR = "servidor";
+	public static final String SERVIDORES = "servidores";
 	public static final String BOLSAS = "bolsas";
 	public static final String DEDICACAO = "dedicacao";
 	public static final String PARCEIRO = "parceiro";
@@ -88,6 +91,7 @@ public class Constants {
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	public static final String PAGINA_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas";
 	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
+	public static final String PAGINA_DETALHES_SERVIDOR = "/detalhes/servidor/detalhes-servidor";
 
 	
 	//fragments
@@ -158,5 +162,5 @@ public class Constants {
 	//public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
 	
 	// Produção
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/paulo.nobre/Documentos/gpa-extensao-uploads";
 }
