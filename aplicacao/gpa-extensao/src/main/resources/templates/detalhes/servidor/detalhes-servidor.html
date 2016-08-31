@@ -75,7 +75,7 @@
 									<tbody>
 										<tr th:if="${not participacoes.empty}" th:each="participacao : ${participacoes}">
 											<td><a th:href="|@{../detalhes/}${participacao.acaoExtensao.id}|" th:text="${participacao.acaoExtensao.titulo}"></a></td>
-											<td><label th:text="${participacao.acaoExtensao.ativo} ? 'Ativo': 'Encerrada'" class="label label-primary"></label></td>
+											<td><label th:text="${participacao.acaoExtensao.ativo} ? 'Em andamento': 'Encerrada'" class="label label-primary"></label></td>
 											<td><label th:text="${participacao.coordenador} ? 'Sim': 'Não'" class="label label-primary"></label></td>
 											<td th:text="|${participacao.cargaHoraria} Horas|"></td>
 											<td th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
