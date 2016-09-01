@@ -93,7 +93,7 @@ public class Servidor {
 	}
 
 	enum Dedicacao {
-		EXCLUSIVA("Exclusiva"), H40("40h"), H20("20h");
+		EXCLUSIVA("Exclusiva"), H40("40 horas"), H20("20 horas");
 
 		private String descricao;
 
