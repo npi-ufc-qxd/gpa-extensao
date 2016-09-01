@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<body>
+    <!-- Tabela de parcerias -->
+	<div th:fragment="table-parceria-externa" class="col-md-12 table-responsive">
+			<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
+			<thead>
+				<tr>
+					<th>Nome da Instituição</th>
+					<th data-toogle="tooltip" title="Gera Demanda">GD</th>
+					<th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
+					<th data-toogle="tooltip" title="Fornece Instalações e/ou Equipamentos">IE</th>
+					<th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
+					<th data-toogle="tooltip" title="Outras formas">OF</th>
+					<th data-toogle="tooltip" title="Gera Demanda">Descrição de outras formas</th>
+					<th></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				
+				<tr th:each="parceria, rowStat : ${parceriasExternas}" id="row+${rowStat.count}">
+					<td th:text="${parceria.parceiro.nome}"></td>
+					<td>
+						<span th:if="${parceria.geraDemanda}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="!${parceria.geraDemanda}" class="glyphicon glyphicon-remove"></span>
+					</td>
+					<td>
+						<span th:if="${parceria.definicaoAcoes}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="!${parceria.definicaoAcoes}" class="glyphicon glyphicon-remove"></span></td>
+					<td>
+						<span th:if="${parceria.equipamento}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="!${parceria.equipamento}" class="glyphicon glyphicon-remove"></span></td>
+					<td>
+						<span th:if="${parceria.financiamento}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="!${parceria.financiamento}" class="glyphicon glyphicon-remove"></span>
+					</td>
+					<td>
+						<span th:if="${parceria.outrasFormas}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="!${parceria.outrasFormas}" class="glyphicon glyphicon-remove"></span>
+					</td>
+					<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
+					<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
+					<td data-toogle="tooltip" th:if="((${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) or !${parceria.acaoExtensao.ativo}"></td>
+					<td data-toogle="tooltip" title="Excluir" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) and ${parceria.acaoExtensao.ativo}">
+						<a class="btn btn-danger btn-flat btn-xs" 
+							id="excluir-parceria-externa"
+							data-toggle="modal"
+							data-target="#confirm-delete-parceria-externa"
+							th:attr="data-href=${parceria.id}">
+							<i class="fa fa-trash-o"></i>
+						</a>
+                        </td>
+				</tr>
+				<tr th:if="${parceriasExternas.empty}">
+					<td colspan="8">Não há parceiria cadastrada</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+</body>
+</html>

@@ -3,8 +3,6 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
@@ -138,18 +136,6 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-	
-	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication){
-		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
-	}
 	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){

@@ -190,6 +190,7 @@ $(document).ready(function() {
 				"order" : [[ 0, "asc" ]],
 			    "columnDefs" : [
 			                    {className: "dt-center", "targets": 8},
+			                    {"defaultContent": "-", "targets": "_all"},
 			                    {"targets" : [2,3,4,5,6,7,8], "orderable" : false}
 			    ],
 			    "language": {

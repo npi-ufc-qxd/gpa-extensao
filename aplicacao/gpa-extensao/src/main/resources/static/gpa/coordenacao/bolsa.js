@@ -17,6 +17,7 @@ $(document).ready(function() {
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
 					    {className: "text-center", "targets": [1, 2, 3, 4, 5, 6]},
+					    {"defaultContent": "-", "targets": "_all"},
 					    {"targets" : 1, "orderable" : false},
 					    {"targets" : 3, "orderable" : false},
 					    {"targets" : 4, "orderable" : false},
