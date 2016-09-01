@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,7 +115,7 @@ public class BuscarController {
 	}
 	
 	@RequestMapping(value="/servidor", params = {"servidor"})
-	public String detalhesBolsista(@RequestParam("servidor") Servidor servidor, Model model) {
+	public String detalhesServidor(@RequestParam("servidor") Servidor servidor, Model model) {
 		
 		model.addAttribute(SERVIDORES, servidorRespository.findAll());
 		model.addAttribute(SERVIDOR, servidor);
@@ -122,6 +123,12 @@ public class BuscarController {
 				participacaoRepository.findByParticipanteAndAcaoExtensao_status(servidor.getPessoa(), Status.APROVADO));
 
 		return PAGINA_DETALHES_SERVIDOR;
+	}
+	
+	@RequestMapping("/servidor/{id}")
+	public String detalhesServidorPessoa(@PathVariable("id") Integer id, Model model) {
+		Servidor servidor = servidorRespository.findByPessoa_id(id);
+		return detalhesServidor(servidor, model);
 	}
 	
 }

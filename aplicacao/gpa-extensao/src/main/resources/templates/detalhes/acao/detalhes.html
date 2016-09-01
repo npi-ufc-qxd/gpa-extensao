@@ -65,7 +65,7 @@
 								<ul class="list-inline">
 									<li>
 										<label>Coordenador</label>
-										<p th:text="${acaoExtensao.coordenador.nome}"/>
+										<p><a th:href="|@{/buscar/servidor/}${acaoExtensao.coordenador.id}|" th:text="${acaoExtensao.coordenador.nome}"></a></p>
 									</li>
 									<li>
 										<div th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})">

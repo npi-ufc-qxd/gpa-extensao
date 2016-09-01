@@ -23,7 +23,9 @@
 			<tbody>
 				<tr th:each="participacao: ${participacoes}">
 					<td th:if="${participacao.nomeParticipante == '' and participacao.participante == null}" ></td>
-					<td th:if="${participacao.nomeParticipante == '' and participacao.participante != null}" th:text="${participacao.participante.nome}"></td>
+					<td th:if="${participacao.nomeParticipante == '' and participacao.participante != null}">
+						<a th:text="${participacao.participante.nome}" th:href="|@{/buscar/servidor/}${participacao.participante.id}|"></a>
+					</td>
 					<td th:if="${participacao.nomeParticipante} != ''" th:text="${participacao.nomeParticipante}"></td>
 					<td th:if="${participacao.cpfParticipante == '' and participacao.participante == null}" ></td>
 					<td th:if="${participacao.cpfParticipante == '' and participacao.participante != null}" th:text="${participacao.participante.cpf}"></td>
