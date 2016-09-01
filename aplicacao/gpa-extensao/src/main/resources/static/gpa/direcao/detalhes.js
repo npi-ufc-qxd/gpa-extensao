@@ -1,8 +1,6 @@
 $(document).ready(function(){
 	
-	$(".select-parecer").select2({
-		minimumResultsForSearch: -1
-	});
+	$(".select-parecer").select2();
 	
 	$(".select-posicionamento").select2({
 		minimumResultsForSearch: -1

@@ -21,7 +21,10 @@
 			</thead>
 			<tbody>
 				<tr th:each="bolsa : ${bolsas}">
-					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.nome}: ''"></td>
+					<td>
+						<a th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.nome}: ''" 
+						th:href="|@{/bolsa/detalhes/}${bolsa.bolsista.id}|"></a>
+					</td>
 					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
 					<td th:text="${bolsa.tipo} ? ${bolsa.tipo.descricao}: ''"></td>
 					<td th:text="${bolsa.cargaHoraria} ? ${bolsa.cargaHoraria}: ''"></td>
