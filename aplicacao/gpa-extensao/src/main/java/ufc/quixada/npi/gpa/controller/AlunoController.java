@@ -1,16 +1,11 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_INFO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_CADASTRO_ALUNOS;
 import static ufc.quixada.npi.gpa.util.Constants.USUARIO;
-
-import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,33 +18,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
-import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.AlunoService;
 
 @Controller
 @RequestMapping("/admin/alunos")
 public class AlunoController {
-	
-	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-
-	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication) {
-		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
-	}
 
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication) {
