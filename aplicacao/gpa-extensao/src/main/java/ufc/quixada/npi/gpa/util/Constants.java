@@ -72,6 +72,8 @@ public class Constants {
 	public static final String FREQUENCIAS = "frequencias";
 	public static final String CPF_COORDENADOR="cpfCoordenador";
 	public static final String ESTADO ="estado";
+	public static final String CURSOS ="cursos";
+
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";

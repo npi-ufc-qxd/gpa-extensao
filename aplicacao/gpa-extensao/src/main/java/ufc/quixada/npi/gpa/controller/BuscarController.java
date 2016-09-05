@@ -3,6 +3,7 @@ package ufc.quixada.npi.gpa.controller;
 import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
@@ -31,6 +32,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -82,6 +84,7 @@ public class BuscarController {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(ACOES, acaoExtensaoRepository.findByStatusAndAtivoIn(Status.APROVADO, true));
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
@@ -119,12 +122,13 @@ public class BuscarController {
 		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 	
 	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = {"curso", "ano"}, method = RequestMethod.GET)
-	public String buscarAcaoCurso(@RequestParam("curso") String curso, @RequestParam("ano") Integer ano, Model model){
+	public String buscarAcaoCurso(@RequestParam("curso") Curso curso, @RequestParam("ano") Integer ano, Model model){
 		
 		if(curso == null && ano == null){
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
@@ -134,26 +138,33 @@ public class BuscarController {
 			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
 			List<AcaoExtensao> acoesAno = acaoExtensaoRepository.findAll(specification);
 			
-			List<Aluno> alunos = alunoRepository.findByCurso(curso); 
+			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao()); 
 			List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
-			model.addAttribute(ACOES, acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso));
 			
-			return PAGINA_BUSCAR_ACAO_EXTENSAO;
-
+			model.addAttribute("ano", ano);
+			model.addAttribute("curso", curso.getDescricao());
+			model.addAttribute(ACOES, acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso));
+		
 		}
-		if(ano != null){
+		else if(ano != null){
 			
 			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
 			List<AcaoExtensao> acoes = acaoExtensaoRepository.findAll(specification);
+			model.addAttribute("ano", ano);
 			model.addAttribute(ACOES, acoes);
 			
 		}
-		if(curso != null){
+		else if(curso != null){
 			
-			List<Aluno> alunos = alunoRepository.findByCurso(curso);
+			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao());
 			List<AcaoExtensao> acoes = bolsaRepository.findByBolsistaIn(alunos); 
+			model.addAttribute("curso", curso.getDescricao());
 			model.addAttribute(ACOES, acoes);
 		}
+		
+		model.addAttribute(COORDENADORES, servidorRespository.findAll());
+		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
