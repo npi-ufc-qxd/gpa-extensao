@@ -91,7 +91,6 @@
 					<span>Nova Ação</span>
 			</a></li>
 			<li id="menu-item-acoes-coordenacao" class="menu-item"><a th:href="@{/listagem}"> <i class="fa fa-folder-o"></i> <span>Minhas Ações</span>
-					<span class="label label-primary pull-right" th:text="${acoesCoordenadorSize}"></span>
 			</a></li>
 			
 		</ul>
@@ -101,9 +100,7 @@
 		
 			<li class="header">COORDENAÇÃO DE EXTENSÃO</li>
 			<li id="menu-item-acoes-direcao" class="menu-item">
-				<a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações em Tramitação</span>
-					<span class="label label-primary pull-right" th:text="${acoesDirecaoSize}"></span>
-				</a>
+				<a th:href="@{/direcao/}"> <i class="fa fa-folder-o"></i> <span>Ações em Tramitação</span></a>
 			</li>
 			
 		</ul>
@@ -118,6 +115,9 @@
 			<li id="menu-item-listagem-bolsistas" class="menu-item"><a th:href="@{/admin/bolsistas}">
 				<i class="fa fa-users"></i> <span>Bolsistas</span>
 			</a></li>
+			<li id="menu-item-cadastro-alunos" class="menu-item"><a th:href="@{/admin/alunos}">
+				<i class="fa fa-user-plus"></i> <span>Cadastrar alunos</span>
+			</a></li>
 			
 		</ul>
 		
@@ -125,6 +125,9 @@
 			<li class="header">BUSCAR</li>
 			<li id="menu-item-buscar-acoes"><a th:href="@{/buscar/acao-extensao}"> <i class="fa fa-search"></i>
 				<span>Ações</span><span class="label label-primary pull-right"></span></a>
+			</li>
+			<li id="menu-item-buscar-servidores"><a th:href="@{/buscar/servidor}"> <i class="fa fa-search"></i>
+				<span>Servidores</span><span class="label label-primary pull-right"></span></a>
 			</li>
 		</ul>
 		<!-- /.sidebar-menu-direção -->
@@ -163,6 +166,7 @@
 	
 	<!-- Pagina de busca -->
 	<script th:src="@{/gpa/busca/buscar-acao.js}"></script>
+	<script th:src="@{/gpa/busca/buscar-servidor.js}"></script>
 	
 	<!-- Bootstrap 3.3.6 -->
 	<script th:src="@{/js/bootstrap.min.js}"></script>
@@ -186,6 +190,9 @@
 	
 	<!-- Script da página de listagem de bolsistas -->
 	<script th:src="@{/gpa/administracao/bolsistas.js}"></script>
+	
+	<!-- Script da página de cadastro de alunos -->
+	<script th:src="@{/gpa/administracao/cadastro-aluno.js}"></script>
 	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>

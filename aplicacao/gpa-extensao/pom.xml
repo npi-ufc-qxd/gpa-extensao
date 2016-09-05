@@ -21,7 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<npi.ldap.version>0.1.2</npi.ldap.version>
+		<npi.ldap.version>0.2</npi.ldap.version>
 	</properties>
 
 	<repositories>
@@ -32,6 +32,11 @@
 	</repositories>
 
 	<dependencies>
+		<!-- Dependecia para ajudar do desenvolvimento -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

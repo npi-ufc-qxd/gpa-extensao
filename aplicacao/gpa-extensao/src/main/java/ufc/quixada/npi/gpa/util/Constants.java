@@ -26,6 +26,7 @@ public class Constants {
 	public static final String PENDENCIA = "pendencia";
 	public static final String MODALIDADES = "modalidades";
 	public static final String ACOES = "acoes";
+	public static final String PARTICIPACOES = "participacoes";
 	public static final String ACOES_AGUARDANDO_PARECER = "acoesAguardandoParecer";
 	public static final String ACOES_AGUARDANDO_PARECERISTA = "acoesAguardandoParecerista";
 	public static final String ACOES_AGUARDANDO_RELATO = "acoesAguardandoRelato";
@@ -55,6 +56,8 @@ public class Constants {
 	public static final String ANO_ATUAL = "anoAtual";
 	public static final String ANOS = "anos";
 	public static final String ALUNO = "aluno";
+	public static final String SERVIDOR = "servidor";
+	public static final String SERVIDORES = "servidores";
 	public static final String BOLSAS = "bolsas";
 	public static final String DEDICACAO = "dedicacao";
 	public static final String PARCEIRO = "parceiro";
@@ -73,6 +76,7 @@ public class Constants {
 	public static final String CPF_COORDENADOR="cpfCoordenador";
 	public static final String ESTADO ="estado";
 	public static final String CURSOS ="cursos";
+	public static final String USUARIO = "usuario";
 
 	
 	//Paginas
@@ -90,13 +94,15 @@ public class Constants {
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	public static final String PAGINA_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas";
 	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
+	public static final String PAGINA_CADASTRO_ALUNO = "/administracao/cadastro-aluno/cadastro-aluno";
+	public static final String PAGINA_DETALHES_SERVIDOR = "/detalhes/servidor/detalhes-servidor";
 
-	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
 	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
-	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/fragmento-parceria-externa :: table-parceria-externa";
+	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/table-parceirias :: table-parceria-externa";
 	public static final String FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas :: table-listagem-bolsistas";
+	public static final String FRAGMENTS_INFO_ALUNO = "administracao/cadastro-aluno/cadastro-aluno :: info-cadastro-aluno";
 	
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
@@ -106,6 +112,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/buscar/acao-extensao";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
+	public static final String REDIRECT_PAGINA_CADASTRO_ALUNOS = "redirect:/admin/alunos";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -115,6 +122,7 @@ public class Constants {
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String EXCEPTION_PARECERISTA_DA_EQUIPE = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
+	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	
 	//Mensagens
 	public static final String ERRO = "erro";
@@ -149,6 +157,9 @@ public class Constants {
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
 	
+	//Tipos de arquivos
+	public static final String PDF = "application/pdf";
+	
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.
 	 * 
@@ -157,8 +168,5 @@ public class Constants {
 	 */
 	
 	// Homologação
-	//public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
-	
-	// Produção
-	public static final String PASTA_DOCUMENTOS_GPA = "/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
 }

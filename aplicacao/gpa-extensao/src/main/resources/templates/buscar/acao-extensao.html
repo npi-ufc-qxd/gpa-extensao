@@ -37,8 +37,8 @@
 									<label>Estado</label>
 									<select id="estadoSelect" name="estado" class="form-control">
 										<option value="" selected="selected">Selecionar...</option>
-										<option th:value="true" >Ativo</option>
-										<option th:value="false" >Inativo</option>
+										<option th:value="true" >EM ANDAMENTO</option>
+										<option th:value="false" >ENCERRADA</option>
 									</select>
 								</div>
 								<div class="form-group col-sm-2">
@@ -116,7 +116,7 @@
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
 										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
-										<td><label th:text="${acao.ativo} ? 'Ativo': 'Inativo'" class="label label-primary"></label></td>
+										<td><label th:text="${acao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" class="label label-primary"></label></td>
 									</tr>
 								</tbody>
 							</table>

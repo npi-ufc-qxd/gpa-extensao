@@ -3,8 +3,6 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
@@ -42,10 +40,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
@@ -138,18 +136,6 @@ public class ExtensaoController {
 	
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-	
-	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication){
-		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
-	}
 	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){
@@ -342,8 +328,8 @@ public class ExtensaoController {
 			acaoExtensaoService.salvarAcaoExtensao(acaoExtensao,arquivo);
 			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
-			return PAGINA_SUBMETER_ACAO_EXTENSAO;
+			redirect.addFlashAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 		
 		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
@@ -376,7 +362,7 @@ public class ExtensaoController {
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 		}
 		
@@ -428,7 +414,7 @@ public class ExtensaoController {
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
 		} catch (GpaExtensaoException e) {
-			model.addAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 		

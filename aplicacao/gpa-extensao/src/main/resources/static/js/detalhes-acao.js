@@ -151,5 +151,15 @@ $(document).ready(function(){
 				$(alertDiv).fadeOut('slow');
 			}, 5000);
 		}
+		
+		if ($("#message-error").val() != null) {
+			var errorDiv = $("#error-modal-alert")
+			$(errorDiv).append("<p>" + $("#message-error").val() + "</p>");
+			$(errorDiv).show();
+			
+			errorDiv.find("button").on("click", function(){
+				errorDiv.fadeOut("slow");
+			});
+		}
 	}
 });

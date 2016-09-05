@@ -1,14 +1,11 @@
 package ufc.quixada.npi.gpa.model;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_SALVAR_ARQUIVO;
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_BUSCAR_ARQUIVO;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 
@@ -75,22 +72,5 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 			}
 		}
 		file.delete();
-	}
-	
-	@PostLoad
-	public void carregarArquivo(Documento documento) throws GpaExtensaoException{
-		FileInputStream fileInputStream = null;
-		File file = new File(documento.getCaminho());
-		byte[] bFile = new byte[(int) file.length()];
-
-		try {
-			fileInputStream = new FileInputStream(file);
-			fileInputStream.read(bFile);
-			fileInputStream.close();
-		} catch (IOException e) {
-			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
-		}
-		
-		documento.setArquivo(bFile);
 	}
 }

@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Parecer {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 	
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	private Documento arquivo;
 	
 	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)

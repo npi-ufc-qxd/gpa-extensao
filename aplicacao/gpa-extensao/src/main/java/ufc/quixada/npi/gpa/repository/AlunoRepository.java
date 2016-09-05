@@ -8,10 +8,14 @@ import org.springframework.data.repository.query.Param;
 
 import ufc.quixada.npi.gpa.model.Aluno;
 
-public interface AlunoRepository extends CrudRepository<Aluno, Integer>{
+public interface AlunoRepository extends CrudRepository<Aluno, Integer> {
 
 	List<Aluno> findAll();
 	
 	@Query("SELECT al FROM Aluno al WHERE al.curso =:curso")
 	List<Aluno> findByCurso(@Param("curso") String curso);
+
+	@Query("SELECT CASE WHEN COUNT(a) > 0 THEN 'true' ELSE 'false' END FROM Aluno a WHERE a.matricula = :matricula")
+	boolean existsByMatricula(@Param("matricula") String matricula);
+
 }

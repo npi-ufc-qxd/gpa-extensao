@@ -1,8 +1,12 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_BUSCAR_ARQUIVO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.PASTA_DOCUMENTOS_GPA;
+import static ufc.quixada.npi.gpa.util.Constants.PDF;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +33,39 @@ public class DocumentoServiceImpl implements DocumentoService{
 	}
 
 	@Override
-	public byte[] getArquivo(Documento documento) {
-		return documento.getArquivo();
+	public byte[] getArquivo(Documento documento) throws GpaExtensaoException {
+		FileInputStream fileInputStream = null;
+		File file = new File(documento.getCaminho());
+		byte[] bFile = new byte[(int) file.length()];
+
+		try {
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(bFile);
+			fileInputStream.close();
+		} catch (IOException e) {
+			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
+		}
+		
+		return bFile;
 	}
 	
 	@Override
 	public Documento save(MultipartFile arquivo, AcaoExtensao acaoExtensao) throws GpaExtensaoException {
-		if(arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))){
-			try{
-				Documento documento = new Documento();
-				documento.setArquivo(arquivo.getBytes());
-				documento.setNome(acaoExtensao.getIdentificador() + ".pdf");
-				documento.setCaminho(PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + acaoExtensao.getIdentificador() + ".pdf");
-				documentoRepository.save(documento);
-				
-				return documento;
-			}catch(IOException e){
+		if (arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))) {
+			if (arquivo.getContentType().equals(PDF)) {
+				try {
+					Documento documento = new Documento();
+					documento.setArquivo(arquivo.getBytes());
+					documento.setNome(acaoExtensao.getIdentificador() + "_" + arquivo.getOriginalFilename().toString());
+					documento.setCaminho(
+							PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + documento.getNome());
+					documentoRepository.save(documento);
+
+					return documento;
+				} catch (IOException e) {
+					throw new GpaExtensaoException(MESSAGE_SALVAR_ARQUIVO_ERROR);
+				}
+			} else {
 				throw new GpaExtensaoException(MESSAGE_SALVAR_ARQUIVO_ERROR);
 			}
 		}

@@ -13,11 +13,16 @@
 			<section class="content">
 				<input id="acaoExtensaoId" type="hidden" th:value="${acaoExtensao.id}"/>
 				<input th:if="${message}" id="message-sucess" type="hidden" th:value="${message}"/>
+				<input th:if="${erro}" id="message-error" type="hidden" th:value="${erro}" />
 				<input id="coordenadorId" type="hidden" th:value="${acaoExtensao.coordenador.id}" />
        			
        			<!-- Mensagens -->
 	            <div id="message-modal-alert" class="callout callout-success no-display" >
 	         		<p></p>
+	       		</div>
+	       		
+	       		<div id="error-modal-alert" class="callout callout-warning callout-dismissible no-display">
+	       			<button type="button" class="close" data-dismiss="callout" aria-hidden="true">×</button>
 	       		</div>
        			
 				<!-- Box visualização das Pendências -->
@@ -60,7 +65,7 @@
 								<ul class="list-inline">
 									<li>
 										<label>Coordenador</label>
-										<p th:text="${acaoExtensao.coordenador.nome}"/>
+										<p><a th:href="|@{/buscar/servidor/}${acaoExtensao.coordenador.id}|" th:text="${acaoExtensao.coordenador.nome}"></a></p>
 									</li>
 									<li>
 										<div th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})">
@@ -151,19 +156,19 @@
 								<p th:text="${acaoExtensao.modalidade.descricao}"></p>
 							</div>
 							<div th:if="${acaoExtensao.modalidade.name() == 'CURSO'} or ${acaoExtensao.modalidade.name() == 'EVENTO'}">
-								<div class="col-sm-2">
+								<div class="col-sm-3">
 									<label>Carga Horária prática</label>
 									<p th:text="${acaoExtensao.horasPraticas} + ' horas'"></p>
 								</div>
-								<div class="col-sm-2">
+								<div class="col-sm-4">
 									<label>Carga Horária teóricas</label>
 									<p th:text="${acaoExtensao.horasTeoricas} + ' horas'"></p>
 								</div>
-								<div class="col-md-5" th:if="${acaoExtensao.modalidade.name() == 'CURSO'}">
+								<div class="col-md-12" th:if="${acaoExtensao.modalidade.name() == 'CURSO'}">
 									<label>Ementa/Conteúdo programático</label>
 									<p th:text="${acaoExtensao.ementa}"></p>
 								</div>
-								<div class="col-md-5" th:if="${acaoExtensao.modalidade.name() == 'EVENTO'}">
+								<div class="col-md-12" th:if="${acaoExtensao.modalidade.name() == 'EVENTO'}">
 									<label>Programação</label>
 									<p th:text="${acaoExtensao.programacao}"></p>
 								</div>
