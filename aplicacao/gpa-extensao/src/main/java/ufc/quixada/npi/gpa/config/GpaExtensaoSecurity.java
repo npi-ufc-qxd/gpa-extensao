@@ -25,8 +25,10 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").authenticated().antMatchers("/public-resources/**").permitAll()
-				.antMatchers("/direcao/**").hasAuthority("DIRECAO").anyRequest().authenticated()
-				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO").anyRequest().authenticated().and().formLogin()
+				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO")
+				.antMatchers("/direcao/**").hasAuthority("DIRECAO")
+				.anyRequest().authenticated()
+				.and().formLogin()
 				.loginProcessingUrl("/login").loginPage("/login").permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
 
