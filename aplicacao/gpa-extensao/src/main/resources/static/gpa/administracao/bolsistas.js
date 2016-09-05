@@ -37,6 +37,8 @@ $(document).ready(function(){
 		var mes = $(this).attr("data-mes");
 		var ano = $(this).attr("data-ano");
 		
+		
+		
 		$.ajax({
 			type: "POST",
 			beforeSend: function (request)

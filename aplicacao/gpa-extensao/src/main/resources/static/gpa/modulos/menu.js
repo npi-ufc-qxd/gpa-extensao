@@ -32,6 +32,11 @@ $(document).ready(function(){
 			$("#menu-item-listagem-bolsistas").addClass("active");
 			break;
 			
+		case "cadastrar-aluno":
+			zerarMenu();
+			$("#menu-item-cadastro-alunos").addClass("active");
+			break;
+			
 		default:
 			zerarMenu();
 			break;

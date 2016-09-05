@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-page="cadastrar-aluno">
+<head th:replace="modulos/fragments :: head">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+
+	<div class="wrapper">
+
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<div class="content-wrapper">
+			<section class="content-header"></section>
+			<section class="content">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Cadastrar aluno</h3>
+					</div>
+					
+					<div class="pull-right box-header">
+						<form action="javascript: void(0)" id="form-cadastro-aluno"
+							class="form-inline">
+							<div class="form-group">
+								<input id="matricula-cadastro-aluno" type="number"
+									class="form-control" required="required"
+									placeholder="Nº matrícula do aluno" />
+							</div>
+							<input type="submit" class="btn btn-info v-align-top"
+								value="Buscar" />
+						</form>
+					</div>
+
+					<div class="box-body">
+
+						<div id="info-cadastro-aluno" class="col-md-12" th:fragment="info-cadastro-aluno">
+							<div th:if="${message}" class="alert alert-warning alert-dismissible">
+                				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-warning"></i> Mensagem</h4>
+				                <p th:text="${message ?: ''}"></p>
+              				</div>
+							
+							<form th:if="${usuario}" class="row" role="form"
+								th:action="@{/admin/alunos/adicionar}" method="post" th:object="${usuario}">
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-nome">Nome:</label>
+									<input id="usuario-nome" class="form-control" type="text" readonly="readonly" th:field="${usuario.nome}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-email">E-mail:</label>
+									<input id="usuario-email" class="form-control" type="text" readonly="readonly" th:field="${usuario.email}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-cpf">CPF:</label>
+									<input id="usuario-cpf" class="form-control" type="text" readonly="readonly" th:field="${usuario.cpf}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-matricula">Matricula:</label>
+									<input id="usuario-matricula" class="form-control" type="text" readonly="readonly" th:field="${usuario.matricula}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-curso">Curso:</label>
+									<input id="usuario-curso" class="form-control" type="text" readonly="readonly" th:field="${usuario.curso}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label for="usuario-aluno-adicionar" class="control-label col-md-12 row">Deseja adicionar o aluno?</label>
+									<button id="usuario-aluno-adicionar" class="btn btn-primary btn-flat" type="submit">Adicionar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<footer th:replace="modulos/fragments :: footer"></footer>
+
+	</div>
+
+</body>
+</html>
