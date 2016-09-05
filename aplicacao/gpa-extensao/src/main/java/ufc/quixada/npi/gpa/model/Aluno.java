@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ public class Aluno{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Pessoa pessoa;
 	
 	private String matricula;

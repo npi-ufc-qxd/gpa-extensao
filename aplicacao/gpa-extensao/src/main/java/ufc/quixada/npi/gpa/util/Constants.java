@@ -75,6 +75,7 @@ public class Constants {
 	public static final String FREQUENCIAS = "frequencias";
 	public static final String CPF_COORDENADOR="cpfCoordenador";
 	public static final String ESTADO ="estado";
+	public static final String USUARIO = "usuario";
 	
 	//Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -91,14 +92,15 @@ public class Constants {
 	public static final String PAGINA_ACAO_EXTENSAO = "/acao-extensao";
 	public static final String PAGINA_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas";
 	public static final String PAGINA_DETALHES_BOLSISTA = "/detalhes/bolsista/detalhes-bolsista";
+	public static final String PAGINA_CADASTRO_ALUNO = "/administracao/cadastro-aluno/cadastro-aluno";
 	public static final String PAGINA_DETALHES_SERVIDOR = "/detalhes/servidor/detalhes-servidor";
 
-	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
 	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/table-parceirias :: table-parceria-externa";
 	public static final String FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS = "administracao/bolsa/bolsistas :: table-listagem-bolsistas";
+	public static final String FRAGMENTS_INFO_ALUNO = "administracao/cadastro-aluno/cadastro-aluno :: info-cadastro-aluno";
 	
 	// Redirects
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
@@ -108,6 +110,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_INICIAL_ADMINISTRACAO = "redirect:/buscar/acao-extensao";
 	public static final String REDIRECT_PAGINA_INICIAL = "redirect:/";
 	public static final String REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO = "redirect:/buscar/acao-extensao";
+	public static final String REDIRECT_PAGINA_CADASTRO_ALUNOS = "redirect:/admin/alunos";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -117,6 +120,7 @@ public class Constants {
 	public static final String USUARIO_NAO_ENCONTRADO_EXCEPTION = "Usuário não encontrado";
 	public static final String EXCEPTION_PARECERISTA_DA_EQUIPE = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
+	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	
 	//Mensagens
 	public static final String ERRO = "erro";
