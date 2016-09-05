@@ -20,6 +20,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	public EmbeddedServletContainerCustomizer containerCustomizer() {
 		return (container ->
 		container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"),
-								new ErrorPage(HttpStatus.FORBIDDEN, "/403")));
+								new ErrorPage(HttpStatus.FORBIDDEN, "/403"),
+								new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500")
+								));
 	}
 }
