@@ -30,8 +30,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
@@ -49,6 +53,12 @@ public class BuscarController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private AlunoRepository alunoRepository;
+	
+	@Autowired
+	private BolsaRepository bolsaRepository;
 	
 	@ModelAttribute(ACOES_DIRECAO_SIZE)
 	public Integer acoesDirecaoSize(Authentication authentication) {
@@ -110,7 +120,40 @@ public class BuscarController {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		
+		return PAGINA_BUSCAR_ACAO_EXTENSAO;
+	}
+	
+	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = {"curso", "ano"}, method = RequestMethod.GET)
+	public String buscarAcaoCurso(@RequestParam("curso") String curso, @RequestParam("ano") Integer ano, Model model){
 		
+		if(curso == null && ano == null){
+			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
+		}
+		if(ano != null && curso != null){
+			
+			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
+			List<AcaoExtensao> acoesAno = acaoExtensaoRepository.findAll(specification);
+			
+			List<Aluno> alunos = alunoRepository.findByCurso(curso); 
+			List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
+			model.addAttribute(ACOES, acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso));
+			
+			return PAGINA_BUSCAR_ACAO_EXTENSAO;
+
+		}
+		if(ano != null){
+			
+			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
+			List<AcaoExtensao> acoes = acaoExtensaoRepository.findAll(specification);
+			model.addAttribute(ACOES, acoes);
+			
+		}
+		if(curso != null){
+			
+			List<Aluno> alunos = alunoRepository.findByCurso(curso);
+			List<AcaoExtensao> acoes = bolsaRepository.findByBolsistaIn(alunos); 
+			model.addAttribute(ACOES, acoes);
+		}
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
