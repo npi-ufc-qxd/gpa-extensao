@@ -1,8 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
 import static ufc.quixada.npi.gpa.util.Constants.ACTION;
 import static ufc.quixada.npi.gpa.util.Constants.ANOS;
@@ -24,7 +22,6 @@ import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,18 +77,6 @@ public class AdministracaoController {
 
 	@Autowired
 	private BolsaService bolsaService;
-
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-
-	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication) {
-		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
-	}
 
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication) {

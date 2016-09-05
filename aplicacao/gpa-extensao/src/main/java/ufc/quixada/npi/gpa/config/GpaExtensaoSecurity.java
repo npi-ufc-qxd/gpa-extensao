@@ -18,15 +18,17 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	//@Autowired
-	//@Qualifier("authenticationProviderExtensao")
-	//private AuthenticationProvider provider;
+//	@Autowired
+//	@Qualifier("authenticationProviderExtensao")
+//	private AuthenticationProvider provider;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").authenticated().antMatchers("/public-resources/**").permitAll()
-				.antMatchers("/direcao/**").hasAuthority("DIRECAO").anyRequest().authenticated()
-				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO").anyRequest().authenticated().and().formLogin()
+				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO")
+				.antMatchers("/direcao/**").hasAuthority("DIRECAO")
+				.anyRequest().authenticated()
+				.and().formLogin()
 				.loginProcessingUrl("/login").loginPage("/login").permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
 
@@ -34,7 +36,7 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	//	auth.authenticationProvider(provider);
+//		auth.authenticationProvider(provider);
 		auth.userDetailsService(userDetailsService);
 	}
 }

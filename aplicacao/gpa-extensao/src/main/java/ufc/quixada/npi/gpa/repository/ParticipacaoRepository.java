@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -20,4 +21,6 @@ public interface ParticipacaoRepository extends CrudRepository<Participacao, Int
 	public Participacao findByParticipanteAndAcaoExtensao(Pessoa participante, AcaoExtensao acaoExtensao);
 	
 	public List<Participacao> findByAcaoExtensaoAndParticipante(AcaoExtensao acaoExtensao, Pessoa participante);
+	
+	public List<Participacao> findByParticipanteAndAcaoExtensao_status(Pessoa participante, Status status);
 }

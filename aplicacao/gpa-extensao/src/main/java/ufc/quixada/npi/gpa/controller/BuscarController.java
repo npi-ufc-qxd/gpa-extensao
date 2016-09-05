@@ -1,20 +1,18 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
-import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_COORDENADOR_SIZE;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
+import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
-
-import java.util.Arrays;
-import java.util.List;
-
+import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_SERVIDOR;
+import static ufc.quixada.npi.gpa.util.Constants.PARTICIPACOES;
+import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
+import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +30,9 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
@@ -48,19 +49,10 @@ public class BuscarController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
 	@Autowired
+	private ParticipacaoRepository participacaoRepository;
+	
+	@Autowired
 	private PessoaRepository pessoaRepository;
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-	
-	@ModelAttribute(ACOES_COORDENADOR_SIZE)
-	public Integer acoesCoordenadorSize(Authentication authentication){
-		return acaoExtensaoRepository.countAcoesCoordenador(authentication.getName());
-	}
 	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){
@@ -114,4 +106,29 @@ public class BuscarController {
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
+	
+	@RequestMapping("/servidor")
+	public String detalhesServidor(Model model) {
+		
+		model.addAttribute(SERVIDORES, servidorRespository.findAll());
+		return PAGINA_DETALHES_SERVIDOR;
+	}
+	
+	@RequestMapping(value="/servidor", params = {"servidor"})
+	public String detalhesServidor(@RequestParam("servidor") Servidor servidor, Model model) {
+		
+		model.addAttribute(SERVIDORES, servidorRespository.findAll());
+		model.addAttribute(SERVIDOR, servidor);
+		model.addAttribute(PARTICIPACOES,
+				participacaoRepository.findByParticipanteAndAcaoExtensao_status(servidor.getPessoa(), Status.APROVADO));
+
+		return PAGINA_DETALHES_SERVIDOR;
+	}
+	
+	@RequestMapping("/servidor/{id}")
+	public String detalhesServidorPessoa(@PathVariable("id") Integer id, Model model) {
+		Servidor servidor = servidorRespository.findByPessoa_id(id);
+		return detalhesServidor(servidor, model);
+	}
+	
 }

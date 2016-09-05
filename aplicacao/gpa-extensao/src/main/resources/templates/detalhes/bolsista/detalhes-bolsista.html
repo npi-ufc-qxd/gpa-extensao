@@ -50,7 +50,6 @@
 							<table class="table-parceria-externa table table-striped table-bordered" id="table-parcerias-externas">
 								<thead>
 									<tr>
-										<th>ID</th>
 										<th>Nome da Acão de Extensão</th>
 										<th>Início da Bolsa</th>
 										<th>Término da Bolsa</th>
@@ -58,8 +57,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="bolsa, rowStat : ${bolsas}" id="row+${rowStat.count}">
-										<td th:text="${rowStat.count}"></td>
+									<tr th:each="bolsa : ${bolsas}">
 										<td><a th:href="@{/detalhes/} + ${bolsa.acaoExtensao.id}" title="Detalhes da ação" th:text="${bolsa.acaoExtensao.titulo}"></a></td>
 										<td>
 											<p th:if="${bolsa.inicio} !=null" th:text="${#dates.format(bolsa.inicio, 'dd/MMM/yyyy')}"></p>
@@ -69,10 +67,7 @@
 											<p th:if="${bolsa.termino} !=null" th:text="${#dates.format(bolsa.termino, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
 										</td>
-										<td>
-											<p th:if="${bolsa.ativo}">SIM</p>
-											<p th:if="!${bolsa.ativo}">NÃO</p>
-										</td>
+										<td><label th:text="${bolsa.ativo} ? 'ATIVO': 'INATIVO'" class="label label-primary"></label></td>
 									</tr>
 								</tbody>
 							</table>

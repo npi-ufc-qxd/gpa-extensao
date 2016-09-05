@@ -1,10 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
-import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 @Controller
@@ -34,15 +32,7 @@ public class ParceiroController {
 	private ParceiroRepository parceiroRepository;
 	
 	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
 	private PessoaRepository pessoaRepository;
-	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Long acoesDirecaoSize(){
-		return acaoExtensaoRepository.count();
-	}
 	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){

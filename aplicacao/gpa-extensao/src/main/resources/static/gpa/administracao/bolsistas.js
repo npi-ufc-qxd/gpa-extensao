@@ -95,7 +95,7 @@ $(document).ready(function(){
 			"info": false,
 			"columnDefs" : [
 			                {className: "dt-center", "targets": [ 4 ]},
-			                {"targets" : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "orderable" : false},
+			                {"targets" : [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "orderable" : false},
 			                ],
 			"language" : {
 				"url": ptBR_url
