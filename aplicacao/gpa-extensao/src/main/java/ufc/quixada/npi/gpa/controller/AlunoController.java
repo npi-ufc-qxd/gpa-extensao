@@ -4,7 +4,7 @@ import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_INFO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_CADASTRO_ALUNOS;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.USUARIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,17 +57,18 @@ public class AlunoController {
 
 	@RequestMapping(value = "/adicionar", method = RequestMethod.POST)
 	public String adicionarAluno(Usuario usuario, RedirectAttributes redirect) {
-
+		Integer idAluno = null;
+		
 		try {
-			alunoService.adicionar(usuario);
+			idAluno = alunoService.adicionar(usuario);
 
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(MESSAGE, e.getMessage());
-			return REDIRECT_PAGINA_CADASTRO_ALUNOS;
+			return REDIRECT_PAGINA_DETALHES_BOLSISTA;
 		}
 
 		
-		return REDIRECT_PAGINA_CADASTRO_ALUNOS;
+		return REDIRECT_PAGINA_DETALHES_BOLSISTA + idAluno;
 
 	}
 }

@@ -7,6 +7,6 @@ public interface AlunoService {
 
 	public Usuario find(String cpf) throws GpaExtensaoException;
 
-	public void adicionar(Usuario usuario) throws GpaExtensaoException;
+	public Integer adicionar(Usuario usuario) throws GpaExtensaoException;
 
 }

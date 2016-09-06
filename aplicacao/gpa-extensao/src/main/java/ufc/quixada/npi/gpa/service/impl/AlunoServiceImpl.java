@@ -44,7 +44,7 @@ public class AlunoServiceImpl implements AlunoService {
 	}
 
 	@Override
-	public void adicionar(Usuario usuario) throws GpaExtensaoException {
+	public Integer adicionar(Usuario usuario) throws GpaExtensaoException {
 		if (alunoRepository.existsByMatricula(usuario.getMatricula())) {
 			throw new GpaExtensaoException(EXCEPTION_ALUNO_JA_CADASTRADO);
 		}
@@ -64,6 +64,8 @@ public class AlunoServiceImpl implements AlunoService {
 		aluno.setCurso(usuario.getCurso());
 
 		alunoRepository.save(aluno);
+		
+		return aluno.getId();
 	}
 
 }
