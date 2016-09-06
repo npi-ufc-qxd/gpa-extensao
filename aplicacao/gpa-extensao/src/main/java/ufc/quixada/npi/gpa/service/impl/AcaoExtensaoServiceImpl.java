@@ -190,4 +190,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		return acoes;
 	}
 	
+	public List<AcaoExtensao> buscarTodasParticipacoes(List<AcaoExtensao> acoesEspecification, List<AcaoExtensao> acoesParticipacao){
+		List<AcaoExtensao> acoes = null;
+		
+		if(acoesEspecification.size() > 0){
+			acoes = acaoExtensaoRepository.findByParticipante(acoesEspecification, acoesParticipacao);
+		}
+		return acoes;
+	}
 }

@@ -94,16 +94,27 @@ public class BuscarController {
 	
 	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, params = {"coordenador", "modalidade", "ano"}, method = RequestMethod.GET)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador, @RequestParam("modalidade") Modalidade modalidade,
-			@RequestParam("estado") String estado, @RequestParam("ano") Integer ano, Model model)  {
+			@RequestParam("estado") String estado, @RequestParam("ano") Integer ano, Model model, RedirectAttributes attr)  {
 		
 		if(idCoordenador == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
 		
 		Pessoa coordenador = null;
+		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado, ano);
+		List<AcaoExtensao> acoes =  acaoExtensaoRepository.findAll(specification);
+		
 		
 		if(idCoordenador != null) {
 			coordenador = pessoaRepository.findOne(idCoordenador);
+			List<AcaoExtensao> acoesComParticipacao = participacaoRepository.findByParticipante(coordenador);
+			
+			try {
+				acoes = acaoExtensaoService.buscarTodasParticipacoes(acoes, acoesComParticipacao);
+			} catch (GpaExtensaoException e) {
+				attr.addFlashAttribute(ERRO, e);
+			}
+			
 			model.addAttribute("coordenador", coordenador.getNome());
 		}
 		if(modalidade != null) {
@@ -119,10 +130,8 @@ public class BuscarController {
 				model.addAttribute(ESTADO, "Inativo");
 			}
 		}
-		
-		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado, ano);
-		
-		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
+			
+		model.addAttribute(ACOES, acoes);
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(CURSOS, Curso.values());
