@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#selectCoordenador, #modalidadeSelect, #estadoSelect").select2();
+	$("#selectCoordenador, #modalidadeSelect, #estadoSelect, #cursoSelect").select2();
 	
 	$("#tableAcoes").DataTable({
 		"order" : [[ 0, "asc" ]],
@@ -15,7 +15,7 @@ $(document).ready(function() {
 		
 	});
 	
-	$("#anoAcao").datepicker({
+	$("#anoAcao, #anoAcaoCurso").datepicker({
 	    format: "yyyy",
 	    startView: 2,
 	    minViewMode: 2,

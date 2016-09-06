@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
@@ -48,5 +49,10 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);
+	
+	List<AcaoExtensao> findByIdIn(Collection<Bolsa> bolsas);
+	
+	@Query("SELECT ac FROM AcaoExtensao ac WHERE ac IN (:acAno) AND ac IN (:acCurso)")
+	List<AcaoExtensao> findByAnoAndCursoIn(@Param("acAno") Collection<AcaoExtensao> acoesAno, @Param("acCurso") Collection<AcaoExtensao> acoesCurso);
 	
 }
