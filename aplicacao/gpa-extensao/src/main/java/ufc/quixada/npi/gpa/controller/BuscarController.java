@@ -1,12 +1,8 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
-
 import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_DIRECAO_SIZE;
-
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
-
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
@@ -18,8 +14,9 @@ import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 
-import java.util.Arrays;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +30,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Aluno.Curso;
-import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -50,6 +48,7 @@ import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Controller
@@ -75,13 +74,8 @@ public class BuscarController {
 	@Autowired
 	private BolsaRepository bolsaRepository;
 	
-	@ModelAttribute(ACOES_DIRECAO_SIZE)
-	public Integer acoesDirecaoSize(Authentication authentication) {
-		List<Status> statusDirecao = Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_PARECER_TECNICO,
-				Status.AGUARDANDO_RELATOR, Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO);
-		return acaoExtensaoRepository.countByStatusIn(statusDirecao);
-	}
-	
+	@Autowired
+	private AcaoExtensaoService acaoExtensaoService;
 	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){
@@ -137,38 +131,31 @@ public class BuscarController {
 	}
 	
 	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = {"curso", "ano"}, method = RequestMethod.GET)
-	public String buscarAcaoCurso(@RequestParam("curso") Curso curso, @RequestParam("ano") Integer ano, Model model){
+	public String buscarAcaoCurso(@RequestParam("curso") Curso curso, @RequestParam("ano") Integer ano, Model model, RedirectAttributes attr){
+		
+		List<AcaoExtensao> acoes;
 		
 		if(curso == null && ano == null){
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
-		if(ano != null && curso != null){
-			
-			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
-			List<AcaoExtensao> acoesAno = acaoExtensaoRepository.findAll(specification);
-			
-			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao()); 
-			List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
-			
-			model.addAttribute("ano", ano);
-			model.addAttribute("curso", curso.getDescricao());
-			model.addAttribute(ACOES, acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso));
 		
-		}
-		else if(ano != null){
+		try {
+			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
 			
-			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
-			List<AcaoExtensao> acoes = acaoExtensaoRepository.findAll(specification);
-			model.addAttribute("ano", ano);
+			if(ano != null && curso != null){
+				model.addAttribute("ano", ano);
+				model.addAttribute("curso", curso.getDescricao());
+			}
+			else if(ano != null){
+				model.addAttribute("ano", ano);
+			}
+			else if(curso != null){
+				model.addAttribute("curso", curso.getDescricao());
+			}
+			
 			model.addAttribute(ACOES, acoes);
-			
-		}
-		else if(curso != null){
-			
-			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao());
-			List<AcaoExtensao> acoes = bolsaRepository.findByBolsistaIn(alunos); 
-			model.addAttribute("curso", curso.getDescricao());
-			model.addAttribute(ACOES, acoes);
+		} catch (GpaExtensaoException e) {
+			attr.addFlashAttribute(ERRO, e);
 		}
 		
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());

@@ -34,18 +34,6 @@ public final class AcaoExtensaoEspecification {
 					predicate = builder.and(predicate, builder.equal(root.<Boolean>get("ativo"), ativo));
 				}
 				if(ano != null) {
-					/*String inicioAnoString = "01/01/" + ano;
-					String finalAnoString = "31/12/" + ano;
-					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-					
-					try {
-						Date inicioAno = (Date)format.parse(inicioAnoString);
-						Date finalAno = (Date)format.parse(finalAnoString);
-						predicate = builder.and(predicate, builder.lessThanOrEqualTo(root.<Date>get("inicio"), finalAno));
-						predicate = builder.and(predicate, builder.greaterThanOrEqualTo(root.<Date>get("termino"), inicioAno));
-					} catch (ParseException e) {
-					}*/
-					
 					buscarAno(ano);
 				}
 				
