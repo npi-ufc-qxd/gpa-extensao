@@ -55,4 +55,6 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("SELECT ac FROM AcaoExtensao ac WHERE ac IN (:acAno) AND ac IN (:acCurso)")
 	List<AcaoExtensao> findByAnoAndCursoIn(@Param("acAno") Collection<AcaoExtensao> acoesAno, @Param("acCurso") Collection<AcaoExtensao> acoesCurso);
 	
+	@Query("SELECT ae FROM AcaoExtensao ae WHERE ae IN (:acSpec) AND ae IN (:acPart)")
+	List<AcaoExtensao> findByParticipante(@Param("acSpec") Collection<AcaoExtensao> acSpec, @Param("acPart") Collection<AcaoExtensao> acPart);
 }
