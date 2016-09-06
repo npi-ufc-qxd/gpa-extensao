@@ -142,14 +142,10 @@ public class BuscarController {
 		try {
 			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
 			
-			if(ano != null && curso != null){
-				model.addAttribute("ano", ano);
-				model.addAttribute("curso", curso.getDescricao());
-			}
-			else if(ano != null){
+			if(ano != null){
 				model.addAttribute("ano", ano);
 			}
-			else if(curso != null){
+			if(curso != null){
 				model.addAttribute("curso", curso.getDescricao());
 			}
 			
