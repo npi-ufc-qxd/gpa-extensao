@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-page="cadastrar-servidor">
+<head th:replace="modulos/fragments :: head">
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+
+	<div class="wrapper">
+
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<div class="content-wrapper">
+			<section class="content-header"></section>
+			<section class="content">
+
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">Cadastrar servidor</h3>
+					</div>
+					
+					<div class="pull-right box-header">
+						<form action="javascript: void(0)" id="form-cadastro-servidor"
+							class="form-inline">
+							<div class="input-group">
+								<input id="cpf-cadastro-servidor" type="number"
+									class="form-control" required="required"
+									placeholder="Nº CPF do servidor" />
+									
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-info btn-flat">Buscar</button>
+								</span>
+							</div>
+						</form>
+					</div>
+
+					<div class="box-body">
+
+						<div id="info-cadastro-servidor" class="col-md-12" th:fragment="info-cadastro-servidor">
+							<div th:if="${message}" class="alert alert-warning alert-dismissible">
+                				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-warning"></i> Mensagem</h4>
+				                <p th:text="${message ?: ''}"></p>
+              				</div>
+							
+							<form th:if="${usuario}" class="row" role="form"
+								th:action="@{/admin/servidores/adicionar}" method="post" th:object="${usuario}">
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-nome">Nome:</label>
+									<input id="usuario-nome" class="form-control" type="text" readonly="readonly" th:field="${usuario.nome}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-email">E-mail:</label>
+									<input id="usuario-email" class="form-control" type="text" readonly="readonly" th:field="${usuario.email}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-cpf">CPF:</label>
+									<input id="usuario-cpf" class="form-control" type="text" readonly="readonly" th:field="${usuario.cpf}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-siape">Siape:</label>
+									<input id="usuario-siape" class="form-control" type="text" readonly="readonly" th:field="${usuario.siape}" />
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label class="control-label" for="usuario-dedicacao">Dedicação:</label>
+									<select id="usuario-dedicacao" class="form-control" name="dedicacao">
+										<option th:each="dedicacao : ${dedicacoes}" th:text="${dedicacao.descricao}" th:value="${dedicacao}"></option>
+									</select>
+								</div>
+								
+								<div class="form-item col-md-6">
+									<label for="usuario-servidor-adicionar" class="control-label col-md-12 row">Deseja adicionar o servidor?</label>
+									<button id="usuario-servidor-adicionar" class="btn btn-primary btn-flat" type="submit">Adicionar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<footer th:replace="modulos/fragments :: footer"></footer>
+
+	</div>
+
+</body>
+</html>

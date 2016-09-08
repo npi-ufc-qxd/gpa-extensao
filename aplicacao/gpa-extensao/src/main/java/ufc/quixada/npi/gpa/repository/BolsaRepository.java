@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,6 +30,9 @@ public interface BolsaRepository extends CrudRepository<Bolsa, Integer>{
 	Integer countByAcaoExtensaoAndTipoAndAtivo(AcaoExtensao acao, TipoBolsa tipo, boolean ativo);
 
 	List<Bolsa> findByBolsista_id(Integer idAluno);
+	
+	@Query("SELECT b.acaoExtensao FROM Bolsa b WHERE b.bolsista IN(:alunos)")
+	List<AcaoExtensao> findByBolsistaIn (@Param("alunos") Collection<Aluno> alunos);
 	
 	@Modifying
 	@Transactional

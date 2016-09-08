@@ -24,7 +24,8 @@ public class AlunoEntityListener implements ApplicationContextAware{
 		context.getAutowireCapableBeanFactory().autowireBean(this);
 		
 		Usuario usuario = usuarioService.getByCpf(aluno.getPessoa().getCpf());
-		aluno.setMatricula(usuario.getMatricula());
+		aluno.setMatricula(usuario.getMatricula());		
+		aluno.setCurso(usuario.getCurso());
 	}
 	@Override
 	public void setApplicationContext(ApplicationContext ctx) throws BeansException {

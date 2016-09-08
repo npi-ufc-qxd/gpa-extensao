@@ -2,20 +2,27 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
@@ -31,6 +38,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		
 	@Autowired
 	private BolsaRepository bolsaRepository;
+	
+	@Autowired
+	private AlunoRepository alunoRepository;
 	
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
@@ -151,5 +161,41 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
 	}
+
+	@Override
+	public List<AcaoExtensao> buscarAcoesCursoAno(Curso curso, Integer ano) {
+		
+		List<AcaoExtensao> acoes = null;
+		
+		if(curso != null && ano != null){
+			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
+			List<AcaoExtensao> acoesAno = acaoExtensaoRepository.findAll(specification);
+			
+			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao()); 
+			List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
+			acoes = acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso);
+			
+			return acoes;
+		}
+		if(curso != null){
+			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao());
+			acoes = bolsaRepository.findByBolsistaIn(alunos);
+			return acoes;
+		}
+		if(ano != null){
+			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);
+			acoes = acaoExtensaoRepository.findAll(specification);
+			return acoes;
+		}
+		return acoes;
+	}
 	
+	public List<AcaoExtensao> buscarTodasParticipacoes(List<AcaoExtensao> acoesEspecification, List<AcaoExtensao> acoesParticipacao){
+		List<AcaoExtensao> acoes = null;
+		
+		if(acoesEspecification.size() > 0){
+			acoes = acaoExtensaoRepository.findByParticipante(acoesEspecification, acoesParticipacao);
+		}
+		return acoes;
+	}
 }

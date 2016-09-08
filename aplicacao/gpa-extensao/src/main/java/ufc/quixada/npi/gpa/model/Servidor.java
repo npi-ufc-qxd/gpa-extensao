@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,7 +17,7 @@ public class Servidor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Pessoa pessoa;
 
 	private String siape;
@@ -92,7 +93,7 @@ public class Servidor {
 		}
 	}
 
-	enum Dedicacao {
+	public enum Dedicacao {
 		EXCLUSIVA("Exclusiva"), H40("40 horas"), H20("20 horas");
 
 		private String descricao;

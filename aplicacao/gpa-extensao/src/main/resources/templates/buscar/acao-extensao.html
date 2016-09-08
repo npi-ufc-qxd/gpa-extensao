@@ -51,6 +51,27 @@
 							</form>
 						</div>
 						
+						<div class="box-header with-border">
+							<h3 class="box-title">Buscar Ações por Curso</h3>
+						</div>
+						<div class="box-body">
+							<form th:action="@{/buscar/acao-extensao}" role="form" method="get">
+								<div class="form-group col-sm-5">
+									<label>Curso</label>
+									<select id="cursoSelect" name="curso" class="form-control">
+										<option value="" selected="selected">Selecionar...</option>
+										<option th:each="curso : ${cursos}" th:value="${curso}" th:text="${curso.descricao}"></option>
+									</select>
+								</div>
+								<div class="form-group col-sm-2">
+									<label class="control-label">Ano</label>
+									<input id="anoAcaoCurso" name="ano" class="form-control" type="number" min="2010" max="2050"/>
+								</div>
+								<div class="box-footer">
+									<button type="submit" class="btn btn-success btn-flat pull-right">Buscar</button>
+								</div>
+							</form>
+						</div>
 						<div class="box-body table-responsive">
 							<div data-toogle="tootip" title="Campos pesquisados" class="box-header with-border">
 								<div th:if="${coordenador}" class="col-md-3">
@@ -68,6 +89,10 @@
 								<div th:if="${ano}" class="col-md-2">
 									<label>Ano:</label>
 									<p th:text="${ano}"></p>
+								</div>
+								<div th:if="${curso}" class="col-md-2">
+									<label>Curso:</label>
+									<p th:text="${curso}"></p>
 								</div>
 							</div>
 							<div class="box-header with-border">
@@ -91,7 +116,7 @@
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
 										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
-										<td><label th:text="${acao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" class="label label-primary"></label></td>
+										<td><label th:text="${acao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" th:class="${acao.ativo} ? 'label label-primary' : 'label label-danger'"></label></td>
 									</tr>
 								</tbody>
 							</table>

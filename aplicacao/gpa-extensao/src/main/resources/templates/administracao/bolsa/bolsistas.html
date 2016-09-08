@@ -38,6 +38,7 @@
 								<th>TIPO</th>
 								<th>ORIENTADOR</th>
 								<th>PERÍODO</th>
+								<th>STATUS</th>
 								<th>JAN</th>
 								<th>FEV</th>
 								<th>MAR</th>
@@ -60,6 +61,7 @@
 								<td th:text="${frequencia.bolsa.tipo.descricao}"></td>
 								<td th:text="${frequencia.bolsa.acaoExtensao.coordenador.nome}"></td>
 								<td th:text="${#dates.format(frequencia.bolsa.inicio, 'dd/MMM/yyyy')} + ' a ' + ${#dates.format(frequencia.bolsa.termino, 'dd/MMM/yyyy')}"></td>
+								<td><label th:text="${frequencia.bolsa.ativo} ? 'ATIVO': 'INATIVO'" th:class="${frequencia.bolsa.ativo} ? 'label label-primary': 'label label-danger'"></label></td>
 								<td><input
 									th:disabled="${#dates.year(frequencia.bolsa.inicio) eq anoAtual AND #dates.month(frequencia.bolsa.inicio) gt 1}
 									OR ${#dates.year(frequencia.bolsa.termino) eq anoAtual AND #dates.month(frequencia.bolsa.termino) lt 1} ? ''"

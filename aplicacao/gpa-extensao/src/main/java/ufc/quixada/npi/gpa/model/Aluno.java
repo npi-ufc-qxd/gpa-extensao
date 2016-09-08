@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ public class Aluno{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.PERSIST)
 	private Pessoa pessoa;
 	
 	private String matricula;
@@ -61,5 +62,20 @@ public class Aluno{
 
 	public void setCurso(String curso) {
 		this.curso = curso;
+	}
+	
+	public enum Curso{
+		ES("Engenharia de Software"), SI("Sistemas de Informação"), CC("Ciência da Computação"), 
+		EC("Engenharia de Computação"), DD("Design Digitial"), REDES("Redes de Computadores");
+		
+		private String descricao;
+
+		private Curso(String descricao) {
+			this.descricao = descricao;
+		}
+
+		public String getDescricao() {
+			return this.descricao;
+		}
 	}
 }

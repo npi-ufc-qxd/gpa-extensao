@@ -115,6 +115,12 @@
 			<li id="menu-item-listagem-bolsistas" class="menu-item"><a th:href="@{/admin/bolsistas}">
 				<i class="fa fa-users"></i> <span>Bolsistas</span>
 			</a></li>
+			<li id="menu-item-cadastro-alunos" class="menu-item"><a th:href="@{/admin/alunos}">
+				<i class="fa fa-user-plus"></i> <span>Cadastrar alunos</span>
+			</a></li>
+			<li id="menu-item-cadastro-servidores" class="menu-item"><a th:href="@{/admin/servidores}">
+				<i class="fa fa-user-plus"></i> <span>Cadastrar servidores</span>
+			</a></li>
 			
 		</ul>
 		
@@ -187,6 +193,15 @@
 	
 	<!-- Script da página de listagem de bolsistas -->
 	<script th:src="@{/gpa/administracao/bolsistas.js}"></script>
+	
+	<!-- Script da página de cadastro de alunos -->
+	<script th:src="@{/gpa/administracao/cadastro-aluno.js}"></script>
+	
+	<!-- Script da página de cadastro de servidores -->
+	<script th:src="@{/gpa/administracao/cadastro-servidor.js}"></script>
+	
+	<!-- Script da autenticacao automatica com ajax -->
+	<script th:src="@{/gpa/modulos/authentication.js}"></script>
 	
 	<!-- Slimscroll -->
 	<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>

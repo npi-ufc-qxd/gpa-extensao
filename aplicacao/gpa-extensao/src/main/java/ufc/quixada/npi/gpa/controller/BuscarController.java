@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
@@ -13,6 +14,10 @@ import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,16 +30,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+
+import ufc.quixada.npi.gpa.repository.AlunoRepository;
+import ufc.quixada.npi.gpa.repository.BolsaRepository;
+
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Controller
@@ -54,6 +68,15 @@ public class BuscarController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
+	@Autowired
+	private AlunoRepository alunoRepository;
+	
+	@Autowired
+	private BolsaRepository bolsaRepository;
+	
+	@Autowired
+	private AcaoExtensaoService acaoExtensaoService;
+	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication){
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
@@ -64,22 +87,34 @@ public class BuscarController {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(ACOES, acaoExtensaoRepository.findByStatusAndAtivoIn(Status.APROVADO, true));
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 	
 	@RequestMapping(value=PAGINA_ACAO_EXTENSAO, params = {"coordenador", "modalidade", "ano"}, method = RequestMethod.GET)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador, @RequestParam("modalidade") Modalidade modalidade,
-			@RequestParam("estado") String estado, @RequestParam("ano") Integer ano, Model model)  {
+			@RequestParam("estado") String estado, @RequestParam("ano") Integer ano, Model model, RedirectAttributes attr)  {
 		
 		if(idCoordenador == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
 		
 		Pessoa coordenador = null;
+		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado, ano);
+		List<AcaoExtensao> acoes =  acaoExtensaoRepository.findAll(specification);
+		
 		
 		if(idCoordenador != null) {
 			coordenador = pessoaRepository.findOne(idCoordenador);
+			List<AcaoExtensao> acoesComParticipacao = participacaoRepository.findByParticipante(coordenador);
+			
+			try {
+				acoes = acaoExtensaoService.buscarTodasParticipacoes(acoes, acoesComParticipacao);
+			} catch (GpaExtensaoException e) {
+				attr.addFlashAttribute(ERRO, e);
+			}
+			
 			model.addAttribute("coordenador", coordenador.getNome());
 		}
 		if(modalidade != null) {
@@ -95,14 +130,42 @@ public class BuscarController {
 				model.addAttribute(ESTADO, "Inativo");
 			}
 		}
-		
-		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado, ano);
-		
-		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
+			
+		model.addAttribute(ACOES, acoes);
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
+		return PAGINA_BUSCAR_ACAO_EXTENSAO;
+	}
+	
+	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = {"curso", "ano"}, method = RequestMethod.GET)
+	public String buscarAcaoCurso(@RequestParam("curso") Curso curso, @RequestParam("ano") Integer ano, Model model, RedirectAttributes attr){
 		
+		List<AcaoExtensao> acoes;
+		
+		if(curso == null && ano == null){
+			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
+		}
+		
+		try {
+			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
+			
+			if(ano != null){
+				model.addAttribute("ano", ano);
+			}
+			if(curso != null){
+				model.addAttribute("curso", curso.getDescricao());
+			}
+			
+			model.addAttribute(ACOES, acoes);
+		} catch (GpaExtensaoException e) {
+			attr.addFlashAttribute(ERRO, e);
+		}
+		
+		model.addAttribute(COORDENADORES, servidorRespository.findAll());
+		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute(CURSOS, Curso.values());
 		
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}

@@ -34,6 +34,21 @@ public final class AcaoExtensaoEspecification {
 					predicate = builder.and(predicate, builder.equal(root.<Boolean>get("ativo"), ativo));
 				}
 				if(ano != null) {
+					buscarAno(ano);
+				}
+				
+				predicate = builder.and(predicate, builder.equal(root.<Status>get("status"), Status.APROVADO));
+				return predicate;
+			}
+		};
+	}
+	
+	public static Specification<AcaoExtensao> buscarAno(Integer ano){
+		return new Specification<AcaoExtensao>() {
+			public Predicate toPredicate(Root<AcaoExtensao> root, CriteriaQuery<?> query, CriteriaBuilder builder){
+				Predicate predicate = builder.and();
+				
+				if(ano != null) {
 					String inicioAnoString = "01/01/" + ano;
 					String finalAnoString = "31/12/" + ano;
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
