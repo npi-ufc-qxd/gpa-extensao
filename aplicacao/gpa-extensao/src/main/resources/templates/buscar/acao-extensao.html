@@ -115,8 +115,8 @@
 										<td> <a th:href="@{/detalhes/} + ${acao.id}" title="Detalhes da ação" th:text="${acao.titulo}"></a> </td>
 										<td th:text="${acao.coordenador.nome}"></td>
 										<td th:text="${acao.modalidade.descricao}"></td>
-										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
-										<td><label th:text="${acao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" class="label label-primary"></label></td>
+										<td th:text="${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(acao.termino, 'dd/MM/yyyy')}"></td>
+										<td><label th:text="${acao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" th:class="${acao.ativo} ? 'label label-primary' : 'label label-danger'"></label></td>
 									</tr>
 								</tbody>
 							</table>
