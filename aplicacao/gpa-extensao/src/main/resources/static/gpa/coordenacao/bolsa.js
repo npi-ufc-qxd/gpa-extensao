@@ -16,13 +16,13 @@ $(document).ready(function() {
 			 $('#table-bolsas').DataTable({
 					"order" : [[ 0, "asc" ]],
 					"columnDefs" : [ 
-					    {className: "text-center", "targets": [1, 2, 3, 4, 5, 6]},
+					    {className: "text-center", "targets": [1, 2, 3, 4, 5, 6, 7]},
 					    {"defaultContent": "-", "targets": "_all"},
-					    {"targets" : 1, "orderable" : false},
-					    {"targets" : 3, "orderable" : false},
+					    {"targets" : 2, "orderable" : false},
 					    {"targets" : 4, "orderable" : false},
 					    {"targets" : 5, "orderable" : false},
 					    {"targets" : 6, "orderable" : false},
+					    {"targets" : 7, "orderable" : false},
 					],
 					"language": {
 				        "url": "../json/Portuguese-Brasil.json"

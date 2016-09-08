@@ -62,18 +62,8 @@
 
 						<div class="row">
 							<div class="col-sm-3">
-								<ul class="list-inline">
-									<li>
-										<label>Coordenador</label>
-										<p><a th:href="|@{/buscar/servidor/}${acaoExtensao.coordenador.id}|" th:text="${acaoExtensao.coordenador.nome}"></a></p>
-									</li>
-									<li>
-										<div th:if="${acaoExtensao.status.name() == 'APROVADO'} and ${acaoExtensao.ativo} and (${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})">
-											<i id="buscarCoordenadores" class="fa fa-pencil-square-o" aria-hidden="true" 
-										 	title="Editar" data-toggle="modal" data-target="#editarCoordenador"></i>
-										</div>
-									</li>
-								</ul>
+								<label>Coordenador</label>
+								<p><a th:href="|@{/buscar/servidor/}${acaoExtensao.coordenador.id}|" th:text="${acaoExtensao.coordenador.nome}"></a></p>
 							</div>
 							<div class="col-sm-3">
 								<label>Status:</label>
@@ -341,7 +331,7 @@
               			<label class="col-sm-3">Data de Término:</label>
 						<input type="date" class="col-sm-3" required="required" id="dataTerminoBolsa" autocomplete="off"/>
               			<input type="hidden" id="encerrarBolsaHiddenId" name="encerrarBolsaHiddenId" value="" />
-                		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
+                		<button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
                 		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="encerrarBolsaHiddenBtn">Confirmar</a>
               		</div>
             	</div>
@@ -370,38 +360,47 @@
 				</div>
 			</div>
 		</div>
-		
-		<div id="editarCoordenador" class="modal fade" role="dialog">
+	
+		<!-- Modal alterar coordenador -->
+		<div id="editar-coordenador" class="modal fade" role="dialog">
 			<div class="modal-dialog">
-
-				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Editar coordenador</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  		<span aria-hidden="true">×</span></button>
+                		<h4 class="modal-title">Alterar Coordenador</h4>
 					</div>
-					<div class="modal-body">
-						<form action="#" th:action="@{/salvarNovoCoordenador/}+${acaoExtensao.id}" method="post">
-							<label class="col-sm-3">Novo:</label>
-							<Select id="listCoordenadores" class="col-sm-9 form-control" name ="idNovoCoordenador" required="required"></Select>
-							<label class="col-sm-3">Data de inicio:</label>
-							<input name="dataInicio" type="date" class="col-sm-3" required="required" id="dtCoordenadorInicio"/>
-							<label class="col-sm-3">Carga Horária:</label>
-							<input name="chNovoCoordenador" type="number" class="col-sm-3" required="required" id="chNovoCoordenador"/>
-							<div class="modal-footer">
-								<input type="submit" class="btn btn-success" value="Salvar"/>
-								<button class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					<form class="form-horizontal" role="form" action="#" th:action="|@{/salvarNovoCoordenador/}${acaoExtensao.id}|" method="post">
+						<div class="modal-body">
+							<div class="form-group row">
+								<label class="col-sm-1 control-label" for="listCoordenadores">Novo:</label>
+								<div class="form-item col-sm-12">
+									<Select id="listCoordenadores" class="form-control" name ="idNovoCoordenador" required="required"></Select>
+								</div>
 							</div>
-							
-						</form>	
-						
-					</div>
+							<div class="form-group row">
+								<div class="col-sm-6">
+									<label class="control-label" for="dtCoordenadorInicio">Início:</label>
+									<div>
+										<input id="dtCoordenadorInicio" class="form-control" name="dataInicio" type="text" required="required" autocomplete="off"/>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<label class="control-label" for="chNovoCoordenador">Carga Horária:</label>
+									<div>
+										<input id="chNovoCoordenador" class="form-control" name="chNovoCoordenador" type="number" required="required"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary btn-ok btn-pull-right btn-flat" >Confirmar</button>
+							<a class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</a>
+						</div>
+					</form>
 				</div>
-
 			</div>
 		</div>
-		
-		
 		
 		<footer th:replace="modulos/fragments :: footer"></footer>
 	</div>

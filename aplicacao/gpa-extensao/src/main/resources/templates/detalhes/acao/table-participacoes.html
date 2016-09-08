@@ -35,7 +35,7 @@
 					<td th:if="${participacao.instituicao.name()} == 'UFC'" th:text="${participacao.instituicao.descricao}"></td>
 					<td th:if="${participacao.instituicao.name()} != 'UFC'" th:text="${participacao.nomeInstituicao}"></td>
 					<td th:text="${participacao.cargaHoraria}+ 'h'"></td>
-					<td th:if="${participacao.dataInicio} != null" th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
+					<td th:if="${participacao.dataInicio} != null" th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
 					<td th:if="${participacao.dataInicio} == null"><span class="glyphicon glyphicon-minus"></span></td>
 					<td>
 						<span th:class="${participacao.coordenador} ? 'label label-primary' : 'label label-default'" th:text="${participacao.coordenador} ? 'SIM' : 'NÃO'"></span>
@@ -46,6 +46,11 @@
 							class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-participacao" th:attr="data-id=${participacao.id}">
 							<i class="fa fa-trash-o"></i>
+						</a>
+						<a th:if="${cpfCoordenador} == ${participacao.participante.cpf} and ${participacao.coordenador}"
+							class="btn btn-warning btn-flat btn-xs" id="buscarCoordenadores"
+							aria-hidden="true" title="Alterar coordenador" data-toggle="modal" data-target="#editar-coordenador">
+							<i class="fa fa-pencil-square-o fa-2"></i>
 						</a>
 					</td>
 				</tr>

@@ -11,6 +11,7 @@
 			<thead>
 				<tr>
 					<th>NOME</th>
+					<th>CURSO</th>
 					<th>CPF</th>
 					<th>TIPO DE BOLSA</th>
 					<th>CH</th>
@@ -25,10 +26,11 @@
 						<a th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.nome}: ''" 
 						th:href="|@{/bolsa/detalhes/}${bolsa.bolsista.id}|"></a>
 					</td>
+					<td th:text="${bolsa.bolsista.curso}"></td>
 					<td th:text="${bolsa.bolsista} ? ${bolsa.bolsista.pessoa.cpf}: ''"></td>
 					<td th:text="${bolsa.tipo} ? ${bolsa.tipo.descricao}: ''"></td>
 					<td th:text="${bolsa.cargaHoraria} ? ${bolsa.cargaHoraria}: ''"></td>
-					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
 					<td th:if="${bolsa.ativo}">
 					
 						<div th:if="(${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')} or !${bolsa.acaoExtensao.ativo}">
