@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-page="papeis-usuarios"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="modulos/fragments :: head"></head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+	<div class="wrapper">
+		<div th:replace="modulos/fragments :: header"></div>
+		<div th:replace="modulos/fragments :: menu"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Main content -->
+			<section class="content">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+							<h3 class="box-title">Gerenciar Papéis</h3>
+					</div>
+					
+					<div class="box-body">
+						<div>
+							<label class="control-label">Pessoa:</label>
+							<select id="select-servidor" name="servidor" class="form-control">
+								<option th:each="pessoa : ${pessoas}" th:text="${pessoa.nome}"></option>
+							</select>
+						</div>
+						
+						
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer th:replace="modulos/fragments :: footer"></footer>
+	</div>
+</body>
+</html>

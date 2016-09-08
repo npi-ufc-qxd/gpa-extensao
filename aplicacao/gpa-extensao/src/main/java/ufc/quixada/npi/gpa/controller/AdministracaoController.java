@@ -14,6 +14,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_VINCULAR_PAPEIS;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
@@ -47,6 +48,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
+import ufc.quixada.npi.gpa.model.Papel;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
@@ -238,5 +240,12 @@ public class AdministracaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
 		map.put(RESPONSE_DATA, numeroProcesso);
 		return map;
+	}
+	
+	@RequestMapping("/gerenciarPapeis")
+	public String gerenciarPapeis(Model model) {
+		model.addAttribute("pessoas", pessoaRepository.findAll());
+		model.addAttribute("papeis", Papel.Tipo.values());
+		return PAGINA_VINCULAR_PAPEIS;
 	}
 }

@@ -47,6 +47,11 @@ $(document).ready(function(){
 			$("#menu-item-cadastro-servidores").addClass("active");
 			break;
 			
+		case "papeis-usuarios":
+			zerarMenu();
+			$("#menu-item-pepeis-usuarios").addClass("active");
+			break;
+			
 		default:
 			zerarMenu();
 			break;
