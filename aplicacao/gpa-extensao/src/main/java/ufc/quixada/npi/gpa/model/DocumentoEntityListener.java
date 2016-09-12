@@ -53,8 +53,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 	public void deletarArquivo(Documento documento){
 		context.getAutowireCapableBeanFactory().autowireBean(this);
 		
-		File file = new File(documento.getCaminho());
-		
+		File file = new File(getDiretorioDocumento(documento));
 		removerArquivos(file);
 	}
 	
@@ -70,6 +69,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 			for (File f : files) {
 				removerArquivos(f);
 			}
+			file.delete();
 		}
 		file.delete();
 	}
