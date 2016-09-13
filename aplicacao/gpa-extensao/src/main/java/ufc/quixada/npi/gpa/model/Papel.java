@@ -51,7 +51,17 @@ public class Papel implements GrantedAuthority {
 	}
 
 	public enum Tipo{
-		ALUNO,SERVIDOR,DIRECAO,ADMINISTRACAO;
+		ALUNO("Aluno"),SERVIDOR("Servidor"),DIRECAO("Direção"),ADMINISTRACAO("Administração");
+		
+		private String descricao;
+		
+		private Tipo(String descricao) {
+			this.descricao = descricao;
+		}
+		
+		public String getDescricao() {
+			return this.descricao;
+		}
 	}
 
 	@Override

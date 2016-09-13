@@ -19,7 +19,8 @@
 						<form th:action="@{/buscar/servidor}" role="form" method="get">
 							<div class="form-group">
 								<label class="control-label">Servidor:</label>
-								<select id="select-servidor" name="servidor" class="form-control">
+								<select id="select-servidor" name="servidor" class="form-control" required="required">
+									<option value="">A Selecionar...</option>
 									<option th:each="servidor : ${servidores}" th:value="${servidor.id}" th:text="${servidor.pessoa.nome}"></option>
 								</select>
 							</div>
