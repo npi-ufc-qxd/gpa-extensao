@@ -1,9 +1,11 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
-import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
+import static ufc.quixada.npi.gpa.util.Constants.ANO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
+import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
@@ -14,8 +16,6 @@ import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
-import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.ANO;
 
 import java.util.List;
 
@@ -40,7 +40,6 @@ import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
