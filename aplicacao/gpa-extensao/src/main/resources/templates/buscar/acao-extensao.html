@@ -20,7 +20,7 @@
 						<div class="box-body">
 							<form th:action="@{/buscar/acao-extensao}" role="form" method="get">
 								<div class="form-group col-sm-5">
-									<label class="control-label">Coordenador</label>
+									<label class="control-label">Servidor</label>
 									<select id="selectCoordenador" name="coordenador" class="form-control">
 										<option value="" selected="selected">Selecionar coordenador...</option>
 										<option th:each="coordenador : ${coordenadores}" th:value="${coordenador.pessoa.id}" th:text="${coordenador.pessoa.nome}"></option>

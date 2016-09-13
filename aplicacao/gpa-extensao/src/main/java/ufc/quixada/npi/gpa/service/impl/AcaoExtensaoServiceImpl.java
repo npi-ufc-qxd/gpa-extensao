@@ -172,15 +172,20 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 			List<AcaoExtensao> acoesAno = acaoExtensaoRepository.findAll(specification);
 			
 			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao()); 
-			List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
-			acoes = acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso);
 			
+			if(acoesAno.size() > 0 && alunos.size() > 0){
+				List<AcaoExtensao> acoesCurso = bolsaRepository.findByBolsistaIn(alunos);
+				acoes = acaoExtensaoRepository.findByAnoAndCursoIn(acoesAno, acoesCurso);
+			}
 			return acoes;
 		}
 		if(curso != null){
 			List<Aluno> alunos = alunoRepository.findByCurso(curso.getDescricao());
-			acoes = bolsaRepository.findByBolsistaIn(alunos);
-			return acoes;
+			
+			if(alunos.size() > 0){
+				acoes = bolsaRepository.findByBolsistaIn(alunos);
+				return acoes;
+			}
 		}
 		if(ano != null){
 			Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarAno(ano);

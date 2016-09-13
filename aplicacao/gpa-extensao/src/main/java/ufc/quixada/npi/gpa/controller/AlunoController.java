@@ -28,13 +28,13 @@ public class AlunoController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
+	@Autowired
+	private AlunoService alunoService;
+	
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication) {
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}
-
-	@Autowired
-	private AlunoService alunoService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String paginaCadastroAluno() {
