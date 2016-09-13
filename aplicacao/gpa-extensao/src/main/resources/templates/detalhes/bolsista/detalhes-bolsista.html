@@ -68,7 +68,7 @@ data-page="detalhe-bolsista">
 											<p th:if="${bolsa.termino} !=null" th:text="${#dates.format(bolsa.termino, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
 										</td>
-										<td><label th:text="${bolsa.ativo} ? 'ATIVO': 'INATIVO'" class="label label-primary"></label></td>
+										<td><label th:text="${bolsa.ativo} ? 'ATIVO': 'INATIVO'" th:class="${bolsa.ativo} ? 'label label-primary': 'label label-danger'"></label></td>
 									</tr>
 								</tbody>
 							</table>

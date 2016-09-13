@@ -15,7 +15,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXT
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-
+import static ufc.quixada.npi.gpa.util.Constants.ANO;
 
 import java.util.List;
 
@@ -36,14 +36,10 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-
-import ufc.quixada.npi.gpa.repository.AlunoRepository;
-import ufc.quixada.npi.gpa.repository.BolsaRepository;
 
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
@@ -67,12 +63,6 @@ public class BuscarController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
-	@Autowired
-	private AlunoRepository alunoRepository;
-	
-	@Autowired
-	private BolsaRepository bolsaRepository;
 	
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
@@ -121,7 +111,7 @@ public class BuscarController {
 			model.addAttribute("modalidade", modalidade.getDescricao());
 		}
 		if(ano != null) {
-			model.addAttribute("ano", ano);
+			model.addAttribute(ANO, ano);
 		}
 		if(!estado.isEmpty()) {
 			if("true".equals(estado)) {
@@ -152,7 +142,7 @@ public class BuscarController {
 			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
 			
 			if(ano != null){
-				model.addAttribute("ano", ano);
+				model.addAttribute(ANO, ano);
 			}
 			if(curso != null){
 				model.addAttribute("curso", curso.getDescricao());
