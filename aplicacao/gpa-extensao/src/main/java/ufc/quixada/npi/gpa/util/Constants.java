@@ -78,6 +78,8 @@ public class Constants {
 	public static final String ESTADO ="estado";
 	public static final String CURSOS ="cursos";
 	public static final String USUARIO = "usuario";
+	public static final String ANO = "ano";
+	public static final String STATUS = "status";
 
 	
 	//Paginas

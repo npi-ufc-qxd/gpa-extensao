@@ -30,7 +30,7 @@ public class AlunoServiceImpl implements AlunoService {
 	private AlunoRepository alunoRepository;
 	
 	@Autowired
-	PapelRepository papelRepository;
+	private PapelRepository papelRepository;
 
 	@Override
 	public Usuario find(String cpf) throws GpaExtensaoException {

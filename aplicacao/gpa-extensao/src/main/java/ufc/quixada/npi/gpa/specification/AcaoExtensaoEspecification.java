@@ -16,6 +16,8 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
+import static ufc.quixada.npi.gpa.util.Constants.STATUS;
+
 public final class AcaoExtensaoEspecification {
 
 	public static Specification<AcaoExtensao> buscar(Pessoa coordenador, Modalidade modalidade, String estado, Integer ano) {
@@ -37,7 +39,7 @@ public final class AcaoExtensaoEspecification {
 					buscarAno(ano);
 				}
 				
-				predicate = builder.and(predicate, builder.equal(root.<Status>get("status"), Status.APROVADO));
+				predicate = builder.and(predicate, builder.equal(root.<Status>get(STATUS), Status.APROVADO));
 				return predicate;
 			}
 		};
@@ -62,7 +64,7 @@ public final class AcaoExtensaoEspecification {
 					}
 				}
 				
-				predicate = builder.and(predicate, builder.equal(root.<Status>get("status"), Status.APROVADO));
+				predicate = builder.and(predicate, builder.equal(root.<Status>get(STATUS), Status.APROVADO));
 				return predicate;
 			}
 		};

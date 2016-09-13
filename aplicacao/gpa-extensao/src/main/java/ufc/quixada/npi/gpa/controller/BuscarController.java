@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.ANO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
@@ -109,7 +110,7 @@ public class BuscarController {
 			model.addAttribute("modalidade", modalidade.getDescricao());
 		}
 		if(ano != null) {
-			model.addAttribute("ano", ano);
+			model.addAttribute(ANO, ano);
 		}
 		if(!estado.isEmpty()) {
 			if("true".equals(estado)) {
@@ -140,7 +141,7 @@ public class BuscarController {
 			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
 			
 			if(ano != null){
-				model.addAttribute("ano", ano);
+				model.addAttribute(ANO, ano);
 			}
 			if(curso != null){
 				model.addAttribute("curso", curso.getDescricao());

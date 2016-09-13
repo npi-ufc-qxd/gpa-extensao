@@ -52,6 +52,21 @@ $(document).ready(function(){
 			$("#menu-item-pepeis-usuarios").addClass("active");
 			break;
 			
+		case "detalhe-acao":
+			zerarMenu();
+			$("#menu-item-buscar-acoes").addClass("active");
+			break;
+			
+		case "detalhe-bolsista":
+			zerarMenu();
+			$("#menu-item-listagem-bolsistas").addClass("active");
+			break;
+		
+		case "detalhe-servidor":
+			zerarMenu();
+			$("#menu-item-buscar-servidores").addClass("active");
+			break;
+			
 		default:
 			zerarMenu();
 			break;
