@@ -22,7 +22,7 @@ import ufc.quixada.npi.gpa.repository.BolsaRepository;
 public class BolsaValidator implements Validator{
 
 	@Autowired
-	BolsaRepository bolsaRepository;
+	private BolsaRepository bolsaRepository;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {

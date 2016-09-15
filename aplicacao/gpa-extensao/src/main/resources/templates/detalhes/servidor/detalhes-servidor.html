@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" 
+data-page="detalhe-servidor">
 <head th:replace="modulos/fragments :: head"></head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
 	<div class="wrapper">
@@ -19,7 +20,8 @@
 						<form th:action="@{/buscar/servidor}" role="form" method="get">
 							<div class="form-group">
 								<label class="control-label">Servidor:</label>
-								<select id="select-servidor" name="servidor" class="form-control">
+								<select id="select-servidor" name="servidor" class="form-control" required="required">
+									<option value="">A Selecionar...</option>
 									<option th:each="servidor : ${servidores}" th:value="${servidor.id}" th:text="${servidor.pessoa.nome}"></option>
 								</select>
 							</div>
@@ -75,10 +77,10 @@
 									<tbody>
 										<tr th:if="${not participacoes.empty}" th:each="participacao : ${participacoes}">
 											<td><a th:href="|@{/detalhes/}${participacao.acaoExtensao.id}|" th:text="${participacao.acaoExtensao.titulo}"></a></td>
-											<td><label th:text="${participacao.acaoExtensao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" class="label label-primary"></label></td>
-											<td><label th:text="${participacao.coordenador} ? 'Sim': 'Não'" class="label label-primary"></label></td>
+											<td><label th:text="${participacao.acaoExtensao.ativo} ? 'EM ANDAMENTO': 'ENCERRADA'" th:class="${participacao.acaoExtensao.ativo} ? 'label label-primary' : 'label label-danger'"></label></td>
+											<td><label th:text="${participacao.coordenador} ? 'Sim': 'Não'" th:class="${participacao.coordenador} ? 'label label-success' : 'label label-primary'"></label></td>
 											<td th:text="|${participacao.cargaHoraria} Horas|"></td>
-											<td th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' à ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
+											<td th:text="${#dates.format(participacao.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(participacao.dataTermino, 'dd/MM/yyyy')}"></td>
 										</tr>
 										<tr th:if="${participacoes.empty}">
 											<td colspan="5">Nenhuma participação encontrada</td>

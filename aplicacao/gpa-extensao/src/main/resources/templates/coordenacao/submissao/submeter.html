@@ -113,7 +113,9 @@
                                     <label class="control-label">Vínculo com programa de extensão:</label>
                                     <select class="form-control" id="cadastrarVinculoAcaoExtensao" th:field="${acaoExtensao.vinculo}" name="vinculo">
                                         <option value="">Selecione...</option>
-                                        <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo.id}" th:text="${vinculo.titulo}"></option>
+                                        <option th:each="vinculo : ${acoesParaVinculo}" th:value="${vinculo.id}" 
+                                        	th:text="|${vinculo.titulo}   ${#dates.format(vinculo.inicio, 'dd/MM/yyyy')} a ${#dates.format(vinculo.termino, 'dd/MM/yyyy')}|">
+                                        </option>
                                     </select>
                                    </div>
 							</div>

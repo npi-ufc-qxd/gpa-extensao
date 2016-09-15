@@ -13,6 +13,7 @@ $(document).ready(function() {
 		"language": {
 		        	"url": "../json/Portuguese-Brasil.json"
 		        	},
+		"paging": false,
 	    "searching": false,
 	    "info":     false,
 	});

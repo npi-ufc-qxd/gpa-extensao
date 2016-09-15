@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+data-page="detalhe-bolsista">
 <head th:replace="modulos/fragments :: head"></head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
 	<div class="wrapper">
@@ -67,7 +68,7 @@
 											<p th:if="${bolsa.termino} !=null" th:text="${#dates.format(bolsa.termino, 'dd/MMM/yyyy')}"></p>
 											<span th:if="${bolsa.termino}==null" class="glyphicon glyphicon-minus"></span>
 										</td>
-										<td><label th:text="${bolsa.ativo} ? 'ATIVO': 'INATIVO'" class="label label-primary"></label></td>
+										<td><label th:text="${bolsa.ativo} ? 'ATIVO': 'INATIVO'" th:class="${bolsa.ativo} ? 'label label-primary': 'label label-danger'"></label></td>
 									</tr>
 								</tbody>
 							</table>

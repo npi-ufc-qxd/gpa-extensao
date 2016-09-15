@@ -92,19 +92,22 @@ $(document).ready(function(){
 	});
 	
 	 $('#dtCoordenadorInicio').datepicker({
-        format: "dd/mm/yyyy",
-        maxViewMode: 2,
+		 format: "dd/mm/yyyy",
+		 maxViewMode: 2,
  	    language: "pt-BR",
  	    autoclose: true,
  	    todayHighlight: true,
- 	    startDate: $("#dataInicio").text(),
+	    startDate: $("#dataInicio").text(),
  	    endDate: $("#dataTermino").text()
-     }); 
+	 });
 	 
 	 $("#listCoordenadores").select2();
+	 
+	 $("#editar-coordenador").on("shown.bs.modal", function(e) {
+		 buscarCoordenadores();
+	});
 	
-	$("#buscarCoordenadores").click(function(e) {
-		e.preventDefault();
+	function buscarCoordenadores() {
 		var id = $("#coordenadorId").val();
 		$.ajax({
 			type:"GET",
@@ -125,13 +128,13 @@ $(document).ready(function(){
 				}
 			}
 		});
-	});
+	};
 	
 	var dataAtual = moment();
 	var dataTermino = moment($("#dataTermino").text(), "DD-MM-YYYY");
 	
 	if(moment(dataTermino).isSameOrBefore(dataAtual)) {
-		$("#buscarCoordenadores").hide();
+		$("#buscarCoordenadores").on("hide");
 	}
 	
 	$("#listCoordenadores").change(function() {

@@ -14,6 +14,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_VINCULAR_PAPEIS;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
@@ -22,6 +23,7 @@ import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +49,12 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
+import ufc.quixada.npi.gpa.model.Papel;
+import ufc.quixada.npi.gpa.model.Papel.Tipo;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.repository.PapelRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
@@ -77,6 +82,9 @@ public class AdministracaoController {
 
 	@Autowired
 	private BolsaService bolsaService;
+	
+	@Autowired
+	private PapelRepository papelRepository;
 
 	@ModelAttribute(PESSOA_LOGADA)
 	public String pessoaLogada(Authentication authentication) {
@@ -238,5 +246,40 @@ public class AdministracaoController {
 		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
 		map.put(RESPONSE_DATA, numeroProcesso);
 		return map;
+	}
+	
+	@RequestMapping("/gerenciarPapeis")
+	public String gerenciarPapeisForm(Model model) {
+		model.addAttribute("pessoas", pessoaRepository.findAll());
+		return PAGINA_VINCULAR_PAPEIS;
+	}
+	
+	@RequestMapping(value="/gerenciarPapeis", params={"pessoa"})
+	public String gerenciaPapeis(@RequestParam("pessoa") Pessoa pessoa, Model model) {
+		
+		List<Tipo> papeisPessoa = new ArrayList<Tipo>();
+		for(Papel papel : pessoa.getPapeis()) {
+			papeisPessoa.add(papel.getNome());
+		}
+		
+		model.addAttribute("pessoa", pessoa);
+		model.addAttribute("pessoas", pessoaRepository.findAll());
+		model.addAttribute("papeis", Papel.Tipo.values());
+		model.addAttribute("papeisPessoa", papeisPessoa);
+		return PAGINA_VINCULAR_PAPEIS;
+	}
+	
+	@RequestMapping(value="/salvarPapeis/{idPessoa}", method=RequestMethod.POST)
+	public String salvarPapeis(@RequestParam("novosPapeis") List<Tipo> papeis, @PathVariable("idPessoa") Pessoa pessoa, Model model) {
+		List<Papel> novosPapeis = new ArrayList<Papel>();
+		
+		for(Tipo papel : papeis) {
+			novosPapeis.add(papelRepository.findByNome(papel));
+		}
+		
+		pessoa.setPapeis(novosPapeis);
+		pessoaRepository.save(pessoa);
+		
+		return gerenciaPapeis(pessoa, model);
 	}
 }

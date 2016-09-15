@@ -24,4 +24,6 @@ public interface AcaoExtensaoService {
 	void encerrarAcao(Integer idAcao) throws GpaExtensaoException;
 	
 	List<AcaoExtensao> buscarAcoesCursoAno(Curso curso, Integer ano) throws GpaExtensaoException;
+	
+	List<AcaoExtensao> buscarTodasParticipacoes(List<AcaoExtensao> acoesEspecification, List<AcaoExtensao> acoesParticipacao) throws GpaExtensaoException;
 }

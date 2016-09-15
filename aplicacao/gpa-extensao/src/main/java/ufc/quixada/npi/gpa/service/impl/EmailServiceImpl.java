@@ -15,10 +15,10 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PEN
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
-import static ufc.quixada.npi.gpa.util.Constants.NOME_PESSOA;
-import static ufc.quixada.npi.gpa.util.Constants.PRAZO;
-import static ufc.quixada.npi.gpa.util.Constants.STATUS;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -186,10 +186,10 @@ public class EmailServiceImpl implements NotificationService {
 		email.setTo(emailDirecao);
 		email.setFrom(EMAIL_REMETENTE);
 
-		String assunto = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		email.setSubject(assunto);
 
-		String texto = EMAIL_DIRECAO_SUBMISSAO.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo()).replaceAll(NOME_PESSOA,
+		String texto = EMAIL_DIRECAO_SUBMISSAO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo()).replaceAll(EMAIL_NOME_PESSOA,
 				acaoExtensao.getCoordenador().getNome());
 		email.setText(texto);
 
@@ -208,12 +208,12 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
 		String textoCoordenador = EMAIL_COORDENACAO_ATRIBUICAO_PARECERISTA
-				.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
 		SimpleMailMessage emailParecerista = new SimpleMailMessage();
@@ -221,12 +221,12 @@ public class EmailServiceImpl implements NotificationService {
 		emailParecerista.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail());
 		emailParecerista.setFrom(EMAIL_REMETENTE);
 
-		String assuntoParecerista = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoParecerista = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailParecerista.setSubject(assuntoParecerista);
 
 		String textoParecerista = EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA
-				.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(PRAZO, formatDate(acaoExtensao.getParecerTecnico().getPrazo()));
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_PRAZO, formatDate(acaoExtensao.getParecerTecnico().getPrazo()));
 		emailParecerista.setText(textoParecerista);
 
 		List<SimpleMailMessage> emails = new ArrayList<SimpleMailMessage>();
@@ -246,11 +246,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_PARECER.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
+		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_PARECER.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
 		SimpleMailMessage emailDirecao = new SimpleMailMessage();
@@ -258,11 +258,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailDirecao.setTo(this.emailDirecao);
 		emailDirecao.setFrom(EMAIL_REMETENTE);
 
-		String assuntoDirecao = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoDirecao = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailDirecao.setSubject(assuntoDirecao);
 
-		String textoDirecao = EMAIL_DIRECAO_EMISSAO_PARECER.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
+		String textoDirecao = EMAIL_DIRECAO_EMISSAO_PARECER.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
 		emailDirecao.setText(textoDirecao);
 
 		List<SimpleMailMessage> emails = new ArrayList<SimpleMailMessage>();
@@ -283,10 +283,10 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS.replaceAll(TITULO_ACAO,
+		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS.replaceAll(EMAIL_TITULO_ACAO,
 				acaoExtensao.getTitulo());
 		emailCoordenador.setText(textoCoordenador);
 
@@ -305,12 +305,12 @@ public class EmailServiceImpl implements NotificationService {
 		emailParecerista.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail());
 		emailParecerista.setFrom(EMAIL_REMETENTE);
 
-		String assuntoParecerista = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoParecerista = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailParecerista.setSubject(assuntoParecerista);
 
 		String textoParecerista = EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS
-				.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
 		emailParecerista.setText(textoParecerista);
 
 		enviarEmail(emailParecerista);
@@ -328,11 +328,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_ATRIBUICAO_RELATOR.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
+		String textoCoordenador = EMAIL_COORDENACAO_ATRIBUICAO_RELATOR.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
 		SimpleMailMessage emailRelator = new SimpleMailMessage();
@@ -340,11 +340,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailRelator.setTo(acaoExtensao.getParecerRelator().getResponsavel().getEmail());
 		emailRelator.setFrom(EMAIL_REMETENTE);
 
-		String assuntoRelator = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoRelator = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailRelator.setSubject(assuntoRelator);
 
-		String textoRelator = EMAIL_RELATOR_ATRIBUICAO_RELATOR.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(PRAZO, formatDate(acaoExtensao.getParecerRelator().getPrazo()));
+		String textoRelator = EMAIL_RELATOR_ATRIBUICAO_RELATOR.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_PRAZO, formatDate(acaoExtensao.getParecerRelator().getPrazo()));
 		emailRelator.setText(textoRelator);
 
 		List<SimpleMailMessage> emails = new ArrayList<SimpleMailMessage>();
@@ -364,11 +364,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_RELATO.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
+		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_RELATO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
 		SimpleMailMessage emailDirecao = new SimpleMailMessage();
@@ -376,11 +376,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailDirecao.setTo(this.emailDirecao);
 		emailDirecao.setFrom(EMAIL_REMETENTE);
 
-		String assuntoDirecao = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoDirecao = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailDirecao.setSubject(assuntoDirecao);
 
-		String textoDirecao = EMAIL_DIRECAO_EMISSAO_RELATO.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
+		String textoDirecao = EMAIL_DIRECAO_EMISSAO_RELATO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
 		emailDirecao.setText(textoDirecao);
 
 		List<SimpleMailMessage> emails = new ArrayList<SimpleMailMessage>();
@@ -401,10 +401,10 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS.replaceAll(TITULO_ACAO,
+		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS.replaceAll(EMAIL_TITULO_ACAO,
 				acaoExtensao.getTitulo());
 		emailCoordenador.setText(textoCoordenador);
 
@@ -423,11 +423,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailRelator.setTo(acaoExtensao.getParecerRelator().getResponsavel().getEmail());
 		emailRelator.setFrom(EMAIL_REMETENTE);
 
-		String assuntoRelator = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoRelator = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailRelator.setSubject(assuntoRelator);
 
-		String textoRelator = EMAIL_RELATOR_RESOLUCAO_PENDENCIAS.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
+		String textoRelator = EMAIL_RELATOR_RESOLUCAO_PENDENCIAS.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
 		emailRelator.setText(textoRelator);
 
 		enviarEmail(emailRelator);
@@ -444,11 +444,11 @@ public class EmailServiceImpl implements NotificationService {
 		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
 		emailCoordenador.setFrom(EMAIL_REMETENTE);
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo());
+		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_HOMOLOGACAO.replaceAll(TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(STATUS, acaoExtensao.getStatus().getDescricao());
+		String textoCoordenador = EMAIL_COORDENACAO_HOMOLOGACAO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_STATUS, acaoExtensao.getStatus().getDescricao());
 		emailCoordenador.setText(textoCoordenador);
 
 		enviarEmail(emailCoordenador);

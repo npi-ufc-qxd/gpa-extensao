@@ -78,6 +78,8 @@ public class Constants {
 	public static final String ESTADO = "estado";
 	public static final String CURSOS = "cursos";
 	public static final String USUARIO = "usuario";
+	public static final String ANO = "ano";
+	public static final String STATUS = "status";
 
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
@@ -97,8 +99,9 @@ public class Constants {
 	public static final String PAGINA_CADASTRO_ALUNO = "/administracao/cadastro-aluno/cadastro-aluno";
 	public static final String PAGINA_DETALHES_SERVIDOR = "/detalhes/servidor/detalhes-servidor";
 	public static final String PAGINA_CADASTRO_SERVIDOR = "/administracao/cadastro-servidor/cadastro-servidor";
-
-	// fragments
+	public static final String PAGINA_VINCULAR_PAPEIS = "/administracao/papeis/vincular-papeis";
+	
+	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
 	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/table-parceirias :: table-parceria-externa";
@@ -184,10 +187,10 @@ public class Constants {
 	public static final String EMAIL_COORDENACAO_HOMOLOGACAO = "A sua ação #TITULO_ACAO# foi homologada com o status de #STATUS#.";
 
 	// e-mail variable properties
-	public static final String TITULO_ACAO = "#TITULO_ACAO#";
-	public static final String NOME_PESSOA = "#NOME_PESSOA#";
-	public static final String PRAZO = "#PRAZO#";
-	public static final String STATUS = "#STATUS#";
+	public static final String EMAIL_TITULO_ACAO = "#TITULO_ACAO#";
+	public static final String EMAIL_NOME_PESSOA = "#NOME_PESSOA#";
+	public static final String EMAIL_PRAZO = "#PRAZO#";
+	public static final String EMAIL_STATUS = "#STATUS#";
 
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.

@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.ANO;
 import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
 import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
@@ -84,7 +85,7 @@ public class BuscarController {
 			"ano" }, method = RequestMethod.GET)
 	public String buscarAcao(@RequestParam("coordenador") Integer idCoordenador,
 			@RequestParam("modalidade") Modalidade modalidade, @RequestParam("estado") String estado,
-			@RequestParam("ano") Integer ano, Model model) {
+			@RequestParam("ano") Integer ano, Model model, RedirectAttributes attr) {
 
 		if (idCoordenador == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
@@ -92,15 +93,28 @@ public class BuscarController {
 
 		Pessoa coordenador = null;
 
+		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado,
+				ano);
+		List<AcaoExtensao> acoes = acaoExtensaoRepository.findAll(specification);
+
 		if (idCoordenador != null) {
 			coordenador = pessoaRepository.findOne(idCoordenador);
+			List<AcaoExtensao> acoesComParticipacao = participacaoRepository.findByParticipante(coordenador);
+
+			try {
+				acoes = acaoExtensaoService.buscarTodasParticipacoes(acoes, acoesComParticipacao);
+			} catch (GpaExtensaoException e) {
+				attr.addFlashAttribute(ERRO, e);
+			}
+
 			model.addAttribute("coordenador", coordenador.getNome());
 		}
 		if (modalidade != null) {
 			model.addAttribute("modalidade", modalidade.getDescricao());
 		}
+
 		if (ano != null) {
-			model.addAttribute("ano", ano);
+			model.addAttribute(ANO, ano);
 		}
 		if (!estado.isEmpty()) {
 			if ("true".equals(estado)) {
@@ -110,10 +124,7 @@ public class BuscarController {
 			}
 		}
 
-		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(coordenador, modalidade, estado,
-				ano);
-
-		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
+		model.addAttribute(ACOES, acoes);
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(CURSOS, Curso.values());
@@ -135,7 +146,7 @@ public class BuscarController {
 			acoes = acaoExtensaoService.buscarAcoesCursoAno(curso, ano);
 
 			if (ano != null) {
-				model.addAttribute("ano", ano);
+				model.addAttribute(ANO, ano);
 			}
 			if (curso != null) {
 				model.addAttribute("curso", curso.getDescricao());
