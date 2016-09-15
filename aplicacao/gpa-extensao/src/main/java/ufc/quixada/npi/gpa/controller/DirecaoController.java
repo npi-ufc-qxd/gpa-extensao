@@ -28,6 +28,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
 @RequestMapping("direcao")
@@ -35,6 +36,9 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 @EnableGlobalAuthentication
 public class DirecaoController {
 
+	@Autowired
+	private DirecaoService direcaoService;
+	
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	
@@ -66,14 +70,7 @@ public class DirecaoController {
 	
 	@RequestMapping(value = "/homologar/{id}", method = RequestMethod.POST)
 	public String homologar(@PathVariable("id") Integer id, @ModelAttribute("acaoextensao") AcaoExtensao acaoExtensao, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-		
-		acao.setStatus(acaoExtensao.getStatus());
-		acao.setDataDeHomologacao(acaoExtensao.getDataDeHomologacao());
-		acao.setNumeroProcesso(acaoExtensao.getNumeroProcesso());
-		acao.setObservacaoHomologacao(acaoExtensao.getObservacaoHomologacao());
-		
-		acaoExtensaoRepository.save(acao);
+		direcaoService.homologarAcao(id, acaoExtensao);
 		
 		redirectAttributes.addFlashAttribute("homologado", true);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
