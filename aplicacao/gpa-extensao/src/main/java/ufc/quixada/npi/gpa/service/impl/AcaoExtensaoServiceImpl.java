@@ -21,6 +21,7 @@ import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
+import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
@@ -41,6 +42,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 	
 	@Autowired
 	private AlunoRepository alunoRepository;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
@@ -102,6 +106,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		
 		acaoExtensaoRepository.save(old);
+		
+		notificar(old);
 	}
 	
 	@Override
@@ -190,4 +196,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		return acoes;
 	}
 	
+	private void notificar(AcaoExtensao acaoExtensao) {
+		this.notificationService.notificar(acaoExtensao);
+	}
 }
