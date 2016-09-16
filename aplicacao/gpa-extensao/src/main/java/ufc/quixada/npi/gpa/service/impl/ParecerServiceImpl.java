@@ -8,15 +8,12 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParecerService;
 
@@ -25,9 +22,6 @@ public class ParecerServiceImpl implements ParecerService {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-
-	@Autowired
-	private DocumentoService documentoService;
 
 	@Autowired
 	private NotificationService notificationService;
@@ -104,17 +98,14 @@ public class ParecerServiceImpl implements ParecerService {
 	}
 
 	@Override
-	public void emitirParecer(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void emitirParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 
 		if (acao != null) {
 
-			Documento documento = documentoService.save(arquivo, acao);
-
 			switch (acao.getStatus()) {
 			case AGUARDANDO_PARECER_TECNICO:
 
-				acao.getParecerTecnico().setArquivo(documento);
 				acao.getParecerTecnico().setDataRealizacao(new Date());
 				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
 				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
@@ -124,7 +115,6 @@ public class ParecerServiceImpl implements ParecerService {
 
 			case AGUARDANDO_PARECER_RELATOR:
 
-				acao.getParecerRelator().setArquivo(documento);
 				acao.getParecerRelator().setDataRealizacao(new Date());
 				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
 				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());

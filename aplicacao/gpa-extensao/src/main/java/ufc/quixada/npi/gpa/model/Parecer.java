@@ -9,57 +9,52 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Parecer {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Posicionamento posicionamento;
-	
-	@Column(columnDefinition="TEXT")
+
+	@Column(columnDefinition = "TEXT")
 	private String parecer;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String observacoes;
 
 	private Date dataAtribuicao;
-	
+
 	private Date dataRealizacao;
-	
+
 	@ManyToOne
-	@JoinColumn(name="parecerista_id")
+	@JoinColumn(name = "parecerista_id")
 	private Pessoa responsavel;
-	
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
-	
-	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
-	private Documento arquivo;
-	
+
 	@OneToMany(mappedBy = "parecer", cascade = CascadeType.MERGE)
 	@OrderBy("dataDeSolicitacao DESC")
 	private List<Pendencia> pendencias;
-	
+
 	public Parecer() {
 	}
 
 	public Parecer(Posicionamento posicionamento, String parecer, Date dataAtribuicao, Date dataRealizacao,
-			Pessoa responsavel, Date prazo, Documento arquivo) {
+			Pessoa responsavel, Date prazo) {
 		super();
 		this.posicionamento = posicionamento;
 		this.parecer = parecer;
@@ -67,9 +62,7 @@ public class Parecer {
 		this.dataRealizacao = dataRealizacao;
 		this.responsavel = responsavel;
 		this.prazo = prazo;
-		this.arquivo = arquivo;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -94,7 +87,7 @@ public class Parecer {
 	public void setParecer(String parecer) {
 		this.parecer = parecer;
 	}
-	
+
 	public String getObservacoes() {
 		return observacoes;
 	}
@@ -142,39 +135,33 @@ public class Parecer {
 	public void setPendencias(List<Pendencia> pendencias) {
 		this.pendencias = pendencias;
 	}
-	
-	public void addPendencia(Pendencia pendencia){
-		if(this.pendencias == null){
+
+	public void addPendencia(Pendencia pendencia) {
+		if (this.pendencias == null) {
 			this.pendencias = new ArrayList<Pendencia>();
 		}
-		
+
 		pendencia.setParecer(this);
 		this.pendencias.add(pendencia);
 	}
-	
-	public void setPendenciasResolvidas(){
-		if(this.pendencias != null){
+
+	public void setPendenciasResolvidas() {
+		if (this.pendencias != null) {
 			for (Pendencia pendencia : this.pendencias) {
 				pendencia.setResolvida(true);
 			}
 		}
 	}
 
-	public Documento getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(Documento arquivo) {
-		this.arquivo = arquivo;
-	}
-
-	public enum Posicionamento{
+	public enum Posicionamento {
 		FAVORAVEL("Favorável"), NAO_FAVORAVEL("Não Favorável");
 		private String descricao;
-		private Posicionamento(String descricao){
-			this.descricao=descricao;
+
+		private Posicionamento(String descricao) {
+			this.descricao = descricao;
 		}
-		public String getDescricao(){
+
+		public String getDescricao() {
 			return this.descricao;
 		}
 	}
@@ -203,5 +190,5 @@ public class Parecer {
 			return false;
 		return true;
 	}
-	
+
 }
