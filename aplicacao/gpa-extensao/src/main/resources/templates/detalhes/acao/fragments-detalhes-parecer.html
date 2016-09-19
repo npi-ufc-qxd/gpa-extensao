@@ -57,13 +57,6 @@
 					<label>Posicionamento</label>
 					<p th:text="${acaoExtensao.parecerTecnico.posicionamento} ? ${acaoExtensao.parecerTecnico.posicionamento.descricao} : '-'"/>
 				</div>
-				<div class="col-sm-9">
-					<label>Arquivo</label>
-					<div th:if="${ acaoExtensao.parecerTecnico.arquivo != null}">
-						<a th:href="@{/documento/download/} + ${acaoExtensao.parecerTecnico.arquivo.id}" th:text="${acaoExtensao.parecerTecnico.arquivo.nome}"></a>
-					</div>
-					<div th:if="${ acaoExtensao.parecerTecnico.arquivo == null}" th:text="'-'"></div>
-				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
@@ -150,12 +143,6 @@
 						<textarea rows="4" cols="40" id="observacoes-parecerista" class="form-control" th:field="*{parecerTecnico.observacoes}" style="resize: none;"></textarea>
 					</div>
 				</div>
-				<div class="form-group row">
-					<div class="col-lg-12">
-						<label class="control-label" for="arquivo-parecerista">Arquivo:</label>
-						<input type="file" id="arquivo-parecerista" name="arquivo-parecerista" accept="application/pdf"/>
-					</div>
-				</div>
 				<div class="form-group col-lg-12 text-center">
 					<input type="submit" class="btn btn-primary btn-flat" value="Submeter" title="Submeter parecer"/>
 		        	<a id="cancelar-emitir-parecer-button" class="btn btn-default btn-flat" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
@@ -206,13 +193,6 @@
 				<div class="col-sm-3">
 					<label>Posicionamento</label>
 					<p th:text="${acaoExtensao.parecerRelator.posicionamento} ? ${acaoExtensao.parecerRelator.posicionamento.descricao} : '-'"/>
-				</div>
-				<div class="col-sm-9">
-					<label>Arquivo</label>
-					<div th:if="${ acaoExtensao.parecerRelator.arquivo != null}">
-						<a th:href="@{/documento/download/} + ${acaoExtensao.parecerRelator.arquivo.id}" th:text="${acaoExtensao.parecerRelator.arquivo.nome}"></a>
-					</div>
-					<div th:if="${ acaoExtensao.parecerRelator.arquivo == null}" th:text="'-'"></div>
 				</div>
 			</div>
 			<div class="row">
@@ -299,12 +279,6 @@
 					<div class="col-lg-12">
 						<label class="control-label" for="observacoes-relator">Observações:</label>
 						<textarea rows="4" cols="40" id="observacoes-relator" class="form-control" th:field="*{parecerRelator.observacoes}" style="resize: none;"></textarea>
-					</div>
-				</div>
-				<div class="form-group row">
-					<div class="col-lg-12">
-						<label class="control-label" for="arquivo-relator">Arquivo:</label>
-						<input id="arquivo-relator" type="file" name="arquivo-relator" accept="application/pdf"/>
 					</div>
 				</div>
 				<div class="form-group col-lg-12 text-center">

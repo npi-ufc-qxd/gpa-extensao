@@ -109,7 +109,6 @@ public class BuscarController {
 		model.addAttribute(SERVIDOR, servidor.getNome());
 		model.addAttribute(MODALIDADE, modalidade.getDescricao());
 		model.addAttribute(ANO, ano);
-		
 
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}

@@ -1,8 +1,8 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -64,9 +62,9 @@ public class ParecerController {
 	}
 
 	@RequestMapping(value="/emitirParecerRelator", method=RequestMethod.POST)
-	public String emitirParecerRelator(@RequestParam("arquivo-relator") MultipartFile arquivo, AcaoExtensao acaoExtensao, RedirectAttributes redirect){
+	public String emitirParecerRelator(AcaoExtensao acaoExtensao, RedirectAttributes redirect){
 		try {
-			parecerService.emitirParecer(acaoExtensao, arquivo);
+			parecerService.emitirParecer(acaoExtensao);
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
 		}
@@ -74,9 +72,9 @@ public class ParecerController {
 	}
 	
 	@RequestMapping(value="/emitirParecerTecnico", method=RequestMethod.POST)
-	public String emitirParecerTecnico(@RequestParam("arquivo-parecerista") MultipartFile arquivo, AcaoExtensao acaoExtensao, RedirectAttributes redirect){
+	public String emitirParecerTecnico(AcaoExtensao acaoExtensao, RedirectAttributes redirect){
 		try {
-			parecerService.emitirParecer(acaoExtensao, arquivo);
+			parecerService.emitirParecer(acaoExtensao);
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
 		}

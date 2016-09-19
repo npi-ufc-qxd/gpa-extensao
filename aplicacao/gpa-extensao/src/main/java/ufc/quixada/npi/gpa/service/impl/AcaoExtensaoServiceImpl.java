@@ -15,111 +15,118 @@ import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
+import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 @Named
-public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
+public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
+
 	@Autowired
 	private DocumentoService documentoService;
-	
+
 	@Autowired
 	private ParticipacaoService participacaoService;
-		
+
 	@Autowired
 	private BolsaRepository bolsaRepository;
-	
+
+	@Autowired
+	private NotificationService notificationService;
+
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
 	}
-	
+
 	@Override
-	public void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador) throws GpaExtensaoException {
+	public void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
+			throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.APROVADO);
 		acaoExtensao.setAtivo(true);
 		salvarAcao(acaoExtensao, arquivo);
 		participacaoService.participacaoCoordenador(acaoExtensao, cargaHorariaCoordenador);
 	}
-	
-	private void salvarAcao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException{
+
+	private void salvarAcao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		acaoExtensaoRepository.save(acaoExtensao);
-		
+
 		String idAcao = acaoExtensao.getId().toString();
 		idAcao = completeToLeft(idAcao, '0', 4);
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
-		
-		if(!(arquivo.getOriginalFilename().toString().equals(""))){	
+
+		if (!(arquivo.getOriginalFilename().toString().equals(""))) {
 			Documento documento = documentoService.save(arquivo, acaoExtensao);
-			
-			if(documento != null){
+
+			if (documento != null) {
 				acaoExtensao.setAnexo(documento);
 			}
 		}
-		
+
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-	
+
 	@Override
 	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		old=checkAcaoExtensao(old,acaoExtensao);
-		
+		old = checkAcaoExtensao(old, acaoExtensao);
+
 		Documento documento = documentoService.save(arquivo, old);
-		
-		if(documento != null) {
+
+		if (documento != null) {
 			old.setAnexo(documento);
 		}
-		
+
 		switch (old.getStatus()) {
-			case RESOLVENDO_PENDENCIAS_PARECER:
-				old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
-				old.getParecerTecnico().setPendenciasResolvidas();
-				break;
-				
-			case RESOLVENDO_PENDENCIAS_RELATO:
-				old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
-				old.getParecerRelator().setPendenciasResolvidas();
-				break;
-				
-			default:
-				old.setStatus(Status.AGUARDANDO_PARECERISTA);
-				break;
+		case RESOLVENDO_PENDENCIAS_PARECER:
+			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+			old.getParecerTecnico().setPendenciasResolvidas();
+			break;
+
+		case RESOLVENDO_PENDENCIAS_RELATO:
+			old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+			old.getParecerRelator().setPendenciasResolvidas();
+			break;
+
+		default:
+			old.setStatus(Status.AGUARDANDO_PARECERISTA);
+			break;
 		}
-		
+
 		acaoExtensaoRepository.save(old);
+
+		notificar(old);
 	}
-	
+
 	@Override
 	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		
+
 		Documento documento = documentoService.save(arquivo, acaoExtensao);
-		
-		if(documento != null) {
+
+		if (documento != null) {
 			acaoExtensao.setAnexo(documento);
 		}
-		
-		old=checkAcaoExtensao(old,acaoExtensao);
+
+		old = checkAcaoExtensao(old, acaoExtensao);
 		acaoExtensaoRepository.save(old);
 	}
-	
+
 	@Override
-	public void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException{
+	public void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		
-		if(acao.getStatus().equals(Status.NOVO) && acao.getCoordenador().getCpf().equals(cpfCoordenador)){
+
+		if (acao.getStatus().equals(Status.NOVO) && acao.getCoordenador().getCpf().equals(cpfCoordenador)) {
 			acaoExtensaoRepository.delete(acao);
-			
-		}else{
+
+		} else {
 			throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 		}
 	}
-	
+
 	private String completeToLeft(String value, char c, int size) {
 		String result = value;
 		while (result.length() < size) {
@@ -127,8 +134,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		return result;
 	}
-	
-	private AcaoExtensao checkAcaoExtensao(AcaoExtensao old, AcaoExtensao nova){
+
+	private AcaoExtensao checkAcaoExtensao(AcaoExtensao old, AcaoExtensao nova) {
 		old.setTitulo(nova.getTitulo());
 		old.setResumo(nova.getResumo());
 		old.setInicio(nova.getInicio());
@@ -150,5 +157,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		acao.setAtivo(false);
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
+	}
+
+	private void notificar(AcaoExtensao acaoExtensao) {
+		this.notificationService.notificar(acaoExtensao);
 	}
 }
