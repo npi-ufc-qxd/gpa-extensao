@@ -76,11 +76,11 @@
 							<div data-toogle="tootip" title="Campos pesquisados" class="box-header with-border">
 								<div th:if="${servidor}" class="col-md-3">
 									<label>Servidor:</label>
-									<p th:text="${servidor}"></p>
+									<p th:text="${servidor.nome}"></p>
 								</div>
 								<div th:if="${modalidade}" class="col-md-2">
 									<label>Modalidade:</label>
-									<p th:text="${modalidade}"></p>
+									<p th:text="${modalidade.descricao}"></p>
 								</div>
 								<div th:if="${estado}" class="col-md-2">
 									<label>Estado:</label>
