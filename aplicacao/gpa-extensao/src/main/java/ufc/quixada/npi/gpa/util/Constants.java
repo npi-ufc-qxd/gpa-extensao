@@ -24,6 +24,7 @@ public class Constants {
 	public static final String PESSOA_LOGADA = "pessoaLogada";
 	public static final String PARECERISTAS = "pareceristas";
 	public static final String PENDENCIA = "pendencia";
+	public static final String MODALIDADE = "modalidade";
 	public static final String MODALIDADES = "modalidades";
 	public static final String ACOES = "acoes";
 	public static final String PARTICIPACOES = "participacoes";
@@ -74,9 +75,10 @@ public class Constants {
 	public static final String OK_UPPERCASE = "OK";
 	public static final String COORDENADORES = "coordenadores";
 	public static final String FREQUENCIAS = "frequencias";
-	public static final String CPF_COORDENADOR = "cpfCoordenador";
-	public static final String ESTADO = "estado";
-	public static final String CURSOS = "cursos";
+	public static final String CPF_COORDENADOR="cpfCoordenador";
+	public static final String ESTADO ="estado";
+	public static final String CURSO ="curso";
+	public static final String CURSOS ="cursos";
 	public static final String USUARIO = "usuario";
 	public static final String ANO = "ano";
 	public static final String STATUS = "status";
