@@ -49,7 +49,7 @@ $(document).ready(function(){
 			
 		case "papeis-usuarios":
 			zerarMenu();
-			$("#menu-item-pepeis-usuarios").addClass("active");
+			$("#menu-item-gerenciar-papeis").addClass("active");
 			break;
 			
 		case "detalhe-acao":
