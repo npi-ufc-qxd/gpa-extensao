@@ -165,4 +165,26 @@ $(document).ready(function(){
 			});
 		}
 	}
+	
+	$('#formSalvarRelatorio').bootstrapValidator({
+		fields: {
+			relatorioFinal: {
+				validators:{
+        			file:{
+        				extension: "pdf",
+                        type: "application/pdf",
+                        maxTotalSize: 10485760,
+                        message:"Formato não suportado ou arquivo muito grande."
+        			}
+        		}
+			}
+		}
+	});
+	$("#relatorioFinal").fileinput({
+		'showUpload':false,
+		"allowedFileTypes ": "application/pdf",
+		"allowedPreviewTypes ": "application/pdf"
+	}).on("fileclear", function(){
+		$("#formSalvarRelatorio").bootstrapValidator("revalidateField", "relatorioFinal");
+	});
 });

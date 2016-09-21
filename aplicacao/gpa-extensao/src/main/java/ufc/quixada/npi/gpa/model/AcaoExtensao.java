@@ -81,6 +81,9 @@ public class AcaoExtensao {
 	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	private Documento anexo;
 	
+	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
+	private Documento relatorioFinal;
+	
 	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Participacao> equipeDeTrabalho;
 	
@@ -240,6 +243,14 @@ public class AcaoExtensao {
 
 	public void setAnexo(Documento anexo) {
 		this.anexo = anexo;
+	}
+	
+	public Documento getRelatorioFinal() {
+		return relatorioFinal;
+	}
+
+	public void setRelatorioFinal(Documento relatorioFinal) {
+		this.relatorioFinal = relatorioFinal;
 	}
 
 	public List<Participacao> getEquipeDeTrabalho() {

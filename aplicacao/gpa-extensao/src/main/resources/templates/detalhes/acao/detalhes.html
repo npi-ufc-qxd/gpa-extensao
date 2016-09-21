@@ -199,6 +199,19 @@ data-page="detalhe-acao">
                             	<p th:if="${acaoExtensao.anexo} == null">-</p>
                             </div>
                         </div>
+                        <div class="row col-sm-12">
+                        	<label>Relatório Final</label>
+                        	<div id="info-relatorio" th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'APROVADO'}">
+                        		<a th:if="${acaoExtensao.relatorioFinal} != null" th:href="@{/documento/download/} + ${acaoExtensao.relatorioFinal.id}" th:text="${acaoExtensao.relatorioFinal.nome}"></a>
+                            	<div id="info-relatorio-final" th:if="${acaoExtensao.relatorioFinal} == null">
+                            		<a id="salvarRelatorioFinal" class="btn btn-primary btn-ok btn-flat" title="Adicionar" data-toggle="modal" data-target="#salvar-rel-final">Adicionar</a>
+                            	</div>
+                        	</div>
+                        	<div th:if="${#authentication.name != acaoExtensao.coordenador.cpf} OR ${acaoExtensao.status.name() != 'APROVADO'}">
+                        		<a th:if="${acaoExtensao.relatorioFinal} != null" th:href="@{/documento/download/} + ${acaoExtensao.relatorioFinal.id}" th:text="${acaoExtensao.relatorioFinal.nome}"></a>
+                            	<p th:if="${acaoExtensao.relatorioFinal} == null">-</p>
+                        	</div>
+                        </div>
                         
                         <div th:replace="detalhes/acao/fragments-detalhes-homologacao :: homologacao-fragment"></div>
 					</div>
@@ -391,6 +404,32 @@ data-page="detalhe-acao">
 									<div>
 										<input id="chNovoCoordenador" class="form-control" name="chNovoCoordenador" type="number" required="required"/>
 									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary btn-ok btn-pull-right btn-flat" >Confirmar</button>
+							<a class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal Adicionar Relatório Final -->
+		<div id="salvar-rel-final" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Selecionar Relatório Final</h4>
+					</div>
+					<form id="formSalvarRelatorio" class="form-horizontal" role="form" action="#" th:action="|@{/salvarRelatorioFinal/}${acaoExtensao.id}|" method="post" enctype="multipart/form-data">
+						<div class="modal-body">
+							<div class="form-group row">
+								<div class="form-item col-sm-12">
+									<input id="relatorioFinal" class="form-control" name="relatorioFinal" required="required" type="file" accept="application/pdf"/>
 								</div>
 							</div>
 						</div>
