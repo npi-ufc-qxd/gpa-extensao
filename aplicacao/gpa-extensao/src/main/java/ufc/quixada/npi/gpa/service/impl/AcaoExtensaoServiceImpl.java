@@ -203,4 +203,21 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService{
 		}
 		return acoes;
 	}
+	
+	@Override
+	public void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoId);
+		
+		Documento documento = null;
+		
+		if(acao != null){
+			documento = documentoService.save(arquivo, acao);
+		}
+		
+		if(documento != null) {
+			acao.setRelatorioFinal(documento);
+		}
+		
+		acaoExtensaoRepository.save(acao);
+	}
 }
