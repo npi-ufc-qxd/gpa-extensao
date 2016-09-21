@@ -2,6 +2,8 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Aluno.Curso;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
@@ -161,5 +164,22 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
+	}
+	
+	@Override
+	public void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoId);
+		
+		Documento documento = null;
+		
+		if(acao != null){
+			documento = documentoService.save(arquivo, acao);
+		}
+		
+		if(documento != null) {
+			acao.setRelatorioFinal(documento);
+		}
+		
+		acaoExtensaoRepository.save(acao);
 	}
 }

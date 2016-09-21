@@ -49,6 +49,7 @@ import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.TIPOS;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -76,6 +77,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -426,5 +428,21 @@ public class ExtensaoController {
 	@RequestMapping("/buscarCoordenadores/{id}")
 	public @ResponseBody List<Servidor> buscarCoordenadores(@PathVariable("id") Integer idCoordenadorAtual) {
 		return servirdorRepository.findByPessoa_idNotIn(idCoordenadorAtual);
+	}
+	
+	@RequestMapping(value="/salvarRelatorioFinal/{id}", method = RequestMethod.POST)
+	public String salvarRelatorioFinal(@RequestParam("relatorioFinal") MultipartFile arquivo, @PathVariable("id") Integer id, RedirectAttributes redirectAttribute){
+		
+		if(arquivo.isEmpty() || ("").equals(arquivo) || id == null){
+			redirectAttribute.addFlashAttribute(ERRO, MESSAGE_SALVAR_ARQUIVO_ERROR);
+			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		}
+		try {
+			acaoExtensaoService.salvarRelatorioFinal(id, arquivo);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addFlashAttribute(ERRO, MESSAGE_SALVAR_ARQUIVO_ERROR);
+			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		}
+		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 }

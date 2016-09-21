@@ -20,4 +20,7 @@ public interface AcaoExtensaoService {
 	
 	void encerrarAcao(Integer idAcao) throws GpaExtensaoException;
 	
+	void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException;
+
 	}
+
