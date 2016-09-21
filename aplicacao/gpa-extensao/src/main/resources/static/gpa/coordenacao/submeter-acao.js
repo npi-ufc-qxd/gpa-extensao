@@ -100,7 +100,8 @@ $(document).ready(function(){
 	        			file:{
 	        				extension: "pdf",
 	                        type: "application/pdf",
-	                        message:"Somente o formato PDF é suportado"
+	                        maxTotalSize: 10485760,
+	                        message:"Formato não suportado ou arquivo muito grande."
 	        			}
 	        		}
 	        	}
