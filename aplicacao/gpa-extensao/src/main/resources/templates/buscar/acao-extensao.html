@@ -21,8 +21,8 @@
 							<form th:action="@{/buscar/acao-extensao}" role="form" method="get">
 								<div class="form-group col-sm-5">
 									<label class="control-label">Servidor</label>
-									<select id="selectCoordenador" name="coordenador" class="form-control">
-										<option value="" selected="selected">Selecionar coordenador...</option>
+									<select id="selectCoordenador" name="servidor" class="form-control">
+										<option value="" selected="selected">Selecionar servidor...</option>
 										<option th:each="coordenador : ${coordenadores}" th:value="${coordenador.pessoa.id}" th:text="${coordenador.pessoa.nome}"></option>
 									</select>
 								</div>
@@ -45,7 +45,7 @@
 									<label class="control-label">Ano</label>
 									<input id="anoAcao" name="ano" class="form-control" type="number" min="2010" max="2050"/>
 								</div>
-								<div class="box-footer">
+								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success btn-flat pull-right">Buscar</button>
 								</div>
 							</form>
@@ -67,35 +67,35 @@
 									<label class="control-label">Ano</label>
 									<input id="anoAcaoCurso" name="ano" class="form-control" type="number" min="2010" max="2050"/>
 								</div>
-								<div class="box-footer">
+								<div class="col-sm-12">
 									<button type="submit" class="btn btn-success btn-flat pull-right">Buscar</button>
 								</div>
 							</form>
 						</div>
 						<div class="box-body table-responsive">
-							<div data-toogle="tootip" title="Campos pesquisados" class="box-header with-border">
-								<div th:if="${coordenador}" class="col-md-3">
-									<label>Coordenador:</label>
-									<p th:text="${coordenador}"></p>
+							<div data-toogle="tootip" title="Campos pesquisados" class="box-header">
+								<div th:if="${servidor}" class="col-md-3">
+									<label>Servidor:</label>
+									<p th:text="${servidor.nome}"></p>
 								</div>
 								<div th:if="${modalidade}" class="col-md-2">
 									<label>Modalidade:</label>
-									<p th:text="${modalidade}"></p>
+									<p th:text="${modalidade.descricao}"></p>
 								</div>
 								<div th:if="${estado}" class="col-md-2">
 									<label>Estado:</label>
 									<p th:text="${estado}"></p>
 								</div>
-								<div th:if="${ano}" class="col-md-2">
-									<label>Ano:</label>
-									<p th:text="${ano}"></p>
-								</div>
 								<div th:if="${curso}" class="col-md-2">
 									<label>Curso:</label>
 									<p th:text="${curso}"></p>
 								</div>
+								<div th:if="${ano}" class="col-md-2">
+									<label>Ano:</label>
+									<p th:text="${ano}"></p>
+								</div>
 							</div>
-							<div class="box-header with-border">
+							<div class="box-header ">
 								<h3 class="box-title">Ações </h3>
 							</div>
 							<table id="tableAcoes" class="table table-striped table-bordered">

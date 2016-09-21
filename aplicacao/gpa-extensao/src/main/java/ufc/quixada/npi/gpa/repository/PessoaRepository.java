@@ -17,7 +17,9 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	List<Papel> findPapeisByCpf(@Param("cpf") String cpf);
 
 	Pessoa findByCpf(String cpf);
-	
+
 	List<Pessoa> findAll();
+
+	List<Pessoa> findAllByPapeis(List<Papel> papeis);
 
 }

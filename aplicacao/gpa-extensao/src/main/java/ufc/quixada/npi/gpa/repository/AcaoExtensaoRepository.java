@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
@@ -27,8 +26,6 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id AND ac.coordenador.id != :id")
 	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);
-	
-	List<AcaoExtensao> findByCoordenador(Pessoa pessoa);
 
 	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
 	
@@ -36,25 +33,11 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 	
-	Integer countByStatusIn (Collection<Status> status);
-	
 	List<AcaoExtensao> findByModalidadeAndStatus(Modalidade modalidade, Status status);
 	
-	@Query("SELECT COUNT(*) FROM AcaoExtensao as ac WHERE ac.coordenador.cpf =:cpf")
-	Integer countAcoesCoordenador(@Param("cpf") String cpf);
-	
 	List<AcaoExtensao> findAll(Specification<AcaoExtensao> spec);
-	
-	List<AcaoExtensao> findByStatus(Status status);
 	
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);
 	
-	List<AcaoExtensao> findByIdIn(Collection<Bolsa> bolsas);
-	
-	@Query("SELECT ac FROM AcaoExtensao ac WHERE ac IN (:acAno) AND ac IN (:acCurso)")
-	List<AcaoExtensao> findByAnoAndCursoIn(@Param("acAno") Collection<AcaoExtensao> acoesAno, @Param("acCurso") Collection<AcaoExtensao> acoesCurso);
-	
-	@Query("SELECT ae FROM AcaoExtensao ae WHERE ae IN (:acSpec) AND ae IN (:acPart)")
-	List<AcaoExtensao> findByParticipante(@Param("acSpec") Collection<AcaoExtensao> acSpec, @Param("acPart") Collection<AcaoExtensao> acPart);
 }

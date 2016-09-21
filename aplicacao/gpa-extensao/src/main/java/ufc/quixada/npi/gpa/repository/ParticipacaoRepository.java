@@ -2,9 +2,7 @@ package ufc.quixada.npi.gpa.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -26,6 +24,4 @@ public interface ParticipacaoRepository extends CrudRepository<Participacao, Int
 	
 	public List<Participacao> findByParticipanteAndAcaoExtensao_status(Pessoa participante, Status status);
 	
-	@Query("SELECT p.acaoExtensao FROM equipe_de_trabalho p WHERE p.participante =:participante")
-	public List<AcaoExtensao> findByParticipante(@Param("participante") Pessoa participante);
 }
