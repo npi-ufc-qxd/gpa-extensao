@@ -102,6 +102,9 @@ public class Constants {
 	public static final String PAGINA_DETALHES_SERVIDOR = "/detalhes/servidor/detalhes-servidor";
 	public static final String PAGINA_CADASTRO_SERVIDOR = "/administracao/cadastro-servidor/cadastro-servidor";
 	public static final String PAGINA_VINCULAR_PAPEIS = "/administracao/papeis/vincular-papeis";
+	public static final String PAGINA_ERRO_404 = "/error/404";
+	public static final String PAGINA_ERRO_403 = "/error/403";
+	public static final String PAGINA_ERRO_500 = "/error/500";
 	
 	//fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
@@ -123,7 +126,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
-
+	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";

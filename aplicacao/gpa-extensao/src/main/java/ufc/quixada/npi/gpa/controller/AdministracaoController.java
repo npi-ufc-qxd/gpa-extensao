@@ -15,7 +15,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_VINCULAR_PAPEIS;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
@@ -82,21 +81,17 @@ public class AdministracaoController {
 
 	@Autowired
 	private BolsaService bolsaService;
-	
+
 	@Autowired
 	private PapelRepository papelRepository;
-
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication) {
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
 	public String cadastrarForm(Model model) {
 		model.addAttribute(POSSIVEIS_COORDENADORES, servidorRepository.findAll());
 		model.addAttribute(ACAO_EXTENSAO, new AcaoExtensao());
 		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
+		model.addAttribute(ACOES_VINCULO,
+				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
 		model.addAttribute(ACTION, "cadastrar");
 		return PAGINA_CADASTRO_RETROATIVO_ACAO;
 	}
@@ -118,20 +113,20 @@ public class AdministracaoController {
 	@RequestMapping(value = "/bolsistas", method = RequestMethod.GET)
 	public String paginaListagemBolsistas(Model model) {
 		List<Integer> anos = bolsaRepository.findAnosInicio();
-		
+
 		model.addAttribute(ANOS, anos);
-		
-		if(anos != null && !anos.isEmpty()){
+
+		if (anos != null && !anos.isEmpty()) {
 			Integer ano = 0;
-			for(Integer aux : anos){
-				if(aux > ano){
+			for (Integer aux : anos) {
+				if (aux > ano) {
 					ano = aux;
 				}
 			}
-			
+
 			model.addAttribute(ANO_ATUAL, ano);
 		}
-		
+
 		return PAGINA_LISTAGEM_BOLSISTAS;
 	}
 
@@ -154,39 +149,39 @@ public class AdministracaoController {
 		}
 		return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@RequestMapping("/editar/{id}")
 	public String editarAcaoExtensao(@PathVariable("id") Integer idAcao, Model model, Authentication authentication) {
 		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
-		
-		if(acaoExtensao == null) {
+
+		if (acaoExtensao == null) {
 			return REDIRECT_PAGINA_INICIAL;
 		}
-		
-		if(!(acaoExtensao.getStatus().equals(Status.APROVADO) && acaoExtensao.isAtivo())) {
+
+		if (!(acaoExtensao.getStatus().equals(Status.APROVADO) && acaoExtensao.isAtivo())) {
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
-		
+
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
-		if(!pessoa.isAdministracao()) {
+		if (!pessoa.isAdministracao()) {
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
-		
+
 		model.addAttribute(ACAO_EXTENSAO, acaoExtensao);
 		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO, acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
+		model.addAttribute(ACOES_VINCULO,
+				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
 		model.addAttribute(ACTION, "editar");
 
 		return PAGINA_CADASTRO_RETROATIVO_ACAO;
 	}
-	
-	
-	@RequestMapping(value="/editar", method = RequestMethod.POST)
-	public String formEditarAcaoExtensao(@RequestParam(value="anexoAcao", required = false) MultipartFile arquivo, 
+
+	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	public String formEditarAcaoExtensao(@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo,
 			@ModelAttribute AcaoExtensao acaoExtensao, Model model) {
-		
+
 		AcaoExtensao oldAcao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		
+
 		oldAcao.setTitulo(acaoExtensao.getTitulo());
 		oldAcao.setResumo(acaoExtensao.getResumo());
 		oldAcao.setModalidade(acaoExtensao.getModalidade());
@@ -195,48 +190,51 @@ public class AdministracaoController {
 		oldAcao.setTermino(acaoExtensao.getTermino());
 		oldAcao.setProrrogavel(acaoExtensao.isProrrogavel());
 		oldAcao.setVinculo(acaoExtensao.getVinculo());
-		
-		if(!acaoExtensao.getModalidade().equals(Modalidade.CURSO) && !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+
+		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
+				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
 			acaoExtensao.setHorasPraticas(null);
 			acaoExtensao.setHorasTeoricas(null);
 		} else {
 			oldAcao.setHorasPraticas(acaoExtensao.getHorasPraticas());
 			oldAcao.setHorasTeoricas(acaoExtensao.getHorasTeoricas());
 		}
-		
-		if(!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+
+		if (!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
 			acaoExtensao.setProgramacao("");
 		} else {
 			oldAcao.setProgramacao(acaoExtensao.getProgramacao());
 		}
-		
-		if(!acaoExtensao.getModalidade().equals(Modalidade.CURSO)) {
+
+		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)) {
 			acaoExtensao.setEmenta("");
 		} else {
 			oldAcao.setEmenta(acaoExtensao.getEmenta());
 		}
-		
+
 		try {
 			acaoExtensaoService.editarAcaoExtensao(oldAcao, arquivo);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
-		
+
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
-	
-	@RequestMapping(value="/encerrarAcao/{idAcao}")
-	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect) throws GpaExtensaoException{
+
+	@RequestMapping(value = "/encerrarAcao/{idAcao}")
+	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect)
+			throws GpaExtensaoException {
 		acaoExtensaoService.encerrarAcao(idAcao);
-		redirect.addFlashAttribute(MESSAGE,MESSAGE_ACAO_ENCERRADA);
-		return REDIRECT_PAGINA_DETALHES_ACAO +idAcao;
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_ACAO_ENCERRADA);
+		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
-	
-	@RequestMapping(value = "/salvarNumeroProcesso/{idAcao}", method=RequestMethod.GET)
-	public @ResponseBody Map<String, Object> salvarNumeroProcesso(@RequestParam("numeroProcesso") String numeroProcesso, @PathVariable("idAcao") Integer idAcao){
+
+	@RequestMapping(value = "/salvarNumeroProcesso/{idAcao}", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> salvarNumeroProcesso(@RequestParam("numeroProcesso") String numeroProcesso,
+			@PathVariable("idAcao") Integer idAcao) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(numeroProcesso.isEmpty() || ("").equals(numeroProcesso)){
+		if (numeroProcesso.isEmpty() || ("").equals(numeroProcesso)) {
 			map.put(ERRO, VALOR_INVALIDO);
 			return map;
 		}
@@ -247,39 +245,40 @@ public class AdministracaoController {
 		map.put(RESPONSE_DATA, numeroProcesso);
 		return map;
 	}
-	
+
 	@RequestMapping("/gerenciarPapeis")
 	public String gerenciarPapeisForm(Model model) {
 		model.addAttribute("pessoas", pessoaRepository.findAll());
 		return PAGINA_VINCULAR_PAPEIS;
 	}
-	
-	@RequestMapping(value="/gerenciarPapeis", params={"pessoa"})
+
+	@RequestMapping(value = "/gerenciarPapeis", params = { "pessoa" })
 	public String gerenciaPapeis(@RequestParam("pessoa") Pessoa pessoa, Model model) {
-		
+
 		List<Tipo> papeisPessoa = new ArrayList<Tipo>();
-		for(Papel papel : pessoa.getPapeis()) {
+		for (Papel papel : pessoa.getPapeis()) {
 			papeisPessoa.add(papel.getNome());
 		}
-		
+
 		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("pessoas", pessoaRepository.findAll());
 		model.addAttribute("papeis", Papel.Tipo.values());
 		model.addAttribute("papeisPessoa", papeisPessoa);
 		return PAGINA_VINCULAR_PAPEIS;
 	}
-	
-	@RequestMapping(value="/salvarPapeis/{idPessoa}", method=RequestMethod.POST)
-	public String salvarPapeis(@RequestParam("novosPapeis") List<Tipo> papeis, @PathVariable("idPessoa") Pessoa pessoa, Model model) {
+
+	@RequestMapping(value = "/salvarPapeis/{idPessoa}", method = RequestMethod.POST)
+	public String salvarPapeis(@RequestParam("novosPapeis") List<Tipo> papeis, @PathVariable("idPessoa") Pessoa pessoa,
+			Model model) {
 		List<Papel> novosPapeis = new ArrayList<Papel>();
-		
-		for(Tipo papel : papeis) {
+
+		for (Tipo papel : papeis) {
 			novosPapeis.add(papelRepository.findByNome(papel));
 		}
-		
+
 		pessoa.setPapeis(novosPapeis);
 		pessoaRepository.save(pessoa);
-		
+
 		return gerenciaPapeis(pessoa, model);
 	}
 }

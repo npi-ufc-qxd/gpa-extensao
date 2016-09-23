@@ -13,18 +13,15 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.PARTICIPACOES;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,11 +57,6 @@ public class BuscarController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication) {
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
-
 	@RequestMapping(PAGINA_ACAO_EXTENSAO)
 	public String buscarAcaoForm(Model model) {
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
@@ -84,13 +76,13 @@ public class BuscarController {
 		if (idServidor == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 		}
-		
+
 		Pessoa servidor = null;
-		
-		if(idServidor != null) {
+
+		if (idServidor != null) {
 			servidor = pessoaRepository.findOne(idServidor);
 		}
-		
+
 		if (!estado.isEmpty()) {
 			if ("true".equals(estado)) {
 				model.addAttribute(ESTADO, "Ativo");
@@ -99,13 +91,14 @@ public class BuscarController {
 			}
 		}
 
-		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(servidor, modalidade, estado, ano);
-		
+		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(servidor, modalidade, estado,
+				ano);
+
 		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(CURSOS, Curso.values());
-		
+
 		model.addAttribute(SERVIDOR, servidor);
 		model.addAttribute(MODALIDADE, modalidade);
 		model.addAttribute(ANO, ano);
@@ -122,12 +115,12 @@ public class BuscarController {
 		}
 
 		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarCurso(ano, curso.getDescricao());
-		
+
 		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
 		model.addAttribute(COORDENADORES, servidorRespository.findAll());
 		model.addAttribute(MODALIDADES, Modalidade.values());
 		model.addAttribute(CURSOS, Curso.values());
-		
+
 		model.addAttribute(ANO, ano);
 		model.addAttribute(CURSO, curso.getDescricao());
 
