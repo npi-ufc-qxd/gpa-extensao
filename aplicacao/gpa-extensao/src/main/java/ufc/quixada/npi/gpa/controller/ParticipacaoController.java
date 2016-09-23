@@ -5,7 +5,6 @@ import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.HashMap;
@@ -34,7 +33,6 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
@@ -45,65 +43,59 @@ public class ParticipacaoController {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
+
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
-	
+
 	@Autowired
 	private ParticipacaoValidator participacaoValidator;
-	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private ServidorRepository servirdorRepository;
-	
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication){
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
-	
-	@RequestMapping(value="/cadastrar/{idAcao}", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> adicionarParticipacao(@Valid @ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao, 
+
+	@RequestMapping(value = "/cadastrar/{idAcao}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> adicionarParticipacao(
+			@Valid @ModelAttribute("participacao") Participacao participacao, @PathVariable("idAcao") Integer idAcao,
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
-		
+
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		
+
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
 			map.put(RESPONSE_DATA, result.getFieldErrors());
 			return map;
 		}
-		
-		if(participacao.getParticipante() != null && participacao.getParticipante().getId() == acao.getCoordenador().getId()) {
+
+		if (participacao.getParticipante() != null
+				&& participacao.getParticipante().getId() == acao.getCoordenador().getId()) {
 			participacao.setCoordenador(true);
 		}
-		
+
 		participacao.setDataInicio(acao.getInicio());
 		participacao.setDataTermino(acao.getTermino());
-		
+
 		participacaoRepository.save(participacao);
-		
+
 		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}
-	
-	@RequestMapping(value="/excluir/{id}")
-	public @ResponseBody void deleteParticipacao(@PathVariable("id") Integer id){
+
+	@RequestMapping(value = "/excluir/{id}")
+	public @ResponseBody void deleteParticipacao(@PathVariable("id") Integer id) {
 		participacaoRepository.delete(id);
-	}	
-	
+	}
+
 	@RequestMapping(value = "/buscarParticipacoes/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-	    model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-	    model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
-	    return FRAGMENTS_TABLE_PARTICIPACOES;
+		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
+		model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
+		return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
 
 	@RequestMapping("/buscarServidores")

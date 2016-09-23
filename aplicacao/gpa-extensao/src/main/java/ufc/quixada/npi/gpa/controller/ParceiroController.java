@@ -2,7 +2,6 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,27 +21,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
+
 @Controller
 @RequestMapping("/parceiro")
 public class ParceiroController {
-	
+
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication){
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
-	
-	@RequestMapping(value="/novo/{id}", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> novoParceiro(@PathVariable("id") Integer id, @ModelAttribute @Valid Parceiro parceiro,
-			BindingResult binding, ParceriaExterna parceriaExterna){
+
+	@RequestMapping(value = "/novo/{id}", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> novoParceiro(@PathVariable("id") Integer id,
+			@ModelAttribute @Valid Parceiro parceiro, BindingResult binding, ParceriaExterna parceriaExterna) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(binding.hasErrors()){
+		if (binding.hasErrors()) {
 			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;

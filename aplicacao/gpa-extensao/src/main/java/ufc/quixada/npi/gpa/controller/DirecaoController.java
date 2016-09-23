@@ -6,7 +6,6 @@ import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ACOES_AGUARDANDO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL_DIRECAO;
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import java.util.Arrays;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
@@ -38,40 +36,37 @@ public class DirecaoController {
 
 	@Autowired
 	private DirecaoService direcaoService;
-	
+
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
-	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
-	@ModelAttribute(PESSOA_LOGADA)
-	public String pessoaLogada(Authentication authentication){
-		return pessoaRepository.findByCpf(authentication.getName()).getNome();
-	}
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
-		
-		List<Status> statusAguardandoParecer = Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER);
+
+		List<Status> statusAguardandoParecer = Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO,
+				Status.RESOLVENDO_PENDENCIAS_PARECER);
 		List<Status> statusAguardandoParecerista = Arrays.asList(Status.AGUARDANDO_PARECERISTA);
-		List<Status> statusAguardandoRelato = Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO);
+		List<Status> statusAguardandoRelato = Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR,
+				Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusAguardandoRelator = Arrays.asList(Status.AGUARDANDO_RELATOR);
 		List<Status> statusAguardandoHomologacao = Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO);
 
 		model.addAttribute(ACOES_AGUARDANDO_PARECER, acaoExtensaoRepository.findByStatusIn(statusAguardandoParecer));
-		model.addAttribute(ACOES_AGUARDANDO_PARECERISTA, acaoExtensaoRepository.findByStatusIn(statusAguardandoParecerista));
+		model.addAttribute(ACOES_AGUARDANDO_PARECERISTA,
+				acaoExtensaoRepository.findByStatusIn(statusAguardandoParecerista));
 		model.addAttribute(ACOES_AGUARDANDO_RELATO, acaoExtensaoRepository.findByStatusIn(statusAguardandoRelato));
 		model.addAttribute(ACOES_AGUARDANDO_RELATOR, acaoExtensaoRepository.findByStatusIn(statusAguardandoRelator));
-		model.addAttribute(ACOES_AGUARDANDO_HOMOLOGACAO, acaoExtensaoRepository.findByStatusIn(statusAguardandoHomologacao));
+		model.addAttribute(ACOES_AGUARDANDO_HOMOLOGACAO,
+				acaoExtensaoRepository.findByStatusIn(statusAguardandoHomologacao));
 
 		return PAGINA_INICIAL_DIRECAO;
 	}
-	
+
 	@RequestMapping(value = "/homologar/{id}", method = RequestMethod.POST)
-	public String homologar(@PathVariable("id") Integer id, @ModelAttribute("acaoextensao") AcaoExtensao acaoExtensao, Model model, Authentication authentication, RedirectAttributes redirectAttributes){
+	public String homologar(@PathVariable("id") Integer id, @ModelAttribute("acaoextensao") AcaoExtensao acaoExtensao,
+			Model model, Authentication authentication, RedirectAttributes redirectAttributes) {
 		direcaoService.homologarAcao(id, acaoExtensao);
-		
+
 		redirectAttributes.addFlashAttribute("homologado", true);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
