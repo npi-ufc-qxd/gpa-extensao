@@ -10,13 +10,13 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_COORDENACAO_SOLICITACAO_R
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_EMISSAO_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_EMISSAO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_SUBMISSAO;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
-import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
-import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 
@@ -45,30 +45,18 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
+	@Autowired
 	private MailSender mailSender;
 
-	private DateFormat dateFormat;
+	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
 
 	private String[] emailDirecao;
-
+	
 	@Autowired
-	public EmailServiceImpl(MailSender mailSender, PessoaRepository pessoaRepository, PapelRepository papelRepository) {
-		this.mailSender = mailSender;
-
-		this.dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-
-		List<Papel> papeis = new ArrayList<Papel>();
-		papeis.add(papelRepository.findByNome(Tipo.DIRECAO));
-
-		List<Pessoa> direcao = pessoaRepository.findAllByPapeis(papeis);
-		Integer direcaoSize = direcao.size();
-
-		this.emailDirecao = new String[direcaoSize];
-
-		for (int i = 0; i < direcaoSize; i++) {
-			this.emailDirecao[i] = direcao.get(i).getEmail();
-		}
-	}
+	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private PapelRepository papelRepository;
 
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
@@ -78,6 +66,16 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificar(AcaoExtensao acaoExtensao) {
+		List<Papel> papeis = new ArrayList<Papel>();
+		papeis.add(papelRepository.findByNome(Tipo.DIRECAO));
+		List<Pessoa> direcao = pessoaRepository.findAllByPapeis(papeis);
+		Integer direcaoSize = direcao.size();
+
+		this.emailDirecao = new String[direcaoSize];
+
+		for (int i = 0; i < direcaoSize; i++) {
+			this.emailDirecao[i] = direcao.get(i).getEmail();
+		}
 		Runnable notificacao = new Runnable() {
 
 			@Override
