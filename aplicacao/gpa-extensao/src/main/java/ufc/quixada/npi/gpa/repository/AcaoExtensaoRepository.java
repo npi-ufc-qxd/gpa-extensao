@@ -29,9 +29,9 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 
 	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
 	
-	List<AcaoExtensao> findByStatusAndAtivoIn (Status status, boolean ativo);
-	 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
+	
+	List<AcaoExtensao> findByStatusInOrderByInicioDesc(Collection<Status> status);
 	
 	List<AcaoExtensao> findByModalidadeAndStatus(Modalidade modalidade, Status status);
 	
@@ -39,5 +39,7 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);
+	
+	List<AcaoExtensao> findAllByOrderByInicioDesc();
 	
 }

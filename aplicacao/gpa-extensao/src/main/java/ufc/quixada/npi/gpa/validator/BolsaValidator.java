@@ -1,10 +1,9 @@
 package ufc.quixada.npi.gpa.validator;
 
-import static ufc.quixada.npi.gpa.util.Constants.BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO;
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_QUANTIDADE_BOLSAS_EXEDIDAS;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_INFORMAR_BOLSAS_RECEBIDAS;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_QUANTIDADE_BOLSAS_EXEDIDAS;
 
 import java.util.List;
 
@@ -43,9 +42,9 @@ public class BolsaValidator implements Validator{
 			Integer quantidadeBolsasAtual = bolsaRepository.countByAcaoExtensaoAndTipoAndAtivo(b.getAcaoExtensao(), TipoBolsa.REMUNERADO, true);
 			
 			if(quantidadeBolsasRecebidas == null) {
-				errors.rejectValue(BOLSISTA, ERROR_INFORMAR_BOLSAS_RECEBIDAS);
+				errors.rejectValue("bolsista", ERROR_INFORMAR_BOLSAS_RECEBIDAS);
 			}else if(quantidadeBolsasAtual >= quantidadeBolsasRecebidas) {
-				errors.rejectValue(BOLSISTA, ERROR_QUANTIDADE_BOLSAS_EXEDIDAS);
+				errors.rejectValue("bolsista", ERROR_QUANTIDADE_BOLSAS_EXEDIDAS);
 			}
 		}
 	}
@@ -55,7 +54,7 @@ public class BolsaValidator implements Validator{
 			
 		for(Bolsa bolsa : bolsas) {
 			if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo()) {
-				errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA);
+				errors.rejectValue("bolsista", ERROR_ALUNO_JA_BOLSISTA);
 				break;
 			}
 		}
@@ -68,7 +67,7 @@ public class BolsaValidator implements Validator{
 			for(Bolsa bolsa : bolsas) {
 				if(b.getBolsista().equals(bolsa.getBolsista()) && bolsa.isAtivo() 
 						&& bolsa.getTipo().equals(TipoBolsa.REMUNERADO)) {
-					errors.rejectValue(BOLSISTA, ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO);
+					errors.rejectValue("bolsista", ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO);
 					break;
 				}
 			}

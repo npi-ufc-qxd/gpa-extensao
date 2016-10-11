@@ -1,12 +1,10 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.DEDICACOES;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_INFO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_CADASTRO_SERVIDORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_SERVIDOR;
-import static ufc.quixada.npi.gpa.util.Constants.USUARIO;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,7 +37,7 @@ public class ServidorController {
 	public String buscarUsuario(String cpf, Model model) {
 
 		try {
-			model.addAttribute(USUARIO, servidorService.find(cpf));
+			model.addAttribute("usuario", servidorService.find(cpf));
 
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(MESSAGE, e.getMessage());
@@ -50,7 +48,7 @@ public class ServidorController {
 		dedicacao.add(Dedicacao.EXCLUSIVA);
 		dedicacao.add(Dedicacao.H20);
 		dedicacao.add(Dedicacao.H40);
-		model.addAttribute(DEDICACOES, dedicacao);
+		model.addAttribute("dedicacoes", dedicacao);
 
 		return FRAGMENTS_INFO_SERVIDOR;
 	}

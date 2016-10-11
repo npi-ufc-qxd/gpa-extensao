@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.PESSOA_LOGADA;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +13,7 @@ public class AttributesController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	@ModelAttribute(PESSOA_LOGADA)
+	@ModelAttribute("pessoaLogada")
 	public String pessoaLogada(Authentication authentication) {
 		return pessoaRepository.findByCpf(authentication.getName()).getNome();
 	}

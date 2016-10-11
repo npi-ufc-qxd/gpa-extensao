@@ -1,21 +1,10 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACOES;
-import static ufc.quixada.npi.gpa.util.Constants.ANO;
-import static ufc.quixada.npi.gpa.util.Constants.BUSCAR;
-import static ufc.quixada.npi.gpa.util.Constants.COORDENADORES;
-import static ufc.quixada.npi.gpa.util.Constants.CURSO;
-import static ufc.quixada.npi.gpa.util.Constants.CURSOS;
-import static ufc.quixada.npi.gpa.util.Constants.ESTADO;
-import static ufc.quixada.npi.gpa.util.Constants.MODALIDADE;
-import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_SERVIDOR;
-import static ufc.quixada.npi.gpa.util.Constants.PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.SERVIDOR;
-import static ufc.quixada.npi.gpa.util.Constants.SERVIDORES;
+
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,7 +30,7 @@ import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Controller
-@RequestMapping(BUSCAR)
+@RequestMapping("/buscar")
 @Transactional
 public class BuscarController {
 
@@ -57,21 +46,20 @@ public class BuscarController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	@RequestMapping(PAGINA_ACAO_EXTENSAO)
+	@RequestMapping("/acao-extensao")
 	public String buscarAcaoForm(Model model) {
-		model.addAttribute(COORDENADORES, servidorRespository.findAll());
-		model.addAttribute(ACOES, acaoExtensaoRepository.findByStatusAndAtivoIn(Status.APROVADO, true));
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(CURSOS, Curso.values());
+		model.addAttribute("coordenadores", servidorRespository.findAll());
+		model.addAttribute("acoes", acaoExtensaoRepository.findByStatusInOrderByInicioDesc(Arrays.asList(Status.APROVADO)));
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("cursos", Curso.values());
 
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 
-	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = { SERVIDOR, MODALIDADE, ESTADO,
-			ANO }, method = RequestMethod.GET)
-	public String buscarAcao(@RequestParam(SERVIDOR) Integer idServidor,
-			@RequestParam(MODALIDADE) Modalidade modalidade, @RequestParam(ESTADO) String estado,
-			@RequestParam(ANO) Integer ano, Model model, RedirectAttributes attr) {
+	@RequestMapping(value = "/acao-extensao", params = {"servidor", "modalidade", "estado", "ano"}, method = RequestMethod.GET)
+	public String buscarAcao(@RequestParam("servidor") Integer idServidor,
+			@RequestParam("modalidade") Modalidade modalidade, @RequestParam("estado") String estado,
+			@RequestParam("ano") Integer ano, Model model, RedirectAttributes attr) {
 
 		if (idServidor == null && modalidade == null && ano == null && estado.isEmpty()) {
 			return REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
@@ -85,29 +73,29 @@ public class BuscarController {
 
 		if (!estado.isEmpty()) {
 			if ("true".equals(estado)) {
-				model.addAttribute(ESTADO, "Ativo");
+				model.addAttribute("estado", "Ativo");
 			} else if ("false".equals(estado)) {
-				model.addAttribute(ESTADO, "Inativo");
+				model.addAttribute("estado", "Inativo");
 			}
 		}
 
 		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscar(servidor, modalidade, estado,
 				ano);
 
-		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
-		model.addAttribute(COORDENADORES, servidorRespository.findAll());
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(CURSOS, Curso.values());
+		model.addAttribute("acoes", acaoExtensaoRepository.findAll(specification));
+		model.addAttribute("coordenadores", servidorRespository.findAll());
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("cursos", Curso.values());
 
-		model.addAttribute(SERVIDOR, servidor);
-		model.addAttribute(MODALIDADE, modalidade);
-		model.addAttribute(ANO, ano);
+		model.addAttribute("servidor", servidor);
+		model.addAttribute("modalidade", modalidade);
+		model.addAttribute("ano", ano);
 
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 
-	@RequestMapping(value = PAGINA_ACAO_EXTENSAO, params = { CURSO, ANO }, method = RequestMethod.GET)
-	public String buscarAcaoCurso(@RequestParam(CURSO) Curso curso, @RequestParam(ANO) Integer ano, Model model,
+	@RequestMapping(value = "/acao-extensao", params = { "curso", "ano"}, method = RequestMethod.GET)
+	public String buscarAcaoCurso(@RequestParam("curso") Curso curso, @RequestParam("ano") Integer ano, Model model,
 			RedirectAttributes attr) {
 
 		if (curso == null && ano == null) {
@@ -116,13 +104,13 @@ public class BuscarController {
 
 		Specification<AcaoExtensao> specification = AcaoExtensaoEspecification.buscarCurso(ano, curso.getDescricao());
 
-		model.addAttribute(ACOES, acaoExtensaoRepository.findAll(specification));
-		model.addAttribute(COORDENADORES, servidorRespository.findAll());
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(CURSOS, Curso.values());
+		model.addAttribute("acoes", acaoExtensaoRepository.findAll(specification));
+		model.addAttribute("coordenadores", servidorRespository.findAll());
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("cursos", Curso.values());
 
-		model.addAttribute(ANO, ano);
-		model.addAttribute(CURSO, curso.getDescricao());
+		model.addAttribute("ano", ano);
+		model.addAttribute("curso", curso.getDescricao());
 
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
@@ -130,16 +118,16 @@ public class BuscarController {
 	@RequestMapping("/servidor")
 	public String detalhesServidor(Model model) {
 
-		model.addAttribute(SERVIDORES, servidorRespository.findAll());
+		model.addAttribute("servidores", servidorRespository.findAll());
 		return PAGINA_DETALHES_SERVIDOR;
 	}
 
 	@RequestMapping(value = "/servidor", params = { "servidor" })
 	public String detalhesServidor(@RequestParam("servidor") Servidor servidor, Model model) {
 
-		model.addAttribute(SERVIDORES, servidorRespository.findAll());
-		model.addAttribute(SERVIDOR, servidor);
-		model.addAttribute(PARTICIPACOES,
+		model.addAttribute("servidores", servidorRespository.findAll());
+		model.addAttribute("servidor", servidor);
+		model.addAttribute("participacoes",
 				participacaoRepository.findByParticipanteAndAcaoExtensao_status(servidor.getPessoa(), Status.APROVADO));
 
 		return PAGINA_DETALHES_SERVIDOR;

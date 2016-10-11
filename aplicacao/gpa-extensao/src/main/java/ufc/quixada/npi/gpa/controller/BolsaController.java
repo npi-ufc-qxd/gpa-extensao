@@ -1,9 +1,5 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ALUNO;
-import static ufc.quixada.npi.gpa.util.Constants.BOLSAS;
-import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
@@ -91,7 +87,7 @@ public class BolsaController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (result.hasErrors()) {
-			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, result.getFieldErrors());
 			return map;
 		}
@@ -106,7 +102,7 @@ public class BolsaController {
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model, Authentication auth) {
 		model.addAttribute("bolsas", bolsaRepository.findByAcaoExtensao_id(id));
-		model.addAttribute(CPF_COORDENADOR, acaoExtensaoRepository.findCoordenadorById(id));
+		model.addAttribute("cpfCoordenador", acaoExtensaoRepository.findCoordenadorById(id));
 		return FRAGMENTS_TABLE_BOLSAS;
 	}
 
@@ -129,7 +125,7 @@ public class BolsaController {
 			bolsa.setTermino(dataTermino);
 			bolsaRepository.save(bolsa);
 		} else {
-			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, MESSAGE_DATA_ANTERIOR);
 		}
 
@@ -143,8 +139,8 @@ public class BolsaController {
 
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String detalhesBolsista(@PathVariable("id") Integer idAluno, Model model) {
-		model.addAttribute(ALUNO, alunoRepository.findOne(idAluno));
-		model.addAttribute(BOLSAS, bolsaRepository.findByBolsista_id(idAluno));
+		model.addAttribute("aluno", alunoRepository.findOne(idAluno));
+		model.addAttribute("bolsas", bolsaRepository.findByBolsista_id(idAluno));
 		return PAGINA_DETALHES_BOLSISTA;
 	}
 }

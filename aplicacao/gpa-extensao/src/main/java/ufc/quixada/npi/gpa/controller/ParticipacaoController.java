@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
@@ -65,7 +63,7 @@ public class ParticipacaoController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (result.hasErrors()) {
-			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, result.getFieldErrors());
 			return map;
 		}
@@ -94,7 +92,7 @@ public class ParticipacaoController {
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
 		model.addAttribute("participacoes", participacaoRepository.findByAcaoExtensao(acao));
-		model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
+		model.addAttribute("cpfCoordenador", acao.getCoordenador().getCpf());
 		return FRAGMENTS_TABLE_PARTICIPACOES;
 	}
 

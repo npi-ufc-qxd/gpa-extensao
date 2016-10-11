@@ -1,13 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_UPPERCASE;
-import static ufc.quixada.npi.gpa.util.Constants.PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.OK_UPPERCASE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.CPF_COORDENADOR;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,8 +43,8 @@ public class ParceriaExternaController {
 	@RequestMapping(value="/buscarParceriasExternas/{idAcao}", method=RequestMethod.GET)
 	public String buscarParceriasExternas(@PathVariable("idAcao") Integer idAcao, Model model){
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		model.addAttribute(PARCERIAS_EXTERNAS, parceriaExternaRepository.findByAcaoExtensao(acao));
-		model.addAttribute(CPF_COORDENADOR, acao.getCoordenador().getCpf());
+		model.addAttribute("parceriasExternas", parceriaExternaRepository.findByAcaoExtensao(acao));
+		model.addAttribute("cpfCoordenador", acao.getCoordenador().getCpf());
 		return FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 	}
 	
@@ -64,7 +60,7 @@ public class ParceriaExternaController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(binding.hasErrors()){
-			map.put(MESSAGE_STATUS_RESPONSE, ERROR_UPPERCASE);
+			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, binding.getFieldErrors());
 			return map;
 		}
@@ -73,7 +69,7 @@ public class ParceriaExternaController {
 		parceria.setAcaoExtensao(acaoExtensao);
 		parceriaExternaRepository.save(parceria);
 		
-		map.put(MESSAGE_STATUS_RESPONSE, OK_UPPERCASE);
+		map.put(MESSAGE_STATUS_RESPONSE, "OK");
 		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
 		return map;
 	}

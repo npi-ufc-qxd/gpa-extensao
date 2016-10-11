@@ -1,20 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_HOMOLOGADAS;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_RELATOR;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARECER_TECNICO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_PARTICIPACAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_TRAMITACAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
-import static ufc.quixada.npi.gpa.util.Constants.ACTION;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
-import static ufc.quixada.npi.gpa.util.Constants.DEDICACAO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.FUNCOES;
-import static ufc.quixada.npi.gpa.util.Constants.INSTITUICOES;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ANEXO;
@@ -25,28 +14,17 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
-import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
-import static ufc.quixada.npi.gpa.util.Constants.NOVA_BOLSA;
-import static ufc.quixada.npi.gpa.util.Constants.NOVA_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
-import static ufc.quixada.npi.gpa.util.Constants.PARCERIA_EXTERNA;
-import static ufc.quixada.npi.gpa.util.Constants.PARECERISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.PENDENCIA;
-import static ufc.quixada.npi.gpa.util.Constants.PENDENCIAS;
-import static ufc.quixada.npi.gpa.util.Constants.PENDENTE;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_ADMINISTRACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_DIRECAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.SUBMETER;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.TIPOS;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
 import java.text.DateFormat;
@@ -166,13 +144,13 @@ public class ExtensaoController {
 				Status.RESOLVENDO_PENDENCIAS_RELATO);
 		List<Status> statusHomologado = Arrays.asList(Status.APROVADO, Status.REPROVADO);
 
-		model.addAttribute(ACOES_TRAMITACAO,
+		model.addAttribute("acoesTramitacao",
 				acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusTramitacao));
-		model.addAttribute(ACOES_HOMOLOGADAS,
+		model.addAttribute("acoesHomologadas",
 				acaoExtensaoRepository.findByCoordenadorAndStatusIn(pessoa, statusHomologado));
-		model.addAttribute(ACOES_PARECER_RELATOR, acaoExtensaoRepository.getParecerRelator(pessoa.getId()));
-		model.addAttribute(ACOES_PARECER_TECNICO, acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
-		model.addAttribute(ACOES_PARTICIPACAO, acaoExtensaoRepository.getParticipacao(pessoa.getId()));
+		model.addAttribute("acoesParecerRelator", acaoExtensaoRepository.getParecerRelator(pessoa.getId()));
+		model.addAttribute("acoesParecerTecnico", acaoExtensaoRepository.getParecerTecnico(pessoa.getId()));
+		model.addAttribute("acoesParticipacao", acaoExtensaoRepository.getParticipacao(pessoa.getId()));
 
 		return PAGINA_INICIAL;
 	}
@@ -199,40 +177,40 @@ public class ExtensaoController {
 			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 		}
 
-		model.addAttribute(PARCEIRO, new Parceiro());
-		model.addAttribute(PARCERIA_EXTERNA, new ParceriaExterna());
+		model.addAttribute("parceiro", new Parceiro());
+		model.addAttribute("parceriaExterna", new ParceriaExterna());
 		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
 
-		model.addAttribute(NOVA_PARTICIPACAO, new Participacao());
-		model.addAttribute(FUNCOES, Funcao.values());
-		model.addAttribute(NOVA_BOLSA, new Bolsa());
-		model.addAttribute(TIPOS, TipoBolsa.values());
-		model.addAttribute(INSTITUICOES, Instituicao.values());
+		model.addAttribute("novaParticipacao", new Participacao());
+		model.addAttribute("funcoes", Funcao.values());
+		model.addAttribute("novaBolsa", new Bolsa());
+		model.addAttribute("tipos", TipoBolsa.values());
+		model.addAttribute("instituicoes", Instituicao.values());
 
-		model.addAttribute(ACAO_EXTENSAO, acao);
+		model.addAttribute("acaoExtensao", acao);
 
 		if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)) {
-			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
+			model.addAttribute("pareceristas", parecerRepository.getPossiveisPareceristas(id));
 			model.addAttribute(ALERTA_PARECER, MESSAGE_PARECERISTA_NAO_ATRIBUIDO);
 			acao.setParecerTecnico(new Parecer());
 
 		} else if (acao.getStatus().equals(Status.AGUARDANDO_RELATOR)) {
-			model.addAttribute(PARECERISTAS, direcaoService.getPossiveisPareceristas(id));
+			model.addAttribute("pareceristas", direcaoService.getPossiveisPareceristas(id));
 			model.addAttribute(ALERTA_RELATO, MESSAGE_RELATOR_NAO_ATRIBUIDO);
 			acao.setParecerRelator(new Parecer());
 
 		} else if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_RELATOR)) {
-			model.addAttribute(PARECERISTAS, parecerRepository.getPossiveisPareceristas(id));
-			model.addAttribute(PENDENCIA, new Pendencia());
+			model.addAttribute("pareceristas", parecerRepository.getPossiveisPareceristas(id));
+			model.addAttribute("pendencia", new Pendencia());
 
 		} else if (acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)) {
-			model.addAttribute(PENDENCIAS, acao.getParecerTecnico().getPendencias());
-			model.addAttribute(PENDENTE, true);
+			model.addAttribute("pendencias", acao.getParecerTecnico().getPendencias());
+			model.addAttribute("pendente", true);
 
 		} else if (acao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)) {
-			model.addAttribute(PENDENCIAS, acao.getParecerRelator().getPendencias());
-			model.addAttribute(PENDENTE, true);
+			model.addAttribute("pendencias", acao.getParecerRelator().getPendencias());
+			model.addAttribute("pendente", true);
 		}
 
 		return PAGINA_DETALHES_ACAO_EXTENSAO;
@@ -307,11 +285,11 @@ public class ExtensaoController {
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model, AcaoExtensao acaoExtensao, Authentication authentication) {
 		Servidor servidor = servirdorRepository.findByPessoa_cpf(authentication.getName());
-		model.addAttribute(DEDICACAO, servidor.getDedicacao());
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO,
+		model.addAttribute("dedicacao", servidor.getDedicacao());
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("acoesParaVinculo",
 				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
-		model.addAttribute(ACTION, "cadastrar");
+		model.addAttribute("action", "cadastrar");
 
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
@@ -340,9 +318,9 @@ public class ExtensaoController {
 
 	@RequestMapping("/submeter/{idAcao}")
 	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model) {
-		model.addAttribute(ACTION, SUBMETER);
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensaoRepository.findOne(idAcao));
-		model.addAttribute(MODALIDADES, Modalidade.values());
+		model.addAttribute("action", "submeter");
+		model.addAttribute("acaoExtensao", acaoExtensaoRepository.findOne(idAcao));
+		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;
 	}
@@ -354,9 +332,9 @@ public class ExtensaoController {
 
 		if (bind.hasErrors() || (acao.getAnexo() == null && arquivo.isEmpty())) {
 			model.addAttribute(MESSAGE, MESSAGE_ANEXO);
-			model.addAttribute(MODALIDADES, Modalidade.values());
+			model.addAttribute("modalidades", Modalidade.values());
 			model.addAttribute(ACAO_EXTENSAO_ID, acao.getId());
-			model.addAttribute(ACTION, SUBMETER);
+			model.addAttribute("action", "submeter");
 			return PAGINA_SUBMETER_ACAO_EXTENSAO;
 		}
 
@@ -389,10 +367,10 @@ public class ExtensaoController {
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 
-		model.addAttribute(ACTION, "editar");
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensao);
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO,
+		model.addAttribute("action", "editar");
+		model.addAttribute("acaoExtensao", acaoExtensao);
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("acoesParaVinculo",
 				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
 
 		return PAGINA_SUBMETER_ACAO_EXTENSAO;

@@ -4,7 +4,6 @@ import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_INFO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_ALUNO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_BOLSISTA;
-import static ufc.quixada.npi.gpa.util.Constants.USUARIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class AlunoController {
 	public String buscarUsuario(String cpf, Model model) {
 
 		try {
-			model.addAttribute(USUARIO, alunoService.find(cpf));
+			model.addAttribute("usuario", alunoService.find(cpf));
 
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(MESSAGE, e.getMessage());
