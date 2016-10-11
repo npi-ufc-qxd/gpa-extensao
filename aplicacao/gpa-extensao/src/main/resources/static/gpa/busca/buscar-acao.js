@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$("#selectCoordenador, #modalidadeSelect, #estadoSelect, #cursoSelect").select2();
 	
 	$("#tableAcoes").DataTable({
-		"order" : [[ 0, "asc" ]],
+		"order": [],
 		"columnDefs" : [
 		                {className: "text-center", "targets": [0, 3, 4, 5]},
 		                {"targets" : 0, "orderable" : false},

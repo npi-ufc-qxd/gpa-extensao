@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gpa.specification;
 
-import static ufc.quixada.npi.gpa.util.Constants.STATUS;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,7 +47,7 @@ public final class AcaoExtensaoEspecification {
 					predicate = builder.and(predicate, predicateAno(root, query, builder, ano));
 				}
 				
-				predicate = builder.and(predicate, builder.equal(root.get(STATUS), Status.APROVADO));
+				predicate = builder.and(predicate, builder.equal(root.get("status"), Status.APROVADO));
 				return predicate;
 			}
 		};
@@ -91,7 +89,7 @@ public final class AcaoExtensaoEspecification {
 					predicate = builder.and(predicate, predicateAno(root, query, builder, ano));
 				}
 				
-				predicate = builder.and(predicate, builder.equal(root.get(STATUS), Status.APROVADO));
+				predicate = builder.and(predicate, builder.equal(root.get("status"), Status.APROVADO));
 				return predicate;
 			}
 		};

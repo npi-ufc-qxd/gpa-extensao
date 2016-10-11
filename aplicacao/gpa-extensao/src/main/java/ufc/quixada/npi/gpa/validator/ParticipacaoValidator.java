@@ -1,9 +1,11 @@
 package ufc.quixada.npi.gpa.validator;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
-import static ufc.quixada.npi.gpa.util.Constants.PARTICIPANTE;
+
 import java.util.List;
+
 import javax.inject.Named;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -29,14 +31,14 @@ public class ParticipacaoValidator implements Validator{
 		if (p.getParticipante() != null) {
 			for (Participacao participacao : participacoes) {
 				if (p.getParticipante().equals(participacao.getParticipante())) {
-					errors.rejectValue(PARTICIPANTE, ERROR_PESSOA_JA_PARTICIPANTE);
+					errors.rejectValue("participante", ERROR_PESSOA_JA_PARTICIPANTE);
 					break;
 				}
 			}
 		} else if (!p.getCpfParticipante().isEmpty()) {
 			for (Participacao participacao : participacoes) {
 				if (p.getCpfParticipante().equals(participacao.getCpfParticipante())) {
-					errors.rejectValue(PARTICIPANTE, ERROR_PESSOA_JA_PARTICIPANTE);
+					errors.rejectValue("participante", ERROR_PESSOA_JA_PARTICIPANTE);
 					break;
 				}
 			}

@@ -1,21 +1,13 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.ACOES_VINCULO;
-import static ufc.quixada.npi.gpa.util.Constants.ACTION;
-import static ufc.quixada.npi.gpa.util.Constants.ANOS;
-import static ufc.quixada.npi.gpa.util.Constants.ANO_ATUAL;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.FREQUENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.MODALIDADES;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_VINCULAR_PAPEIS;
-import static ufc.quixada.npi.gpa.util.Constants.POSSIVEIS_COORDENADORES;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
@@ -87,12 +79,12 @@ public class AdministracaoController {
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
 	public String cadastrarForm(Model model) {
-		model.addAttribute(POSSIVEIS_COORDENADORES, servidorRepository.findAll());
-		model.addAttribute(ACAO_EXTENSAO, new AcaoExtensao());
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO,
+		model.addAttribute("possiveisCoordenadores", servidorRepository.findAll());
+		model.addAttribute("acaoExtensao", new AcaoExtensao());
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("acoesParaVinculo",
 				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
-		model.addAttribute(ACTION, "cadastrar");
+		model.addAttribute("action", "cadastrar");
 		return PAGINA_CADASTRO_RETROATIVO_ACAO;
 	}
 
@@ -114,7 +106,7 @@ public class AdministracaoController {
 	public String paginaListagemBolsistas(Model model) {
 		List<Integer> anos = bolsaRepository.findAnosInicio();
 
-		model.addAttribute(ANOS, anos);
+		model.addAttribute("anos", anos);
 
 		if (anos != null && !anos.isEmpty()) {
 			Integer ano = 0;
@@ -124,7 +116,7 @@ public class AdministracaoController {
 				}
 			}
 
-			model.addAttribute(ANO_ATUAL, ano);
+			model.addAttribute("anoAtual", ano);
 		}
 
 		return PAGINA_LISTAGEM_BOLSISTAS;
@@ -134,8 +126,8 @@ public class AdministracaoController {
 	public String listaDeBolsistas(Integer ano, Model model) {
 		List<FrequenciaView> frequenciasView = bolsaService.getBolsas(ano);
 
-		model.addAttribute(FREQUENCIAS, frequenciasView);
-		model.addAttribute(ANO_ATUAL, ano);
+		model.addAttribute("frequencias", frequenciasView);
+		model.addAttribute("anoAtual", ano);
 
 		return FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
 	}
@@ -167,11 +159,11 @@ public class AdministracaoController {
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 
-		model.addAttribute(ACAO_EXTENSAO, acaoExtensao);
-		model.addAttribute(MODALIDADES, Modalidade.values());
-		model.addAttribute(ACOES_VINCULO,
+		model.addAttribute("acaoExtensao", acaoExtensao);
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("acoesParaVinculo",
 				acaoExtensaoRepository.findByModalidadeAndStatus(Modalidade.PROGRAMA, Status.APROVADO));
-		model.addAttribute(ACTION, "editar");
+		model.addAttribute("action", "editar");
 
 		return PAGINA_CADASTRO_RETROATIVO_ACAO;
 	}
