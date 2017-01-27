@@ -5,60 +5,55 @@
 	
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
 	
+	<!-- Bootstrap -->
 	<link rel="stylesheet" th:href="@{/public-resources/css/bootstrap.min.css}"></link>
-<!-- 	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" /> -->
 	<!-- Font Awesome -->
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
-	<!-- Ionicons -->
-	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>
 	<!-- Theme style -->
 	<link rel="stylesheet" th:href="@{/public-resources/css/AdminLTE.min.css}"></link>
-	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-	<link rel="stylesheet" th:href="@{/public-resources/css/skin-blue.css}"></link>
-	<!-- iCheck -->
-	<link rel="stylesheet" th:href="@{/public-resources/plugins/blue.css}"></link>
-	
-<body class="hold-transition skin-blue login-page">
-			<div class="login-box">
-				<div class="login-logo">
-    				<b>GPA - Extensão</b>
-  				</div>
-				<div class="login-box-body">
-					<h4 class="login-box-msg">Login</h4>
-					<form th:action="@{/login}" method="post" name="f">
-						
-						<div th:if="${param.error}" class="alert alert-error">    
-                    		Invalid username and password.
-                		</div>
-                		<div th:if="${param.logout}" class="alert alert-success"> 
-                    		You have been logged out.
-                		</div>
-      					
-      					<div class="form-group has-feedback">
-        					<input class="form-control" placeholder="CPF" required="required" id="username" name="username"/>
-        					<span class="glyphicon glyphicon-user form-control-feedback"></span>
-      					</div>
-      					<div class="form-group has-feedback">
-        					<input class="form-control" placeholder="Password" type="password" required="required" id="password" name="password"/>
-        					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      					</div>
-      					<div class="row">
-        					<div class="col-xs-3"></div>
-        					<div class="col-xs-6 form-actions">
-          						<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-        					</div>
-        					<div class="col-xs-3"></div>
-      					</div>
-    				</form>
-      			</div>
-			</div>
-		<footer>
-			<!-- jQuery 2.2.0 -->
-			<script th:src="@{/public-resources/js/jQuery-2.2.0.min.js}"></script>
-			<!-- Bootstrap 3.3.6 -->
-			<script th:src="@{/public-resources/js/bootstrap.min.js}"></script>
-			<!-- Slimscroll -->
-			<script th:src="@{/public-resources/plugins/jquery.slimscroll.min.js}"></script>
-		</footer>
+	<link rel="stylesheet" th:href="@{/public-resources/css/skin-blue.min.css}"></link>
+	<!-- Login -->
+	<link rel="stylesheet" th:href="@{/public-resources/css/login.css}"></link>
+
+<body>
+	<div class="login-box">
+        <div class="login-box-title">
+            <h2 class="login-box-msg">GPA - EXTENSÃO</h2>
+        </div>
+		<div class="login-box-body">
+			<form th:action="@{/login}" method="post" class="form-horizontal">
+				<div th:if="${param.error}" class="alert alert-error">
+					Usuário e/ou senha inválidos
+				</div>
+				<div class="form-group has-feedback">
+                    <label for="username" class="col-sm-2 control-label">CPF:</label>
+                    <div class="col-sm-10">
+					    <input class="form-control" required="required" id="username" name="username"/>
+                    </div>
+				</div>
+				<div class="form-group has-feedback">
+                    <label for="password" class="col-sm-2 control-label">Senha:</label>
+                    <div class="col-sm-10">
+					    <input class="form-control" type="password" required="required" id="password" name="password"/>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3"></div>
+					<div class="col-xs-6 form-actions">
+						<button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+					</div>
+					<div class="col-xs-3"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<footer>
+		<!-- jQuery 2.2.0 -->
+		<script th:src="@{/public-resources/js/jQuery-2.2.0.min.js}"></script>
+		<!-- Bootstrap 3.3.6 -->
+		<script th:src="@{/public-resources/js/bootstrap.min.js}"></script>
+		<!-- Slimscroll -->
+		<script th:src="@{/public-resources/plugins/jquery.slimscroll.min.js}"></script>
+	</footer>
 </body>
 </html>

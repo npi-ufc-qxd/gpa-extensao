@@ -17,7 +17,16 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer>, JpaSpecificationExecutor<AcaoExtensao> {
-	
+
+	@Query("SELECT e.acaoExtensao FROM equipe_de_trabalho AS e where e.participante = :pessoa")
+	List<AcaoExtensao> findByParticipacao(@Param("pessoa") Pessoa pessoa);
+
+	@Query("FROM AcaoExtensao AS a where a.parecerTecnico.responsavel = :pessoa")
+	List<AcaoExtensao> findByParecerista(@Param("pessoa")Pessoa pessoa);
+
+	@Query("FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa")
+	List<AcaoExtensao> findByRelator(@Param("pessoa")Pessoa pessoa);
+
 	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
 	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
 	
@@ -41,5 +50,5 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	String findCoordenadorById(@Param("idAcao") Integer id);
 	
 	List<AcaoExtensao> findAllByOrderByInicioDesc();
-	
+
 }

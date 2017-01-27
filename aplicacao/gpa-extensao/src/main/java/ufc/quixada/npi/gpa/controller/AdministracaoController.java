@@ -198,12 +198,6 @@ public class AdministracaoController {
 			oldAcao.setProgramacao(acaoExtensao.getProgramacao());
 		}
 
-		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)) {
-			acaoExtensao.setEmenta("");
-		} else {
-			oldAcao.setEmenta(acaoExtensao.getEmenta());
-		}
-
 		try {
 			acaoExtensaoService.editarAcaoExtensao(oldAcao, arquivo);
 		} catch (GpaExtensaoException e) {

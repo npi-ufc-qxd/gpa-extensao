@@ -9,6 +9,9 @@ public class Constants {
 	public static final String LDAP_PASSWORD = "ldap.password";
 	public static final String LDAP_OU = "ldap.ou";
 
+	// Permissões
+	public static final String PERMISSAO_SERVIDOR = "hasAuthority('SERVIDOR')";
+
 	// Values
 	public static final Integer CARGA_HORARIA_12 = 12;
 	public static final String CADASTRAR_FREQUENCIA = "cadastrar";

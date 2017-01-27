@@ -11,12 +11,18 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
@@ -35,6 +41,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
+
+	@Autowired
+	private ParticipacaoRepository participacaoRepository;
 
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
@@ -144,7 +153,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		old.setHorasPraticas(nova.getHorasPraticas());
 		old.setHorasTeoricas(nova.getHorasTeoricas());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
-		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
@@ -178,5 +186,24 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		}
 		
 		acaoExtensaoRepository.save(acao);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAll(Pessoa pessoa) {
+		return acaoExtensaoRepository.findByParticipacao(pessoa);
+	}
+
+	@Override
+	public List<AcaoExtensao> findByParecer(Pessoa pessoa) {
+		List<AcaoExtensao> acoes = acaoExtensaoRepository.findByParecerista(pessoa);
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelator(pessoa);
+		acoes.removeAll(acoesRelator);
+		acoes.addAll(acoesRelator);
+		return acoes;
+	}
+
+	@Override
+	public List<AcaoExtensao> findProgramasAprovados() {
+		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 }

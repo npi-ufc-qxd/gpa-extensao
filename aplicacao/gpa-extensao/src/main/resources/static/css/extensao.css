@@ -1,0 +1,57 @@
+.box-title {
+    font-weight: 300;
+    font-size: 25px !important;
+}
+
+.badge-larger {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.no-display {
+    display: none;
+}
+
+/*
+.box-header h3{
+	font-weight: bold;
+}
+
+.box-footer .btn, .modal-footer .btn {
+	margin-left: 5px;
+}
+
+.box-details .row {
+	margin-bottom: 25px;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#box-details .row div {
+	text-align: justify;
+}
+
+.has-success .control-label {
+	color: #333;
+}
+
+.has-success .form-control {
+	border-color: #d2d6de;
+}
+
+.has-success .form-control:focus {
+	box-shadow: none;
+	border-color: #3c8dbc;
+}
+
+.no-display {
+	display: none;
+}
+
+#resumo-acao {
+	text-align: justify;
+}
+
+.callout {
+	text-align: center;
+}*/
