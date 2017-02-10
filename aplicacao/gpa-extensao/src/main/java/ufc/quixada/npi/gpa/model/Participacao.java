@@ -180,6 +180,21 @@ public class Participacao {
 		}
 		
 	}
+
+	public String getNome() {
+		if (participante == null) {
+			return nomeParticipante.toUpperCase();
+		}
+		return participante.getNome().toUpperCase();
+	}
+
+	public String getCpf() {
+		if (participante == null) {
+			return cpfParticipante;
+		}
+		return participante.getCpf();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

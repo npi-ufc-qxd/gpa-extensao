@@ -1,16 +1,11 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.*;
-import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
-import static ufc.quixada.npi.gpa.util.PageConstants.MINHAS_ACOES;
-import static ufc.quixada.npi.gpa.util.RedirectConstants.R_MINHAS_ACOES;
+import static ufc.quixada.npi.gpa.util.PageConstants.*;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,8 +30,6 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Bolsa.TipoBolsa;
-import ufc.quixada.npi.gpa.model.Papel;
-import ufc.quixada.npi.gpa.model.Papel.Tipo;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Parecer;
@@ -63,7 +51,6 @@ import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
-@Transactional
 @RequestMapping("/acoes")
 public class AcaoExtensaoController {
 
@@ -100,12 +87,30 @@ public class AcaoExtensaoController {
 	/**
 	 * Busca todas as ações relacionadas ao usuários logado: que coordena, participa, parecerista ou relator.
 	 */
-	@RequestMapping({"", "/listar"})
-	public String listagem(Model model, Authentication authentication) {
+	@GetMapping({"", "/"})
+	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
 		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
 		model.addAttribute("meusPareceres", acaoExtensaoService.findByParecer(pessoa));
-		return MINHAS_ACOES;
+		return LISTAR_MINHAS_ACOES;
+	}
+
+	/**
+	 * Busca todas as ações que tenham sido homologadas.
+	 */
+	@GetMapping("/listar")
+	public String listarAcoes(Model model) {
+		model.addAttribute("acoes", acaoExtensaoService.findAcoesHomologadas());
+		return LISTAR_ACOES;
+	}
+
+	/**
+	 * Busca uma ação específica
+	 */
+	@GetMapping("/{acao}")
+	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
+		model.addAttribute("acao", acao);
+		return VISUALIZAR_ACAO;
 	}
 
     /**

@@ -1,18 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ACAO_ENCERRADA;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_VINCULAR_PAPEIS;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL;
-import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,11 +33,15 @@ import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
+import ufc.quixada.npi.gpa.service.ServidorService;
 
 @Controller
 @RequestMapping("admin")
 @Transactional
 public class AdministracaoController {
+
+	@Autowired
+	private ServidorService servidorService;
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;

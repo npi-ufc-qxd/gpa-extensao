@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
 	<title>GPA - Extensão</title>
@@ -23,7 +24,7 @@
     <!-- Daterange picker -->
     <!--<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker-bs3.css}"></link>-->
     <!-- Data Tables -->
-    <link rel="stylesheet" th:href="@{/css/plugins/datatables/dataTables.bootstrap.css}"></link>
+    <link rel="stylesheet" th:href="@{//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css}"></link>
     <!-- Select2 -->
     <!--<link rel="stylesheet" th:href="@{/css/select2.css}" />
     <link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />-->
@@ -77,8 +78,8 @@
         <!-- Bootstrap 3.3.6 -->
         <script th:src="@{/js/bootstrap.min.js}"></script>
         <!-- Data Tables -->
-        <script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
-        <script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+        <!--<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>-->
+        <script th:src="@{//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js}"></script>
         <!--&lt;!&ndash; jQuery UI 1.11.4 &ndash;&gt;
         <script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
         &lt;!&ndash; jQuery Mask &ndash;&gt;

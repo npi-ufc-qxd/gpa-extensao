@@ -35,6 +35,11 @@ public class ServidorServiceImpl implements ServidorService {
 	private PapelRepository papelRepository;
 
 	@Override
+	public List<Servidor> findAllServidores() {
+		return servidorRepository.findAll();
+	}
+
+	@Override
 	public Usuario find(String cpf) throws GpaExtensaoException {
 		Usuario usuario = usuarioService.getByCpf(cpf);
 

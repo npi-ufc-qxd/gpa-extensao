@@ -12,6 +12,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
@@ -42,8 +43,15 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Autowired
 	private NotificationService notificationService;
 
-	@Autowired
-	private ParticipacaoRepository participacaoRepository;
+	@Override
+	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
+		return acaoExtensaoRepository.findByParticipacao(pessoa);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesHomologadas() {
+		return acaoExtensaoRepository.findByStatusIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
 
 	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {

@@ -5,10 +5,19 @@ import org.springframework.web.multipart.MultipartFile;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 
 import java.util.List;
 
 public interface AcaoExtensaoService {
+
+	List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa);
+
+	List<AcaoExtensao> findAcoesHomologadas();
+
+
+
+
 
 	void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
@@ -30,5 +39,8 @@ public interface AcaoExtensaoService {
 	List<AcaoExtensao> findByParecer(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
+
+
+
 }
 

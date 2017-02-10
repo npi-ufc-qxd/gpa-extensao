@@ -1,0 +1,75 @@
+<section th:fragment="dados-basicos">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title">Detalhes</h3>
+        </div>
+        <div class="box-body box-details">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Coordenador(a)</label>
+                    <p th:text="${acao.coordenador.nome}"></p>
+                </div>
+                <div class="col-sm-2">
+                    <label>Status:</label>
+                    <p th:text="${acao.status.descricao}"></p>
+                </div>
+
+                <div class="col-sm-2">
+                    <label>Identificador</label>
+                    <p th:text="${acao.identificador}"/>
+                </div>
+                <div class="col-sm-2">
+                    <label>Código PREX</label>
+                    <p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
+                </div>
+                <div class="col-sm-2">
+                    <label>Prorrogável</label>
+                    <p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Modalidade</label>
+                    <p th:text="${acao.modalidade.descricao}"></p>
+                </div>
+                <div class="col-sm-2">
+                    <label>Início</label>
+                    <p th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"/>
+                </div>
+                <div class="col-sm-2">
+                    <label>Término</label>
+                    <p id="dataTermino" th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"/>
+                </div>
+                <div class="col-sm-2">
+                    <label>Bolsas solicitadas</label>
+                    <p th:text="${acao.bolsasSolicitadas} ? ${acao.bolsasSolicitadas} : '-'"/>
+                </div>
+                <div class="col-sm-2">
+                    <label>Bolsas recebidas</label>
+                    <p th:if="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Vínculo</label>
+                    <p th:text="${acao.vinculo} ? ${acao.vinculo.titulo} : '-'"/>
+                </div>
+                <div class="col-sm-6">
+                    <label>Observações</label>
+                    <p th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'"/>
+                </div>
+                <div class="col-sm-2">
+                    <label>Número do processo</label>
+                    <p th:text="${acao.numeroProcesso} ? ${acao.numeroProcesso} : '-'"/>
+                </div>
+            </div>
+
+            <div class="row col-sm-12">
+                <label>Resumo</label>
+                <p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
+            </div>
+        </div>
+    </div>
+</section>

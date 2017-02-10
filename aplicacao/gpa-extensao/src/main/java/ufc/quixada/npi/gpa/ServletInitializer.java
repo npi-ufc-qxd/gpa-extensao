@@ -1,12 +1,8 @@
-package ufc.quixada.npi.gpa.config;
+package ufc.quixada.npi.gpa;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-@EnableAutoConfiguration
-@ComponentScan
 public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override

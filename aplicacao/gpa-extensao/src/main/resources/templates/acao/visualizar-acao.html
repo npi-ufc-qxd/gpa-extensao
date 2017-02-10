@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="base/base">
+
+<head>
+	<title>Extensão - Detalhes</title>
+</head>
+
+<section layout:fragment="conteudo">
+    <section class="content-header mb-10">
+        <h1 th:text="${acao.titulo}" class="left"></h1>
+        <span th:class="${acao.ativo} ? 'label label-primary ml-10' : 'label label-warning ml-10'"
+          th:text="${acao.ativo} ? 'EM ANDAMENTO' : 'ENCERRADA'">
+        </span>
+    </section>
+
+    <!-- Dados Básicos -->
+    <div class="col-xs-12">
+        <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
+    </div>
+
+    <!-- Equipe de Trabalho -->
+    <div class="col-xs-12">
+        <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
+    </div>
+
+    <!-- Parcerias -->
+    <div class="col-xs-6">
+        <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
+    </div>
+
+    <!-- Arquivos -->
+    <div class="col-xs-6">
+        <div th:replace="acao/detalhes/detalhes-arquivos :: arquivos" ></div>
+    </div>
+
+    <!-- Parecer Técnico -->
+    <div class="col-xs-6">
+        <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
+    </div>
+
+    <!-- Parcerias -->
+    <div class="col-xs-6">
+        <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
+    </div>
+
+</section>
+<section layout:fragment="js">
+    <script>
+        $('#equipe').dataTable({
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+            },
+            paging: false,
+            searching: false,
+            info : false,
+            order: [[ 0, "asc" ]]
+        });
+    </script>
+</section>
+</html>
