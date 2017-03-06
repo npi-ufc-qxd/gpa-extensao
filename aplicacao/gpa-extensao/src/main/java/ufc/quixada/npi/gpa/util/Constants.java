@@ -12,6 +12,7 @@ public class Constants {
 	// Permissões
 	public static final String PERMISSAO_SERVIDOR = "hasAuthority('VISUALIZAR_SERVIDOR')";
 	public static final String PERMISSAO_ADMIN = "hasAuthority('ADMINISTRACAO')";
+	public static final String PERMISSAO_COORDENADORIA = "hasAuthority('COORDENADORIA')";
 	public static final String PERMISSAO_ADMIN_COORDENADORIA = "hasAnyAuthority('ADMINISTRACAO,COORDENADORIA')";
 
 	// Values

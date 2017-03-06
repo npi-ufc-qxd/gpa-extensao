@@ -26,14 +26,18 @@
         <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
     </div>
 
-    <!-- Parcerias -->
-    <div class="col-xs-6">
-        <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Parcerias -->
+            <div class="col-xs-6">
+                <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
+            </div>
 
-    <!-- Arquivos -->
-    <div class="col-xs-6">
-        <div th:replace="acao/detalhes/detalhes-arquivos :: arquivos" ></div>
+            <!-- Arquivos -->
+            <div class="col-xs-6">
+                <div th:replace="acao/detalhes/detalhes-arquivos :: arquivos" ></div>
+            </div>
+        </div>
     </div>
 
     <!-- Parecer Técnico -->
@@ -49,7 +53,7 @@
 </section>
 <section layout:fragment="js">
     <script>
-        $('#equipe').dataTable({
+        $('#equipe,#parcerias').dataTable({
             language: {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
             },

@@ -27,18 +27,9 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa")
 	List<AcaoExtensao> findByRelator(@Param("pessoa")Pessoa pessoa);
 
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
-	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerTecnico.responsavel.id = :id)")
-	List<AcaoExtensao> getParecerTecnico(@Param("id") Integer id);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id AND ac.coordenador.id != :id")
-	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);
-
-	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
-	
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
+
+	List<AcaoExtensao> findByStatusNotIn (Collection<Status> status);
 	
 	List<AcaoExtensao> findByStatusInOrderByInicioDesc(Collection<Status> status);
 	
@@ -49,6 +40,4 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);
 	
-	List<AcaoExtensao> findAllByOrderByInicioDesc();
-
 }

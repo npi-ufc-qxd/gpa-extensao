@@ -15,6 +15,8 @@ public interface AcaoExtensaoService {
 
 	List<AcaoExtensao> findAcoesHomologadas();
 
+	List<AcaoExtensao> findAcoesEmTramitacao();
+
 
 
 

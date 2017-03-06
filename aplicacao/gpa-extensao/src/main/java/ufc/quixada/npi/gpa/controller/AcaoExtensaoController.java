@@ -48,7 +48,6 @@ import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
-import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @RequestMapping("/acoes")
@@ -56,9 +55,6 @@ public class AcaoExtensaoController {
 
     @Autowired
     private AcaoExtensaoService acaoExtensaoService;
-
-    @Autowired
-    private PessoaService pessoaService;
 
     @Autowired
 	private ParceiroRepository parceiroRepository;
@@ -99,9 +95,19 @@ public class AcaoExtensaoController {
 	 * Busca todas as ações que tenham sido homologadas.
 	 */
 	@GetMapping("/listar")
-	public String listarAcoes(Model model) {
+	public String listarAcoesHomologadas(Model model) {
 		model.addAttribute("acoes", acaoExtensaoService.findAcoesHomologadas());
-		return LISTAR_ACOES;
+		return LISTAR_ACOES_HOMOLOGADAS;
+	}
+
+	/**
+	 * Busca todas as ações em tramitação.
+	 */
+	@GetMapping("/tramitacao")
+	@PreAuthorize(PERMISSAO_COORDENADORIA)
+	public String listarAcoesTramitacao(Model model) {
+		model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
+		return LISTAR_ACOES_TRAMITACAO;
 	}
 
 	/**

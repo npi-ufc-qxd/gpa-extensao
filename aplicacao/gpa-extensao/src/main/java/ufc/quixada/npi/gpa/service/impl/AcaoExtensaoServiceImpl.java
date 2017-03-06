@@ -54,6 +54,11 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
+	public List<AcaoExtensao> findAcoesEmTramitacao() {
+		return acaoExtensaoRepository.findByStatusNotIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
+
+	@Override
 	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
