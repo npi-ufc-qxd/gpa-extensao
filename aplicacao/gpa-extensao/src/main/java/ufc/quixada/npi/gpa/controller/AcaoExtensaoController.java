@@ -94,7 +94,7 @@ public class AcaoExtensaoController {
 	}
 
 	/**
-	 * Busca todas as ações que tenham sido homologadas.
+	 * Busca todas as ações que tenham sido homologadas (com status aprovado ou reprovado).
 	 */
 	@GetMapping("/listar")
 	public String listarAcoesHomologadas(Model model) {

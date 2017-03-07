@@ -29,7 +29,8 @@
                             <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                             <td th:text="${acao.coordenador.nome}"></td>
                             <td>
-                                <span class="label label-primary" th:text="${acao.status.descricao}"></span>
+                                <span th:class="${acao.status.name() == 'AGUARDANDO_PARECERISTA' OR  acao.status.name() == 'AGUARDANDO_RELATOR'
+                                    OR acao.status.name() == 'AGUARDANDO_HOMOLOGACAO' ? 'label label-warning' : 'label label-primary'}" th:text="${acao.status.descricao}"></span>
                             </td>
                             <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
                                 ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
@@ -47,7 +48,7 @@
             language: {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
             },
-            order: [[ 2, "asc" ]]
+            order: [[ 2, "asc" ], [0, "asc"]]
         });
     </script>
 </section>

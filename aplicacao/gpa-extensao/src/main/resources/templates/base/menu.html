@@ -11,7 +11,7 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><a th:href="@{/acoes}">Minhas ações</a></li>
-					<li><a th:href="@{/acoes/listar}">Todas as ações</a></li>
+					<li><a th:href="@{/acoes/listar}">Ações aprovadas</a></li>
 					<li sec:authorize="hasAuthority('COORDENADORIA')"><a th:href="@{/acoes/tramitacao}">Ações em tramitação</a></li>
 					<li><a th:href="@{/servidores/}">Servidores</a></li>
 					<li sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')"><a th:href="@{/alunos/}">Alunos</a></li>
