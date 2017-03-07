@@ -9,7 +9,7 @@
 </head>
 
 <section layout:fragment="conteudo">
-    <div class="col-xs-6">
+    <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header">
                 <h3 class="box-title">Minhas ações <span class="badge badge-larger bg-blue" th:text="${minhasAcoes.size()}"></span></h3>
@@ -19,23 +19,26 @@
                 <table id="minhas-acoes" class="table row-border">
                     <thead>
                         <tr>
+                            <th>Vínculo</th>
                             <th>Título</th>
-                            <th>Status</th>
                             <th>Período</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="acao : ${minhasAcoes}">
-                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                             <td>
-                                <span th:class="${acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER'} OR
-                                    ${acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'} ?
-                                    'label label-warning' : 'label label-primary'"
-                                    th:text="${acao.status.descricao}">
+                                <span th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}" th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}" th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}">
                                 </span>
                             </td>
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                             <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
                                 ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
+                            </td>
+                            <td>
+                                <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
+                                    th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -43,10 +46,10 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header">
-                <h3 class="box-title">Meus pareceres <span class="badge badge-larger bg-blue" th:text="${meusPareceres.size()}"></span></h3>
+                <h3 class="box-title">Aguardando Parecer <span class="badge badge-larger bg-blue" th:text="${meusPareceres.size()}"></span></h3>
             </div>
             <div class="box-body">
                 <table id="meus-pareceres" class="table row-border">
@@ -62,11 +65,37 @@
                         <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                         <td th:text="${acao.coordenador.nome}"></td>
                         <td>
-                                <span th:class="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR
-                                    ${acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'} ?
-                                    'label label-warning' : 'label label-primary'"
-                                      th:text="${acao.status.descricao}">
-                                </span>
+                            <span class="label label-warning" th:text="${acao.status.descricao}">
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Pareceres Emitidos <span class="badge badge-larger bg-blue" th:text="${meusPareceresEmitidos.size()}"></span></h3>
+            </div>
+            <div class="box-body">
+                <table id="meus-pareceres-emitidos" class="table row-border">
+                    <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Coordenador(a)</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="acao : ${meusPareceresEmitidos}">
+                        <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                        <td th:text="${acao.coordenador.nome}"></td>
+                        <td>
+                            <span th:class="${acao.status.name() == 'ENCERRADO' ? 'label label-danger' : 'label label-primary'}"
+                                  th:text="${acao.status.descricao}">
+                            </span>
                         </td>
                     </tr>
                     </tbody>
@@ -83,9 +112,9 @@
             },
             searching: false,
             info: false,
-            order: [[ 0, "asc" ]],
+            order: [[ 3, "asc" ]],
             columnDefs: [
-                { "orderable": false, "targets": 2 }
+                { "orderable": false, "targets": 3 }
             ]
         });
         $('#meus-pareceres').dataTable({
@@ -94,7 +123,15 @@
             },
             searching: false,
             info: false,
-            order: [[ 0, "asc" ]]
+            order: [[ 2, "asc" ]]
+        });
+        $('#meus-pareceres-emitidos').dataTable({
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+            },
+            searching: false,
+            info: false,
+            order: [[ 2, "asc" ]]
         });
     </script>
 </section>

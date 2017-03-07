@@ -207,12 +207,26 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public List<AcaoExtensao> findByParecer(Pessoa pessoa) {
-		List<AcaoExtensao> acoes = acaoExtensaoRepository.findByParecerista(pessoa);
-		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelator(pessoa);
-		acoes.removeAll(acoesRelator);
-		acoes.addAll(acoesRelator);
-		return acoes;
+	public List<AcaoExtensao> findAcoesAguardandoParecer(Pessoa parecerista) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		return acoesParecerista;
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO, Status.AGUARDANDO_PARECER_RELATOR,
+						Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		return acoesParecerista;
 	}
 
 	@Override

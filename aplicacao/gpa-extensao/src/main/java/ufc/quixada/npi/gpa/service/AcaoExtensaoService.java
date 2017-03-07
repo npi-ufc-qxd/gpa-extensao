@@ -11,11 +11,31 @@ import java.util.List;
 
 public interface AcaoExtensaoService {
 
+	/**
+	 * Retorna todas as ações que uma pessoa coordena ou participa
+	 */
 	List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa);
 
+	/**
+	 * Retorna todas as ações já homologadas (com status aprovado ou reprovado)
+	 */
 	List<AcaoExtensao> findAcoesHomologadas();
 
+	/**
+	 * Retorna todas as ações que estão em tramitação (que não tenham sido aprovadas ou reprovadas ainda)
+	 */
 	List<AcaoExtensao> findAcoesEmTramitacao();
+
+	/**
+	 * Retorna todas as ações que estão aguardando parecer técnico ou do relator de um determinado parecerista ou relator
+	 * e também as que estão aguardando as resoluções de pendências
+	 */
+	List<AcaoExtensao> findAcoesAguardandoParecer(Pessoa parecerista);
+
+	/**
+	 * Retorna todas as ações que cujos pareceres já foram emitidos de um determinado parecerista ou relator
+	 */
+	List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista);
 
 
 
@@ -37,8 +57,6 @@ public interface AcaoExtensaoService {
 	void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException;
 
     List<AcaoExtensao> findAll(Pessoa pessoa);
-
-	List<AcaoExtensao> findByParecer(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
 

@@ -21,11 +21,11 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	@Query("SELECT e.acaoExtensao FROM equipe_de_trabalho AS e where e.participante = :pessoa")
 	List<AcaoExtensao> findByParticipacao(@Param("pessoa") Pessoa pessoa);
 
-	@Query("FROM AcaoExtensao AS a where a.parecerTecnico.responsavel = :pessoa")
-	List<AcaoExtensao> findByParecerista(@Param("pessoa")Pessoa pessoa);
+	@Query("FROM AcaoExtensao AS a where a.parecerTecnico.responsavel = :pessoa AND status in :status")
+	List<AcaoExtensao> findByPareceristaAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
 
-	@Query("FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa")
-	List<AcaoExtensao> findByRelator(@Param("pessoa")Pessoa pessoa);
+	@Query("FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa AND status in :status")
+	List<AcaoExtensao> findByRelatorAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
 
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
 

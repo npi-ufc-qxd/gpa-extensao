@@ -87,7 +87,9 @@ public class AcaoExtensaoController {
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
 		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
-		model.addAttribute("meusPareceres", acaoExtensaoService.findByParecer(pessoa));
+		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));
+		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
+
 		return LISTAR_MINHAS_ACOES;
 	}
 
