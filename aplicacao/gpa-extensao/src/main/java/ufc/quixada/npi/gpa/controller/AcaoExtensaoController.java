@@ -6,10 +6,7 @@ import static ufc.quixada.npi.gpa.util.PageConstants.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -81,9 +78,38 @@ public class AcaoExtensaoController {
 	private ParticipacaoService participacaoService;
 
 	/**
-	 * Busca todas as ações relacionadas ao usuários logado: que coordena, participa, parecerista ou relator.
+	 * Busca todas as ações de acordo com o parâmetro passado (em andamento, em tramitação, encerradas, todas).
 	 */
 	@GetMapping({"", "/"})
+	public String listarAcoes(@RequestParam(required = false) String situacao, Model model) {
+		if (situacao != null && situacao.equals("tramitacao")) {
+			model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
+			model.addAttribute("situacao", "tramitacao");
+			return LISTAR_ACOES_HOMOLOGADAS;
+		}
+		if (situacao != null && situacao.equals("andamento")) {
+			model.addAttribute("acoes", acaoExtensaoService.findAcoesEmAndamento());
+			model.addAttribute("situacao", "andamento");
+			return LISTAR_ACOES_HOMOLOGADAS;
+		}
+		if (situacao != null && situacao.equals("encerrada")) {
+			model.addAttribute("acoes", acaoExtensaoService.findAcoesEncerradas());
+			model.addAttribute("situacao", "encerrada");
+			return LISTAR_ACOES_HOMOLOGADAS;
+		}
+		List<AcaoExtensao> acoes = new ArrayList<AcaoExtensao>(acaoExtensaoService.findAcoesEmTramitacao());
+		acoes.addAll(acaoExtensaoService.findAcoesEmAndamento());
+		acoes.addAll(acaoExtensaoService.findAcoesEncerradas());
+		model.addAttribute("acoes", acoes);
+		model.addAttribute("situacao", "todas");
+
+		return LISTAR_ACOES_HOMOLOGADAS;
+	}
+
+	/**
+	 * Busca todas as ações relacionadas ao usuários logado: que coordena, participa, parecerista ou relator.
+	 */
+	@GetMapping("/minhas")
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
 		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
@@ -91,15 +117,6 @@ public class AcaoExtensaoController {
 		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
 
 		return LISTAR_MINHAS_ACOES;
-	}
-
-	/**
-	 * Busca todas as ações que tenham sido homologadas (com status aprovado ou reprovado).
-	 */
-	@GetMapping("/listar")
-	public String listarAcoesHomologadas(Model model) {
-		model.addAttribute("acoes", acaoExtensaoService.findAcoesHomologadas());
-		return LISTAR_ACOES_HOMOLOGADAS;
 	}
 
 	/**

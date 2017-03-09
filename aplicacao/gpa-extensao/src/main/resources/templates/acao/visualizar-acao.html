@@ -9,13 +9,6 @@
 </head>
 
 <section layout:fragment="conteudo">
-    <section class="content-header mb-10">
-        <h1 th:text="${acao.titulo}" class="left"></h1>
-        <span th:class="${acao.ativo} ? 'label label-primary ml-10' : 'label label-warning ml-10'"
-          th:text="${acao.ativo} ? 'EM ANDAMENTO' : 'ENCERRADA'">
-        </span>
-    </section>
-
     <!-- Dados Básicos -->
     <div class="col-xs-12">
         <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>

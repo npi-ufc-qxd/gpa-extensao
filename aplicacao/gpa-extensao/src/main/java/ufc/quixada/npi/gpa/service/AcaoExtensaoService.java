@@ -7,6 +7,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface AcaoExtensaoService {
@@ -25,6 +26,16 @@ public interface AcaoExtensaoService {
 	 * Retorna todas as ações que estão em tramitação (que não tenham sido aprovadas ou reprovadas ainda)
 	 */
 	List<AcaoExtensao> findAcoesEmTramitacao();
+
+	/**
+	 * Retorna todas as acoes que já foram homologadas e estão em andamento
+	 */
+	List<AcaoExtensao> findAcoesEmAndamento();
+
+	/**
+	 * Retorna todas as ações que já estão encerradas
+	 */
+	List<AcaoExtensao> findAcoesEncerradas();
 
 	/**
 	 * Retorna todas as ações que estão aguardando parecer técnico ou do relator de um determinado parecerista ou relator
@@ -59,7 +70,6 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
-
 
 
 }

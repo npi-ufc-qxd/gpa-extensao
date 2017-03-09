@@ -10,11 +10,11 @@
 
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a th:href="@{/acoes}">Minhas ações</a></li>
-					<li><a th:href="@{/acoes/listar}">Ações aprovadas</a></li>
-					<li sec:authorize="hasAuthority('COORDENADORIA')"><a th:href="@{/acoes/tramitacao}">Ações em tramitação</a></li>
-					<li><a th:href="@{/servidores/}">Servidores</a></li>
-					<li sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')"><a th:href="@{/alunos/}">Alunos</a></li>
+					<li id="menu-minhas-acoes"><a th:href="@{/acoes/minhas}">Minhas ações</a></li>
+					<li id="menu-acoes" ><a th:href="@{/acoes/}">Ações de extensão</a></li>
+					<li id="menu-acoes-tramitacao" sec:authorize="hasAuthority('COORDENADORIA')"><a th:href="@{/acoes/tramitacao}">Ações em tramitação</a></li>
+					<li id="menu-servidores" ><a th:href="@{/servidores/}">Servidores</a></li>
+					<li id="menu-alunos" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')"><a th:href="@{/alunos/}">Alunos</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a th:href="@{/logout}">Sair</a></li>
