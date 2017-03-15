@@ -1,3 +1,39 @@
+<nav class="navbar navbar-default navbar-static-top m-b-0" th:fragment="navbar">
+	<div class="navbar-header">
+		<a class="navbar-toggle hidden-sm hidden-md hidden-lg" href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+		<div class="top-left-part">
+			<a class="logo" href="index.html">
+				<b><img th:src="@{/img/eliteadmin-logo.png}" alt="home" /></b>
+				<span class="hidden-xs"><img th:src="@{/img/eliteadmin-text.png}" alt="home" /></span>
+			</a>
+		</div>
+		<ul class="nav navbar-top-links navbar-right pull-right">
+			<li class="dropdown">
+				<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"><b class="hidden-xs">Virginia Farias de Sousa</b></a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class="navbar-default sidebar" role="navigation" th:fragment="menu">
+	<div class="sidebar-nav navbar-collapse slimscrollsidebar active">
+		<ul class="nav in" id="side-menu">
+			<li id="menu-minhas-acoes">
+				<a th:href="@{/acoes/minhas}" class="waves-effect"><span class="hide-menu">Minhas ações</span></a>
+			</li>
+			<li id="menu-acoes">
+				<a th:href="@{/acoes/}" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
+			</li>
+			<li id="menu-servidores">
+				<a th:href="@{/servidores}" class="waves-effect"><span class="hide-menu">Servidores</span></a>
+			</li>
+			<li id="menu-alunos" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')">
+				<a th:href="@{/alunos}" class="waves-effect"><span class="hide-menu">Alunos</span></a>
+			</li>
+		</ul>
+	</div>
+</div>
+<!--
 <header class="main-header" th:fragment="menu">
 	<nav class="navbar navbar-static-top">
 		<div class="container-fluid">
@@ -19,7 +55,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><a th:href="@{/logout}">Sair</a></li>
 				</ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
+			</div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;
+		</div>&lt;!&ndash; /.container-fluid &ndash;&gt;
 	</nav>
-</header>
+</header>-->

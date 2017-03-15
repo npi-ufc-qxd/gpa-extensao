@@ -8,24 +8,40 @@
 	<title>Extensão - Minhas Ações</title>
 </head>
 
-<section layout:fragment="conteudo">
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Minhas ações <span class="badge badge-larger bg-blue" th:text="${minhasAcoes.size()}"></span></h3>
-                <a th:href="@{/acoes/cadastrar}" class="btn btn-primary btn-flat right">Nova ação</a>
-            </div>
-            <div class="box-body">
-                <table id="minhas-acoes" class="table row-border">
-                    <thead>
+<div class="container-fluid" layout:fragment="conteudo">
+    <div class="row bg-title">
+        <!-- .page title -->
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title"></h4>
+        </div>
+        <!-- /.page title -->
+        <!-- .breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">Starter Page</li>
+            </ol>
+        </div>
+        <!-- /.breadcrumb -->
+    </div>
+
+    <div class="row">
+        <!-- Minhas ações -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${minhasAcoes.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que você coordena ou participa</p>
+                <div class="table-responsive">
+                    <table id="minhas-acoes" class="table table-striped">
+                        <thead>
                         <tr>
                             <th>Vínculo</th>
                             <th>Título</th>
                             <th>Período</th>
                             <th>Status</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr th:each="acao : ${minhasAcoes}">
                             <td>
                                 <span th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}" th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}" th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}">
@@ -37,103 +53,83 @@
                             </td>
                             <td>
                                 <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
-                                    th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
+                                      th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
                                 </span>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Aguardando Parecer <span class="badge badge-larger bg-blue" th:text="${meusPareceres.size()}"></span></h3>
-            </div>
-            <div class="box-body">
-                <table id="meus-pareceres" class="table row-border">
-                    <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Coordenador(a)</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="acao : ${meusPareceres}">
-                        <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                        <td th:text="${acao.coordenador.nome}"></td>
-                        <td>
+
+        <!-- Aguardando parecer -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${meusPareceres.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
+                <div class="table-responsive">
+                    <table id="meus-pareceres" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Coordenador(a)</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="acao : ${meusPareceres}">
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                            <td th:text="${acao.coordenador.nome}"></td>
+                            <td>
                             <span class="label label-warning" th:text="${acao.status.descricao}">
                             </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Pareceres Emitidos <span class="badge badge-larger bg-blue" th:text="${meusPareceresEmitidos.size()}"></span></h3>
-            </div>
-            <div class="box-body">
-                <table id="meus-pareceres-emitidos" class="table row-border">
-                    <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Coordenador(a)</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="acao : ${meusPareceresEmitidos}">
-                        <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                        <td th:text="${acao.coordenador.nome}"></td>
-                        <td>
+
+        <!-- Pareceres emitidos -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${meusPareceresEmitidos.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
+                <div class="table-responsive">
+                    <table id="meus-pareceres-emitidos" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Coordenador(a)</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="acao : ${meusPareceresEmitidos}">
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                            <td th:text="${acao.coordenador.nome}"></td>
+                            <td>
                             <span th:class="${acao.status.name() == 'ENCERRADO' ? 'label label-danger' : 'label label-primary'}"
                                   th:text="${acao.status.descricao}">
                             </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 <section layout:fragment="js">
     <script>
-        $('#menu-minhas-acoes').addClass("active");
-
-        $('#minhas-acoes').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            searching: false,
-            info: false,
-            order: [[ 3, "asc" ]],
-            columnDefs: [
-                { "orderable": false, "targets": 3 }
-            ]
-        });
-        $('#meus-pareceres').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            searching: false,
-            info: false,
-            order: [[ 2, "asc" ]]
-        });
-        $('#meus-pareceres-emitidos').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            searching: false,
-            info: false,
-            order: [[ 2, "asc" ]]
+        $(document).ready(function(){
+            $('#menu-minhas-acoes a').addClass("active");
+            $('#minhas-acoes').DataTable();
+            $('#meus-pareceres').DataTable();
+            $('#meus-pareceres-emitidos').DataTable();
         });
     </script>
 </section>

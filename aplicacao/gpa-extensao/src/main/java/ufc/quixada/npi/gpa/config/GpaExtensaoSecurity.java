@@ -31,7 +31,8 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").authenticated().antMatchers("/public-resources/**").permitAll()
+		http.authorizeRequests().antMatchers("/").authenticated()
+				.antMatchers("/js/**", "/css/**", "/img/**").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO")
 				.antMatchers("/direcao/**").hasAuthority("DIRECAO")
 				.anyRequest().authenticated()

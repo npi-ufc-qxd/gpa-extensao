@@ -7,37 +7,6 @@
 <head>
 	<title>GPA - Extensão</title>
 
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
-    <!--<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" />-->
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
-    <!-- Ionicons -->
-    <!--<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>-->
-    <!-- Theme style -->
-    <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}"></link>
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" th:href="@{/css/skin-blue.min.css}"></link>
-    <!-- Date Picker -->
-   <!-- <link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}"></link>-->
-    <!-- Daterange picker -->
-    <!--<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker-bs3.css}"></link>-->
-    <!-- Data Tables -->
-    <link rel="stylesheet" th:href="@{//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css}"></link>
-    <!-- Select2 -->
-    <!--<link rel="stylesheet" th:href="@{/css/select2.css}" />
-    <link rel="stylesheet" th:href="@{/css/select2-bootstrap.css}" />-->
-    <!-- Bootstrap Datapicker -->
-    <!--<link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}"></link>-->
-    <link rel="stylesheet" th:href="@{/css/extensao.css}"></link>
-
-    <!-- FileInput -->
-    <!--<link th:href="@{/plugins/fileInput/css/fileinput.min.css}" media="all" rel="stylesheet" type="text/css"></link>-->
-
-    <!-- Bootstrap toggle -->
-    <!--<link th:href="@{/plugins/bootstrap-toggle/bootstrap-toggle.min.css}"></link>-->
-			
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="msapplication-tap-highlight" content="no"/>
@@ -50,109 +19,40 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <!-- CONFIGURACAO DO CONTEXTO -->
     <meta name="_context" th:content="${#httpServletRequest.getContextPath()}" />
-    
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/sidebar-nav.min.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/style.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/megna.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/jquery.dataTables.min.css}"></link>
+
 </head>
 
-<body class="skin-blue layout-top-nav">
-    <div class="wrapper">
-        <!-- Menu -->
-        <header th:replace="base/menu :: menu"></header>
+<body>
+    <div id="wrapper" class="">
+        <!-- Top Navigation -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0" th:replace="base/menu :: navbar"></nav>
+        <div class="navbar-default sidebar" role="navigation" th:replace="base/menu :: menu"></div>
 
-        <!-- Conteúdo -->
-        <div class="content-wrapper">
-            <section layout:fragment="breadcrumb">
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid" layout:fragment="conteudo">
+            </div>
 
-            </section>
-            <section class="content">
-                <div class="row">
-                    <section layout:fragment="conteudo">
-
-                    </section>
-                </div>
-            </section>
+            <!-- Footer -->
+            <footer class="footer text-center"> 2017 &copy; Núcleo de Práticas em Informática </footer>
         </div>
 
-        <!-- Footer -->
-        <footer class="main-footer"></footer>
-
-
         <!-- jQuery 2.2.0 -->
-        <script th:src="@{/js/jQuery-2.2.0.min.js}"></script>
+        <script th:src="@{/js/jquery.min.js}"></script>
         <!-- Bootstrap 3.3.6 -->
         <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/sidebar-nav.min.js}"></script>
+        <script th:src="@{/js/jquery.dataTables.min.js}"></script>
         <!-- Data Tables -->
         <!--<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>-->
-        <script th:src="@{//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js}"></script>
-        <!--&lt;!&ndash; jQuery UI 1.11.4 &ndash;&gt;
-        <script th:src="@{https://code.jquery.com/ui/1.11.4/jquery-ui.min.js}"></script>
-        &lt;!&ndash; jQuery Mask &ndash;&gt;
-        <script type="text/javascript" th:src="@{/js/jQuery-mask-1.4.1.min.js}"></script>
-        &lt;!&ndash; Scripts GPA &ndash;&gt;
-        <script th:src="@{/gpa/direcao/index.js}"></script>
-
-        &lt;!&ndash; Para página de detalhes &ndash;&gt;
-        <script th:src="@{/js/parceria-externa.js}"></script>
-        <script th:src="@{/js/detalhes-acao.js}"></script>
-        <script th:src="@{/gpa/direcao/detalhes.js}"></script>
-        <script th:src="@{/gpa/coordenacao/participacao.js}"></script>
-        <script th:src="@{/gpa/coordenacao/bolsa.js}"></script>
-
-        &lt;!&ndash; Pagina de busca &ndash;&gt;
-        <script th:src="@{/gpa/busca/buscar-acao.js}"></script>
-        <script th:src="@{/gpa/busca/buscar-servidor.js}"></script>-->
-
-
-        <!--<script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js}"></script>
-        <script th:src="@{/webjars/bootstrapvalidator/0.5.3/js/language/pt_BR.js}"></script>-->
-       <!-- <script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>-->
-        <!--<script th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js}"></script>-->
-
-        <!-- 	* -->
-        <!--<script th:src="@{/gpa/coordenacao/submeter-acao.js}"></script>
-        <script th:src="@{/js/moment.js}"></script>-->
-
-        <!-- Script da listagem de ações da coordenação -->
-        <!--<script th:src="@{/gpa/coordenacao/listagem.js}"></script>
-
-        &lt;!&ndash; Script do menu lateral da página &ndash;&gt;
-        <script th:src="@{/gpa/modulos/menu.js}"></script>
-
-        &lt;!&ndash; Script da página de cadastro retroativo de ações &ndash;&gt;
-        <script th:src="@{/gpa/administracao/cadastro.js}"></script>
-
-        &lt;!&ndash; Script da página de listagem de bolsistas &ndash;&gt;
-        <script th:src="@{/gpa/administracao/bolsistas.js}"></script>
-
-        &lt;!&ndash; Script da página de cadastro de alunos &ndash;&gt;
-        <script th:src="@{/gpa/administracao/cadastro-aluno.js}"></script>
-
-        &lt;!&ndash; Script da página de cadastro de servidores &ndash;&gt;
-        <script th:src="@{/gpa/administracao/cadastro-servidor.js}"></script>
-        <script th:src="@{/gpa/administracao/vincular-papeis.js}"></script>
-
-        &lt;!&ndash; Script da autenticacao automatica com ajax &ndash;&gt;
-        <script th:src="@{/gpa/modulos/authentication.js}"></script>-->
-
-        <!-- Slimscroll -->
-        <!--<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>-->
-        <!-- AdminLTE App -->
-        <!--<script th:src="@{/js/app.min.js}"></script>-->
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-       <!-- <script th:src="@{/js/dashboard.js}"></script>-->
-
-        <!-- Select 2 -->
-        <!--<script type="text/javascript" th:src="@{/js/select2.min.js}"></script>-->
-
-        <!-- Datepicker -->
-        <!--<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
-        <script th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js}"></script>-->
-
-        <!-- FileInput -->
-        <!--<script th:src="@{/plugins/fileInput/js/fileinput.min.js}"></script>
-        <script th:src="@{/plugins/fileInput/js/locales/pt-BR.js}"></script>-->
-
-        <!-- Bootstrap toggle -->
-        <!--<script th:src="@{/plugins/bootstrap-toggle/bootstrap-toggle.min.js}"></script>-->
 
         <section layout:fragment="js"></section>
 

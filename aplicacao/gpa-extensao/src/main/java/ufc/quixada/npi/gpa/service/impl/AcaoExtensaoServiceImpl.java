@@ -240,6 +240,21 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
+	public int countAcoesEmTramitacao() {
+		return acaoExtensaoRepository.countByStatusNotIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
+
+	@Override
+	public int countAcoesEmAndamento() {
+		return 0;
+	}
+
+	@Override
+	public int countAcoesEncerradas() {
+		return 0;
+	}
+
+	@Override
 	public List<AcaoExtensao> findProgramasAprovados() {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}

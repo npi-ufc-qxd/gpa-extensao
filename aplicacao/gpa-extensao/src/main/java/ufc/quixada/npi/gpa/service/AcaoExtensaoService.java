@@ -48,6 +48,21 @@ public interface AcaoExtensaoService {
 	 */
 	List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista);
 
+	/**
+	 * Retorna a quantidade de ações em tramitação
+	 */
+	int countAcoesEmTramitacao();
+
+	/**
+	 * Retorna a quantidade de ações em andamento
+	 */
+	int countAcoesEmAndamento();
+
+	/**
+	 * Retorna a quantidade de ações já encerradas
+	 */
+	int countAcoesEncerradas();
+
 
 
 

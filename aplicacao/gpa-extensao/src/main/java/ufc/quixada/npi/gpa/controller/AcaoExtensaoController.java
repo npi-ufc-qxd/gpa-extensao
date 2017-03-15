@@ -78,33 +78,35 @@ public class AcaoExtensaoController {
 	private ParticipacaoService participacaoService;
 
 	/**
-	 * Busca todas as ações de acordo com o parâmetro passado (em andamento, em tramitação, encerradas, todas).
+	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
 	 */
-	@GetMapping({"", "/"})
-	public String listarAcoes(@RequestParam(required = false) String situacao, Model model) {
-		if (situacao != null && situacao.equals("tramitacao")) {
-			model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
-			model.addAttribute("situacao", "tramitacao");
-			return LISTAR_ACOES_HOMOLOGADAS;
-		}
-		if (situacao != null && situacao.equals("andamento")) {
-			model.addAttribute("acoes", acaoExtensaoService.findAcoesEmAndamento());
-			model.addAttribute("situacao", "andamento");
-			return LISTAR_ACOES_HOMOLOGADAS;
-		}
-		if (situacao != null && situacao.equals("encerrada")) {
-			model.addAttribute("acoes", acaoExtensaoService.findAcoesEncerradas());
-			model.addAttribute("situacao", "encerrada");
-			return LISTAR_ACOES_HOMOLOGADAS;
-		}
-		List<AcaoExtensao> acoes = new ArrayList<AcaoExtensao>(acaoExtensaoService.findAcoesEmTramitacao());
-		acoes.addAll(acaoExtensaoService.findAcoesEmAndamento());
-		acoes.addAll(acaoExtensaoService.findAcoesEncerradas());
-		model.addAttribute("acoes", acoes);
-		model.addAttribute("situacao", "todas");
-
-		return LISTAR_ACOES_HOMOLOGADAS;
+	@GetMapping({"", "/tramitacao"})
+	public String listarAcoesEmTramitacao(Model model) {
+		model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
+		model.addAttribute("tramitacao", acaoExtensaoService.countAcoesEmTramitacao());
+		model.addAttribute("andamento", acaoExtensaoService.countAcoesEmAndamento());
+		model.addAttribute("encerrada", acaoExtensaoService.countAcoesEncerradas());
+		return LISTAR_ACOES;
 	}
+
+	/**
+	 * Busca todas as ações que já foram aprovadas e estão em andamento
+	 */
+	@GetMapping("/andamento")
+	public String listarAcoesEmAndamento(Model model) {
+		model.addAttribute("acoes", acaoExtensaoService.findAcoesEmAndamento());
+		return LISTAR_ACOES;
+	}
+
+	/**
+	 * Busca todas as ações que já foram encerradas
+	 */
+	@GetMapping("/encerrada")
+	public String listarAcoesEncerradas(Model model) {
+		model.addAttribute("acoes", acaoExtensaoService.findAcoesEncerradas());
+		return LISTAR_ACOES;
+	}
+
 
 	/**
 	 * Busca todas as ações relacionadas ao usuários logado: que coordena, participa, parecerista ou relator.
@@ -117,16 +119,6 @@ public class AcaoExtensaoController {
 		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
 
 		return LISTAR_MINHAS_ACOES;
-	}
-
-	/**
-	 * Busca todas as ações em tramitação.
-	 */
-	@GetMapping("/tramitacao")
-	@PreAuthorize(PERMISSAO_COORDENADORIA)
-	public String listarAcoesTramitacao(Model model) {
-		model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
-		return LISTAR_ACOES_TRAMITACAO;
 	}
 
 	/**
