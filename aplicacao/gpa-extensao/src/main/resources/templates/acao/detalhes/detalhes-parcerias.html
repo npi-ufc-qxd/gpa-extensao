@@ -1,42 +1,36 @@
-<section th:fragment="parcerias">
-    <div class="box box-primary">
-        <div class="box-header">
-            <h3 class="box-title">Parcerias</h3>
-        </div>
-        <div class="box-body">
-            <table id="parcerias" class="table row-border">
-                <thead>
-                    <tr>
-                        <th>Instituição</th>
-                        <th data-toogle="tooltip" title="Gera Demanda">GD</th>
-                        <th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
-                        <th data-toogle="tooltip" title="Fornece Instalações e/ou Equipamentos">IE</th>
-                        <th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
-                        <th data-toogle="tooltip" title="Outras formas">OF</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="parceria : ${acao.parceriasExternas}">
-                        <td th:text="${parceria.parceiro.nome}"></td>
-                        <td>
-                            <span th:class="${parceria.geraDemanda} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
-                        </td>
-                        <td>
-                            <span th:class="${parceria.definicaoAcoes} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
-                        </td>
-                        <td>
-                            <span th:class="${parceria.equipamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
-                        </td>
-                        <td>
-                            <span th:class="${parceria.financiamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
-                        </td>
-                        <td>
-                            <span th:unless="${parceria.outrasFormas}" class="glyphicon glyphicon-remove"></span>
-                            <span th:if="${parceria.outrasFormas}" th:text="${parceria.descricaoOutrasFormas}"></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+<div class="white-box" th:fragment="parcerias">
+    <h3 class="box-title m-b-0">Parcerias</h3>
+    <table id="parcerias" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Instituição</th>
+                <th data-toogle="tooltip" title="Gera Demanda">GD</th>
+                <th data-toogle="tooltip" title="Participa na Definição de Ações">DA</th>
+                <th data-toogle="tooltip" title="Fornece Instalações e/ou Equipamentos">IE</th>
+                <th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
+                <th data-toogle="tooltip" title="Outras formas">OF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="parceria : ${acao.parceriasExternas}">
+                <td th:text="${parceria.parceiro.nome}"></td>
+                <td>
+                    <span th:class="${parceria.geraDemanda} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+                </td>
+                <td>
+                    <span th:class="${parceria.definicaoAcoes} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+                </td>
+                <td>
+                    <span th:class="${parceria.equipamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+                </td>
+                <td>
+                    <span th:class="${parceria.financiamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+                </td>
+                <td>
+                    <span th:unless="${parceria.outrasFormas}" class="glyphicon glyphicon-remove"></span>
+                    <span th:if="${parceria.outrasFormas}" th:text="${parceria.descricaoOutrasFormas}"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

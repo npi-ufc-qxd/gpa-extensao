@@ -45,4 +45,8 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	List<AcaoExtensao> findByAtivoAndStatus(boolean ativo, Status status);
 
 	int countByStatusNotIn(List<Status> status);
+
+	int countByAtivoAndStatus(boolean ativo, Status status);
+
+	int countByAtivo(boolean ativo);
 }

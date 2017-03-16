@@ -69,7 +69,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
 	}
@@ -92,7 +92,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		if (!(arquivo.getOriginalFilename().toString().equals(""))) {
 			Documento documento = documentoService.save(arquivo, acaoExtensao);
-
 			if (documento != null) {
 				acaoExtensao.setAnexo(documento);
 			}
@@ -246,12 +245,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Override
 	public int countAcoesEmAndamento() {
-		return 0;
+		return acaoExtensaoRepository.countByAtivoAndStatus(true, Status.APROVADO);
 	}
 
 	@Override
 	public int countAcoesEncerradas() {
-		return 0;
+		return acaoExtensaoRepository.countByAtivo(false);
 	}
 
 	@Override

@@ -62,9 +62,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
-                <h3 class="box-title m-b-0">Em tramitação</h3>
-                <p class="text-muted m-b-30">Ações de extensão que estão em processo de aprovação</p>
-                <table id="acoes" class="table row-border">
+                <h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">Em tramitação</h3>
+                <p th:if="${listaAtual == 'tramitacao'}" class="text-muted m-b-30">Ações de extensão que estão em processo de aprovação</p>
+                <h3 th:if="${listaAtual == 'andamento'}" class="box-title m-b-0">Em andamento</h3>
+                <p th:if="${listaAtual == 'andamento'}" class="text-muted m-b-30">Ações de extensão aprovadas que estão em andamento</p>
+                <h3 th:if="${listaAtual == 'encerrada'}" class="box-title m-b-0">Encerradas</h3>
+                <p th:if="${listaAtual == 'encerrada'}" class="text-muted m-b-30">Ações de extensão aprovadas que já foram encerradas</p>
+                <table id="acoes" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Título</th>
@@ -92,6 +96,7 @@
     </div>
 </div>
 <section layout:fragment="js">
+
     <script>
         $('#menu-acoes a').addClass("active");
         $('#acoes').dataTable({

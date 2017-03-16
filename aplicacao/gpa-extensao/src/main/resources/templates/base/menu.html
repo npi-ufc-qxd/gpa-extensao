@@ -24,6 +24,9 @@
 			<li id="menu-acoes">
 				<a th:href="@{/acoes/}" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
 			</li>
+			<li id="menu-cadastrar-acao" sec:authorize="hasAuthority('SERVIDOR')">
+				<a th:href="@{/acoes/cadastrar}" class="waves-effect"><span class="hide-menu">Cadastrar Ação</span></a>
+			</li>
 			<li id="menu-servidores">
 				<a th:href="@{/servidores}" class="waves-effect"><span class="hide-menu">Servidores</span></a>
 			</li>

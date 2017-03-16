@@ -7,28 +7,31 @@
 <head>
 	<title>Extensão - Cadastrar Ação</title>
 </head>
-<section layout:fragment="conteudo">
-	<div class="col-xs-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 th:if="${action == 'cadastrar'}" class="box-title">Cadastrar ação de extensão</h3>
-				<h3 th:if="${action == 'submeter'}" class="box-title">Submeter ação de extensão</h3>
-				<h3 th:if="${action == 'editar'}" class="box-title">Editar ação de extensão</h3>
-				<!--<input id="action" type="hidden" th:value="${action}"/>-->
-			</div>
-			<div class="box-body">
-				<form id="cadastrarAcaoForm" th:action="@{/} + ${action}" enctype="multipart/form-data" method="POST" th:object="${acao}" >
+<div class="container-fluid" layout:fragment="conteudo">
+    <div class="row bg-title">
+        <!-- .page title -->
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title"></h4>
+        </div>
+        <!-- /.page title -->
+        <!-- .breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">Starter Page</li>
+            </ol>
+        </div>
+        <!-- /.breadcrumb -->
+    </div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="white-box">
+                <h3 th:if="${action == 'cadastrar'}" class="box-title m-b-0">Cadastrar ação de extensão</h3>
+                <h3 th:if="${action == 'editar'}" class="box-title m-b-0">Editar ação de extensão</h3>
+                <p class="text-muted m-b-30">Cadastra/edita uma ação de extensão a ser aprovada</p>
+				<form id="cadastrarAcaoForm" th:action="@{/acoes/} + ${action}" enctype="multipart/form-data" method="POST" th:object="${acao}" >
 					<input id="acaoId" name="id" type="hidden" th:value="${acao.id}"/>
-					<!--<input id="dedicacaoID" type="hidden" th:value="${dedicacao}"/>-->
-					<div class="box-body">
-						<!--<div class="callout callout-danger" th:if="${message}">
-							<h4>Atenção</h4>
-							<p th:text="${message}"></p>
-						</div>-->
-						<!--<div th:if="${action == 'editar'}" class="form-group">
-							<label>Identificador</label>
-							<input class="form-control" th:field="${acao.identificador}" name="identificador" type="text" readonly="readonly"/>
-						</div>-->
+					<div class="form-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -50,7 +53,7 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
-									<label for="cargaHoraria">* CH semanal do coordenador(horas)</label>
+									<label for="cargaHoraria">* Carga horária do coordenador</label>
 									<input id="cargaHoraria" type="number" name="cargaHoraria" class="form-control" required="required" min="4"/>
 								</div>
 							</div>
@@ -132,8 +135,8 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="anexo">Anexo</label>
-									<input id="anexo" th:if="${acao.anexo} == null" name="anexoAcao" class="file" type="file" accept="application/pdf"/>
+									<label for="anexo">* Anexo</label>
+									<input id="anexo" th:if="${acao.anexo} == null" name="anexoAcao" required="required" class="file" type="file" accept="application/pdf"/>
 									<div th:if="${acao.anexo} != null">
 										<a th:text="${acao.anexo.nome}" th:href="@{/documento/download/} + ${acao.anexo.id}"></a>
 										<input id="submeter-anexoAcaoExtensao" th:field="${acao.anexo}" type="hidden"/>
@@ -145,13 +148,27 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="box-footer">
+                    <div class="row text-right">
 						<button id="submeterAcaoExtensao" type="submit" class="btn btn-primary btn-flat pull-right">Salvar</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+</div>
+<section layout:fragment="js">
+	<script>
+        $('#menu-cadastrar-acao a').addClass("active");
+        if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+            $('#curso-evento').removeClass('no-display');
+        }
+        $('#modalidade').change(function(){
+            if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+                $('#curso-evento').removeClass('no-display');
+            } else {
+                $('#curso-evento').addClass('no-display');
+            }
+        });
+	</script>
 </section>
 </html>

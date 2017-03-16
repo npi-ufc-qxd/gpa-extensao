@@ -8,22 +8,31 @@
 	<title>Extensão - Alunos</title>
 </head>
 
-<section class="content-header" layout:fragment="breadcrumb">
-    <ol class="breadcrumb">
-        <li><a th:href="@{/acoes/listar}"><i class="fa fa-home"></i> Início</a></li>
-        <li class="active">Alunos</li>
-    </ol>
-</section>
-
-<section layout:fragment="conteudo">
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Alunos</h3>
-                <a sec:authorize="hasAuthority('ADMINISTRACAO')" th:href="@{/alunos/atualizar}" class="btn btn-primary btn-flat right">Atualizar</a>
-            </div>
-            <div class="box-body">
-                <table id="alunos" class="table row-border">
+<div class="container-fluid" layout:fragment="conteudo">
+    <div class="row bg-title">
+        <!-- .page title -->
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title"></h4>
+        </div>
+        <!-- /.page title -->
+        <!-- .breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">Starter Page</li>
+            </ol>
+        </div>
+        <!-- /.breadcrumb -->
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <div sec:authorize="hasAuthority('ADMINISTRACAO')" class="text-right">
+                    <a th:href="@{alunos/atualizar}" class="btn btn-primary">Atualizar</a>
+                </div>
+                <h3 class="box-title m-b-0">Alunos</h3>
+                <p class="text-muted m-b-30">Lista de todos os alunos do campus</p>
+                <table id="alunos" class="table table-hover">
                     <thead>
                     <tr>
                         <th>Nome</th>
@@ -44,9 +53,10 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 <section layout:fragment="js">
     <script>
+        $('#menu-alunos a').addClass("active");
         $('#alunos').dataTable({
             language: {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"

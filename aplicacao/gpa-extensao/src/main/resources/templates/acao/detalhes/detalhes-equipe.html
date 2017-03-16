@@ -1,31 +1,33 @@
-<section th:fragment="equipe">
-    <div class="box box-primary">
-        <div class="box-header">
-            <h3 class="box-title">Equipe de Trabalho</h3>
-        </div>
-        <div class="box-body">
-            <table id="equipe" class="table row-border">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Função</th>
-                    <th>Instituição</th>
-                    <th>CH</th>
-                    <th>Período</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="membro: ${acao.equipeDeTrabalho}">
-                    <td th:text="${membro.getNome()}"></td>
-                    <td th:text="${membro.getCpf()}"></td>
-                    <td th:text="${membro.funcao.name()} == 'OUTRA' ? ${membro.descricaoFuncao} : ${membro.funcao.descricao}"></td>
-                    <td th:text="${membro.instituicao.name()} == 'UFC' ? ${membro.instituicao.descricao} : ${membro.nomeInstituicao}"></td>
-                    <td th:text="__${membro.cargaHoraria}__h"></td>
-                    <td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+<div class="white-box" th:fragment="equipe">
+    <h3 class="box-title m-b-0">Equipe de trabalho</h3>
+    <table id="equipe" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Função</th>
+            <th>Instituição</th>
+            <th>CH</th>
+            <th>Período</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="membro: ${acao.equipeDeTrabalho}">
+            <td th:text="${membro.nomeParticipante}"></td>
+            <td th:text="${membro.cpfParticipante}"></td>
+            <td th:text="${membro.funcao}"></td>
+            <td th:text="${membro.instituicao}"></td>
+            <td th:text="__${membro.cargaHoraria}__h"></td>
+            <td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr th:each="bolsa: ${acao.bolsistas}">
+            <td th:text="${bolsa.bolsista.pessoa.nome}"></td>
+            <td th:text="${bolsa.bolsista.pessoa.cpf}"></td>
+            <td th:text="${bolsa.tipo.name() == 'REMUNERADO'} ? 'Bolsista Remunerado' : 'Aluno(a) Voluntário(a)'"></td>
+            <td>Universidade Federal do Ceará</td>
+            <td th:text="__${bolsa.cargaHoraria}__h"></td>
+            <td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

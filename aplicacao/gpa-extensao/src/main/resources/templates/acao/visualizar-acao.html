@@ -8,44 +8,60 @@
 	<title>Extensão - Detalhes</title>
 </head>
 
-<section layout:fragment="conteudo">
+<div class="container-fluid" layout:fragment="conteudo">
+    <div class="row bg-title">
+        <!-- .page title -->
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title"></h4>
+        </div>
+        <!-- /.page title -->
+        <!-- .breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">Starter Page</li>
+            </ol>
+        </div>
+        <!-- /.breadcrumb -->
+    </div>
+
     <!-- Dados Básicos -->
-    <div class="col-xs-12">
-        <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
-    </div>
-
-    <!-- Equipe de Trabalho -->
-    <div class="col-xs-12">
-        <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
-    </div>
-
     <div class="row">
         <div class="col-xs-12">
-            <!-- Parcerias -->
-            <div class="col-xs-6">
-                <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-            </div>
-
-            <!-- Arquivos -->
-            <div class="col-xs-6">
-                <div th:replace="acao/detalhes/detalhes-arquivos :: arquivos" ></div>
-            </div>
+            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
         </div>
     </div>
 
-    <!-- Parecer Técnico -->
-    <div class="col-xs-6">
-        <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
+    <!-- Equipe de Trabalho -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
+        </div>
     </div>
 
     <!-- Parcerias -->
-    <div class="col-xs-6">
-        <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
+        </div>
     </div>
 
-</section>
+    <!-- Pareceres -->
+    <div class="row">
+        <!-- Parecer Técnico -->
+        <div class="col-xs-6">
+            <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
+        </div>
+        <!-- Parecer do Relator -->
+        <div class="col-xs-6">
+            <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
+        </div>
+    </div>
+
+</div>
 <section layout:fragment="js">
     <script>
+        $('#menu-acoes a').addClass("active");
         $('#equipe,#parcerias').dataTable({
             language: {
                 "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"

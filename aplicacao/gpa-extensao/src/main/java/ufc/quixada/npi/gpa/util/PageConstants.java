@@ -15,7 +15,6 @@ public class PageConstants {
 
     // Geral
     public static final String LISTAR_ACOES = "acao/listar-todas-acoes";
-    public static final String LISTAR_ACOES_TRAMITACAO = "acao/listar-acoes-tramitacao";
     public static final String VISUALIZAR_ACAO = "acao/visualizar-acao";
 
 }

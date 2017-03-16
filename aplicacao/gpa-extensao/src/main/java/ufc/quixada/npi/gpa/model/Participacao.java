@@ -65,32 +65,30 @@ public class Participacao {
 		this.participante = participante;
 	}
 
-	public Funcao getFuncao() {
-		return funcao;
+	public String getFuncao() {
+		if (funcao.equals(Funcao.OUTRA)) {
+			return this.descricaoFuncao;
+		}
+		return this.funcao.descricao;
 	}
 
 	public void setFuncao(Funcao funcao) {
 		this.funcao = funcao;
 	}
 
-	public String getDescricaoFuncao() {
-		return descricaoFuncao;
-	}
-
 	public void setDescricaoFuncao(String descricaoFuncao) {
 		this.descricaoFuncao = descricaoFuncao;
 	}
 
-	public Instituicao getInstituicao() {
-		return instituicao;
+	public String getInstituicao() {
+		if (instituicao.equals(Instituicao.UFC)) {
+			return instituicao.descricao;
+		}
+		return nomeInstituicao;
 	}
 
 	public void setInstituicao(Instituicao instituicao) {
 		this.instituicao = instituicao;
-	}
-
-	public String getNomeInstituicao() {
-		return nomeInstituicao;
 	}
 
 	public void setNomeInstituicao(String nomeInstituicao) {
@@ -122,7 +120,10 @@ public class Participacao {
 	}
 
 	public String getNomeParticipante() {
-		return nomeParticipante;
+		if (participante == null) {
+			return nomeParticipante.toUpperCase();
+		}
+		return participante.getNome().toUpperCase();
 	}
 
 	public void setNomeParticipante(String nomeParticipante) {
@@ -130,7 +131,10 @@ public class Participacao {
 	}
 
 	public String getCpfParticipante() {
-		return cpfParticipante;
+		if (participante == null) {
+			return cpfParticipante;
+		}
+		return participante.getCpf();
 	}
 
 	public void setCpfParticipante(String cpfParticipante) {
@@ -179,20 +183,6 @@ public class Participacao {
 			return descricao;
 		}
 		
-	}
-
-	public String getNome() {
-		if (participante == null) {
-			return nomeParticipante.toUpperCase();
-		}
-		return participante.getNome().toUpperCase();
-	}
-
-	public String getCpf() {
-		if (participante == null) {
-			return cpfParticipante;
-		}
-		return participante.getCpf();
 	}
 
 	@Override

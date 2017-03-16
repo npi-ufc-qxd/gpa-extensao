@@ -63,11 +63,10 @@ public interface AcaoExtensaoService {
 	 */
 	int countAcoesEncerradas();
 
-
-
-
-
-	void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	/**
+	 * Cadastra uma nova ação de extensão
+	 */
+	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
