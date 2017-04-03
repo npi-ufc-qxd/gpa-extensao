@@ -45,7 +45,7 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
-	@Autowired
+	//@Autowired
 	private MailSender mailSender;
 
 	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
@@ -66,7 +66,7 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificar(AcaoExtensao acaoExtensao) {
-		List<Papel> papeis = new ArrayList<Papel>();
+		/*List<Papel> papeis = new ArrayList<Papel>();
 		papeis.add(papelRepository.findByNome(Tipo.DIRECAO));
 		List<Pessoa> direcao = pessoaRepository.findAllByPapeis(papeis);
 		Integer direcaoSize = direcao.size();
@@ -140,7 +140,7 @@ public class EmailServiceImpl implements NotificationService {
 		};
 
 		Thread notificar = new Thread(notificacao);
-		notificar.start();
+		notificar.start();*/
 	}
 
 	/**

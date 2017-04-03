@@ -39,14 +39,14 @@ public class AcaoExtensao {
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
 	
+	// Somente para modalidade curso ou evento
 	private Integer horasPraticas;
-	
+
+	// Somente para modalidade curso ou evento
 	private Integer horasTeoricas;
-	
+
+	// Somente para modalidade curso ou evento
 	@Column(columnDefinition = "TEXT")
-	private String ementa;
-	
-	@Column(columnDefinition = "TEXT")	
 	private String programacao;
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy")
@@ -171,14 +171,6 @@ public class AcaoExtensao {
 
 	public void setHorasTeoricas(Integer horasTeoricas) {
 		this.horasTeoricas = horasTeoricas;
-	}
-
-	public String getEmenta() {
-		return ementa;
-	}
-
-	public void setEmenta(String ementa) {
-		this.ementa = ementa;
 	}
 
 	public String getProgramacao() {
@@ -351,12 +343,12 @@ public class AcaoExtensao {
 	}
 
 	public enum Status {
-		NOVO("NOVO"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), AGUARDANDO_PARECER_TECNICO(
+		NOVO("NOVA"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), AGUARDANDO_PARECER_TECNICO(
 				"AGUARDANDO PARECER TÉCNICO"), AGUARDANDO_PARECER_RELATOR(
-						"AGUARDANDO PARECER"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"), RESOLVENDO_PENDENCIAS_PARECER(
+						"AGUARDANDO PARECER DO RELATOR"), AGUARDANDO_RELATOR("AGUARDANDO RELATOR"), RESOLVENDO_PENDENCIAS_PARECER(
 								"RESOLVENDO PENDÊNCIAS DO PARECER"), RESOLVENDO_PENDENCIAS_RELATO(
-										"RESOLVENDO RESTRIÇÕES DO RELATO"), AGUARDANDO_HOMOLOGACAO(
-												"AGUARDANDO HOMOLOGAÇÃO"), APROVADO("APROVADO"), REPROVADO("REPROVADO");
+										"RESOLVENDO PENDÊNCIAS DO RELATO"), AGUARDANDO_HOMOLOGACAO(
+												"AGUARDANDO HOMOLOGAÇÃO"), APROVADO("APROVADA"), REPROVADO("REPROVADA");
 		private String descricao;
 
 		private Status(String descricao) {

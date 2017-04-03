@@ -17,19 +17,19 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer>, JpaSpecificationExecutor<AcaoExtensao> {
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerRelator.responsavel.id = :id)")
-	List<AcaoExtensao> getParecerRelator(@Param("id") Integer id);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac WHERE (ac.parecerTecnico.responsavel.id = :id)")
-	List<AcaoExtensao> getParecerTecnico(@Param("id") Integer id);
-	
-	@Query("SELECT ac FROM AcaoExtensao as ac,equipe_de_trabalho as p WHERE ac.id = p.acaoExtensao.id AND p.participante.id = :id AND ac.coordenador.id != :id")
-	List<AcaoExtensao> getParticipacao(@Param("id") Integer id);
 
-	List<AcaoExtensao> findByCoordenadorAndStatusIn (Pessoa coordenador, Collection<Status> status);
-	
+	@Query("SELECT e.acaoExtensao FROM equipe_de_trabalho AS e where e.participante = :pessoa")
+	List<AcaoExtensao> findByParticipacao(@Param("pessoa") Pessoa pessoa);
+
+	@Query("FROM AcaoExtensao AS a where a.parecerTecnico.responsavel = :pessoa AND status in :status")
+	List<AcaoExtensao> findByPareceristaAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
+
+	@Query("FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa AND status in :status")
+	List<AcaoExtensao> findByRelatorAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
+
 	List<AcaoExtensao> findByStatusIn (Collection<Status> status);
+
+	List<AcaoExtensao> findByStatusNotIn (Collection<Status> status);
 	
 	List<AcaoExtensao> findByStatusInOrderByInicioDesc(Collection<Status> status);
 	
@@ -39,7 +39,14 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);
-	
-	List<AcaoExtensao> findAllByOrderByInicioDesc();
-	
+
+    List<AcaoExtensao> findByAtivo(boolean ativo);
+
+	List<AcaoExtensao> findByAtivoAndStatus(boolean ativo, Status status);
+
+	int countByStatusNotIn(List<Status> status);
+
+	int countByAtivoAndStatus(boolean ativo, Status status);
+
+	int countByAtivo(boolean ativo);
 }

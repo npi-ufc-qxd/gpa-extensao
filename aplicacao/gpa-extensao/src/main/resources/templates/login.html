@@ -4,61 +4,45 @@
 	<title>GPA - Extensão</title>
 	
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
-	
-	<link rel="stylesheet" th:href="@{/public-resources/css/bootstrap.min.css}"></link>
-<!-- 	<link th:href="@{/webjars/bootstrapvalidator/0.5.3/css/bootstrapValidator.css}" rel="stylesheet" /> -->
-	<!-- Font Awesome -->
-	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css}"></link>
-	<!-- Ionicons -->
-	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}"></link>
-	<!-- Theme style -->
-	<link rel="stylesheet" th:href="@{/public-resources/css/AdminLTE.min.css}"></link>
-	<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-	<link rel="stylesheet" th:href="@{/public-resources/css/skin-blue.css}"></link>
-	<!-- iCheck -->
-	<link rel="stylesheet" th:href="@{/public-resources/plugins/blue.css}"></link>
-	
-<body class="hold-transition skin-blue login-page">
-			<div class="login-box">
-				<div class="login-logo">
-    				<b>GPA - Extensão</b>
-  				</div>
-				<div class="login-box-body">
-					<h4 class="login-box-msg">Login</h4>
-					<form th:action="@{/login}" method="post" name="f">
-						
-						<div th:if="${param.error}" class="alert alert-error">    
-                    		Invalid username and password.
-                		</div>
-                		<div th:if="${param.logout}" class="alert alert-success"> 
-                    		You have been logged out.
-                		</div>
-      					
-      					<div class="form-group has-feedback">
-        					<input class="form-control" placeholder="CPF" required="required" id="username" name="username"/>
-        					<span class="glyphicon glyphicon-user form-control-feedback"></span>
-      					</div>
-      					<div class="form-group has-feedback">
-        					<input class="form-control" placeholder="Password" type="password" required="required" id="password" name="password"/>
-        					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      					</div>
-      					<div class="row">
-        					<div class="col-xs-3"></div>
-        					<div class="col-xs-6 form-actions">
-          						<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-        					</div>
-        					<div class="col-xs-3"></div>
-      					</div>
-    				</form>
-      			</div>
+
+	<!-- Bootstrap Core CSS -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/animate.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/style.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/megna.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/extensao.css}"></link>
+
+<body>
+	<!-- Preloader -->
+	<section id="wrapper" class="login-register">
+		<div class="login-box">
+			<div class="white-box">
+				<form class="form-horizontal" id="loginform" th:action="@{/login}" method="post">
+					<h3 class="box-title m-b-20">Sistema de Ações de Extensão</h3>
+					<div class="form-group ">
+						<div class="col-xs-12">
+							<input class="form-control" type="text" name="username" required="required" placeholder="CPF"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-12">
+							<input class="form-control" type="password" name="password" required="required" placeholder="Senha"/>
+						</div>
+					</div>
+					<div class="form-group text-center m-t-20">
+						<div class="col-xs-12">
+							<button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Entrar</button>
+						</div>
+					</div>
+				</form>
 			</div>
-		<footer>
-			<!-- jQuery 2.2.0 -->
-			<script th:src="@{/public-resources/js/jQuery-2.2.0.min.js}"></script>
-			<!-- Bootstrap 3.3.6 -->
-			<script th:src="@{/public-resources/js/bootstrap.min.js}"></script>
-			<!-- Slimscroll -->
-			<script th:src="@{/public-resources/plugins/jquery.slimscroll.min.js}"></script>
-		</footer>
+		</div>
+	</section>
+	<!-- jQuery -->
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- Custom Theme JavaScript -->
+	<script th:src="@{js/custom.min.js}"></script>
 </body>
 </html>

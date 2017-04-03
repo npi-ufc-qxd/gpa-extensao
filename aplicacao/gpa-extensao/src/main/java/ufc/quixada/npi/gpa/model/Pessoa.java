@@ -18,7 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@EntityListeners(PessoaEntityListener.class)
+//@EntityListeners(PessoaEntityListener.class)
 public class Pessoa implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +36,7 @@ public class Pessoa implements UserDetails {
 
 	private String password;
 
+	// TODO: representar os papéis através de uma lista de strings
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "papel_pessoa", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
 	private List<Papel> papeis;
@@ -60,7 +61,7 @@ public class Pessoa implements UserDetails {
 	}
 
 	public String getNome() {
-		return nome;
+		return nome.toUpperCase();
 	}
 
 	public void setNome(String nome) {
@@ -100,28 +101,18 @@ public class Pessoa implements UserDetails {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Pessoa pessoa = (Pessoa) o;
+
+		return cpf != null ? cpf.equals(pessoa.cpf) : pessoa.cpf == null;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pessoa other = (Pessoa) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public int hashCode() {
+		return cpf != null ? cpf.hashCode() : 0;
 	}
 
 	@Override

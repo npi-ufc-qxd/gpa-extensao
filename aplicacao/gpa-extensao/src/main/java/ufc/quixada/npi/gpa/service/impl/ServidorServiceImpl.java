@@ -1,17 +1,9 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_SERVIDOR_JA_CADASTRADO;
-import static ufc.quixada.npi.gpa.util.Constants.USUARIO_NAO_ENCONTRADO_EXCEPTION;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
-import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ufc.quixada.npi.gpa.model.Papel;
 import ufc.quixada.npi.gpa.model.Papel.Tipo;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -21,6 +13,9 @@ import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.PapelRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.ServidorService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ServidorServiceImpl implements ServidorService {
@@ -35,40 +30,45 @@ public class ServidorServiceImpl implements ServidorService {
 	private PapelRepository papelRepository;
 
 	@Override
-	public Usuario find(String cpf) throws GpaExtensaoException {
-		Usuario usuario = usuarioService.getByCpf(cpf);
-
-		if (usuario == null) {
-			throw new GpaExtensaoException(USUARIO_NAO_ENCONTRADO_EXCEPTION);
-		}
-
-		return usuario;
+	public List<Servidor> findAllServidores() {
+		return servidorRepository.findAll();
 	}
 
 	@Override
-	public Integer adicionar(Usuario usuario, Dedicacao dedicacao) throws GpaExtensaoException {
-		if (servidorRepository.existsBySiape(usuario.getSiape())) {
-			throw new GpaExtensaoException(EXCEPTION_SERVIDOR_JA_CADASTRADO);
+	public void adicionarServidor(Usuario usuario, Dedicacao dedicacao, Funcao funcao) {
+		if (!servidorRepository.existsBySiape(usuario.getSiape())) {
+
+			Pessoa pessoa = new Pessoa();
+			pessoa.setNome(usuario.getNome());
+			pessoa.setEmail(usuario.getEmail());
+			pessoa.setCpf(usuario.getCpf());
+
+			List<Papel> papeis = new ArrayList<Papel>();
+			papeis.add(papelRepository.findByNome(Tipo.SERVIDOR));
+			pessoa.setPapeis(papeis);
+
+			Servidor servidor = new Servidor();
+			servidor.setPessoa(pessoa);
+			servidor.setDedicacao(dedicacao);
+			servidor.setFuncao(funcao);
+			servidor.setSiape(usuario.getSiape());
+
+			servidorRepository.save(servidor);
+		}
+	}
+
+	@Override
+	public void cadastrarServidores() {
+		List<Usuario> tecnicos = usuarioService.getByAffiliation("sta");
+		for (Usuario usuario : tecnicos) {
+			adicionarServidor(usuario, Dedicacao.H40, Funcao.STA);
 		}
 
-		Pessoa pessoa = new Pessoa();
-		pessoa.setNome(usuario.getNome());
-		pessoa.setEmail(usuario.getEmail());
-		pessoa.setCpf(usuario.getCpf());
+		List<Usuario> docentes = usuarioService.getByAffiliation("docente");
+		for (Usuario usuario : docentes) {
+			adicionarServidor(usuario, Dedicacao.EXCLUSIVA, Funcao.DOCENTE);
+		}
 
-		List<Papel> papeis = new ArrayList<Papel>();
-		papeis.add(papelRepository.findByNome(Tipo.SERVIDOR));
-		pessoa.setPapeis(papeis);
-
-		Servidor servidor = new Servidor();
-		servidor.setPessoa(pessoa);
-		servidor.setDedicacao(dedicacao);
-		servidor.setFuncao(Funcao.STA);
-		servidor.setSiape(usuario.getSiape());
-
-		servidorRepository.save(servidor);
-		
-		return servidor.getId();
 	}
 
 }

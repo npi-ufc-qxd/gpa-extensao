@@ -1,0 +1,37 @@
+<div class="white-box" th:fragment="parecer-tecnico">
+    <h3 class="box-title m-b-0">Parecer Técnico</h3>
+    <p th:if="${acao.parecerTecnico == null}" class="text-muted m-b-30">Não há nenhum parecer técnico</p>
+    <div th:if="${acao.parecerTecnico}">
+        <div class="row">
+            <div class="col-sm-8">
+                <label>Parecerista</label>
+                <p th:text="${acao.parecerTecnico.responsavel} ? ${acao.parecerTecnico.responsavel.nome} : '-'"/>
+            </div>
+            <div class="col-sm-4">
+                <label>Posicionamento</label>
+                <p th:text="${acao.parecerTecnico.posicionamento} ? ${acao.parecerTecnico.posicionamento.descricao} : '-'"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Prazo estimado</label>
+                <p th:text="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : '-'"/>
+            </div>
+            <div class="col-sm-4">
+                <label>Data de atribuição</label>
+                <p th:text="${acao.parecerTecnico.dataAtribuicao} ? ${#dates.format(acao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy HH:mm')} : '-'"/>
+            </div>
+            <div class="col-sm-4">
+                <label>Data de realização</label>
+                <p th:text="${acao.parecerTecnico.dataRealizacao} ? ${#dates.format(acao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy HH:mm')} : '-'"/>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Parecer</label>
+                <p th:text="${acao.parecerTecnico.parecer} ? ${acao.parecerTecnico.parecer} : '-'"/>
+            </div>
+        </div>
+    </div>
+</div>

@@ -51,7 +51,7 @@ public class Papel implements GrantedAuthority {
 	}
 
 	public enum Tipo{
-		ALUNO("Aluno"),SERVIDOR("Servidor"),DIRECAO("Direção"),ADMINISTRACAO("Administração");
+		ALUNO("Aluno"),SERVIDOR("Servidor"),DIRECAO("Direção"),ADMINISTRACAO("Administração"), COORDENADORIA("COORDENADORIA");
 		
 		private String descricao;
 		

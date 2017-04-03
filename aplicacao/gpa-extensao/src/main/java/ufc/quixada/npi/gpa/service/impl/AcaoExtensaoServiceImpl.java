@@ -11,12 +11,19 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
@@ -37,7 +44,32 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	private NotificationService notificationService;
 
 	@Override
-	public void salvarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
+		return acaoExtensaoRepository.findByParticipacao(pessoa);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesHomologadas() {
+		return acaoExtensaoRepository.findByStatusIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesEmTramitacao() {
+		return acaoExtensaoRepository.findByStatusNotIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesEmAndamento() {
+		return acaoExtensaoRepository.findByAtivoAndStatus(true, Status.APROVADO);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesEncerradas() {
+		return acaoExtensaoRepository.findByAtivo(false);
+	}
+
+	@Override
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
 	}
@@ -60,7 +92,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		if (!(arquivo.getOriginalFilename().toString().equals(""))) {
 			Documento documento = documentoService.save(arquivo, acaoExtensao);
-
 			if (documento != null) {
 				acaoExtensao.setAnexo(documento);
 			}
@@ -144,7 +175,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		old.setHorasPraticas(nova.getHorasPraticas());
 		old.setHorasTeoricas(nova.getHorasTeoricas());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
-		old.setEmenta(nova.getEmenta());
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
@@ -178,5 +208,53 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		}
 		
 		acaoExtensaoRepository.save(acao);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAll(Pessoa pessoa) {
+		return acaoExtensaoRepository.findByParticipacao(pessoa);
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesAguardandoParecer(Pessoa parecerista) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		return acoesParecerista;
+	}
+
+	@Override
+	public List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO, Status.AGUARDANDO_PARECER_RELATOR,
+						Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		return acoesParecerista;
+	}
+
+	@Override
+	public int countAcoesEmTramitacao() {
+		return acaoExtensaoRepository.countByStatusNotIn(Arrays.asList(Status.APROVADO, Status.REPROVADO));
+	}
+
+	@Override
+	public int countAcoesEmAndamento() {
+		return acaoExtensaoRepository.countByAtivoAndStatus(true, Status.APROVADO);
+	}
+
+	@Override
+	public int countAcoesEncerradas() {
+		return acaoExtensaoRepository.countByAtivo(false);
+	}
+
+	@Override
+	public List<AcaoExtensao> findProgramasAprovados() {
+		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 }

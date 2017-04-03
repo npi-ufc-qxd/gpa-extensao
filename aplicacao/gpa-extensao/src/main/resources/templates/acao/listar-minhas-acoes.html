@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="base/base">
+
+<head>
+	<title>Extensão - Minhas Ações</title>
+</head>
+
+<div class="container-fluid" layout:fragment="conteudo">
+    <div class="row bg-title">
+        <!-- .page title -->
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title"></h4>
+        </div>
+        <!-- /.page title -->
+        <!-- .breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Dashboard</a></li>
+                <li class="active">Starter Page</li>
+            </ol>
+        </div>
+        <!-- /.breadcrumb -->
+    </div>
+
+    <div class="row">
+        <!-- Minhas ações -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${minhasAcoes.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que você coordena ou participa</p>
+                <div class="table-responsive">
+                    <table id="minhas-acoes" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Vínculo</th>
+                            <th>Título</th>
+                            <th>Período</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="acao : ${minhasAcoes}">
+                            <td>
+                                <span th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}" th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}" th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}">
+                                </span>
+                            </td>
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                            <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
+                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
+                            </td>
+                            <td>
+                                <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
+                                      th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aguardando parecer -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${meusPareceres.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
+                <div class="table-responsive">
+                    <table id="meus-pareceres" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Coordenador(a)</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="acao : ${meusPareceres}">
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                            <td th:text="${acao.coordenador.nome}"></td>
+                            <td>
+                            <span class="label label-warning" th:text="${acao.status.descricao}">
+                            </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pareceres emitidos -->
+        <div class="col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${meusPareceresEmitidos.size()}"></span></h3>
+                <p class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
+                <div class="table-responsive">
+                    <table id="meus-pareceres-emitidos" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Coordenador(a)</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="acao : ${meusPareceresEmitidos}">
+                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+                            <td th:text="${acao.coordenador.nome}"></td>
+                            <td>
+                            <span th:class="${acao.status.name() == 'ENCERRADO' ? 'label label-danger' : 'label label-primary'}"
+                                  th:text="${acao.status.descricao}">
+                            </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section layout:fragment="js">
+    <script>
+        $(document).ready(function(){
+            $('#menu-minhas-acoes a').addClass("active");
+            $('#minhas-acoes').DataTable();
+            $('#meus-pareceres').DataTable();
+            $('#meus-pareceres-emitidos').DataTable();
+        });
+    </script>
+</section>
+</html>
