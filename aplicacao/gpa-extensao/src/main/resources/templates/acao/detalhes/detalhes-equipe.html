@@ -1,33 +1,79 @@
 <div class="white-box" th:fragment="equipe">
-    <h3 class="box-title m-b-0">Equipe de trabalho</h3>
-    <table id="equipe" class="table table-hover">
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Função</th>
-            <th>Instituição</th>
-            <th>CH</th>
-            <th>Período</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="membro: ${acao.equipeDeTrabalho}">
-            <td th:text="${membro.nomeParticipante}"></td>
-            <td th:text="${membro.cpfParticipante}"></td>
-            <td th:text="${membro.funcao}"></td>
-            <td th:text="${membro.instituicao}"></td>
-            <td th:text="__${membro.cargaHoraria}__h"></td>
-            <td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
-        </tr>
-        <tr th:each="bolsa: ${acao.bolsistas}">
-            <td th:text="${bolsa.bolsista.pessoa.nome}"></td>
-            <td th:text="${bolsa.bolsista.pessoa.cpf}"></td>
-            <td th:text="${bolsa.tipo.name() == 'REMUNERADO'} ? 'Bolsista Remunerado' : 'Aluno(a) Voluntário(a)'"></td>
-            <td>Universidade Federal do Ceará</td>
-            <td th:text="__${bolsa.cargaHoraria}__h"></td>
-            <td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
-        </tr>
-        </tbody>
-    </table>
+	<h3 class="box-title m-b-0">Equipe de trabalho</h3>
+	<table id="equipe" class="table table-hover">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>CPF</th>
+				<th>Função</th>
+				<th>Instituição</th>
+				<th>CH</th>
+				<th>Período</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="membro: ${acao.equipeDeTrabalho}">
+				<td th:text="${membro.nomeParticipante}"></td>
+				<td th:text="${membro.cpfParticipante}"></td>
+				<td th:text="${membro.funcao}"></td>
+				<td th:text="${membro.instituicao}"></td>
+				<td th:text="__${membro.cargaHoraria}__h"></td>
+				<td
+					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+			</tr>
+			<tr th:each="bolsa: ${acao.bolsistas}">
+				<td th:text="${bolsa.bolsista.pessoa.nome}"></td>
+				<td th:text="${bolsa.bolsista.pessoa.cpf}"></td>
+				<td
+					th:text="${bolsa.tipo.name() == 'REMUNERADO'} ? 'Bolsista Remunerado' : 'Aluno(a) Voluntário(a)'"></td>
+				<td>Universidade Federal do Ceará</td>
+				<td th:text="__${bolsa.cargaHoraria}__h"></td>
+				<td
+					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="text-right">
+		<a th:if="${acao.status.name() == 'NOVO'}"
+			class="btn btn-primary waves-effect waves-light m-t-10"
+			data-toggle="modal" data-target="#responsive-modal">Novo
+			Participante</a>
+	</div>
+
+	<div class="white-box">
+		<div id="responsive-modal" class="modal fade" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+			style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title">Adicionar Novo Participante</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Label
+									para o inpute</label> <input class="form-control" id="recipient-name"
+									type="text" />
+							</div>
+							<div class="form-group">
+								<label for="message-text" class="control-label">Label
+									para text area</label>
+								<textarea class="form-control" id="message-text"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default waves-effect"
+							data-dismiss="modal">Fechar</button>
+						<button type="button"
+							class="btn btn-danger waves-effect waves-light">Adicionar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
