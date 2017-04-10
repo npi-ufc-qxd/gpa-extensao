@@ -99,10 +99,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Authentication auth)
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
 			throws GpaExtensaoException {
 		
-		if (!acaoExtensao.getCoordenador().getCpf().equals(auth.getName())) {
+		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
 			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
 					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
 		}

@@ -70,7 +70,7 @@ public interface AcaoExtensaoService {
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
-	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Authentication auth) throws GpaExtensaoException;
+	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 

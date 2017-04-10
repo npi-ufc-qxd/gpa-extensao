@@ -357,15 +357,14 @@ public class AcaoExtensaoController {
 	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao,
 			RedirectAttributes redirectAttribute, Authentication auth) {
 		
+		Pessoa pessoaLogada = (Pessoa) auth.getPrincipal();
+		
 		try {
-			acaoExtensaoService.submeterAcaoExtensao(acao, auth);
+			acaoExtensaoService.submeterAcaoExtensao(acao, pessoaLogada);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
-		} catch (NullPointerException e) {
-			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
-			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
-		}
+		} 
 
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
