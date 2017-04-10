@@ -2,9 +2,13 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -12,18 +16,12 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
@@ -101,16 +99,17 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		old = checkAcaoExtensao(old, acaoExtensao);
-
-		Documento documento = documentoService.save(arquivo, old);
-
-		if (documento != null) {
-			old.setAnexo(documento);
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Authentication auth)
+			throws GpaExtensaoException {
+		
+		if (!acaoExtensao.getCoordenador().getCpf().equals(auth.getName())) {
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
+					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
 		}
 
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		old = checkAcaoExtensao(old, acaoExtensao);
+		
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -256,5 +255,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public List<AcaoExtensao> findProgramasAprovados() {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
+	}
+
+	@Override
+	public AcaoExtensao findById(Integer idAcao) {
+		return acaoExtensaoRepository.findOne(idAcao);
 	}
 }

@@ -353,31 +353,16 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 
-	@RequestMapping("/submeter/{idAcao}")
-	public String submeterForm(@PathVariable("idAcao") Integer idAcao, Model model) {
-		model.addAttribute("action", "submeter");
-		model.addAttribute("acaoExtensao", acaoExtensaoRepository.findOne(idAcao));
-		model.addAttribute("modalidades", Modalidade.values());
-		model.addAttribute(ACAO_EXTENSAO_ID, idAcao);
-		return PAGINA_SUBMETER_ACAO_EXTENSAO;
-	}
-
-	@RequestMapping(value = "/submeter", method = RequestMethod.POST)
-	public String submeterAcaoExtensao(@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo,
-			@Valid @ModelAttribute AcaoExtensao acao, Model model, BindingResult bind,
-			RedirectAttributes redirectAttribute) {
-
-		if (bind.hasErrors() || (acao.getAnexo() == null && arquivo.isEmpty())) {
-			model.addAttribute(MESSAGE, MESSAGE_ANEXO);
-			model.addAttribute("modalidades", Modalidade.values());
-			model.addAttribute(ACAO_EXTENSAO_ID, acao.getId());
-			model.addAttribute("action", "submeter");
-			return PAGINA_SUBMETER_ACAO_EXTENSAO;
-		}
-
+	@GetMapping("/submeter/{idAcao}")
+	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao,
+			RedirectAttributes redirectAttribute, Authentication auth) {
+		
 		try {
-			acaoExtensaoService.submeterAcaoExtensao(acao, arquivo);
+			acaoExtensaoService.submeterAcaoExtensao(acao, auth);
 		} catch (GpaExtensaoException e) {
+			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		} catch (NullPointerException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 		}
