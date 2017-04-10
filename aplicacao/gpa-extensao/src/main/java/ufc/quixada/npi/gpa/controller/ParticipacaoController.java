@@ -37,7 +37,7 @@ import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
-import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
+import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
@@ -59,35 +59,27 @@ public class ParticipacaoController {
 	private ServidorRepository servirdorRepository;
 	
 	@Autowired
-	private PessoaService pessoaService;
+	private PessoaService pessoaService;	
 	
 	@Autowired
-	private AcaoExtensaoService acaoExtensaoService;
+	private ParticipacaoService participacaoService;
 	
 	/**
 	 * Adiciona um novo participante a equipe de trabalho
 	 */
 
-	@PostMapping("/adicionar-participante")
-	public String adicionarParticipante(AcaoExtensao acaoExtensao, Participacao participacao,
-			Authentication authentication, RedirectAttributes redirectAttribute, @RequestParam Integer idPessoa) {
+	@PostMapping("/adicionar-participacao/{acao}")
+	public String adicionarParticipante(@PathVariable("acao") Integer acaoExtensao, Participacao participacao,
+			Authentication authentication, RedirectAttributes redirectAttribute) {
 		
-
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
-
-		Pessoa participante = pessoaService.buscarPorId(idPessoa);
-		
-		participacao.setCpfParticipante(participante.getCpf());
-		participacao.setNomeParticipante(participante.getNome());
-		participacao.setCoordenador(false);
-		
 		try {
-			acaoExtensaoService.adicionarParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
+			participacaoService.adicionarParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
 
-		return R_ACAO + acaoExtensao.getId();
+		return R_ACAO + acaoExtensao;
 
 	}
 
@@ -97,7 +89,7 @@ public class ParticipacaoController {
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-
+		
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 

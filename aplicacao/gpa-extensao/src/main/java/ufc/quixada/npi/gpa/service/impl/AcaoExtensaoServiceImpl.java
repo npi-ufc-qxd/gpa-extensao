@@ -1,7 +1,9 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.*;
-import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -12,20 +14,13 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
-import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Named
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
@@ -44,6 +39,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
+
 
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -261,31 +257,5 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
-	@Override
-	public void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao,
-			Pessoa coordenador) throws GpaExtensaoException {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
-		if (old != null) {
-			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
-				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
-			}
-			if ((participacao.getCargaHoraria() <= 0)
-					|| (participacao.getFuncao() != null && !participacao.getFuncao().replaceAll(" ", "").isEmpty()
-							|| (participacao.getInstituicao() != null
-									&& !participacao.getInstituicao().replaceAll(" ", "").isEmpty()))) {
-
-			} else if (participacao.getCargaHoraria() > 16 || participacao.getCargaHoraria() < 4) {
-
-			}
-			for (Participacao p : acaoExtensao.getEquipeDeTrabalho()) {
-				if (p.getCpfParticipante().equalsIgnoreCase(participacao.getCpfParticipante())) {
-					throw new GpaExtensaoException(ERROR_PESSOA_JA_PARTICIPANTE);
-				}
-			}
-			old.getEquipeDeTrabalho().add(participacao);
-			acaoExtensaoRepository.save(old);
-		}		
-
-	}
+	
 }

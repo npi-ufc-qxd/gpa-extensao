@@ -23,4 +23,6 @@ public interface ServidorService {
 	 * Busca todos os servidores (docentes e técnicos) no LDAP e cadastra os que ainda não estão no sistema
 	 */
 	void cadastrarServidores();
+	
+	List<Servidor> findByPessoa_idNotIn(Integer idCoordenador);
 }

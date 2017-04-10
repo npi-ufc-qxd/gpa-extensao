@@ -1,76 +1,108 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base/base">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="base/base">
 
 <head>
-	<title>Extensão - Detalhes</title>
+<title>Extensão - Detalhes</title>
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
-    <div class="row bg-title">
-        <!-- .page title -->
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title"></h4>
-        </div>
-        <!-- /.page title -->
-        <!-- .breadcrumb -->
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Starter Page</li>
-            </ol>
-        </div>
-        <!-- /.breadcrumb -->
-    </div>
+	<div class="row bg-title">
+		<!-- .page title -->
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<h4 class="page-title"></h4>
+		</div>
+		<!-- /.page title -->
+		<!-- .breadcrumb -->
+		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+			<ol class="breadcrumb">
+				<li><a href="#">Dashboard</a></li>
+				<li class="active">Starter Page</li>
+			</ol>
+		</div>
+		<!-- /.breadcrumb -->
+	</div>
 
-    <!-- Dados Básicos -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
-        </div>
-    </div>
+	<!-- Dados Básicos -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div
+				th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+		</div>
+	</div>
 
-    <!-- Equipe de Trabalho -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
-        </div>
-    </div>
+	<!-- Equipe de Trabalho -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+		</div>
+	</div>
 
-    <!-- Parcerias -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-        </div>
-    </div>
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
 
-    <!-- Pareceres -->
-    <div class="row">
-        <!-- Parecer Técnico -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
-        </div>
-        <!-- Parecer do Relator -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
-        </div>
-    </div>
+	<!-- Pareceres -->
+	<div class="row">
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+		</div>
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
+	</div>
 
 </div>
 <section layout:fragment="js">
-    <script>
-        $('#menu-acoes a').addClass("active");
-        $('#equipe,#parcerias').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            paging: false,
-            searching: false,
-            info : false,
-            order: [[ 0, "asc" ]]
-        });
-    </script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
+						});
+	</script>
+
+	<script type="text/javascript">
+		$('#instituicao').change(function() {
+			if (this.value == "UFC") {
+				document.getElementById("nomeInstituicao").disabled = true;
+			} else {
+				document.getElementById("nomeInstituicao").disabled = false;
+			}
+		});
+	</script>
+	
+	<script type="text/javascript">
+		$('#funcao').change(function() {
+			if (this.value == "OUTRA") {
+				document.getElementById("participanteServidor").disabled = true;
+				document.getElementById("nomeParticipante").disabled = false;
+				document.getElementById("cpfParticipante").disabled = false;
+				document.getElementById("descricaoFuncao").disabled = false;
+				
+			} else {
+				document.getElementById("participanteServidor").disabled = false;
+				document.getElementById("nomeParticipante").disabled = true;
+				document.getElementById("cpfParticipante").disabled = true;
+				document.getElementById("descricaoFuncao").disabled = true;
+			}
+		});
+	</script>
 </section>
 </html>
