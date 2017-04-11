@@ -67,14 +67,14 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="inicio">* Data de início</label>
-										<input id="inicio" th:field="${acao.inicio}" placeholder="Ex.: 01/01/2014" type="text" class="form-control date" required="required" autocomplete="off" />
+										<input id="inicio" th:field="${acao.inicio}" type="text" placeholder="Ex.: 01/01/2014" class="form-control date" required="required" autocomplete="off" />
 	
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<label for="termino">* Data de término</label>
-										<input id="termino" th:field="${acao.termino}" placeholder="Ex.: 01/01/2014" type="text" class="form-control date" required="required" autocomplete="off" />
+										<input id="termino" th:field="${acao.termino}" type="text" placeholder="Ex.: 01/01/2014" class="form-control date" required="required" autocomplete="off" />
 									</div>
 								</div>
 							</div>
@@ -158,14 +158,8 @@
 		</div>
 	</div>
 	
-	<script src="/webjars/jquery/2.2.4/jquery.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
-	
-	<script type="text/javascript">
-		$("#inicio").mask("99/99/9999");
-	</script>
-	
 	<section layout:fragment="js">
+		<script type="text/javascript" th:src="@{/js/jquery.maskedinput.js}"></script>
 		<script>
 	        $('#menu-cadastrar-acao a').addClass("active");
 	        if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
@@ -177,6 +171,11 @@
 	            } else {
 	                $('#curso-evento').addClass('no-display');
 	            }
+	        });
+	        
+	        $(document).ready(function($) {
+	            $("#inicio").mask("99/99/9999");
+	            $("#termino").mask("99/99/9999");
 	        });
 		</script>
 	</section>
