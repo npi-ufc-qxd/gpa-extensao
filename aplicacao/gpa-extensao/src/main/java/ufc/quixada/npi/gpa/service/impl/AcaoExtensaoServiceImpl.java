@@ -11,6 +11,7 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
@@ -42,6 +43,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private ParticipacaoRepository participacaoRepository;
 
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -192,21 +196,21 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
-	
+
 	@Override
 	public void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoId);
-		
+
 		Documento documento = null;
-		
-		if(acao != null){
+
+		if (acao != null) {
 			documento = documentoService.save(arquivo, acao);
 		}
-		
-		if(documento != null) {
+
+		if (documento != null) {
 			acao.setRelatorioFinal(documento);
 		}
-		
+
 		acaoExtensaoRepository.save(acao);
 	}
 
@@ -229,8 +233,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista) {
 		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
-				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO, Status.AGUARDANDO_PARECER_RELATOR,
-						Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
 		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		acoesParecerista.removeAll(acoesRelator);

@@ -25,5 +25,5 @@ public interface ParticipacaoRepository extends CrudRepository<Participacao, Int
 	public List<Participacao> findByAcaoExtensaoAndParticipante(AcaoExtensao acaoExtensao, Pessoa participante);
 	
 	public List<Participacao> findByParticipanteAndAcaoExtensao_status(Pessoa participante, Status status);
-	
+
 }

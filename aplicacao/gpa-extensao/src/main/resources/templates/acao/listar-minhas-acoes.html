@@ -23,105 +23,89 @@
             </ol>
         </div>
         <!-- /.breadcrumb -->
+    </div>  <div class="row">
+        <div class="col-lg-4 col-sm-4 col-xs-12">
+            <a th:href="@{/acoes/minhas/tramitacao}">
+                <div class="white-box">
+                    <h3 class="box-title text-info">Em Tramitação</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="ti-loop text-info"></i></li>
+                        <li class="text-right text-info"><span class="counter" th:text="${minhasAcoes.size()}"></span></li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-sm-4 col-xs-12">
+            <a th:href="@{/acoes/minhas/andamento}">
+                <div class="white-box">
+                    <h3 class="box-title text-success">Em Andamento</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="icon-clock text-success"></i></li>
+                        <li class="text-right text-success"><span class="counter" th:text="${meusPareceres.size()}"></span></li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-sm-4 col-xs-12">
+            <a th:href="@{/acoes/minhas/encerradas}">
+                <div class="white-box">
+                    <h3 class="box-title text-danger">Encerradas</h3>
+                    <ul class="list-inline two-part">
+                        <li><i class="ti-check-box text-danger"></i></li>
+                        <li class="text-right text-danger"><span class="counter" th:text="${meusPareceresEmitidos.size()}"></span></li>
+                    </ul>
+                </div>
+            </a>
+        </div>
     </div>
-
-    <div class="row">
-        <!-- Minhas ações -->
-        <div class="col-sm-12">
-            <div class="white-box">
-                <h3 class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${minhasAcoes.size()}"></span></h3>
-                <p class="text-muted m-b-30">Ações de extensão que você coordena ou participa</p>
-                <div class="table-responsive">
-                    <table id="minhas-acoes" class="table table-hover">
-                        <thead>
+	
+		
+     <div class="row">
+     	<div class="white-box">
+                <h3 th:if="${minhaLista == 'minhatramitacao'}" class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${minhasAcoes.size()}"></span></h3>
+                <p th:if="${minhaLista == 'minhatramitacao'}" class="text-muted m-b-30">Ações de extensão que você coordena ou participa </p>
+                <h3 th:if="${minhaLista == 'meusAndamento'}" class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${meusPareceres.size()}"></span></h3>
+                <p th:if="${minhaLista == 'meusAndamento'}" class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
+                <h3 th:if="${minhaLista == 'meusEncerrada'}" class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${meusPareceresEmitidos.size()}"></span></h3>
+                <p th:if="${minhaLista == 'meusEncerrada'}" class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
+                
+                <table id="minhas-acoes" class="table table-hover">
+                    <thead>
                         <tr>
-                            <th>Vínculo</th>
+                        	<th>Vínculo</th>
                             <th>Título</th>
-                            <th>Período</th>
                             <th>Status</th>
+                            <th>Período</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="acao : ${minhasAcoes}">
-                            <td>
+                    </thead>
+                    
+                    <tbody>
+                        <tr th:each="acao : ${minhaListaAtual}">
+                        	<td>
                                 <span th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}" th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}" th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}">
                                 </span>
                             </td>
+                            
                             <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                            <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
-                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
-                            </td>
-                            <td>
+                            
+                             
+                            
+                            <td>                               
                                 <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
                                       th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
                                 </span>
                             </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Aguardando parecer -->
-        <div class="col-sm-12">
-            <div class="white-box">
-                <h3 class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${meusPareceres.size()}"></span></h3>
-                <p class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
-                <div class="table-responsive">
-                    <table id="meus-pareceres" class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Coordenador(a)</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="acao : ${meusPareceres}">
-                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                            <td th:text="${acao.coordenador.nome}"></td>
-                            <td>
-                            <span class="label label-warning" th:text="${acao.status.descricao}">
-                            </span>
+                            <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
+                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
                             </td>
+                           
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pareceres emitidos -->
-        <div class="col-sm-12">
-            <div class="white-box">
-                <h3 class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${meusPareceresEmitidos.size()}"></span></h3>
-                <p class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
-                <div class="table-responsive">
-                    <table id="meus-pareceres-emitidos" class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Coordenador(a)</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="acao : ${meusPareceresEmitidos}">
-                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                            <td th:text="${acao.coordenador.nome}"></td>
-                            <td>
-                            <span th:class="${acao.status.name() == 'ENCERRADO' ? 'label label-danger' : 'label label-primary'}"
-                                  th:text="${acao.status.descricao}">
-                            </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </tbody>
+                </table>
+		</div>
+       
+</div>
+    
 </div>
 <section layout:fragment="js">
     <script>

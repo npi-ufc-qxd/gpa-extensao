@@ -91,7 +91,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("listaAtual", "tramitacao");
 		return LISTAR_ACOES;
 	}
-
+	
 	/**
 	 * Busca todas as ações que já foram aprovadas e estão em andamento
 	 */
@@ -124,13 +124,68 @@ public class AcaoExtensaoController {
 	@GetMapping("/minhas")
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		
 		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
 		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));
 		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
+		
+		model.addAttribute("minhatramitacao", acaoExtensaoService.countAcoesEmTramitacao());
+		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAll(pessoa));
+		
+		return LISTAR_MINHAS_ACOES;
+	}
+	
+	/**
+	 * Busca todas as acoes em tramitação relacionadas ao usuario logado: que coordena, participa, parecerista ou relator.
+	 */
+
+	@GetMapping("/minhas/tramitacao")
+	public String listarMinhasAcoesEmTramitacao(Model model, Authentication authentication) {
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		
+		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
+		
+		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));
+		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
+		
+		model.addAttribute("minhatramitacao", acaoExtensaoService.countAcoesEmTramitacao());
+		model.addAttribute("minhaLista", "minhatramitacao");
+		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAll(pessoa));
+		return LISTAR_MINHAS_ACOES;
+	}
+	
+	@GetMapping("/minhas/andamento")
+	public String listarMinhasAcoesEmAndamento(Model model, Authentication authentication) {
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		
+		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));
+		
+		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
+		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));		
+		
+		model.addAttribute("meusAndamento", acaoExtensaoService.countAcoesEmAndamento());		
+		model.addAttribute("minhaLista", "meusAndamento");
+		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));
 
 		return LISTAR_MINHAS_ACOES;
 	}
+	
+	@GetMapping("/minhas/encerradas")
+	public String listarMinhasAcoesEncerrada(Model model, Authentication authentication) {
+		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
+		
+		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
+		
+		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
+		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));		
+		
+		model.addAttribute("meusEncerrada", acaoExtensaoService.countAcoesEncerradas());
+		model.addAttribute("minhaLista", "meusEncerrada");
+		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAcoesParecerEmitido(pessoa));
 
+		
+		return LISTAR_MINHAS_ACOES;
+	}
 	/**
 	 * Busca uma ação específica pelo id
 	 */
