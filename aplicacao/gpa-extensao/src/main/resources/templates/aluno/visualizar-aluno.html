@@ -8,15 +8,20 @@
 	<title>Extensão - Aluno</title>
 </head>
 
-<section layout:fragment="conteudo">
-	<div class="col-xs-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title" th:text="${aluno.pessoa.nome}"></h3>
-			</div>
-
-			<div class="box-body">
-				<div class="col-md-12 table-responsive">
+<body>	
+	<section layout:fragment="conteudo">
+		<div class="row bg-title">
+	        <!-- .page title -->
+	        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+	            <h4 class="page-title">Detalhes</h4>
+	        </div>
+	        <!-- /.page title -->
+	    </div>
+	    
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="white-box">
+					<h3 class="box-title m-b-0" th:text="${aluno.pessoa.nome}"></h3>
 					<table id="acoes" class="table row-border">
 						<thead>
 							<tr>
@@ -30,7 +35,7 @@
 							<tr th:each="acao : ${acoes}">
 								<td>
 									<a th:href="@{/acoes/__${acao.id}__}" th:text="${acao.titulo}"></a>
-									<span th:if="${acao.coordenador eq servidor.pessoa}" class="label label-primary ml-10">coordenador(a)</span>
+									<span th:if="${acao.coordenador eq aluno.pessoa}" class="label label-primary ml-10">coordenador(a)</span>
 								</td>
 								<td th:text="${acao.modalidade.descricao}"></td>
 								<td th:text="${acao.status.descricao}"></td>
@@ -41,18 +46,20 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-<section layout:fragment="js">
-	<script>
-        $('#acoes').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-			paging: false,
-			searching: false,
-            order: [[ 0, "asc" ]]
-        });
-	</script>
-</section>
+	</section>
+	<section layout:fragment="js">
+		<script>
+	        $('#acoes').dataTable({
+	            language: {
+	                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+	            },
+				paging: false,
+				searching: false,
+	            order: [[ 0, "asc" ]]
+	        });
+		</script>
+	</section>
+
+</body>
+
 </html>
