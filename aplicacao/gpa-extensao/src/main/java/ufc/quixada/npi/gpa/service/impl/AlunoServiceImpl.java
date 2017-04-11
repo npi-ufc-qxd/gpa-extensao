@@ -26,7 +26,7 @@ public class AlunoServiceImpl implements AlunoService {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
-	
+
 	@Autowired
 	private PapelRepository papelRepository;
 
@@ -72,6 +72,11 @@ public class AlunoServiceImpl implements AlunoService {
 		for (Usuario usuario : alunos) {
 			adicionarAluno(usuario);
 		}
+	}
+
+	@Override
+	public List<Aluno> alunosSemBolsa() {
+		return alunoRepository.alunosSemBolsa();
 	}
 
 }

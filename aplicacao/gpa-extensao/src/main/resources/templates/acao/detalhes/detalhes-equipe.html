@@ -34,7 +34,8 @@
 		</tbody>
 	</table>
 	<div class="text-right">
-		<a th:if="${acao.status.name() == 'NOVO'}"
+		<a
+			th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 			class="btn btn-primary waves-effect waves-light m-t-10"
 			data-toggle="modal" data-target="#opcao-modal">Novo Participante</a>
 	</div>
@@ -54,8 +55,6 @@
 
 					<button class="btn btn-block btn-primary" data-toggle="modal"
 						data-target="#participacao-modal" data-dismiss="modal">Participação</button>
-
-
 				</div>
 			</div>
 		</div>
@@ -88,25 +87,17 @@
 														<option th:each="f : ${funcoes}" th:text="${f.descricao}"
 															th:value="${f}"></option>
 													</select> <span class="help-block"> Selecione a função do
-														participante </span> 
-														<label>* Nome</label> 
-														
-														<input id="nomeParticipante" th:field="${participacao.nomeParticipante}"
+														participante </span> <label>* Nome</label> <input
+														id="nomeParticipante"
+														th:field="${participacao.nomeParticipante}"
 														class="form-control" type="text" required="required"
-														disabled="disabled" />
-														<label>* CPF</label> 
-														
-														<input
+														disabled="disabled" /> <label>* CPF</label> <input
 														id="cpfParticipante" th:field="*{cpfParticipante}"
 														class="form-control" type="text" required="required"
-														disabled="disabled" />
-														
-														<label>* Descrição da Função</label> 
-														
-														<input
-														id="descricaoFuncao" th:field="*{descricaoFuncao}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" />
+														disabled="disabled" /> <label>* Descrição da
+														Função</label> <input id="descricaoFuncao"
+														th:field="*{descricaoFuncao}" class="form-control"
+														type="text" required="required" disabled="disabled" />
 												</div>
 											</div>
 											<div class="col-md-6">
@@ -140,8 +131,7 @@
 														data-placeholder="Selecione uma função" tabindex="1"
 														id="participanteServidor" th:field="*{participante}">
 														<option th:each="s : ${servidores}" id="servidor"
-															th:text="${s.pessoa.nome}"
-															th:value="${s.pessoa.id}"></option>
+															th:text="${s.pessoa.nome}" th:value="${s.pessoa.id}"></option>
 													</select> <span class="help-block">Selecione um servidor </span>
 												</div>
 											</div>
@@ -151,7 +141,7 @@
 												<i class="fa fa-check"></i> Adicionar
 											</button>
 											<button type="button" class="btn btn-default"
-												data-dismiss="modal">Fechar</button>
+												onClick="window.location.reload();">Fechar</button>
 										</div>
 									</div>
 								</form>
@@ -170,11 +160,56 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
+					<button type="button" class="close"
+						onClick="window.location.reload();" aria-hidden="true">×</button>
 					<h4 class="modal-title">Adicionar Novo Bolsista</h4>
 				</div>
-				<div class="modal-body"></div>
+				<div class="modal-body">
+
+
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<form
+									th:action="@{/bolsa/cadastrar/{idAcao}(idAcao=${acao.id})}"
+									th:object="${bolsa}" method="POST">
+									<div class="form-body">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">* Tipo Bolsa</label> <select
+														id="tipo" class="form-control" th:field="${bolsa.tipo}">
+														<option th:each="t : ${tipoBolsa}"
+															th:text="${t.descricao}" th:value="${t}"></option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">* Aluno</label> <select
+														id="bolsista" class="form-control"
+														th:field="${bolsa.bolsista}">
+														<option th:each="b : ${alunos}" th:text="${b.pessoa.nome}"
+															th:value="${b.pessoa.id}"></option>
+													</select> <span class="help-block"> Selecione o aluno </span>
+
+												</div>
+											</div>
+										</div>
+										<div class="form-actions">
+											<button type="submit" class="btn btn-success">
+												<i class="fa fa-check"></i> Adicionar
+											</button>
+											<button type="button" class="btn btn-default"
+												onClick="window.location.reload();">Fechar</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</div>

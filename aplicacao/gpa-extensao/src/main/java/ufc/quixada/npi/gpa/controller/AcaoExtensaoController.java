@@ -111,10 +111,10 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
+
 	@Autowired
 	private ServidorService servidorService;
-	
+
 	@Autowired
 	private AlunoService alunoService;
 
@@ -128,7 +128,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("andamento", acaoExtensaoService.countAcoesEmAndamento());
 		model.addAttribute("encerrada", acaoExtensaoService.countAcoesEncerradas());
 		model.addAttribute("listaAtual", "tramitacao");
-		
+
 		return LISTAR_ACOES;
 	}
 
@@ -176,13 +176,15 @@ public class AcaoExtensaoController {
 	 * Busca uma ação específica pelo id
 	 */
 	@GetMapping("/{acao}")
-	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {		
+	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 		model.addAttribute("acao", acao);
 		model.addAttribute("participacao", new Participacao());
 		model.addAttribute("funcoes", Funcao.values());
 		model.addAttribute("instituicoes", Instituicao.values());
 		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("alunos", alunoService.findAllAlunos());
+		model.addAttribute("tipoBolsa", TipoBolsa.values());
+		model.addAttribute("bolsa", new Bolsa());
 		return VISUALIZAR_ACAO;
 	}
 

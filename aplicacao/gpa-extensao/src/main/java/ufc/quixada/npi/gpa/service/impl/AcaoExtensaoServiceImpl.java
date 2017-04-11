@@ -257,5 +257,14 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
+	@Override
+	public AcaoExtensao findById(Integer id) {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		if(acao != null){
+			return acao;
+		}
+		return null;
+	}
+
 	
 }

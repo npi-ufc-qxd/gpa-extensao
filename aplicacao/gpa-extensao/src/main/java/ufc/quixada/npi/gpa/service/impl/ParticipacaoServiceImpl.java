@@ -84,6 +84,10 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 					throw new GpaExtensaoException(VALOR_INVALIDO);
 				}
 
+			} else if (!participacao.getInstituicao().equals(Instituicao.UFC)) {
+				if (participacao.getNomeInstituicao().replaceAll(" ", "").isEmpty()) {
+					throw new GpaExtensaoException(VALOR_INVALIDO);
+				}
 			} else if (participacao.getParticipante() != null) {
 				Servidor servidor = servidorRepository.findByPessoa_cpf(participacao.getCpfParticipante());
 				if (servidor.getDedicacao().equals(Dedicacao.EXCLUSIVA)
