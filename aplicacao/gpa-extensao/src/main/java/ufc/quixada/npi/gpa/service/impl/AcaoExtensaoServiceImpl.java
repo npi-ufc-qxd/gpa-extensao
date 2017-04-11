@@ -99,16 +99,17 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		old = checkAcaoExtensao(old, acaoExtensao);
-
-		Documento documento = documentoService.save(arquivo, old);
-
-		if (documento != null) {
-			old.setAnexo(documento);
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
+			throws GpaExtensaoException {
+		
+		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
+					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
 		}
 
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		old = checkAcaoExtensao(old, acaoExtensao);
+		
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -257,5 +258,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
-	
+	/*@Override
+	public AcaoExtensao findById(Integer idAcao) {
+		return acaoExtensaoRepository.findOne(idAcao);
+	}*/
 }
