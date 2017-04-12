@@ -92,7 +92,7 @@
                             
                             <td>                               
                                 <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
-                                      th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADA'}">
+                                      th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADO'}">
                                 </span>
                             </td>
                             <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +

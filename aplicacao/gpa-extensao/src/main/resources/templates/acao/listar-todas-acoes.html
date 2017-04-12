@@ -82,7 +82,8 @@
                             <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                             <td th:text="${acao.coordenador.nome}"></td>
                             <td>
-                                <span class="label label-primary" th:text="${acao.status.descricao}">
+                                <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-primary'}"
+                                      th:text="${acao.status.descricao}">
                                 </span>
                             </td>
                             <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
