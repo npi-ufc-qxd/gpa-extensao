@@ -63,7 +63,8 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	public void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa coordenador)
 			throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao);
-
+		String espaco = " ";
+		Integer minimoHoras = 4;
 		if (old != null) {
 
 			if (participacao.getParticipante() != null) {
@@ -78,9 +79,9 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			} else if (participacao.getFuncao().equals(Funcao.OUTRA)) {
-				if (participacao.getDescricaoFuncao().replaceAll(" ", "").isEmpty()
-						|| participacao.getCpfParticipante().replaceAll(" ", "").isEmpty()
-						|| participacao.getNomeParticipante().replaceAll(" ", "").isEmpty()) {
+				if (participacao.getDescricaoFuncao().replaceAll(espaco, "").isEmpty()
+						|| participacao.getCpfParticipante().replaceAll(espaco, "").isEmpty()
+						|| participacao.getNomeParticipante().replaceAll(espaco, "").isEmpty()) {
 					throw new GpaExtensaoException(VALOR_INVALIDO);
 				}
 
@@ -88,11 +89,11 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				Servidor servidor = servidorRepository.findByPessoa_cpf(participacao.getCpfParticipante());
 				if (servidor.getDedicacao().equals(Dedicacao.EXCLUSIVA)
 						|| servidor.getDedicacao().equals(Dedicacao.H40)) {
-					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 16) {
+					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 16) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				} else if ((servidor.getDedicacao().equals(Dedicacao.H20))) {
-					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 12) {
+					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 12) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				}
