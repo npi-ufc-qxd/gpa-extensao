@@ -1,12 +1,10 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.ACAO_EXTENSAO_ID;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ANEXO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
@@ -15,7 +13,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
-import static ufc.quixada.npi.gpa.util.Constants.PAGINA_SUBMETER_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
@@ -46,7 +43,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -117,7 +113,11 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private AlunoService alunoService;
-
+	
+	
+	private String funcoes = "funcoes";
+	private String instituicoes = "instituicoes";
+	
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
 	 */
@@ -179,8 +179,8 @@ public class AcaoExtensaoController {
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 		model.addAttribute("acao", acao);
 		model.addAttribute("participacao", new Participacao());
-		model.addAttribute("funcoes", Funcao.values());
-		model.addAttribute("instituicoes", Instituicao.values());
+		model.addAttribute(funcoes, Funcao.values());
+		model.addAttribute(instituicoes, Instituicao.values());
 		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("alunos", alunoService.findAllAlunos());
 		model.addAttribute("tipoBolsa", TipoBolsa.values());
@@ -305,10 +305,10 @@ public class AcaoExtensaoController {
 		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
 
 		model.addAttribute("novaParticipacao", new Participacao());
-		model.addAttribute("funcoes", Funcao.values());
+		model.addAttribute(funcoes, Funcao.values());
 		model.addAttribute("novaBolsa", new Bolsa());
 		model.addAttribute("tipos", TipoBolsa.values());
-		model.addAttribute("instituicoes", Instituicao.values());
+		model.addAttribute(instituicoes, Instituicao.values());
 
 		model.addAttribute("acaoExtensao", acao);
 
