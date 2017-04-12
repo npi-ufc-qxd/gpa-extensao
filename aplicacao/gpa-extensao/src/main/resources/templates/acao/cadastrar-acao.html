@@ -79,7 +79,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-3">
 								<label for="vinculo">Vínculo com programa de extensão:</label>
 								<select id="vinculo" class="form-control" th:field="${acao.vinculo}">
 									<option value="">NENHUM</option>
@@ -103,6 +103,15 @@
 									</select>
 								</div>
 							</div>
+							<div class="col-md-3">
+									<div class="form-group">
+										<label for="retroativa">Ação Retroativa?</label>
+										<select id="retroativa" class="form-control">
+											<option value="NAO" selected="selected">NÃO</option>
+											<option value="SIM">SIM</option>
+										</select>
+									</div>
+								</div>
 						</div>
 
 						<!-- Somente para modalidade curso ou evento -->
@@ -133,7 +142,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label for="anexo">* Anexo</label>
 									<input id="anexo" th:if="${acao.anexo} == null" name="anexoAcao" required="required" class="file" type="file" accept="application/pdf"/>
@@ -143,6 +152,17 @@
 										<a id="excluirArquivo" class="btn btn-danger btn-xs" data-toogle="tooltip" title="Excluir arquivo">
 											<i class="fa fa-trash-o"></i>
 										</a>
+									</div>
+								</div>
+							</div>
+							<div id="coordenador-acao" class="no-display">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="coordenador">Coordenador</label>
+										<select id="coordenador" class="form-control" th:field="${acao.coordenador}">
+											<option th:value="${null}" selected="selected">ESCOLHA UM SERVIDOR</option>
+											<option th:each="servidor : ${servidores}" th:value="${servidor.pessoa.id}" th:text="${servidor.pessoa.nome}"></option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -169,6 +189,14 @@
                 $('#curso-evento').addClass('no-display');
             }
         });
+        $('#retroativa').change(function(){
+        	if($('#retroativa').val() === 'SIM') {
+        		$('#coordenador-acao').removeClass('no-display');
+        	}else {
+        		$('#coordenador-acao').addClass('no-display');
+        	}
+        });
+        
 	</script>
 </section>
 </html>
