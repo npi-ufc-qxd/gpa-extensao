@@ -14,7 +14,7 @@ public class AttributesController {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
-	//@ModelAttribute("pessoaLogada")
+	@ModelAttribute("pessoaLogada")
 	public Pessoa pessoaLogada(Authentication authentication) {
 		return pessoaRepository.findByCpf(authentication.getName());
 	}

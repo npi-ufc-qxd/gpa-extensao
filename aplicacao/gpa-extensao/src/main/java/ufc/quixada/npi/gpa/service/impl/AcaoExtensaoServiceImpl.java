@@ -5,8 +5,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Named;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +13,9 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
-import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -43,9 +39,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@Autowired
-	private ParticipacaoRepository participacaoRepository;
-
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
 		return acaoExtensaoRepository.findByParticipacao(pessoa);
