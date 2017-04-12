@@ -67,9 +67,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException {
+		acaoExtensao.setCoordenador(coordenador);
+		acaoExtensao.setAtivo(true);
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
+		
 	}
 
 	@Override
