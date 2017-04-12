@@ -34,7 +34,6 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 		participacao.setInstituicao(Instituicao.UFC);
 		participacao.setNomeInstituicao("");
 		participacao.setNomeParticipante("");
-		System.out.println(acaoExtensao.getCoordenador().getNome());
 		participacao.setParticipante(acaoExtensao.getCoordenador());
 
 		Servidor servidor = servidorRepository.findByPessoa_cpf(acaoExtensao.getCoordenador().getCpf());
