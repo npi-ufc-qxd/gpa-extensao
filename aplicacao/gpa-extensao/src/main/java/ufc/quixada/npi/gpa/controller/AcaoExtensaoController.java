@@ -1,14 +1,39 @@
 package ufc.quixada.npi.gpa.controller;
 
-import static ufc.quixada.npi.gpa.util.Constants.*;
-import static ufc.quixada.npi.gpa.util.PageConstants.*;
+import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
+import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
+import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
+import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
+import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
+import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
+import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -18,8 +43,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,10 +74,10 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
-import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+import ufc.quixada.npi.gpa.service.ServidorService;
 
 @Controller
 @RequestMapping("/acoes")
@@ -59,7 +90,7 @@ public class AcaoExtensaoController {
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
-	private ServidorRepository servirdorRepository;
+	private ServidorService servidorService;
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
@@ -204,6 +235,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("acao", new AcaoExtensao());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
+		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("action", "cadastrar");
 
 		return CADASTRAR_ACAO;
@@ -218,11 +250,16 @@ public class AcaoExtensaoController {
 							@RequestParam("cargaHoraria") Integer cargaHoraria, @Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 							Authentication authentication, RedirectAttributes redirect) {
 		try {
+			
 			Pessoa coordenador = pessoaRepository.findByCpf(authentication.getName());
-			acaoExtensao.setCoordenador(coordenador);
-			acaoExtensao.setAtivo(true);
-			acaoExtensaoService.cadastrar(acaoExtensao, arquivo);
-			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
+			
+			if(acaoExtensao.getCoordenador() != null) {
+				acaoExtensaoService.salvarAcaoRetroativa(acaoExtensao, arquivo, cargaHoraria);
+			} else {
+				acaoExtensaoService.cadastrar(acaoExtensao, arquivo, coordenador);
+				participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
+			}
+			
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
 			return R_ACOES;
@@ -429,7 +466,7 @@ public class AcaoExtensaoController {
 
 	@RequestMapping("/buscarCoordenadores/{id}")
 	public @ResponseBody List<Servidor> buscarCoordenadores(@PathVariable("id") Integer idCoordenadorAtual) {
-		return servirdorRepository.findByPessoa_idNotIn(idCoordenadorAtual);
+		return servidorService.buscarServidorNaoCoordenador(idCoordenadorAtual);
 	}
 
 	@RequestMapping(value = "/salvarRelatorioFinal/{id}", method = RequestMethod.POST)
