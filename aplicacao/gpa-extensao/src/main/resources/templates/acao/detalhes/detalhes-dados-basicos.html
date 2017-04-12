@@ -43,7 +43,7 @@
         </div>
         <div class="col-sm-2">
             <label>Bolsas recebidas</label>
-            <p th:if="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'"/>
+            <p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'"/>
         </div>
     </div>
 
