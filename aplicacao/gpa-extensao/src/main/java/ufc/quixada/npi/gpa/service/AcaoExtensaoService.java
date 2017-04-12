@@ -1,14 +1,12 @@
 package ufc.quixada.npi.gpa.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
-
-import java.util.Collection;
-import java.util.List;
 
 public interface AcaoExtensaoService {
 
@@ -71,7 +69,7 @@ public interface AcaoExtensaoService {
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
-	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
@@ -84,6 +82,5 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
-
 }
 
