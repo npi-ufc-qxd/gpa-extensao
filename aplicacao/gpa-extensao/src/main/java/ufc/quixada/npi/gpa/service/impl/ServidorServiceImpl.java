@@ -72,8 +72,9 @@ public class ServidorServiceImpl implements ServidorService {
 	}
 
 	@Override
-	public List<Servidor> findByPessoa_idNotIn(Integer idCoordenador) {
-		return servidorRepository.findByPessoa_idNotIn(idCoordenador);
+	public List<Servidor> buscarServidorNaoCoordenador(Integer id) {
+		return servidorRepository.findByPessoa_idNotIn(id);
+
 	}
 
 }

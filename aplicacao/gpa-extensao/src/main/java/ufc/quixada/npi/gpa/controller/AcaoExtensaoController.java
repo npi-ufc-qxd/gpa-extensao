@@ -113,11 +113,10 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private AlunoService alunoService;
-	
-	
+
 	private String funcoes = "funcoes";
 	private String instituicoes = "instituicoes";
-	
+
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
 	 */
@@ -197,6 +196,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("acao", new AcaoExtensao());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
+		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("action", "cadastrar");
 
 		return CADASTRAR_ACAO;
@@ -213,11 +213,16 @@ public class AcaoExtensaoController {
 			@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao, Authentication authentication,
 			RedirectAttributes redirect) {
 		try {
+
 			Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
-			acaoExtensao.setCoordenador(coordenador);
-			acaoExtensao.setAtivo(true);
-			acaoExtensaoService.cadastrar(acaoExtensao, arquivo);
-			participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
+
+			if (acaoExtensao.getCoordenador() != null) {
+				acaoExtensaoService.salvarAcaoRetroativa(acaoExtensao, arquivo, cargaHoraria);
+			} else {
+				acaoExtensaoService.cadastrar(acaoExtensao, arquivo, coordenador);
+				participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
+			}
+
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
 			return R_ACOES;
@@ -406,17 +411,17 @@ public class AcaoExtensaoController {
 	}
 
 	@GetMapping("/submeter/{idAcao}")
-	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao,
-			RedirectAttributes redirectAttribute, Authentication auth) {
-		
+	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+			Authentication auth) {
+
 		Pessoa pessoaLogada = (Pessoa) auth.getPrincipal();
-		
+
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, pessoaLogada);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
-		} 
+		}
 
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
@@ -424,7 +429,9 @@ public class AcaoExtensaoController {
 
 	@RequestMapping("/buscarCoordenadores/{id}")
 	public @ResponseBody List<Servidor> buscarCoordenadores(@PathVariable("id") Integer idCoordenadorAtual) {
-		return servidorService.findByPessoa_idNotIn(idCoordenadorAtual);
+
+		return servidorService.buscarServidorNaoCoordenador(idCoordenadorAtual);
+
 	}
 
 	@RequestMapping(value = "/salvarRelatorioFinal/{id}", method = RequestMethod.POST)
