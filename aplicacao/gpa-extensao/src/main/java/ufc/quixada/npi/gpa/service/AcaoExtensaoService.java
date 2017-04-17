@@ -66,6 +66,13 @@ public interface AcaoExtensaoService {
 	 */
 	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
+	
+	/**
+	 * Adiciona um número de bolsas que foram recebidas na ação
+	 */
+	void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	
+	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
@@ -84,5 +91,10 @@ public interface AcaoExtensaoService {
 	List<AcaoExtensao> findProgramasAprovados();
 
 	AcaoExtensao findById(Integer idAcao);
+	
+	/**
+	 * Retorna o cpf do coordenador da ação
+	 */
+	String buscarCpfCoordenador(Integer id);
 }
 

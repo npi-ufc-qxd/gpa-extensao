@@ -6,12 +6,14 @@ import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.FrequenciaBolsista;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
@@ -24,6 +26,47 @@ public class BolsaServiceImpl implements BolsaService {
 	@Autowired
 	private BolsaRepository bolsaRepository;
 
+	@Override
+	public void salvarBolsa(Bolsa bolsa, AcaoExtensao acao) {
+		if(acao != null) {
+			if(bolsa != null) {
+				bolsa.setAcaoExtensao(acao);
+				bolsa.setAtivo(true);
+				
+				bolsaRepository.save(bolsa);
+			}
+		}
+	}
+	
+	@Override
+	public void encerrarBolsa(Bolsa bolsa, Date data) {
+		if(bolsa != null) {
+			bolsa.setAtivo(false);
+			bolsa.setTermino(data);
+			bolsaRepository.save(bolsa);
+		}
+	}
+	
+	@Override
+	public List<Bolsa> listarBolsasAcao(Integer acaoId) {
+		return bolsaRepository.findByAcaoExtensao_id(acaoId);
+	}
+	
+	@Override
+	public void deletarBolsa(Integer bolsaId) {
+		bolsaRepository.delete(bolsaId);
+	}
+	
+	@Override
+	public Bolsa buscarBolsa(Integer bolsaId) {
+		return bolsaRepository.findOne(bolsaId);
+	}
+	
+	@Override
+	public List<Bolsa> listarBolsasAluno(Integer idAluno) {
+		return bolsaRepository.findByBolsista_id(idAluno);
+	}
+	
 	@Override
 	public List<FrequenciaView> getBolsas(Integer ano) {
 		List<Bolsa> bolsas = bolsaRepository.findByYear(ano);
