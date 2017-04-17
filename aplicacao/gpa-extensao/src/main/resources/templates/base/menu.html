@@ -9,6 +9,21 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right pull-right">
 			<li class="dropdown">
+                <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                    <i class="icon-note"></i>
+                    <div class="notify">
+                        <span class="heartbit"></span>
+                        <span class="point"></span>
+                    </div>                
+                </a>
+                <ul class="dropdown-menu dropdown-tasks animated slideInUp">
+                	<li> <a th:text="${qtdPendenciasParecerTecnico} + ' resolvendo parecer tecnico'"></a> </li>
+                	<li> <a th:text="${qtdPendenciasParecerRelator} + ' resolvendo relato'"></a> </li>
+                    <li sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesPareceristaRelatorHomologacao} + ' aguardando parecerista/relator'"></a> </li>
+                    <li sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesHomologacao} + ' aguardando homologação'"></a> </li>
+                </ul>
+            </li>
+			<li class="dropdown">
 				<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"><b class="hidden-xs" th:text="${pessoaLogada.getNome()}"></b> <i class="icon-options-vertical"></i></a>
 				<ul class="dropdown-menu dropdown-user animated flipInY">
 					<li> <a th:href="@{/logout}"> <i class="fa fa-power-off"></i> Sair</a> </li>

@@ -83,10 +83,10 @@ import ufc.quixada.npi.gpa.service.ServidorService;
 @RequestMapping("/acoes")
 public class AcaoExtensaoController {
 
-    @Autowired
-    private AcaoExtensaoService acaoExtensaoService;
+	@Autowired
+	private AcaoExtensaoService acaoExtensaoService;
 
-    @Autowired
+	@Autowired
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
@@ -113,7 +113,7 @@ public class AcaoExtensaoController {
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
 	 */
-	@GetMapping({"", "/tramitacao"})
+	@GetMapping({ "", "/tramitacao" })
 	public String listarAcoesEmTramitacao(Model model) {
 		model.addAttribute("acoes", acaoExtensaoService.findAcoesEmTramitacao());
 		model.addAttribute("tramitacao", acaoExtensaoService.countAcoesEmTramitacao());
@@ -150,7 +150,8 @@ public class AcaoExtensaoController {
 	}
 
 	/**
-	 * Busca todas as ações relacionadas ao usuários logado: que coordena, participa, parecerista ou relator.
+	 * Busca todas as ações relacionadas ao usuários logado: que coordena,
+	 * participa, parecerista ou relator.
 	 */
 	@GetMapping("/minhas")
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
@@ -171,11 +172,11 @@ public class AcaoExtensaoController {
 		return VISUALIZAR_ACAO;
 	}
 
-    /**
-     * Formulário para cadastro de nova ação de extensão
-     */
-    @PreAuthorize(PERMISSAO_SERVIDOR)
-    @GetMapping("/cadastrar")
+	/**
+	 * Formulário para cadastro de nova ação de extensão
+	 */
+	@PreAuthorize(PERMISSAO_SERVIDOR)
+	@GetMapping("/cadastrar")
 	public String cadastrar(Model model) {
 		model.addAttribute("acao", new AcaoExtensao());
 		model.addAttribute("modalidades", Modalidade.values());
@@ -186,25 +187,27 @@ public class AcaoExtensaoController {
 		return CADASTRAR_ACAO;
 	}
 
-    /**
-     * Cadastra uma nova ação de extensão ou atualiza suas informações antes de ser submetida
-     */
-    @PreAuthorize(PERMISSAO_SERVIDOR)
-    @PostMapping("/cadastrar")
+	/**
+	 * Cadastra uma nova ação de extensão ou atualiza suas informações antes de
+	 * ser submetida
+	 */
+	@PreAuthorize(PERMISSAO_SERVIDOR)
+	@PostMapping("/cadastrar")
 	public String cadastrar(@RequestParam(value = "anexoAcao") MultipartFile arquivo,
-							@RequestParam("cargaHoraria") Integer cargaHoraria, @Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-							Authentication authentication, RedirectAttributes redirect) {
+			@RequestParam("cargaHoraria") Integer cargaHoraria,
+			@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao, Authentication authentication,
+			RedirectAttributes redirect) {
 		try {
-			
+
 			Pessoa coordenador = pessoaRepository.findByCpf(authentication.getName());
-			
-			if(acaoExtensao.getCoordenador() != null) {
+
+			if (acaoExtensao.getCoordenador() != null) {
 				acaoExtensaoService.salvarAcaoRetroativa(acaoExtensao, arquivo, cargaHoraria);
 			} else {
 				acaoExtensaoService.cadastrar(acaoExtensao, arquivo, coordenador);
 				participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 			}
-			
+
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
 			return R_ACOES;
@@ -214,54 +217,56 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 
-    /**
-     * Formulário para editar uma ação de extensão
-     */
-    @PreAuthorize(PERMISSAO_SERVIDOR)
+	/**
+	 * Formulário para editar uma ação de extensão
+	 */
+	@PreAuthorize(PERMISSAO_SERVIDOR)
 	@GetMapping("/editar/{id}")
-    public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication) {
-        // Verifica se é possível editar a ação
-        // Só é possível editar quando o usuário for o coordenador e o status for NOVO ou estiver resolvendo alguma pendência
-	    if (acaoExtensao == null || !(acaoExtensao.getStatus().equals(Status.NOVO)
-                || acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
-                || acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO))
-                || !acaoExtensao.getCoordenador().getCpf().equals(authentication.getName())) {
-            return R_INDEX;
-        }
+	public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication) {
+		// Verifica se é possível editar a ação
+		// Só é possível editar quando o usuário for o coordenador e o status
+		// for NOVO ou estiver resolvendo alguma pendência
+		if (acaoExtensao == null
+				|| !(acaoExtensao.getStatus().equals(Status.NOVO)
+						|| acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+						|| acaoExtensao.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO))
+				|| !acaoExtensao.getCoordenador().getCpf().equals(authentication.getName())) {
+			return R_INDEX;
+		}
 
-        model.addAttribute("acao", acaoExtensao);
-        model.addAttribute("modalidades", Modalidade.values());
-        model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-        model.addAttribute("action", "editar");
-        model.addAttribute("cargaHoraria", 4);
+		model.addAttribute("acao", acaoExtensao);
+		model.addAttribute("modalidades", Modalidade.values());
+		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
+		model.addAttribute("action", "editar");
+		model.addAttribute("cargaHoraria", 4);
 
-        return CADASTRAR_ACAO;
-    }
+		return CADASTRAR_ACAO;
+	}
 
-    @RequestMapping(value = "/editar", method = RequestMethod.POST)
-    public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-                             @RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Authentication authentication,
-                             Model model, RedirectAttributes redirect) {
+	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Authentication authentication,
+			Model model, RedirectAttributes redirect) {
 
-        if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
-                && !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
-            acaoExtensao.setHorasPraticas(null);
-            acaoExtensao.setHorasTeoricas(null);
-        }
-        if (!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
-            acaoExtensao.setProgramacao("");
-        }
-        try {
-            acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
-        } catch (GpaExtensaoException e) {
-            redirect.addFlashAttribute(ERRO, e.getMessage());
-            return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-        }
+		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
+				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+			acaoExtensao.setHorasPraticas(null);
+			acaoExtensao.setHorasTeoricas(null);
+		}
+		if (!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+			acaoExtensao.setProgramacao("");
+		}
+		try {
+			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+		} catch (GpaExtensaoException e) {
+			redirect.addFlashAttribute(ERRO, e.getMessage());
+			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+		}
 
-        redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
-        return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+		redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 
-    }
+	}
 
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
@@ -391,23 +396,21 @@ public class AcaoExtensaoController {
 	}
 
 	@GetMapping("/submeter/{idAcao}")
-	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao,
-			RedirectAttributes redirectAttribute, Authentication auth) {
-		
+	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+			Authentication auth) {
+
 		Pessoa pessoaLogada = (Pessoa) auth.getPrincipal();
-		
+
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, pessoaLogada);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
-		} 
+		}
 
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
-
-
 
 	@RequestMapping("/buscarCoordenadores/{id}")
 	public @ResponseBody List<Servidor> buscarCoordenadores(@PathVariable("id") Integer idCoordenadorAtual) {

@@ -23,7 +23,7 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 @Named
-public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
+public abstract class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
@@ -262,5 +262,31 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public AcaoExtensao findById(Integer idAcao) {
 		return acaoExtensaoRepository.findOne(idAcao);
+	}
+
+	@Override
+	public int countAcoesAguardandoPareceristaRelator() {
+		return acaoExtensaoRepository.countByStatusIn(
+				Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
+	}
+	
+	@Override
+	public int countAcoesAguardandoHomologacao() {
+		return acaoExtensaoRepository.countByStatusIn(
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO));
+	}
+
+	@Override
+	public int countAcoesPendenciasParecer(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatusIn(
+				coordenador, 
+				Arrays.asList(Status.RESOLVENDO_PENDENCIAS_PARECER));
+	}
+	
+	@Override
+	public int countAcoesPendenciasRelato(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatusIn(
+				coordenador, 
+				Arrays.asList(Status.RESOLVENDO_PENDENCIAS_RELATO));
 	}
 }
