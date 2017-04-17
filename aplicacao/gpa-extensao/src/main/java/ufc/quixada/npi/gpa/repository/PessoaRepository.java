@@ -15,7 +15,7 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 
 	@Query("SELECT pa FROM Pessoa pe INNER JOIN pe.papeis pa WHERE pe.cpf = :cpf")
 	List<Papel> findPapeisByCpf(@Param("cpf") String cpf);
-
+	
 	Pessoa findByCpf(String cpf);
 
 	List<Pessoa> findAll();
