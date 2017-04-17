@@ -272,21 +272,20 @@ public abstract class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	
 	@Override
 	public int countAcoesAguardandoHomologacao() {
-		return acaoExtensaoRepository.countByStatusIn(
-				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO));
+		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
 	}
 
 	@Override
 	public int countAcoesPendenciasParecer(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatusIn(
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
 				coordenador, 
-				Arrays.asList(Status.RESOLVENDO_PENDENCIAS_PARECER));
+				Status.RESOLVENDO_PENDENCIAS_PARECER);
 	}
 	
 	@Override
 	public int countAcoesPendenciasRelato(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatusIn(
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
 				coordenador, 
-				Arrays.asList(Status.RESOLVENDO_PENDENCIAS_RELATO));
+				Status.RESOLVENDO_PENDENCIAS_RELATO);
 	}
 }

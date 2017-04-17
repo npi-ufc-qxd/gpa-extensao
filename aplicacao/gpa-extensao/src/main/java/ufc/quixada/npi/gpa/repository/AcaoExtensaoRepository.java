@@ -48,7 +48,9 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	
 	int countByStatusIn(List<Status> status);
 	
-	int countByCoordenadorAndStatusIn(Pessoa coordenador, List<Status> status);
+	int countByStatus(Status status);
+	
+	int countByCoordenadorAndStatus(Pessoa coordenador, Status status);
 
 	int countByAtivoAndStatus(boolean ativo, Status status);
 
