@@ -87,22 +87,24 @@
 			}
 		});
 	</script>
-	
+
 	<script type="text/javascript">
-		$('#funcao').change(function() {
-			if (this.value == "OUTRA") {
-				document.getElementById("participanteServidor").disabled = true;
-				document.getElementById("nomeParticipante").disabled = false;
-				document.getElementById("cpfParticipante").disabled = false;
-				document.getElementById("descricaoFuncao").disabled = false;
-				
-			} else {
-				document.getElementById("participanteServidor").disabled = false;
-				document.getElementById("nomeParticipante").disabled = true;
-				document.getElementById("cpfParticipante").disabled = true;
-				document.getElementById("descricaoFuncao").disabled = true;
-			}
-		});
+		$('#funcao')
+				.change(
+						function() {
+							if (this.value == "OUTRA") {
+								document.getElementById("participanteServidor").disabled = true;
+								document.getElementById("nomeParticipante").disabled = false;
+								document.getElementById("cpfParticipante").disabled = false;
+								document.getElementById("descricaoFuncao").disabled = false;
+
+							} else {
+								document.getElementById("participanteServidor").disabled = false;
+								document.getElementById("nomeParticipante").disabled = true;
+								document.getElementById("cpfParticipante").disabled = true;
+								document.getElementById("descricaoFuncao").disabled = true;
+							}
+						});
 	</script>
 </section>
 </html>
