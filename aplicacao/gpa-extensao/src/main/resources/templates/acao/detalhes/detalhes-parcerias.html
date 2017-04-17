@@ -36,7 +36,7 @@
 	</table>
 	<div class="text-right">
 		<a
-			th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+			th:if="${acao.status.name() == 'NOVO' AND  acao.coordenador.nome == pessoaLogada.getNome()}"
 			class="btn btn-primary waves-effect waves-light m-t-10"
 			data-toggle="modal" data-target="#parceria-modal">Nova Parceria</a>
 	</div>
