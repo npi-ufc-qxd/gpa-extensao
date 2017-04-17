@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,14 +21,17 @@ import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 
 @Service
-public class DocumentoServiceImpl implements DocumentoService{
+public class DocumentoServiceImpl implements DocumentoService {
 
 	@Autowired
 	private DocumentoRepository documentoRepository;
 	
+	/*@Value("${documentos.gpa}")
+	private String PASTA;*/
+
 	@Override
 	public Documento getDocumento(Integer idDocumento) {
-		
+
 		Documento documento = documentoRepository.findOne(idDocumento);
 		return documento;
 	}
@@ -45,10 +49,10 @@ public class DocumentoServiceImpl implements DocumentoService{
 		} catch (IOException e) {
 			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
 		}
-		
+
 		return bFile;
 	}
-	
+
 	@Override
 	public Documento save(MultipartFile arquivo, AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		if (arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))) {
@@ -60,7 +64,6 @@ public class DocumentoServiceImpl implements DocumentoService{
 					documento.setCaminho(
 							PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + documento.getNome());
 					documentoRepository.save(documento);
-
 					return documento;
 				} catch (IOException e) {
 					throw new GpaExtensaoException(MESSAGE_SALVAR_ARQUIVO_ERROR);
@@ -72,4 +75,3 @@ public class DocumentoServiceImpl implements DocumentoService{
 		return null;
 	}
 }
-

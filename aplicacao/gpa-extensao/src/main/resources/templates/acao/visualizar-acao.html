@@ -1,76 +1,131 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base/base">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="base/base">
 
 <head>
-	<title>Extensão - Detalhes</title>
+<title>Extensão - Detalhes</title>
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
-    <div class="row bg-title">
-        <!-- .page title -->
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title"></h4>
-        </div>
-        <!-- /.page title -->
-        <!-- .breadcrumb -->
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Starter Page</li>
-            </ol>
-        </div>
-        <!-- /.breadcrumb -->
-    </div>
+	<div class="row bg-title">
+		<!-- .page title -->
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<h4 class="page-title"></h4>
+		</div>
+		<!-- /.page title -->
+		<!-- .breadcrumb -->
+		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+			<ol class="breadcrumb">
+				<li><a href="#">Dashboard</a></li>
+				<li class="active">Starter Page</li>
+			</ol>
+		</div>
+		<!-- /.breadcrumb -->
+	</div>
 
-    <!-- Dados Básicos -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
-        </div>
-    </div>
+	<!-- Dados Básicos -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div
+				th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+		</div>
+	</div>
 
-    <!-- Equipe de Trabalho -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
-        </div>
-    </div>
+	<!-- Equipe de Trabalho -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+		</div>
+	</div>
 
-    <!-- Parcerias -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-        </div>
-    </div>
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
 
-    <!-- Pareceres -->
-    <div class="row">
-        <!-- Parecer Técnico -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
-        </div>
-        <!-- Parecer do Relator -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
-        </div>
-    </div>
+	<!-- Pareceres -->
+	<div class="row">
+	
+	
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico">
 
+			</div>
+		</div>
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
+	</div>
+	
 </div>
 <section layout:fragment="js">
-    <script>
-        $('#menu-acoes a').addClass("active");
-        $('#equipe,#parcerias').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            paging: false,
-            searching: false,
-            info : false,
-            order: [[ 0, "asc" ]]
-        });
-    </script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
+						});
+		
+		$("#alterar-parecerista-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#parecer-tecnico-form").fadeIn(500);
+		});
+		
+		$("#alterar-relator-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#parecer-relator-form").fadeIn(500);
+		});
+		
+		$("#emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form").hide();
+			$("#emitir-parecer-form").fadeIn(500);
+		});
+		
+		$("#emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#emitir-relato-form").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#emitir-relato-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#emitir-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-tecnico-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-relato-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-relator-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+	</script>
 </section>
 </html>

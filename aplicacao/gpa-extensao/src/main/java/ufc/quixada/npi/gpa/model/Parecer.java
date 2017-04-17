@@ -34,7 +34,7 @@ public class Parecer {
 
 	@Column(columnDefinition = "TEXT")
 	private String observacoes;
-
+	
 	private Date dataAtribuicao;
 
 	private Date dataRealizacao;
@@ -151,6 +151,13 @@ public class Parecer {
 				pendencia.setResolvida(true);
 			}
 		}
+	}
+	
+	public boolean temParecerista(){
+		if(getResponsavel()!= null){
+			return true;
+		}
+		return false;
 	}
 
 	public enum Posicionamento {

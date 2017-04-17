@@ -47,6 +47,7 @@ import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+import ufc.quixada.npi.gpa.service.ServidorService;
 
 @Controller
 @RequestMapping("/acoes")
@@ -78,6 +79,9 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
+	
+	@Autowired
+	private ServidorService servidorService;
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -133,12 +137,30 @@ public class AcaoExtensaoController {
 
 	/**
 	 * Busca uma ação específica pelo id
+	 * 
 	 */
 	@GetMapping("/{acao}")
+	
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
-		model.addAttribute("acao", acao);
+		
+		System.out.println("STATUSSSS NAME AÇÃO EXTENSAO:" + acao.getStatus().name());
+		
+		
+		model.addAttribute("pendencia", new Pendencia());
+		model.addAttribute("pareceristas",servidorService.findAllServidores());
+		model.addAttribute("acaoExtensao", acao);
 		return VISUALIZAR_ACAO;
 	}
+	
+	
+	@RequestMapping(value = "/alterarPareceristaForm", method = RequestMethod.GET) //Método Button
+	public String alterarPareceristaForm(AcaoExtensao acaoExtensao, Model model){
+		acaoExtensao.setStatus(Status.AGUARDANDO_PARECERISTA);
+		acaoExtensao.getParecerTecnico().setResponsavel(null);
+		
+		return VISUALIZAR_ACAO;
+	}
+	
 
     /**
      * Formulário para cadastro de nova ação de extensão
@@ -242,7 +264,7 @@ public class AcaoExtensaoController {
 	public String verDetalhes(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-
+		
 		if (acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_INICIAL_COORDENACAO;

@@ -23,6 +23,7 @@ import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Named
@@ -42,6 +43,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
+	
 
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -257,4 +259,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public List<AcaoExtensao> findProgramasAprovados() {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
+
+	@Override
+	public List<AcaoExtensao> findByStatusIn(Collection<Status> status) {
+		return acaoExtensaoRepository.findByStatusIn(status);
+		
+	}
+	
+	
 }

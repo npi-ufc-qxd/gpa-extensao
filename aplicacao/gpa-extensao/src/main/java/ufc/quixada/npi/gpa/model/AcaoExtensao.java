@@ -327,6 +327,22 @@ public class AcaoExtensao {
 	public void setBolsistas(List<Bolsa> bolsistas) {
 		this.bolsistas = bolsistas;
 	}
+	
+	public boolean temParecerTecnico(){
+		if(getParecerTecnico()!= null){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean temParecerRelator(){
+		if(getParecerRelator()!=null){
+			return true;
+		}
+		
+		return false;
+	}
+
 
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(

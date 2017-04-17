@@ -21,10 +21,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
+import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 
 @Controller
-@RequestMapping("direcao")
+@RequestMapping("/direcao")
 @Transactional
 @EnableGlobalAuthentication
 public class DirecaoController {
@@ -33,7 +34,7 @@ public class DirecaoController {
 	private DirecaoService direcaoService;
 
 	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
+	private AcaoExtensaoService acaoExtensaoService;
 
 	@RequestMapping("/")
 	public String listagem(Model model, Authentication authentication) {
@@ -46,13 +47,12 @@ public class DirecaoController {
 		List<Status> statusAguardandoRelator = Arrays.asList(Status.AGUARDANDO_RELATOR);
 		List<Status> statusAguardandoHomologacao = Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO);
 
-		model.addAttribute("acoesAguardandoParecer", acaoExtensaoRepository.findByStatusIn(statusAguardandoParecer));
-		model.addAttribute("acoesAguardandoParecerista",
-				acaoExtensaoRepository.findByStatusIn(statusAguardandoParecerista));
-		model.addAttribute("acoesAguardandoRelato", acaoExtensaoRepository.findByStatusIn(statusAguardandoRelato));
-		model.addAttribute("acoesAguardandoRelator", acaoExtensaoRepository.findByStatusIn(statusAguardandoRelator));
-		model.addAttribute("acoesAguardandoHomologacao",
-				acaoExtensaoRepository.findByStatusIn(statusAguardandoHomologacao));
+		model.addAttribute("acoesAguardandoParecer", acaoExtensaoService.findByStatusIn(statusAguardandoParecer));
+		model.addAttribute("acoesAguardandoParecerista", acaoExtensaoService.findByStatusIn(statusAguardandoParecerista));
+				
+		model.addAttribute("acoesAguardandoRelato", acaoExtensaoService.findByStatusIn(statusAguardandoRelato));
+		model.addAttribute("acoesAguardandoRelator", acaoExtensaoService.findByStatusIn(statusAguardandoRelator));
+		model.addAttribute("acoesAguardandoHomologacao",acaoExtensaoService.findByStatusIn(statusAguardandoHomologacao));
 
 		return PAGINA_INICIAL_DIRECAO;
 	}
@@ -65,4 +65,5 @@ public class DirecaoController {
 		redirectAttributes.addFlashAttribute("homologado", true);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
+
 }

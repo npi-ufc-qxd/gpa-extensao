@@ -23,7 +23,7 @@ import ufc.quixada.npi.gpa.service.DocumentoService;
 
 @Controller
 @Transactional
-@RequestMapping("documento")
+@RequestMapping("/documento")
 public class DocumentoController {
 	
 	@Autowired

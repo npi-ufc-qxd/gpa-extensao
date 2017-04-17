@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 
@@ -11,7 +12,18 @@ import java.util.Collection;
 import java.util.List;
 
 public interface AcaoExtensaoService {
-
+	
+	
+	
+	
+	/**
+	 * Retorna 1 dos 4 status "Aguardando Parecer","Aguardando Parecerista", Aguardando Relator"
+	 *  ou "Aguardando Homologação"
+	 * 
+	 */
+	
+	List<AcaoExtensao> findByStatusIn(Collection<Status> status);
+	
 	/**
 	 * Retorna todas as ações que uma pessoa coordena ou participa
 	 */

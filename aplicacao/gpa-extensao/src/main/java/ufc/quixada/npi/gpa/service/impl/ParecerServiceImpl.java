@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pendencia;
+import ufc.quixada.npi.gpa.model.Pessoa;
+import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParecerService;
+import ufc.quixada.npi.gpa.service.ServidorService;
 
 @Service
 public class ParecerServiceImpl implements ParecerService {
@@ -25,19 +29,37 @@ public class ParecerServiceImpl implements ParecerService {
 
 	@Autowired
 	private NotificationService notificationService;
+	
+	@Autowired
+	private PessoaServiceImpl pessoaService;
+	
 
 	@Override
-	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		acao.setParecerTecnico(acaoExtensao.getParecerTecnico());
+	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensaoForm.getId());
+		//Servidor servidor = pessoaService.findServidor(acaoExtensaoForm.getParecerTecnico().getResponsavel().getCpf());
+		
+		acao.setParecerTecnico(acaoExtensaoForm.getParecerTecnico());
+		
 
-		if (acao.getEquipeDeTrabalho().contains(acaoExtensao.getParecerTecnico().getResponsavel())) {
+		if (acao.getEquipeDeTrabalho().contains(acaoExtensaoForm.getParecerTecnico().getResponsavel())) {
 			throw new GpaExtensaoException(EXCEPTION_PARECERISTA_DA_EQUIPE);
 
 		} else if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
 			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
+			
+			System.out.println("PRAZO:" + acaoExtensaoForm.getParecerTecnico().getPrazo());
+			
+			System.out.println("Data Atribuição:" + acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());
+			
+			//System.out.println("Reponsável:" + acaoExtensaoForm.getParecerTecnico().getResponsavel());
+
+			
+			acao.getParecerTecnico().setResponsavel(acaoExtensaoForm.getParecerTecnico().getResponsavel());
+			acao.getParecerTecnico().setPrazo(acaoExtensaoForm.getParecerTecnico().getPrazo()); 
+			acao.getParecerTecnico().setDataAtribuicao(acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());
 			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
 			acaoExtensaoRepository.save(acao);
 
