@@ -34,7 +34,7 @@
 		</tbody>
 	</table>
 	<div class="text-right">
-		<a th:if="${acao.status.name() == 'NOVO'}"
+		<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 			class="btn btn-primary waves-effect waves-light m-t-10"
 			data-toggle="modal" data-target="#opcao-modal">Novo Participante</a>
 	</div>
@@ -52,9 +52,8 @@
 					<button class="btn btn-block btn-primary" data-toggle="modal"
 						data-target="#bolsista-modal" data-dismiss="modal">Bolsista</button>
 
-					<button class="btn btn-block btn-primary" data-toggle="modal"
+					<button th:if="${acao.status.name() == 'NOVO'}" class="btn btn-block btn-primary" data-toggle="modal"
 						data-target="#participacao-modal" data-dismiss="modal">Participação</button>
-
 
 				</div>
 			</div>
