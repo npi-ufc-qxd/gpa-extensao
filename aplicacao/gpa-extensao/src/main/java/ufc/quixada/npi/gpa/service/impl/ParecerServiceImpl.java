@@ -12,14 +12,10 @@ import org.springframework.stereotype.Service;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
-import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pendencia;
-import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParecerService;
-import ufc.quixada.npi.gpa.service.ServidorService;
 
 @Service
 public class ParecerServiceImpl implements ParecerService {
@@ -30,14 +26,12 @@ public class ParecerServiceImpl implements ParecerService {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@Autowired
-	private PessoaServiceImpl pessoaService;
+	
 	
 
 	@Override
 	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensaoForm.getId());
-		//Servidor servidor = pessoaService.findServidor(acaoExtensaoForm.getParecerTecnico().getResponsavel().getCpf());
 		
 		acao.setParecerTecnico(acaoExtensaoForm.getParecerTecnico());
 		
@@ -50,9 +44,9 @@ public class ParecerServiceImpl implements ParecerService {
 			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
 			
-			System.out.println("PRAZO:" + acaoExtensaoForm.getParecerTecnico().getPrazo());
+			/*System.out.println("PRAZO:" + acaoExtensaoForm.getParecerTecnico().getPrazo());
 			
-			System.out.println("Data Atribuição:" + acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());
+			System.out.println("Data Atribuição:" + acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());*/
 			
 			//System.out.println("Reponsável:" + acaoExtensaoForm.getParecerTecnico().getResponsavel());
 
