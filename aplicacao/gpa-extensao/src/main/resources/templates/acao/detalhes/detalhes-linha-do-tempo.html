@@ -4,15 +4,19 @@
     <section class="cd-horizontal-timeline loaded">
         <div class="timeline">
           <div class="events-wrapper">
-            <div class="events" style="width: 1800px;">
+            <div class="events" style="width: 2000px;">
               <ol>
-                <li><a href="#0" data-date="" class="older-event selected" style="left: 120px;">Nova</a></li>
-                <li><a href="#0" data-date="" style="left: 300px;" class="">Aguardando</a></li>
-                <li><a href="#0" data-date="" style="left: 480px;">Aprovada</a></li>
-                <li><a href="#0" data-date="" style="left: 660px;">Aguardando</a></li>
-                <li><a href="#0" data-date="" style="left: 840px;">Encerrada</a></li>
-                </ol>
-				<span class="filling-line" aria-hidden="true" style="transform: scaleX(0.0777778);"></span>
+                <li><a href="#0" data-date="01/01/01" style="left: 20px;">Nova</a></li>
+                <li><a href="#0" data-date="02/01/01" style="left: 80px;" class="">Aguardando parecerista técnico</a></li>
+                <li><a href="#0" data-date="03/01/01" style="left: 320px;">Aguardando parecer técnico</a></li>
+                <li><a href="#0" data-date="04/01/01" style="left: 530px;">Aguardando relator</a></li>
+                <li><a href="#0" data-date="05/01/01" style="left: 680px;">Aguardando parecer do relator</a></li>
+                <li><a href="#0" data-date="06/01/01" style="left: 900px;">Aguardando homologação</a></li>
+                <li><a th:class="${acao.status.name() == 'APROVADO'}? selected : '' " href="#0" data-date="" style="left: 1100px;">Aprovada</a></li>
+              </ol>
+               <span class="filling-line" aria-hidden="true" style="transform: scaleX(0.02);"></span> 
+				<!-- -->
+				
             </div> <!-- .events -->
           </div> <!-- .events-wrapper -->
 		</div> <!-- .timeline -->
