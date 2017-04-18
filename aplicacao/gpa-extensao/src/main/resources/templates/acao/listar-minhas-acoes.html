@@ -25,34 +25,34 @@
         <!-- /.breadcrumb -->
     </div>  <div class="row">
         <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/minhas/tramitacao}">
+            <a th:href="@{/acoes/minhas/minhas-acoes}">
                 <div class="white-box">
                     <h3 class="box-title text-info">Minhas ações</h3>
                     <ul class="list-inline two-part">
                         <li><i class="ti-loop text-info"></i></li>
-                        <li class="text-right text-info"><span class="counter" th:text="${minhasAcoes.size()}"></span></li>
+                        <li class="text-right text-info"><span class="counter" th:text="${countmeusTudo}"></span></li>
                     </ul>
                 </div>
             </a>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/minhas/andamento}">
+            <a th:href="@{/acoes/minhas/aguardando-parecer}">
                 <div class="white-box">
                     <h3 class="box-title text-success">Aguardando parecer</h3>
                     <ul class="list-inline two-part">
                         <li><i class="icon-clock text-success"></i></li>
-                        <li class="text-right text-success"><span class="counter" th:text="${meusPareceres.size()}"></span></li>
+                        <li class="text-right text-success"><span class="counter" th:text="${countmeusPareceres}"></span></li>
                     </ul>
                 </div>
             </a>
         </div>
         <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/minhas/encerradas}">
+            <a th:href="@{/acoes/minhas/pareceres-emitidos}">
                 <div class="white-box">
                     <h3 class="box-title text-danger">Pareceres emitidos</h3>
                     <ul class="list-inline two-part">
                         <li><i class="ti-check-box text-danger"></i></li>
-                        <li class="text-right text-danger"><span class="counter" th:text="${meusPareceresEmitidos.size()}"></span></li>
+                        <li class="text-right text-danger"><span class="counter" th:text="${countmeusPareceresEmitidos}"></span></li>
                     </ul>
                 </div>
             </a>
@@ -62,12 +62,13 @@
 		
      <div class="row">
      	<div class="white-box">
-                <h3 th:if="${minhaLista == 'minhatramitacao'}" class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${minhasAcoes.size()}"></span></h3>
-                <p th:if="${minhaLista == 'minhatramitacao'}" class="text-muted m-b-30">Ações de extensão que você coordena ou participa </p>
-                <h3 th:if="${minhaLista == 'meusAndamento'}" class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${meusPareceres.size()}"></span></h3>
-                <p th:if="${minhaLista == 'meusAndamento'}" class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
-                <h3 th:if="${minhaLista == 'meusEncerrada'}" class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${meusPareceresEmitidos.size()}"></span></h3>
-                <p th:if="${minhaLista == 'meusEncerrada'}" class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
+     		
+                <h3 th:if="${minhaLista == 'countmeusTudo'}" class="box-title m-b-0">Minhas ações <span class="label label-info m-l-5" th:text="${countmeusTudo}"></span></h3>
+                <p th:if="${minhaLista == 'countmeusTudo'}" class="text-muted m-b-30">Ações de extensão que você coordena ou participa </p>
+                <h3 th:if="${minhaLista == 'countmeusPareceres'}" class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${countmeusPareceres}"></span></h3>
+                <p th:if="${minhaLista == 'countmeusPareceres'}" class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
+                <h3 th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${countmeusPareceresEmitidos}"></span></h3>
+                <p th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
                 
                 <table id="minhas-acoes" class="table table-hover">
                     <thead>

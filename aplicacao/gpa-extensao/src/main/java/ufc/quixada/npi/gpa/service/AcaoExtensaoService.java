@@ -60,6 +60,21 @@ public interface AcaoExtensaoService {
 	 * Retorna a quantidade de ações já encerradas
 	 */
 	int countAcoesEncerradas();
+	
+	/**
+	 * Retorna a quantidade de minhas Ações
+	 */
+	int countMinhasAcoes(Pessoa pessoa);
+
+	/**
+	 * Retorna a quantidade de minhas ações aguardando parecer
+	 */
+	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
+
+	/**
+	 * Retorna a quantidade de minhas ações com pareceres emitidos
+	 */
+	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
 
 	/**
 	 * Cadastra uma nova ação de extensão

@@ -253,6 +253,45 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public int countAcoesEncerradas() {
 		return acaoExtensaoRepository.countByAtivo(false);
 	}
+	
+	
+	@Override
+	public int countMinhasAcoes(Pessoa pessoa) {
+		List<AcaoExtensao> count = acaoExtensaoRepository.findByParticipacao(pessoa);
+		int	num = count.size();	
+		return num;		
+	}
+
+	@Override
+	public int countMinhasAcoesAguardandoParecer(Pessoa pessoa) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		 List<AcaoExtensao> count = acoesParecerista;
+		
+		int num = count.size();
+		return num;
+	}
+
+	@Override
+	public int countMinhasAcoesPareceresEmitidos(Pessoa pessoa) {
+		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
+		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		acoesParecerista.removeAll(acoesRelator);
+		acoesParecerista.addAll(acoesRelator);
+		 List<AcaoExtensao>  count = acoesParecerista;
+		 
+		 int num = count.size();
+		 
+		 return num;
+	}
 
 	@Override
 	public List<AcaoExtensao> findProgramasAprovados() {
