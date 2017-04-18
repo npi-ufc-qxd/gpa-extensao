@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
@@ -49,17 +52,22 @@ public class ParceriaExternaController {
 		return FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 	}
 
-	@RequestMapping(value = "/excluir/{idParceria}")
-	public void deleteParceriaExterna(@PathVariable("idParceria") Integer idParceriaExterna) {
-		parceriaExternaRepository.delete(idParceriaExterna);
+	@RequestMapping(value = "/excluir/{id}/{acao}")
+	public String deleteParceriaExterna(@PathVariable("id") Integer idParceriaExterna, @PathVariable("acao") Integer acao) {
+		parceriaExternaService.excluirParceriaExterna(idParceriaExterna);
+		return R_ACAO + acao;
 	}
 
 	@RequestMapping(value = "/salvar/{idAcao}", method = RequestMethod.POST)
 	public String novaParceriaExterna(@PathVariable("idAcao") Integer idAcao,
 			@ModelAttribute @Valid ParceriaExterna parceria,
-			@RequestParam(required = false) Integer parceiro) {
+			@RequestParam(required = false) Integer parceiro, RedirectAttributes redirectAttribute) {
 
-		parceriaExternaService.adicionarParceriaExterna(parceria, idAcao, parceiro);
+		try {
+			parceriaExternaService.adicionarParceriaExterna(parceria, idAcao, parceiro);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
 
 		return R_ACAO + idAcao;
 	}

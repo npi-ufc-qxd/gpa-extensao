@@ -10,27 +10,32 @@
 					title="Fornece Instalações e/ou Equipamentos">IE</th>
 				<th data-toogle="tooltip" title="Participa do Financiamento">FI</th>
 				<th data-toogle="tooltip" title="Outras formas">OF</th>
+				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					data-toogle="tooltip" title="Excluir">Excluir</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="parceria : ${acao.parceriasExternas}">
-				<td th:text="${parceria.parceiro.nome}"></td>
+			<tr th:each="parceria : ${acao.parceriasExternas}"> 
+				<td th:text="${parceria.parceiro.nome}"></td> 
 				<td><span
-					th:class="${parceria.geraDemanda} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+					th:class="${parceria.geraDemanda} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
 				<td><span
-					th:class="${parceria.definicaoAcoes} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+					th:class="${parceria.definicaoAcoes} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
 				<td><span
-					th:class="${parceria.equipamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+					th:class="${parceria.equipamento} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
 				<td><span
-					th:class="${parceria.financiamento} ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove'"></span>
+					th:class="${parceria.financiamento} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
 				<td><span th:unless="${parceria.outrasFormas}"
-					class="glyphicon glyphicon-remove"></span> <span
+					class="fa fa-times"></span> <span
 					th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
+				<td><a class="btn btn-block btn-danger"
+					th:href="@{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">Excluir</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -48,7 +53,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					<h4 class="modal-title">Adicionar Nova Parceria</h4>
+					<h4 class="modal-title">Adicionar Nova Parceria Externa</h4>
 				</div>
 				<div class="modal-body">
 					<div class="panel panel-info">
@@ -59,50 +64,102 @@
 									th:object="${parceriaExterna}" method="POST">
 									<div class="form-body">
 
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+
+													<div class="iradio_square-red">
+														<input class="check" id="novoParcitipante"
+															name="square-radio" data-radio="iradio_square-red"
+															type="radio" /> <label for="novo" class="">Novo
+															Parceiro</label>
+													</div>
+
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<div class="iradio_square-red checked">
+														<input class="check" id="parcitipanteExistente"
+															name="square-radio" data-radio="iradio_square-red"
+															type="radio" /> <label for="existente" class="">Parceiro
+															Existente</label>
+													</div>
+												</div>
+											</div>
+										</div>
+
 										<div class="row" id="parceiros">
 											<label>* Parceiros</label>
 											<div class="col-md-12">
 												<div class="form-group">
-													<select id="parceiro" class="form-control">
+													<select disabled="disabled" id="parceiro"
+														class="form-control" name="parceiro">
 														<option th:each="p : ${parceiros}" th:text="${p.nome}"
-															th:value="${p.id}" name="parceiro"></option>
+															th:value="${p.id}"></option>
 													</select>
 												</div>
 											</div>
 										</div>
-										
 
 										<div class="row">
-											<label>Informações da Parceria</label>
+											<div class="col-md-12">
+												<div class="form-group">
+													<label>* Nome</label> <input id="nomeParceiro"
+														disabled="disabled"
+														th:field="${parceriaExterna.parceiro.nome}"
+														class="form-control" type="text" required="required" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="control-label">* Tipo</label> <select
+														disabled="disabled" id="tipoParceiro" class="form-control"
+														th:field="${parceriaExterna.parceiro.tipo}">
+														<option th:each="t : ${tipoParceria}"
+															th:text="${t.descricao}" th:value="${t}"></option>
+													</select>
+												</div>
+											</div>
+
+										</div>
+
+										<div class="row">
+											<label>* Informações da Parceria</label>
 											<div class="input-group">
 
 												<ul class="icheck-list">
-													<li><input class="check" id="geraDemanda"
-														type="checkbox" th:field="*{geraDemanda}" /><label>Gera
+													<li><input name="insercao" class="check"
+														id="geraDemanda" type="checkbox" th:field="*{geraDemanda}" /><label>Gera
 															Demanda</label></li>
 												</ul>
 
 												<ul class="icheck-list">
-													<li><input class="check" id="definicaoAcoes"
-														type="checkbox" th:field="*{definicaoAcoes}" /><label>Define
+													<li><input name="insercao" class="check"
+														id="definicaoAcoes" type="checkbox"
+														th:field="*{definicaoAcoes}" /><label>Define
 															Ações</label></li>
 												</ul>
 
 												<ul class="icheck-list">
-													<li><input class="check" id="equipamento"
-														type="checkbox" th:field="*{equipamento}" /><label>Equipamento</label></li>
+													<li><input name="insercao" class="check"
+														id="equipamento" type="checkbox" th:field="*{equipamento}" /><label>Equipamento</label></li>
 												</ul>
 
 												<ul class="icheck-list">
-													<li><input class="check" id="financiamento"
-														type="checkbox" th:field="*{financiamento}" /><label>Financiamento</label></li>
+													<li><input name="insercao" class="check"
+														id="financiamento" type="checkbox"
+														th:field="*{financiamento}" /><label>Financiamento</label></li>
 												</ul>
 
 												<ul class="icheck-list">
-													<li><input class="check" id="outrasFormas"
-														type="checkbox" th:field="*{outrasFormas}" /><label>Outras
-															formas</label> <input id="descricaoOutrasFormas" type="text"
-														th:field="*{descricaoOutrasFormas}" disabled="disabled" /></li>
+													<li><input name="insercao" class="check"
+														id="outrasFormas" type="checkbox"
+														th:field="*{outrasFormas}" /><label>Outras formas</label>
+														<input required="required" id="descricaoOutrasFormas"
+														type="text" th:field="*{descricaoOutrasFormas}"
+														disabled="disabled" /></li>
 
 												</ul>
 
@@ -115,7 +172,8 @@
 
 										<div class="row">
 											<div class="form-actions">
-												<button type="submit" class="btn btn-success">
+												<button disabled="disabled" id="adcParceria" type="submit"
+													class="btn btn-success">
 													<i class="fa fa-check"></i> Adicionar
 												</button>
 												<button type="button" data-dismiss="modal"
