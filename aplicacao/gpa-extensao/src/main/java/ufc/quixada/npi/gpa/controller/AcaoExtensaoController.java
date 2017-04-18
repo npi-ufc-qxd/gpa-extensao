@@ -74,6 +74,7 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
@@ -90,7 +91,7 @@ public class AcaoExtensaoController {
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
-	private ServidorService servidorService;
+	private ServidorRepository servirdorRepository;
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
@@ -109,6 +110,9 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
+	
+	@Autowired
+	private ServidorService servidorService;
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -266,12 +270,14 @@ public class AcaoExtensaoController {
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
 		try {
+			System.out.println("OIIIIIIIIIIIIIIIIIIIIIII");
 			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
+			System.out.println("DEU SERTU");
 		} catch (GpaExtensaoException e) {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
 
-		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO;
 	}
 
 	@Transactional(readOnly = true)
