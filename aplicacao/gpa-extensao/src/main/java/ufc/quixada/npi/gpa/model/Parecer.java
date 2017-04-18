@@ -154,10 +154,7 @@ public class Parecer {
 	}
 	
 	public boolean temParecerista(){
-		if(getResponsavel()!= null){
-			return true;
-		}
-		return false;
+		return getResponsavel()!= null;
 	}
 
 	public enum Posicionamento {

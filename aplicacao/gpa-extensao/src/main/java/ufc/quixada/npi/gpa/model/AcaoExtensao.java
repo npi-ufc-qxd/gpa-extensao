@@ -329,18 +329,11 @@ public class AcaoExtensao {
 	}
 	
 	public boolean temParecerTecnico(){
-		if(getParecerTecnico()!= null){
-			return true;
-		}
-		return false;
+		return getParecerTecnico()!= null;
 	}
 	
 	public boolean temParecerRelator(){
-		if(getParecerRelator()!=null){
-			return true;
-		}
-		
-		return false;
+		return getParecerRelator()!= null;
 	}
 
 

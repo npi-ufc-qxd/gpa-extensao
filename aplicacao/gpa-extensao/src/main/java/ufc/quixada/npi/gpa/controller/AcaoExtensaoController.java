@@ -142,11 +142,7 @@ public class AcaoExtensaoController {
 	@GetMapping("/{acao}")
 	
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
-		
-		System.out.println("STATUSSSS NAME AÇÃO EXTENSAO:" + acao.getStatus().name());
-		
-		
-		model.addAttribute("pendencia", new Pendencia());
+		model.addAttribute("pendencia", new Pendencia()); //Se tirar essa linha, gera erro.
 		model.addAttribute("pareceristas",servidorService.findAllServidores());
 		model.addAttribute("acaoExtensao", acao);
 		return VISUALIZAR_ACAO;
