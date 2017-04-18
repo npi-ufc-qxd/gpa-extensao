@@ -270,7 +270,6 @@ public class AcaoExtensaoController {
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
 		try {
-			System.out.println("OIIIIIIIIIIIIIIIIIIIIIII");
 			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
 			System.out.println("DEU SERTU");
 		} catch (GpaExtensaoException e) {

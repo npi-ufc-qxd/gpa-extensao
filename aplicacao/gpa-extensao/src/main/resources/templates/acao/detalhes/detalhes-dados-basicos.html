@@ -81,17 +81,18 @@
 		</div>
 		<div class="col-sm-1">
 		    <div class="text-right">
+		        <a sec:authorize="hasAuthority('SERVIDOR')" th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}" th:href="@{/acoes/deletar/__${acao.id}__}" class="btn btn-block btn-danger m-t-10"
+		        onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
+		    </div>
+		</div>    
+		    
+		<div class="col-sm-1">
+		    <div class="text-right">
 		        <a th:if="${acao.status.name() == 'NOVO'}" th:href="@{/acoes/editar/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
 		    </div>
 		</div>
 		
 		
-		<div class="col-sm-1">
-		    <div class="text-right">
-		        <a sec:authorize="hasAuthority('SERVIDOR')" th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}" th:href="@{/acoes/deletar/__${acao.id}__}" class="btn btn-block btn-danger m-t-10"
-		        onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
-		    </div>
-		</div>
 		
 	</div>
 	
