@@ -36,7 +36,7 @@ public class AttributesController {
 		return acaoService.countAcoesPendenciasRelato(this.pessoaLogada);
 	}
 	
-	@ModelAttribute("qtdAcoesPareceristaRelatorHomologacao")
+	@ModelAttribute("qtdAcoesPareceristaRelator")
 	public int qtdAcoesPareceristaRelator() {
 		return acaoService.countAcoesAguardandoPareceristaRelator();
 	}
