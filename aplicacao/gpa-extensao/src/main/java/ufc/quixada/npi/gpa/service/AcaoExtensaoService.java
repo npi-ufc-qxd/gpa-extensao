@@ -85,6 +85,12 @@ public interface AcaoExtensaoService {
 	 * @return quantidade de acoes resolvendo pendencias parecer do relator
 	 */
 	int countAcoesPendenciasRelato(Pessoa coordenador);
+	
+	/**
+	 * @param parecerista
+	 * @return quantidade de acoes aguardando parecer (tecnico ou relato) da pessoa logada
+	 */
+	int countAcoesAguardandoParecer(Pessoa responsavel);
 
 	/**
 	 * Cadastra uma nova ação de extensão

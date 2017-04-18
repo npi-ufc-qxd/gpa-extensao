@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Modalidade;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
@@ -51,6 +52,10 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	int countByStatus(Status status);
 	
 	int countByCoordenadorAndStatus(Pessoa coordenador, Status status);
+	
+	int countByParecerTecnicoInAndStatus(List<Parecer> pareceres, Status status);
+	
+	int countByParecerRelatorInAndStatus(List<Parecer> pareceres, Status status);
 
 	int countByAtivoAndStatus(boolean ativo, Status status);
 

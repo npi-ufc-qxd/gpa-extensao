@@ -19,24 +19,20 @@ public class AttributesController {
 	
 	@Autowired
 	private AcaoExtensaoService acaoService;
-	
-	@Autowired
-	public void setPessoaLogada(Authentication authentication) {
-		this.pessoaLogada = pessoaService.findByCpf(authentication.getName());
-	}
 
 	@ModelAttribute("pessoaLogada")
 	public Pessoa pessoaLogada(Authentication authentication) {
-		return this.pessoaLogada;
+		return this.pessoaLogada = 
+				pessoaService.findServidor(authentication.getName()).getPessoa();
 	}
 	
 	@ModelAttribute("qtdPendenciasParecerTecnico")
-	public int qtdAcoesPendenciasParecerTecnico(Authentication authentication) {
+	public int qtdAcoesPendenciasParecerTecnico() {
 		return acaoService.countAcoesPendenciasParecer(this.pessoaLogada);
 	}
 	
 	@ModelAttribute("qtdPendenciasParecerRelator")
-	public int qtdAcoesPendenciasParecerRelator(Authentication authentication) {
+	public int qtdAcoesPendenciasParecerRelator() {
 		return acaoService.countAcoesPendenciasRelato(this.pessoaLogada);
 	}
 	
@@ -48,5 +44,10 @@ public class AttributesController {
 	@ModelAttribute("qtdAcoesHomologacao")
 	public int qtdAcoesHomologacao() {
 		return acaoService.countAcoesAguardandoHomologacao();
+	}
+	
+	@ModelAttribute("qtdAguardandoParecer")
+	public int qtdAguardandoParecer() {
+		return acaoService.countAcoesAguardandoParecer(pessoaLogada);
 	}
 }

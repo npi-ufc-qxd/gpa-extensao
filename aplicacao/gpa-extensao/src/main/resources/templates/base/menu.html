@@ -17,8 +17,9 @@
                     </div>                
                 </a>
                 <ul class="dropdown-menu dropdown-tasks animated slideInUp">
-                	<li> <a th:text="${qtdPendenciasParecerTecnico} + ' resolvendo parecer tecnico'"></a> </li>
-                	<li> <a th:text="${qtdPendenciasParecerRelator} + ' resolvendo relato'"></a> </li>
+                	<li th:if="${qtdAguardandoParecer > 0}"> <a th:text="qtdAguardandoParecer + ' aguardando parecer'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerTecnico > 0}"> <a th:text="${qtdPendenciasParecerTecnico} + ' resolvendo parecer tecnico'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerRelator > 0}"> <a th:text="${qtdPendenciasParecerRelator} + ' resolvendo relato'"></a> </li>
                     <li sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesPareceristaRelatorHomologacao} + ' aguardando parecerista/relator'"></a> </li>
                     <li sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesHomologacao} + ' aguardando homologação'"></a> </li>
                 </ul>
