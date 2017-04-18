@@ -10,6 +10,14 @@
 
 <div class="container-fluid" layout:fragment="conteudo">
     <br/>
+    
+    <!-- Linha do tempo -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo" ></div>
+        </div>
+    </div>
+    
     <!-- Dados Básicos -->
     <div class="row">
         <div class="col-xs-12">
