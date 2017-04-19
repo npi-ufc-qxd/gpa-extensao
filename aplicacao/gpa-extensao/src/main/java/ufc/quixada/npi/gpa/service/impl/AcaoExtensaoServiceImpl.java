@@ -99,6 +99,17 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
+	
+	@Override
+	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
+		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
+			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
@@ -262,5 +273,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public AcaoExtensao findById(Integer idAcao) {
 		return acaoExtensaoRepository.findOne(idAcao);
+	}
+	
+	@Override
+	public String buscarCpfCoordenador(Integer acaoId) {
+		return acaoExtensaoRepository.findCoordenadorById(acaoId);
 	}
 }
