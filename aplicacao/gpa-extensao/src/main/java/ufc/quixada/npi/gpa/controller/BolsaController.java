@@ -64,12 +64,7 @@ public class BolsaController {
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		boolean message = acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
 		
-		if(message) {
-			model.addAttribute("message", message);
-		} else {
-			model.addAttribute("message", message);
-		}
-		
+		model.addAttribute("message", message);
 		model.addAttribute("acao", acao);
 		
 		return VISUALIZAR_ACAO;

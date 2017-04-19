@@ -28,13 +28,11 @@ public class BolsaServiceImpl implements BolsaService {
 
 	@Override
 	public void salvarBolsa(Bolsa bolsa, AcaoExtensao acao) {
-		if(acao != null) {
-			if(bolsa != null) {
-				bolsa.setAcaoExtensao(acao);
-				bolsa.setAtivo(true);
+		if(acao != null && bolsa != null) {
+			bolsa.setAcaoExtensao(acao);
+			bolsa.setAtivo(true);
 				
-				bolsaRepository.save(bolsa);
-			}
+			bolsaRepository.save(bolsa);
 		}
 	}
 	
