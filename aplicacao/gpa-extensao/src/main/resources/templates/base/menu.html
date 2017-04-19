@@ -11,25 +11,28 @@
 			<li class="dropdown">
                 <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
                     <i class="icon-note"></i>
-                    <div th:classappend="${qtdAguardandoParecer > 0 OR qtdPendenciasParecerTecnico > 0 OR
+                    <span>Coordenador/Parecerista</span>
+                    <div 
+                    	th:classappend="${qtdAguardandoParecer > 0 OR qtdPendenciasParecerTecnico > 0 OR
                     	qtdPendenciasParecerRelator > 0} ? notify : none">
                         <span class="heartbit"></span>
                         <span class="point"></span>
-                    </div>                
+                    </div>          
                 </a>
                 <ul class="dropdown-menu dropdown-tasks animated slideInUp">
                 	<li th:if="${qtdAguardandoParecer == 0 AND qtdPendenciasParecerTecnico == 0 AND
                     	qtdPendenciasParecerRelator == 0}">
                     	<a>Não hã notificações!</a>
                    	</li>
-                	<li th:if="${qtdAguardandoParecer > 0}"> <a th:text="${qtdAguardandoParecer} + ' ações aguardando parecer'"></a> </li>
-                	<li th:if="${qtdPendenciasParecerTecnico > 0}"> <a th:text="${qtdPendenciasParecerTecnico} + ' resolver pendências parecer tecnico'"></a> </li>
-                	<li th:if="${qtdPendenciasParecerRelator > 0}"> <a th:text="${qtdPendenciasParecerRelator} + ' resolver pendências relator'"></a> </li>
+                	<li th:if="${qtdAguardandoParecer > 0}"> <a th:text="'Aguardando parecer (' + ${qtdAguardandoParecer} + ')'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerTecnico > 0}"> <a th:text="'Resolver pendências parecer tecnico (' + ${qtdPendenciasParecerTecnico} + ')'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerRelator > 0}"> <a th:text="'Resolver pendências do relato (' + ${qtdPendenciasParecerRelator} + ')'"></a> </li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a sec:authorize="hasAuthority('DIRECAO')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
                     <i class="icon-note"></i>
+                    <span>Direção</span>
                     <div
                     	th:classappend="${qtdAcoesPareceristaRelator > 0 OR qtdAcoesHomologacao > 0} ? notify : none">
                         <span class="heartbit"></span>
@@ -40,8 +43,8 @@
                 	<li th:if="${qtdAcoesPareceristaRelator == 0 AND qtdAcoesHomologacao == 0}">
                     	<a>Não hã notificações!</a>
                    	</li>
-                    <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesPareceristaRelator} + ' ações aguardando parecerista/relator'"></a> </li>
-                    <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="${qtdAcoesHomologacao} + ' ações aguardando homologação'"></a> </li>
+                    <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando parecerista/relator (' + ${qtdAcoesPareceristaRelator} + ')'"></a> </li>
+                    <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando homologação (' + ${qtdAcoesHomologacao} + ')'"></a> </li>
                 </ul>
             </li>
 			<li class="dropdown">
