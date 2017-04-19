@@ -62,7 +62,13 @@ public class BolsaController {
 			@PathVariable("idAcao") Integer idAcao, Model model) {
 		
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
+		boolean message = acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
+		
+		if(message) {
+			model.addAttribute("message", message);
+		} else {
+			model.addAttribute("message", message);
+		}
 		
 		model.addAttribute("acao", acao);
 		

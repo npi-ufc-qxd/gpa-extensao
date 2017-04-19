@@ -98,9 +98,14 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 	
 	@Override
-	public void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
-		acao.setBolsasRecebidas(numeroBolsas);
-		acaoExtensaoRepository.save(acao);
+	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
+		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
+			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override

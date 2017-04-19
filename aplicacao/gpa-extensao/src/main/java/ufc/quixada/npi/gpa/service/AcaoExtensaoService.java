@@ -70,7 +70,7 @@ public interface AcaoExtensaoService {
 	/**
 	 * Adiciona um número de bolsas que foram recebidas na ação
 	 */
-	void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
 	
 	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)

@@ -84,8 +84,8 @@
 				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#myModal"
-					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas Recebidas</a> 
-				<a
+					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
+					Recebidas</a> <a
 					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/submeter/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
@@ -108,18 +108,23 @@
 						<h4 class="modal-title" id="myModalLabel">Modal Heading</h4>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/bolsa/salvarBolsas/__${acao.id}__}" method="POST">
+						<form th:action="@{/bolsa/salvarBolsas/__${acao.id}__}"
+							method="POST">
 							<div class="form-body">
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
-											<label for="bolsasRecebidas">Quantidade de Bolsas Recebidas</label> 
-											<input id="bolsasRecebidas" class="form-control" name="bolsasRecebidas" type="text" required="required" pattern="[0-9]+$"/>
+											<label for="bolsasRecebidas">Quantidade de Bolsas
+												Recebidas</label> <input id="bolsasRecebidas" class="form-control"
+												name="bolsasRecebidas" type="text" required="required"
+												pattern="[0-9]+$" />
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group pull-right">
-											<input type="submit" class="btn btn-success waves-effect waves-light m-t-10" value="Salvar"/>
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Salvar" />
 										</div>
 									</div>
 								</div>
