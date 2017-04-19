@@ -30,12 +30,7 @@ public class PessoaServiceImpl  implements PessoaService {
 
 	@Override
 	public Pessoa buscarPorId(Integer id) {
-		Pessoa pessoa = pessoaRepository.findOne(id);
-		if(pessoa != null){
-			return pessoa;
-		}
-		
-		return null;
+		return pessoaRepository.findOne(id);
 	}
 
 }

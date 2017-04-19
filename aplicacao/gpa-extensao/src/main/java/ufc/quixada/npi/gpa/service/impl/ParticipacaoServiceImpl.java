@@ -1,15 +1,18 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Participacao.Funcao;
 import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
@@ -63,25 +66,38 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	public void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa coordenador)
 			throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao);
-		String espaco = " ";
-		Integer minimoHoras = 4;
-		if (old != null) {
 
+		if (old != null) {
 			if (participacao.getParticipante() != null) {
 				participacao.setCpfParticipante(participacao.getParticipante().getCpf());
 				participacao.setNomeParticipante(participacao.getParticipante().getNome());
 			}
-			participacao.setDataInicio(old.getInicio());
-			participacao.setDataTermino(old.getTermino());
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO);
+			}
+
+			if (!participacao.getDataInicio().before(old.getInicio())
+					&& !participacao.getDataTermino().after(old.getTermino())
+					&& !participacao.getDataInicio().after(old.getTermino())
+					&& !participacao.getDataTermino().before(old.getInicio())) {
+				throw new GpaExtensaoException(ERROR_DATA_INVALIDA);
+			}
+			if (participacao.getDataInicio() == null) {
+				participacao.setDataInicio(old.getInicio());
+			} else if (participacao.getDataTermino() == null) {
+				participacao.setDataTermino(old.getTermino());
+			}
 			participacao.setCoordenador(false);
 			participacao.setAcaoExtensao(old);
 
 			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			} else if (participacao.getFuncao().equals(Funcao.OUTRA)) {
-				if (participacao.getDescricaoFuncao().replaceAll(espaco, "").isEmpty()
-						|| participacao.getCpfParticipante().replaceAll(espaco, "").isEmpty()
-						|| participacao.getNomeParticipante().replaceAll(espaco, "").isEmpty()) {
+				if (participacao.getDescricaoFuncao().replaceAll(" ", "").isEmpty()
+						|| participacao.getCpfParticipante().replaceAll(" ", "").isEmpty()
+						|| participacao.getNomeParticipante().replaceAll(" ", "").isEmpty()) {
 					throw new GpaExtensaoException(VALOR_INVALIDO);
 				}
 
@@ -89,11 +105,11 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				Servidor servidor = servidorRepository.findByPessoa_cpf(participacao.getCpfParticipante());
 				if (servidor.getDedicacao().equals(Dedicacao.EXCLUSIVA)
 						|| servidor.getDedicacao().equals(Dedicacao.H40)) {
-					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 16) {
+					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 16) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				} else if ((servidor.getDedicacao().equals(Dedicacao.H20))) {
-					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 12) {
+					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 12) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				}

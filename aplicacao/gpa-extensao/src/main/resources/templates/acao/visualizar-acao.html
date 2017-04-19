@@ -4,6 +4,9 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="base/base">
 
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+
 <head>
 <title>Extensão - Detalhes</title>
 </head>
@@ -63,6 +66,7 @@
 
 </div>
 <section layout:fragment="js">
+<script th:src="@{/js/mask.js}"></script>
 	<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -87,22 +91,96 @@
 			}
 		});
 	</script>
-	
+
 	<script type="text/javascript">
-		$('#funcao').change(function() {
-			if (this.value == "OUTRA") {
-				document.getElementById("participanteServidor").disabled = true;
-				document.getElementById("nomeParticipante").disabled = false;
-				document.getElementById("cpfParticipante").disabled = false;
-				document.getElementById("descricaoFuncao").disabled = false;
-				
-			} else {
-				document.getElementById("participanteServidor").disabled = false;
-				document.getElementById("nomeParticipante").disabled = true;
-				document.getElementById("cpfParticipante").disabled = true;
-				document.getElementById("descricaoFuncao").disabled = true;
+		$('#funcao')
+				.change(
+						function() {
+							if (this.value == "OUTRA") {
+								document.getElementById("participanteServidor").disabled = true;
+								document.getElementById("nomeParticipante").disabled = false;
+								document.getElementById("cpfParticipante").disabled = false;
+								document.getElementById("descricaoFuncao").disabled = false;
+
+							} else {
+								document.getElementById("participanteServidor").disabled = false;
+								document.getElementById("nomeParticipante").disabled = true;
+								document.getElementById("cpfParticipante").disabled = true;
+								document.getElementById("descricaoFuncao").disabled = true;
+							}
+						});
+	</script>
+	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({
+			url : "/servidores/funcao/servidor",
+			contentType : "application/json",
+			type : "GET",
+			data : JSON.stringify(this.value),
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("Content-Type", "application/json");
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(data) {
+				document.getElementById('participanteServidor').options.length = 0;
+				$.each(data, function(key, value) {
+					$('#participanteServidor').append(
+							'<option value="' + value.pessoa.id + '">'
+									+ value.pessoa.nome
+									+ '</option>');
+				});
 			}
 		});
+
+		$('#funcao').change(
+				function() {
+					if (this.value == "STA") {
+						$.ajax({
+							url : "/servidores/funcao/servidor",
+							contentType : "application/json",
+							type : "GET",
+							data : JSON.stringify(this.value),
+							beforeSend : function(xhr) {
+								xhr.setRequestHeader("Content-Type",
+										"application/json");
+								xhr.setRequestHeader(header, token);
+							},
+							success : function(data) {
+								document.getElementById('participanteServidor').options.length = 0;
+								$.each(data, function(key, value) {
+									$('#participanteServidor').append(
+											'<option value="' + value.pessoa.id + '">'
+													+ value.pessoa.nome
+													+ '</option>');
+								});
+							}
+						});
+					}
+					if (this.value == "DOCENTE") {
+						$.ajax({
+							url : "/servidores/funcao/docente",
+							contentType : "application/json",
+							type : "GET",
+							data : JSON.stringify(this.value),
+							beforeSend : function(xhr) {
+								xhr.setRequestHeader("Content-Type",
+										"application/json");
+								xhr.setRequestHeader(header, token);
+							},
+							success : function(data) {
+								document.getElementById('participanteServidor').options.length = 0;
+								$.each(data, function(key, value) {
+									$('#participanteServidor').append(
+											'<option value="' + value.pessoa.id + '">'
+													+ value.pessoa.nome
+													+ '</option>');
+								});
+							}
+						});
+					}
+
+				});
 	</script>
 </section>
 </html>

@@ -33,32 +33,23 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="text-right">
-		<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
-			class="btn btn-primary waves-effect waves-light m-t-10"
-			data-toggle="modal" data-target="#opcao-modal">Novo Participante</a>
-	</div>
-	<div id="opcao-modal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h4 class="modal-title">Adicionar Novo Participante</h4>
-				</div>
-				<div class="modal-body">
-					<button class="btn btn-block btn-primary" data-toggle="modal"
-						data-target="#bolsista-modal" data-dismiss="modal">Bolsista</button>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="pull-right">
 
-					<button th:if="${acao.status.name() == 'NOVO'}" class="btn btn-block btn-primary" data-toggle="modal"
-						data-target="#participacao-modal" data-dismiss="modal">Participação</button>
-
-				</div>
+				<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="btn btn-primary waves-effect waves-light m-t-10"
+					data-toggle="modal" data-target="#bolsista-modal"
+					data-dismiss="modal">Bolsista</a> <a
+					th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="btn btn-primary waves-effect waves-light m-t-10"
+					data-toggle="modal" data-target="#participacao-modal"
+					data-dismiss="modal">Participação</a>
 			</div>
 		</div>
+
 	</div>
+
 	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true"
 		style="display: none;" id="participacao-modal">
@@ -87,26 +78,21 @@
 														<option th:each="f : ${funcoes}" th:text="${f.descricao}"
 															th:value="${f}"></option>
 													</select> <span class="help-block"> Selecione a função do
-														participante </span> 
-														<label>* Nome</label> 
-														
-														<input id="nomeParticipante" th:field="${participacao.nomeParticipante}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" />
-														<label>* CPF</label> 
-														
-														<input
-														id="cpfParticipante" th:field="*{cpfParticipante}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" />
-														
-														<label>* Descrição da Função</label> 
-														
-														<input
-														id="descricaoFuncao" th:field="*{descricaoFuncao}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" />
+														participante </span>
+
 												</div>
+
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+
+													<label class="control-label" for="participanteServidor">*
+														Servidor</label> <select class="form-control"
+														data-placeholder="Selecione uma função" tabindex="1"
+														id="participanteServidor" th:field="*{participante}">
+													</select> <span class="help-block">Selecione um servidor </span>
+												</div>
+
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
@@ -116,12 +102,70 @@
 														<option th:each="i : ${instituicoes}"
 															th:text="${i.descricao}" th:value="${i}"></option>
 													</select> <span class="help-block"> Selecione a instituição </span>
-													<label>Nome Instituição</label> <input id="nomeInstituicao"
-														th:field="*{nomeInstituicao}" class="form-control"
-														type="text" required="required" disabled="disabled" />
+
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="control-label">Nome Instituição</label> <input
+													id="nomeInstituicao" th:field="*{nomeInstituicao}"
+													class="form-control" type="text" required="required"
+													disabled="disabled" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-12">
+													<label class="control-label">* Nome</label> <input
+														id="nomeParticipante"
+														th:field="${participacao.nomeParticipante}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+												</div>
+												<div class="col-md-6">
+													<label class="control-label">* CPF</label> <input
+														id="cpfParticipante" th:field="*{cpfParticipante}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+
+												</div>
+												<div class="col-md-6">
+													<label>* Descrição da Função</label> <input
+														id="descricaoFuncao" th:field="*{descricaoFuncao}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+
+												</div>
+
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+
+													<label>* Data de início</label> <input
+														th:field="${participacao.dataInicio}" placeholder=""
+														data-mask="99/99/9999" class="form-control" type="text" 
+														/>
+														<span class="font-13 text-muted">Data limite para
+														início: <small th:text="${acao.parseData(acao.inicio)}"></small>
+													</span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>* Data de término</label><input
+														th:field="*{dataTermino}" placeholder=""
+														data-mask="99/99/9999" class="form-control" type="text" />
+													<span class="font-13 text-muted">Data limite para
+														término: <small th:text="${acao.parseData(acao.termino)}"></small>
+													</span>
 												</div>
 											</div>
 										</div>
+
+
+
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
@@ -132,20 +176,8 @@
 														th:field="*{cargaHoraria}" />
 												</div>
 											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<label class="control-label" for="funcao">*
-														Servidor</label> <select class="form-control"
-														data-placeholder="Selecione uma função" tabindex="1"
-														id="participanteServidor" th:field="*{participante}">
-														<option th:each="s : ${servidores}" id="servidor"
-															th:text="${s.pessoa.nome}"
-															th:value="${s.pessoa.id}"></option>
-													</select> <span class="help-block">Selecione um servidor </span>
-												</div>
-											</div>
 										</div>
-										<div class="form-actions">
+										<div class="form-actions pull-right">
 											<button type="submit" class="btn btn-success">
 												<i class="fa fa-check"></i> Adicionar
 											</button>

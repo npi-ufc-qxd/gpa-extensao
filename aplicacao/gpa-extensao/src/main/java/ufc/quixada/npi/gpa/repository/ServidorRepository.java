@@ -10,8 +10,12 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 
 public interface ServidorRepository extends CrudRepository<Servidor, Integer>{
-
+	
+	@Query("FROM Servidor ORDER BY pessoa.nome")
 	List<Servidor> findAll();
+	
+	@Query("FROM Servidor s WHERE s.funcao in :funcoes ORDER BY pessoa.nome")
+	List<Servidor> findByFuncao(@Param("funcoes") List<Funcao> funcoes);
 	
 	Servidor findByPessoa_id(Integer id);
 	

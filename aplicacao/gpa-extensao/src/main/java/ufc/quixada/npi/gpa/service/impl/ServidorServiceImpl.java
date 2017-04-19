@@ -77,4 +77,9 @@ public class ServidorServiceImpl implements ServidorService {
 
 	}
 
+	@Override
+	public List<Servidor> findByFuncao(List<Funcao> funcoes) {
+		return servidorRepository.findByFuncao(funcoes);
+	}
+
 }

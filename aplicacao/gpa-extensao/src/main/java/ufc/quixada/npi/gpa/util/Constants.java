@@ -115,7 +115,8 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-
+	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
+	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
@@ -150,6 +151,5 @@ public class Constants {
 	 */
 
 	// Homologação
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/marcelo.pereira/gpa-extensao/documentos";
-
+	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
 }
