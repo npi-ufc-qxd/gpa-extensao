@@ -10,17 +10,14 @@ import ufc.quixada.npi.gpa.model.Aluno;
 
 public interface AlunoRepository extends CrudRepository<Aluno, Integer> {
 
-	@Query("FROM Aluno a order by a.pessoa.nome asc")
-	List<Aluno> findAll();
+	
+	List<Aluno> findAllOrderByNome();
 	
 	@Query("SELECT al FROM Aluno al WHERE al.curso =:curso")
 	List<Aluno> findByCurso(@Param("curso") String curso);
 
 	@Query("SELECT CASE WHEN COUNT(a) > 0 THEN 'true' ELSE 'false' END FROM Aluno a WHERE a.matricula = :matricula")
 	boolean existsByMatricula(@Param("matricula") String matricula);
-	
-	@Query(value = "SELECT all from bolsa as b right join aluno as a WHERE a.id != b.bolsista_id", nativeQuery = true)
-	List<Aluno> alunosSemBolsa();
 
 
 }

@@ -7,6 +7,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_NAO_ENCONTRADA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.FrequenciaBolsista;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
@@ -102,6 +104,11 @@ public class BolsaServiceImpl implements BolsaService {
 	public void adicionarBolsista(Integer acao, Bolsa bolsa) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acao);
 		if (old != null) {
+			
+			if(!old.getStatus().equals(Status.APROVADO)){
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS);
+			}
+			
 			if(old.getBolsasRecebidas() == null){
 				throw new GpaExtensaoException(EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS);
 			}

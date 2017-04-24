@@ -115,8 +115,6 @@ public class AcaoExtensaoController {
 	@Autowired
 	private ParceiroService parceiroService;
 
-	private String funcoes = "funcoes";
-	private String instituicoes = "instituicoes";
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -179,8 +177,8 @@ public class AcaoExtensaoController {
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 		model.addAttribute("acao", acao);
 		model.addAttribute("participacao", new Participacao());
-		model.addAttribute(funcoes, Funcao.values());
-		model.addAttribute(instituicoes, Instituicao.values());
+		model.addAttribute("funcoes", Funcao.values());
+		model.addAttribute("instituicoes", Instituicao.values());
 		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("alunos", alunoService.findAllAlunos());
 		model.addAttribute("tipoBolsa", TipoBolsa.values());
@@ -314,10 +312,10 @@ public class AcaoExtensaoController {
 		model.addAttribute(PARCEIROS, parceiroService.listarParceiros());
 
 		model.addAttribute("novaParticipacao", new Participacao());
-		model.addAttribute(funcoes, Funcao.values());
+		model.addAttribute("funcoes", Funcao.values());
 		model.addAttribute("novaBolsa", new Bolsa());
 		model.addAttribute("tipos", TipoBolsa.values());
-		model.addAttribute(instituicoes, Instituicao.values());
+		model.addAttribute("instituicoes", Instituicao.values());
 
 		model.addAttribute("acaoExtensao", acao);
 

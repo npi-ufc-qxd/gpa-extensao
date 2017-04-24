@@ -61,10 +61,6 @@ public class AlunoServiceImpl implements AlunoService {
 		}
 	}
 
-	@Override
-	public List<Aluno> findAllAlunos() {
-		return alunoRepository.findAll();
-	}
 
 	@Override
 	public void cadastrarAlunos() {
@@ -75,8 +71,9 @@ public class AlunoServiceImpl implements AlunoService {
 	}
 
 	@Override
-	public List<Aluno> alunosSemBolsa() {
-		return alunoRepository.alunosSemBolsa();
+	public List<Aluno> findAllAlunos() {
+	
+		return alunoRepository.findAllOrderByNome();
 	}
 
 }
