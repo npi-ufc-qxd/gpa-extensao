@@ -68,13 +68,14 @@
                 <h3 th:if="${minhaLista == 'countmeusPareceres'}" class="box-title m-b-0">Aguardando parecer <span class="label label-info m-l-5" th:text="${countmeusPareceres}"></span></h3>
                 <p th:if="${minhaLista == 'countmeusPareceres'}" class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
                 <h3 th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="box-title m-b-0">Pareceres emitidos <span class="label label-info m-l-5" th:text="${countmeusPareceresEmitidos}"></span></h3>
-                <p th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="text-muted m-b-30">Ações de extensão que você já emitiu parecer</p>
+                <p th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="text-muted m-b-30">Ações de extensão que você já emitiu </p>
                 
                 <table id="minhas-acoes" class="table table-hover">
                     <thead>
                         <tr>
-                        	<th>Vínculo</th>
+                        	<th th:if="${minhaLista == 'countmeusTudo'}">Vínculo</th>
                             <th>Título</th>
+							<th th:if="${minhaLista != 'countmeusPareceresEmitidos'}">Coordenador</th>			
                             <th>Status</th>
                             <th>Período</th>
                         </tr>
@@ -82,15 +83,12 @@
                     
                     <tbody>
                         <tr th:each="acao : ${minhaListaAtual}">
-                        	<td>
+                        	<td th:if="${minhaLista == 'countmeusTudo'}">
                                 <span th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}" th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}" th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}">
                                 </span>
-                            </td>
-                            
+                            </td>                            
                             <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                            
-                             
-                            
+                            <td th:if="${minhaLista != 'countmeusPareceresEmitidos'}" th:text="${acao.coordenador.nome}"></td>                                                     
                             <td>                               
                                 <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
                                       th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADO'}">
