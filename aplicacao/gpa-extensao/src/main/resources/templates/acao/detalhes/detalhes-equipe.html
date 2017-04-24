@@ -33,28 +33,18 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="text-right">
-		<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
-			class="btn btn-primary waves-effect waves-light m-t-10"
-			data-toggle="modal" data-target="#opcao-modal">Novo Participante</a>
-	</div>
-	<div id="opcao-modal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h4 class="modal-title">Adicionar Novo Participante</h4>
-				</div>
-				<div class="modal-body">
-					<button class="btn btn-block btn-primary" data-toggle="modal"
-						data-target="#bolsista-modal" data-dismiss="modal">Bolsista</button>
 
-					<button th:if="${acao.status.name() == 'NOVO'}" class="btn btn-block btn-primary" data-toggle="modal"
-						data-target="#participacao-modal" data-dismiss="modal">Participação</button>
-				</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="btn btn-primary waves-effect waves-light m-t-10"
+					data-toggle="modal" data-target="#bolsista-modal"
+					data-dismiss="modal">Bolsista</a> <a
+					th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="btn btn-primary waves-effect waves-light m-t-10"
+					data-toggle="modal" data-target="#participacao-modal"
+					data-dismiss="modal">Participação</a>
 			</div>
 		</div>
 	</div>
@@ -135,12 +125,12 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-actions">
+										<div class="form-actions pull-right">
 											<button type="submit" class="btn btn-success">
 												<i class="fa fa-check"></i> Adicionar
 											</button>
 											<button type="button" class="btn btn-default"
-												onClick="window.location.reload();">Fechar</button>
+												data-dismiss="modal">Fechar</button>
 										</div>
 									</div>
 								</form>
@@ -170,7 +160,7 @@
 						<div class="panel-wrapper collapse in" aria-expanded="true">
 							<div class="panel-body">
 								<form
-									th:action="@{/bolsa/cadastrar/{idAcao}(idAcao=${acao.id})}"
+									th:action="@{/bolsa/cadastrar/{acao}(acao=${acao.id})}"
 									th:object="${bolsa}" method="POST">
 									<div class="form-body">
 										<div class="row">
@@ -186,21 +176,49 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="control-label">* Aluno</label> <select
-														id="bolsista" class="form-control"
-														th:field="*{bolsista}">
+														id="bolsista" class="form-control" th:field="*{bolsista}">
 														<option th:each="a : ${alunos}" th:text="${a.pessoa.nome}"
 															th:value="${a.id}"></option>
 													</select> <span class="help-block"> Selecione o aluno </span>
 
 												</div>
 											</div>
+											<div class="row col-md-12">
+												<h3>Tempo de Participação</h3>
+
+												<div class="col-md-6">
+													<div class="form-group">
+
+														<label>* Data de início</label> <input
+															required="required"
+															data-mask="99/99/9999"
+															th:value="${acao.parseData(acao.inicio)}"
+															name="inicio" class="form-control date" type="date" />
+														<span class="font-13 text-muted">Data limite para
+															início: <small th:text="${acao.parseData(acao.inicio)}"></small>
+														</span>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label>* Data de término</label><input required="required"
+															name="termino"
+															data-mask="99/99/9999"
+															th:value="${acao.parseData(acao.termino)}"
+															class="form-control date" type="date" /> <span
+															class="font-13 text-muted">Data limite para
+															término: <small th:text="${acao.parseData(acao.termino)}"></small>
+														</span>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="form-actions">
+										<div class="form-actions pull-right">
 											<button type="submit" class="btn btn-success">
 												<i class="fa fa-check"></i> Adicionar
 											</button>
 											<button type="button" class="btn btn-default"
-												onClick="window.location.reload();">Fechar</button>
+												data-dismiss="modal">Fechar</button>
 										</div>
 									</div>
 								</form>

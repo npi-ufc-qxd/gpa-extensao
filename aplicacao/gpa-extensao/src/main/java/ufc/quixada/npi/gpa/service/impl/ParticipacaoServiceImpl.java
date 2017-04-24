@@ -60,28 +60,26 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa coordenador)
+	public void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa coordenador)
 			throws GpaExtensaoException {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao);
-		String espaco = " ";
-		Integer minimoHoras = 4;
-		if (old != null) {
+		
+		if (acaoExtensao != null) {
 
 			if (participacao.getParticipante() != null) {
 				participacao.setCpfParticipante(participacao.getParticipante().getCpf());
 				participacao.setNomeParticipante(participacao.getParticipante().getNome());
 			}
-			participacao.setDataInicio(old.getInicio());
-			participacao.setDataTermino(old.getTermino());
+			participacao.setDataInicio(acaoExtensao.getInicio());
+			participacao.setDataTermino(acaoExtensao.getTermino());
 			participacao.setCoordenador(false);
-			participacao.setAcaoExtensao(old);
+			participacao.setAcaoExtensao(acaoExtensao);
 
-			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
+			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			} else if (participacao.getFuncao().equals(Funcao.OUTRA)) {
-				if (participacao.getDescricaoFuncao().replaceAll(espaco, "").isEmpty()
-						|| participacao.getCpfParticipante().replaceAll(espaco, "").isEmpty()
-						|| participacao.getNomeParticipante().replaceAll(espaco, "").isEmpty()) {
+				if (participacao.getDescricaoFuncao().replaceAll(" ", "").isEmpty()
+						|| participacao.getCpfParticipante().replaceAll(" ", "").isEmpty()
+						|| participacao.getNomeParticipante().replaceAll(" ", "").isEmpty()) {
 					throw new GpaExtensaoException(VALOR_INVALIDO);
 				}
 
@@ -93,23 +91,23 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				Servidor servidor = servidorRepository.findByPessoa_cpf(participacao.getCpfParticipante());
 				if (servidor.getDedicacao().equals(Dedicacao.EXCLUSIVA)
 						|| servidor.getDedicacao().equals(Dedicacao.H40)) {
-					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 16) {
+					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 16) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				} else if ((servidor.getDedicacao().equals(Dedicacao.H20))) {
-					if (participacao.getCargaHoraria() < minimoHoras || participacao.getCargaHoraria() > 12) {
+					if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 12) {
 						throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 					}
 				}
 
 			}
-			for (Participacao p : old.getEquipeDeTrabalho()) {
+			for (Participacao p : acaoExtensao.getEquipeDeTrabalho()) {
 				if (p.getCpfParticipante().equalsIgnoreCase(participacao.getCpfParticipante())) {
 					throw new GpaExtensaoException(ERROR_PESSOA_JA_PARTICIPANTE);
 				}
 			}
-			old.getEquipeDeTrabalho().add(participacao);
-			acaoExtensaoRepository.save(old);
+			acaoExtensao.getEquipeDeTrabalho().add(participacao);
+			acaoExtensaoRepository.save(acaoExtensao);
 		}
 
 	}

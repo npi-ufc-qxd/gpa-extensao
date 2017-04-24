@@ -72,8 +72,7 @@ public class AlunoServiceImpl implements AlunoService {
 
 	@Override
 	public List<Aluno> findAllAlunos() {
-	
-		return alunoRepository.findAllOrderByNome();
+		return alunoRepository.findAll();
 	}
 
 }

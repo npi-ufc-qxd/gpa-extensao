@@ -74,17 +74,17 @@ public class BolsaController {
 		return map;
 	}
 
-	@RequestMapping(value = "/cadastrar/{idAcao}", method = RequestMethod.POST)
-	public String adicionarBolsista(Bolsa bolsa, @PathVariable("idAcao") Integer idAcao,
+	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
+	public String adicionarBolsista(Bolsa bolsa, @PathVariable("acao") AcaoExtensao acao,
 			RedirectAttributes redirectAttributes) {
 		
 		try {
-			bolsaService.adicionarBolsista(idAcao, bolsa);
+			bolsaService.adicionarBolsista(acao, bolsa);
 		} catch (GpaExtensaoException e) {
 			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}
 
-		return R_ACAO + idAcao;
+		return R_ACAO + acao.getId();
 	}
 
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
