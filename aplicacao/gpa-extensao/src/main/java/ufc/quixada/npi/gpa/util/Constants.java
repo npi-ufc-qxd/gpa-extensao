@@ -79,6 +79,9 @@ public class Constants {
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	public static final String EXCEPTION_SERVIDOR_JA_CADASTRADO = "O servidor já está cadastrado";
+	public static final String EXCEPTION_GET_ANEXO = "Não foi possível encontrar o anexo";
+	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";
+	
 
 	// Mensagens
 	public static final String ERRO = "erro";

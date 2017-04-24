@@ -76,6 +76,7 @@ import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
+import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.ServidorService;
 
@@ -109,6 +110,9 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
+	
+	@Autowired
+	private DocumentoService documentoService;
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -240,7 +244,7 @@ public class AcaoExtensaoController {
 
     @RequestMapping(value = "/editar", method = RequestMethod.POST)
     public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-                             @RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Authentication authentication,
+                             @RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, 
                              Model model, RedirectAttributes redirect) {
 
         if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
@@ -260,6 +264,25 @@ public class AcaoExtensaoController {
         redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
         return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 
+    }
+    
+    @RequestMapping(value="/deletar-arquivo/{id}")
+    public String deletarArquivo(@PathVariable("id") AcaoExtensao acaoExtensao, 
+    							Model model, RedirectAttributes redirect) {
+    	AcaoExtensao novaAcao = null;
+    	try {
+    		novaAcao = documentoService.deletarDocumento(acaoExtensao);
+    		acaoExtensaoService.editarAcaoExtensao(novaAcao, null);
+    		model.addAttribute("acao", novaAcao);
+            model.addAttribute("modalidades", Modalidade.values());
+            model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
+            model.addAttribute("action", "editar");
+            model.addAttribute("cargaHoraria", 4);
+            return CADASTRAR_ACAO;
+    	} catch (GpaExtensaoException e) {
+    		redirect.addFlashAttribute(ERRO, e.getMessage());
+    		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+    	}
     }
 
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)

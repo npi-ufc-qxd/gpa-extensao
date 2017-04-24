@@ -189,9 +189,11 @@
 												accept="application/pdf" />
 											<div th:if="${acao.anexo} != null">
 												<a th:text="${acao.anexo.nome}"
-													th:href="@{/documento/download/} + ${acao.anexo.id}"></a> <input
+													th:href="@{/documento/download/} + ${acao.anexo.id}"></a> 
+													<input
 													id="submeter-anexoAcaoExtensao" th:field="${acao.anexo}"
-													type="hidden" /> <a id="excluirArquivo"
+													type="hidden" /> <a id="excluirArquivo" 
+													th:href="@{/acoes/deletar-arquivo/} + ${acao.id}"
 													class="btn btn-danger btn-xs" data-toogle="tooltip"
 													title="Excluir arquivo"> <i class="fa fa-trash-o"></i>
 												</a>
