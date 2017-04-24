@@ -91,6 +91,7 @@ public class AcaoExtensaoController {
 	@Autowired
 	private PessoaService pessoaService;
 
+
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 
@@ -105,9 +106,10 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
-
+	
 	@Autowired
 	private ServidorService servidorService;
+
 
 	@Autowired
 	private AlunoService alunoService;
@@ -293,7 +295,7 @@ public class AcaoExtensaoController {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
 
-		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO;
 	}
 
 	@Transactional(readOnly = true)

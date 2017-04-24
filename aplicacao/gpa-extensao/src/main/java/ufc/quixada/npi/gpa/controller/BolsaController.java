@@ -2,13 +2,11 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
@@ -35,11 +33,10 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
-import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.AlunoRepository;
-import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
+
 
 @Controller
 @Transactional
@@ -47,31 +44,27 @@ import ufc.quixada.npi.gpa.service.BolsaService;
 public class BolsaController {
 
 	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
+	private AcaoExtensaoService acaoExtensaoService;
 
 	@Autowired
-	private AlunoRepository alunoRepository;
+	private AlunoService alunoService;
 
-	@Autowired
-	private BolsaRepository bolsaRepository;
 	
 	@Autowired 
 	private BolsaService bolsaService;
-	@Autowired 
-	private AlunoService alunoService;
+
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
-			@PathVariable("idAcao") Integer idAcao) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		acao.setBolsasRecebidas(numeroBolsas);
-		acaoExtensaoRepository.save(acao);
-		map.put(MESSAGE_STATUS_RESPONSE, SUCESSO);
-		map.put(MESSAGE, MESSAGE_EDITADO_SUCESSO);
-		map.put(RESPONSE_DATA, numeroBolsas);
-		return map;
+	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
+			@PathVariable("idAcao") Integer idAcao, Model model) {
+		
+		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
+		boolean message = acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
+		
+		model.addAttribute("message", message);
+		model.addAttribute("acao", acao);
+		
+		return VISUALIZAR_ACAO;
 	}
 
 	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
@@ -85,18 +78,19 @@ public class BolsaController {
 		}
 
 		return R_ACAO + acao.getId();
+
 	}
 
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model, Authentication auth) {
-		model.addAttribute("bolsas", bolsaRepository.findByAcaoExtensao_id(id));
-		model.addAttribute("cpfCoordenador", acaoExtensaoRepository.findCoordenadorById(id));
+		model.addAttribute("bolsas", bolsaService.listarBolsasAcao(id));
+		model.addAttribute("cpfCoordenador", acaoExtensaoService.buscarCpfCoordenador(id));
 		return FRAGMENTS_TABLE_BOLSAS;
 	}
 
 	@RequestMapping(value = "/excluir/{id}")
 	public @ResponseBody void deleteBolsa(@PathVariable("id") Integer id) {
-		bolsaRepository.delete(id);
+		bolsaService.deletarBolsa(id);
 	}
 
 	@RequestMapping(value = "/encerrar/{id}", method = RequestMethod.POST)
@@ -106,12 +100,11 @@ public class BolsaController {
 
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date dataTermino = df.parse(data);
-		Bolsa bolsa = bolsaRepository.findOne(id);
+		
+		Bolsa bolsa = bolsaService.buscarBolsa(id);
 
 		if (bolsa.getInicio().before(dataTermino)) {
-			bolsa.setAtivo(false);
-			bolsa.setTermino(dataTermino);
-			bolsaRepository.save(bolsa);
+			bolsaService.encerrarBolsa(bolsa, dataTermino);
 		} else {
 			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
 			map.put(RESPONSE_DATA, MESSAGE_DATA_ANTERIOR);
@@ -127,8 +120,8 @@ public class BolsaController {
 
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String detalhesBolsista(@PathVariable("id") Integer idAluno, Model model) {
-		model.addAttribute("aluno", alunoRepository.findOne(idAluno));
-		model.addAttribute("bolsas", bolsaRepository.findByBolsista_id(idAluno));
+		model.addAttribute("aluno", alunoService.buscarAluno(idAluno));
+		model.addAttribute("bolsas", bolsaService.listarBolsasAluno(idAluno));
 		return PAGINA_DETALHES_BOLSISTA;
 	}
 }

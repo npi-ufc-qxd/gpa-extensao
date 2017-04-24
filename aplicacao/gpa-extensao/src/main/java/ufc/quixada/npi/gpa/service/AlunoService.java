@@ -1,10 +1,10 @@
 package ufc.quixada.npi.gpa.service;
 
+import java.util.List;
+
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.Aluno;
-
-import java.util.List;
 
 public interface AlunoService {
 
@@ -27,5 +27,10 @@ public interface AlunoService {
      * Busca todos os alunos no LDAP e cadastra aqueles que ainda não estão cadastrados no sistema
      */
 	void cadastrarAlunos();
+	
+	/**
+     * Busca um aluno cadastrado
+     */
+	Aluno buscarAluno(Integer idAluno);
 
 }
