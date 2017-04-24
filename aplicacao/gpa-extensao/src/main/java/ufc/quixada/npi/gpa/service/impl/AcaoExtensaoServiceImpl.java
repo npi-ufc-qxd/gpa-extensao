@@ -257,40 +257,29 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	
 	@Override
 	public int countMinhasAcoes(Pessoa pessoa) {
-		List<AcaoExtensao> count = acaoExtensaoRepository.findByParticipacao(pessoa);
-		int	num = count.size();	
-		return num;		
+		 return acaoExtensaoRepository.countByParticipacao(pessoa);
+			
 	}
+	
 
 	@Override
 	public int countMinhasAcoesAguardandoParecer(Pessoa pessoa) {
-		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(pessoa,
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
-		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(pessoa,
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
-		acoesParecerista.removeAll(acoesRelator);
-		acoesParecerista.addAll(acoesRelator);
-		 List<AcaoExtensao> count = acoesParecerista;
-		
-		int num = count.size();
-		return num;
+		return acoesParecerista + acoesRelator;
 	}
 
 	@Override
 	public int countMinhasAcoesPareceresEmitidos(Pessoa pessoa) {
-		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(pessoa,
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
 						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
 						Status.REPROVADO));
-		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(pessoa,
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
-		acoesParecerista.removeAll(acoesRelator);
-		acoesParecerista.addAll(acoesRelator);
-		 List<AcaoExtensao>  count = acoesParecerista;
-		 
-		 int num = count.size();
-		 
-		 return num;
+		return acoesParecerista + acoesRelator;
 	}
 
 	@Override

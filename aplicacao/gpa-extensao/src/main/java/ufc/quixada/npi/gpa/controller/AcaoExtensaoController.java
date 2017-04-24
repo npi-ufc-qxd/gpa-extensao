@@ -155,7 +155,6 @@ public class AcaoExtensaoController {
 	@GetMapping("/minhas")
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());		
-		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
 		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
 		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));				
@@ -172,7 +171,6 @@ public class AcaoExtensaoController {
 	@GetMapping("/minhas/minhas-acoes")
 	public String listarMinhasAcoesEmTramitacao(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());
-		model.addAttribute("minhasAcoes", acaoExtensaoService.findAll(pessoa));		
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
 		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
 		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));								
@@ -185,7 +183,6 @@ public class AcaoExtensaoController {
 	@GetMapping("/minhas/aguardando-parecer")
 	public String listarMinhasAcoesEmAndamento(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());		
-		model.addAttribute("meusPareceres", acaoExtensaoService.findAcoesAguardandoParecer(pessoa));		
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
 		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
 		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));		
@@ -198,7 +195,6 @@ public class AcaoExtensaoController {
 	@GetMapping("/minhas/pareceres-emitidos")
 	public String listarMinhasAcoesEncerrada(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaRepository.findByCpf(authentication.getName());		
-		model.addAttribute("meusPareceresEmitidos", acaoExtensaoService.findAcoesParecerEmitido(pessoa));		
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
 		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
 		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));		

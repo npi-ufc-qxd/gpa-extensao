@@ -49,5 +49,13 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	int countByAtivoAndStatus(boolean ativo, Status status);
 
 	int countByAtivo(boolean ativo);
+
+	@Query("SELECT count(e.acaoExtensao) FROM equipe_de_trabalho AS e where e.participante = :pessoa")
+	int countByParticipacao(@Param("pessoa") Pessoa pessoa);
+
+	@Query("SELECT count (a.parecerTecnico.responsavel.id) FROM AcaoExtensao AS a where a.parecerTecnico.responsavel = :pessoa AND status in :status")
+	int countByPareceristaAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
 	
+	@Query("SELECT count(a.parecerRelator.responsavel) FROM AcaoExtensao AS a where a.parecerRelator.responsavel = :pessoa AND status in :status")
+	int countByRelatorAndStatus(@Param("pessoa")Pessoa pessoa, @Param("status") List<Status> status);
 }
