@@ -87,21 +87,54 @@
 			}
 		});
 	</script>
-	
+
 	<script type="text/javascript">
-		$('#funcao').change(function() {
-			if (this.value == "OUTRA") {
-				document.getElementById("participanteServidor").disabled = true;
-				document.getElementById("nomeParticipante").disabled = false;
-				document.getElementById("cpfParticipante").disabled = false;
-				document.getElementById("descricaoFuncao").disabled = false;
-				
-			} else {
-				document.getElementById("participanteServidor").disabled = false;
-				document.getElementById("nomeParticipante").disabled = true;
-				document.getElementById("cpfParticipante").disabled = true;
-				document.getElementById("descricaoFuncao").disabled = true;
-			}
+		$('#funcao')
+				.change(
+						function() {
+							if (this.value == "OUTRA") {
+								document.getElementById("participanteServidor").disabled = true;
+								document.getElementById("nomeParticipante").disabled = false;
+								document.getElementById("cpfParticipante").disabled = false;
+								document.getElementById("descricaoFuncao").disabled = false;
+
+							} else {
+								document.getElementById("participanteServidor").disabled = false;
+								document.getElementById("nomeParticipante").disabled = true;
+								document.getElementById("cpfParticipante").disabled = true;
+								document.getElementById("descricaoFuncao").disabled = true;
+							}
+						});
+	</script>
+	<script type="text/javascript">
+		$('#novoParcitipante').click(function() {
+			document.getElementById("nomeParceiro").disabled = false;
+			document.getElementById("tipoParceiro").disabled = false;
+			document.getElementById("parceiro").disabled = true;
+		});
+		$('#parcitipanteExistente').click(function() {
+			document.getElementById("parceiro").disabled = false;
+			document.getElementById("nomeParceiro").disabled = true;
+			document.getElementById("tipoParceiro").disabled = true;
+		});
+		$('#outrasFormas')
+				.click(
+						function() {
+							if (document.getElementById("outrasFormas").checked) {
+								document
+										.getElementById("descricaoOutrasFormas").disabled = false;
+							} else {
+								document
+										.getElementById("descricaoOutrasFormas").disabled = true;
+							}
+
+						});
+	</script>
+	<script type="text/javascript">
+		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
+
+		checkboxes.click(function() {
+			btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
 		});
 	</script>
 </section>

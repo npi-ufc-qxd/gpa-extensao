@@ -105,6 +105,7 @@ public class Constants {
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
 	public static final String VALOR_INVALIDO = "Valor inválido!";
+	public static final String CAMPO_OBRIGATORIO_VAZIO = "Um campo obrigatório não pode ser vazio!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
@@ -117,7 +118,8 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-
+	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
