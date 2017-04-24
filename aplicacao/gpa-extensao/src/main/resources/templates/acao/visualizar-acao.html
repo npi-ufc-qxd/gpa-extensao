@@ -66,13 +66,13 @@
         });
     </script>
     
-  <script>
-	  $(document).ready(function(){
-	      if(acao.status.name() == 'APROVADO')
-		  	$('#aprovada a').addClass("selected");
-	      
-	  });
-  </script>
-    
+	<script>
+		$(".column-step").each(function(index,element) { 
+			$( element ).toggleClass( "upcoming" );
+			if($( this ).is( ".active" ) ){
+				return false;
+			}
+		});
+	</script>
 </section>
 </html>
