@@ -80,6 +80,7 @@ public class Constants {
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	public static final String EXCEPTION_SERVIDOR_JA_CADASTRADO = "O servidor já está cadastrado";
+	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
 
 	// Mensagens
 	public static final String ERRO = "erro";

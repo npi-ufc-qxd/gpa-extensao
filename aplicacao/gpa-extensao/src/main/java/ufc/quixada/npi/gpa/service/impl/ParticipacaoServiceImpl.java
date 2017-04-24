@@ -5,6 +5,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,7 +83,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 					|| participacao.getDataInicio().after(old.getTermino())
 					|| participacao.getDataTermino().before(old.getInicio())
 					|| participacao.getDataTermino().before(participacao.getDataInicio())) {
-				throw new GpaExtensaoException(participacao.getDataInicio().toLocaleString());
+				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
 			}
 
 			participacao.setCoordenador(false);
