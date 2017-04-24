@@ -141,19 +141,10 @@ public class AcaoExtensaoController {
 	 */
 	@GetMapping("/{acao}")
 	
-	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
+	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) { //É aqui
 		model.addAttribute("pendencia", new Pendencia()); //Se tirar essa linha, gera erro.
 		model.addAttribute("pareceristas",servidorService.findAllServidores());
 		model.addAttribute("acaoExtensao", acao);
-		return VISUALIZAR_ACAO;
-	}
-	
-	
-	@RequestMapping(value = "/alterarPareceristaForm", method = RequestMethod.GET) //Método Button
-	public String alterarPareceristaForm(AcaoExtensao acaoExtensao, Model model){
-		acaoExtensao.setStatus(Status.AGUARDANDO_PARECERISTA);
-		acaoExtensao.getParecerTecnico().setResponsavel(null);
-		
 		return VISUALIZAR_ACAO;
 	}
 	

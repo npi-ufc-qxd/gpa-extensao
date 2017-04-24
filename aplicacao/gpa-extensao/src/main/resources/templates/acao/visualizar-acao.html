@@ -126,6 +126,87 @@
 			$("#parecer-relator-info").fadeIn(500);
 		});
 		
+		
+		
+		
+		//Parte de validação do Formulário
+		
+		$("#parecerista-form").bootstrapValidator({
+			fields: {
+				"parecerTecnico.prazo": {
+					validators: {
+						date: {
+	                        format: 'DD/MM/YYYY',
+	                        message: "Formato incorreto"
+	                    },
+	                    notEmpty: {
+	                        message: "Especifique o prazo"
+	                    }
+	                }
+				}
+			}
+		});
+		
+		$("#parecerista-form").on("change", function(){
+			$(this).bootstrapValidator("revalidateField", "parecerTecnico.prazo");
+		});
+		
+		$("#relator-form").bootstrapValidator({
+			fields: {
+				"parecerRelator.prazo": {
+					validators: {
+						date: {
+	                        format: 'DD/MM/YYYY',
+	                        message: "Formato incorreto"
+	                    },
+	                    notEmpty: {
+	                        message: "Especifique o prazo"
+	                    }
+	                }
+				}
+			}
+		});
+		
+		$("#relator-form").on("change", function(){
+			$(this).bootstrapValidator("revalidateField", "parecerRelator.prazo");
+		});
+		
+		$(".pendencias-form").bootstrapValidator({
+			fields: {
+				descricao:{
+					validators:{
+						notEmpty:{
+							message: "Descreva as pendências"
+						}
+					}
+				}
+			}
+		});
+		
+		$("#parecer-form").bootstrapValidator({
+			fields:{
+				"parecerTecnico.parecer":{
+					validators:{
+						notEmpty:{
+							message: "Especifique o parecer"
+						}
+					}
+				}
+			}
+		});
+		
+		$("#relato-form").bootstrapValidator({
+			fields: {
+				"parecerRelator.parecer":{
+					validators:{
+						notEmpty:{
+							message: "Especifique o parecer"
+						}
+					}
+				}
+			}
+		});
+		
 	</script>
 </section>
 </html>
