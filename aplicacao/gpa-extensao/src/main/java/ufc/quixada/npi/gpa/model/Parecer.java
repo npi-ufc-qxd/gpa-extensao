@@ -42,7 +42,7 @@ public class Parecer {
 	@ManyToOne
 	@JoinColumn(name = "parecerista_id")
 	private Pessoa responsavel;
-
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 
