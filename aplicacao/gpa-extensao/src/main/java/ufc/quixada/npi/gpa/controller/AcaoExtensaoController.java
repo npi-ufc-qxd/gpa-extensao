@@ -91,9 +91,6 @@ public class AcaoExtensaoController {
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
-	private ServidorRepository servirdorRepository;
-
-	@Autowired
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
@@ -271,7 +268,6 @@ public class AcaoExtensaoController {
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
 		try {
 			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
-			System.out.println("DEU SERTU");
 		} catch (GpaExtensaoException e) {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
