@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static org.mockito.Matchers.intThat;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
 import java.util.Arrays;
@@ -104,6 +105,19 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
 		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
 			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean salvarCodigoAcao(AcaoExtensao acao, String codigo) {
+		String codigoUpper = codigo.toUpperCase();
+		
+		if(acao != null && !codigoUpper.isEmpty()){
+			acao.setCodigo(codigoUpper);
 			acaoExtensaoRepository.save(acao);
 			return true;
 		}
