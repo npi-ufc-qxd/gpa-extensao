@@ -204,7 +204,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
 	}
-
+	
+	
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
@@ -318,4 +319,5 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);
 	}
+
 }
