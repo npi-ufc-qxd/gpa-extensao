@@ -120,198 +120,174 @@
 						</div>
 					</div>
 				</div>
-				<section layout:fragment="js">
+			</div>
+		</div>
+	</div>
+</div>
+<section layout:fragment="js">
 
-					<script th:src="@{/js/mask.js}"></script>
-					<script>
-						$('#menu-acoes a').addClass("active");
-						$('#equipe,#parcerias')
-								.dataTable(
-										{
-											language : {
-												"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+	<script th:src="@{/js/mask.js}"></script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
+						});
+	</script>
+
+	<script type="text/javascript">
+		$('#instituicao').change(function() {
+			if (this.value == "UFC") {
+				document.getElementById("nomeInstituicao").disabled = true;
+			} else {
+				document.getElementById("nomeInstituicao").disabled = false;
+			}
+		});
+	</script>
+
+	<script type="text/javascript">
+		$('#funcao')
+				.change(
+						function() {
+							if (this.value == "OUTRA") {
+								document.getElementById("participanteServidor").disabled = true;
+								document.getElementById("nomeParticipante").disabled = false;
+								document.getElementById("cpfParticipante").disabled = false;
+								document.getElementById("descricaoFuncao").disabled = false;
+
+							} else {
+								document.getElementById("participanteServidor").disabled = false;
+								document.getElementById("nomeParticipante").disabled = true;
+								document.getElementById("cpfParticipante").disabled = true;
+								document.getElementById("descricaoFuncao").disabled = true;
+							}
+						});
+	</script>
+	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$
+				.ajax({
+					url : "/servidores/funcao/servidor",
+					contentType : "application/json",
+					type : "GET",
+					data : JSON.stringify(this.value),
+					beforeSend : function(xhr) {
+						xhr
+								.setRequestHeader("Content-Type",
+										"application/json");
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(data) {
+						document.getElementById('participanteServidor').options.length = 0;
+						$.each(data, function(key, value) {
+							$('#participanteServidor').append(
+									'<option value="' + value.pessoa.id + '">'
+											+ value.pessoa.nome + '</option>');
+						});
+					}
+				});
+
+		$('#funcao')
+				.change(
+						function() {
+							if (this.value == "STA") {
+								$
+										.ajax({
+											url : "/servidores/funcao/servidor",
+											contentType : "application/json",
+											type : "GET",
+											data : JSON.stringify(this.value),
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(
+														"Content-Type",
+														"application/json");
+												xhr.setRequestHeader(header,
+														token);
 											},
-											paging : false,
-											searching : false,
-											info : false,
-											order : [ [ 0, "asc" ] ]
-										});
-					</script>
-
-					<script type="text/javascript">
-						$('#instituicao')
-								.change(
-										function() {
-											if (this.value == "UFC") {
+											success : function(data) {
 												document
-														.getElementById("nomeInstituicao").disabled = true;
-											} else {
-												document
-														.getElementById("nomeInstituicao").disabled = false;
-											}
-										});
-					</script>
-
-					<script type="text/javascript">
-						$('#funcao')
-								.change(
-										function() {
-											if (this.value == "OUTRA") {
-												document
-														.getElementById("participanteServidor").disabled = true;
-												document
-														.getElementById("nomeParticipante").disabled = false;
-												document
-														.getElementById("cpfParticipante").disabled = false;
-												document
-														.getElementById("descricaoFuncao").disabled = false;
-
-											} else {
-												document
-														.getElementById("participanteServidor").disabled = false;
-												document
-														.getElementById("nomeParticipante").disabled = true;
-												document
-														.getElementById("cpfParticipante").disabled = true;
-												document
-														.getElementById("descricaoFuncao").disabled = true;
-											}
-										});
-					</script>
-					<script type="text/javascript">
-						var token = $("meta[name='_csrf']").attr("content");
-						var header = $("meta[name='_csrf_header']").attr(
-								"content");
-						$
-								.ajax({
-									url : "/servidores/funcao/servidor",
-									contentType : "application/json",
-									type : "GET",
-									data : JSON.stringify(this.value),
-									beforeSend : function(xhr) {
-										xhr.setRequestHeader("Content-Type",
-												"application/json");
-										xhr.setRequestHeader(header, token);
-									},
-									success : function(data) {
-										document
-												.getElementById('participanteServidor').options.length = 0;
-										$.each(data, function(key, value) {
-											$('#participanteServidor').append(
-													'<option value="' + value.pessoa.id + '">'
-															+ value.pessoa.nome
-															+ '</option>');
-										});
-									}
-								});
-
-						$('#funcao')
-								.change(
-										function() {
-											if (this.value == "STA") {
+														.getElementById('participanteServidor').options.length = 0;
 												$
-														.ajax({
-															url : "/servidores/funcao/servidor",
-															contentType : "application/json",
-															type : "GET",
-															data : JSON
-																	.stringify(this.value),
-															beforeSend : function(
-																	xhr) {
-																xhr
-																		.setRequestHeader(
-																				"Content-Type",
-																				"application/json");
-																xhr
-																		.setRequestHeader(
-																				header,
-																				token);
-															},
-															success : function(
-																	data) {
-																document
-																		.getElementById('participanteServidor').options.length = 0;
-																$
-																		.each(
-																				data,
-																				function(
-																						key,
-																						value) {
-																					$(
-																							'#participanteServidor')
-																							.append(
-																									'<option value="' + value.pessoa.id + '">'
-																											+ value.pessoa.nome
-																											+ '</option>');
-																				});
-															}
-														});
+														.each(
+																data,
+																function(key,
+																		value) {
+																	$(
+																			'#participanteServidor')
+																			.append(
+																					'<option value="' + value.pessoa.id + '">'
+																							+ value.pessoa.nome
+																							+ '</option>');
+																});
 											}
-											if (this.value == "DOCENTE") {
-												$
-														.ajax({
-															url : "/servidores/funcao/docente",
-															contentType : "application/json",
-															type : "GET",
-															data : JSON
-																	.stringify(this.value),
-															beforeSend : function(
-																	xhr) {
-																xhr
-																		.setRequestHeader(
-																				"Content-Type",
-																				"application/json");
-																xhr
-																		.setRequestHeader(
-																				header,
-																				token);
-															},
-															success : function(
-																	data) {
-																document
-																		.getElementById('participanteServidor').options.length = 0;
-																$
-																		.each(
-																				data,
-																				function(
-																						key,
-																						value) {
-																					$(
-																							'#participanteServidor')
-																							.append(
-																									'<option value="' + value.pessoa.id + '">'
-																											+ value.pessoa.nome
-																											+ '</option>');
-																				});
-															}
-														});
-											}
-
 										});
-					</script>
-					<script>
-						$('#menu-acoes a').addClass("active");
-						$('#equipe,#parcerias')
-								.dataTable(
-										{
-											language : {
-												"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							}
+							if (this.value == "DOCENTE") {
+								$
+										.ajax({
+											url : "/servidores/funcao/docente",
+											contentType : "application/json",
+											type : "GET",
+											data : JSON.stringify(this.value),
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(
+														"Content-Type",
+														"application/json");
+												xhr.setRequestHeader(header,
+														token);
 											},
-											paging : false,
-											searching : false,
-											info : false,
-											order : [ [ 0, "asc" ] ]
+											success : function(data) {
+												document
+														.getElementById('participanteServidor').options.length = 0;
+												$
+														.each(
+																data,
+																function(key,
+																		value) {
+																	$(
+																			'#participanteServidor')
+																			.append(
+																					'<option value="' + value.pessoa.id + '">'
+																							+ value.pessoa.nome
+																							+ '</option>');
+																});
+											}
 										});
+							}
 
-						$(".myadmin-alert .closed").click(function(event) {
-							$(this).parents(".myadmin-alert").fadeToggle(350);
-
-							return false;
+						});
+	</script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
 						});
 
-						$(".showtop").ready(function() {
-							$(".alerttop").fadeToggle(350);
-						});
-					</script>
-				</section>
+		$(".myadmin-alert .closed").click(function(event) {
+			$(this).parents(".myadmin-alert").fadeToggle(350);
+
+			return false;
+		});
+
+		$(".showtop").ready(function() {
+			$(".alerttop").fadeToggle(350);
+		});
+	</script>
+</section>
 </html>
