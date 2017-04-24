@@ -117,10 +117,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	
 	@Override
 	public boolean salvarCodigoAcao(AcaoExtensao acao, String codigo) {
-		String codigoUpperCase = codigo.toUpperCase();
+		String codigoUpper = codigo.toUpperCase();
 		
-		if(acao != null && !codigoUpperCase.isEmpty()){
-			acao.setCodigo(codigoUpperCase);
+		if(acao != null && !codigoUpper.isEmpty()){
+			acao.setCodigo(codigoUpper);
 			acaoExtensaoRepository.save(acao);
 			return true;
 		}
