@@ -5,5 +5,4 @@ import ufc.quixada.npi.gpa.model.Servidor;
 public interface PessoaService {
 
 	Servidor findServidor(String cpf);
-	
 }

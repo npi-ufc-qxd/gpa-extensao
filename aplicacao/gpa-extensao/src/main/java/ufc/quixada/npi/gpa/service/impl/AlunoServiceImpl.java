@@ -74,5 +74,10 @@ public class AlunoServiceImpl implements AlunoService {
 			adicionarAluno(usuario);
 		}
 	}
+	
+	@Override
+	public Aluno buscarAluno(Integer idAluno) {
+		return alunoRepository.findOne(idAluno);
+	}
 
 }

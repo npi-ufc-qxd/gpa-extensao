@@ -27,4 +27,9 @@ public interface AlunoService {
      * Busca todos os alunos no LDAP e cadastra aqueles que ainda não estão cadastrados no sistema
      */
 	void cadastrarAlunos();
+	
+	/**
+     * Busca um aluno cadastrado
+     */
+	Aluno buscarAluno(Integer idAluno);
 }

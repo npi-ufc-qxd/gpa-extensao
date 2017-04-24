@@ -1,78 +1,85 @@
 <div class="white-box" th:fragment="dados-basicos">
-    <h3 class="box-title" th:text="${acao.titulo}"></h3>
-    <div class="row">
-        <div class="col-sm-4">
-            <label>Coordenador(a)</label>
-            <p th:text="${acao.coordenador.nome}"></p>
-        </div>
-        <div class="col-sm-2">
-            <label>Modalidade</label>
-            <p th:text="${acao.modalidade.descricao}"></p>
-        </div>
+	<h3 class="box-title" th:text="${acao.titulo}"></h3>
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Coordenador(a)</label>
+			<p th:text="${acao.coordenador.nome}"></p>
+		</div>
+		<div class="col-sm-2">
+			<label>Modalidade</label>
+			<p th:text="${acao.modalidade.descricao}"></p>
+		</div>
 
-        <div class="col-sm-2">
-            <label>Identificador</label>
-            <p th:text="${acao.identificador}"/>
-        </div>
-        <div class="col-sm-2">
-            <label>Código PREX</label>
-            <p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
-        </div>
-        <div class="col-sm-2">
-            <label>Prorrogável</label>
-            <p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4">
-            <label>Status:</label>
-            <p th:text="${acao.status.descricao}"></p>
-        </div>
-        <div class="col-sm-2">
-            <label>Início</label>
-            <p th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'"/>
-        </div>
-        <div class="col-sm-2">
-            <label>Término</label>
-            <p id="dataTermino" th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'"/>
-        </div>
-        <div class="col-sm-2">
-            <label>Bolsas solicitadas</label>
-            <p th:text="${acao.bolsasSolicitadas} ? ${acao.bolsasSolicitadas} : '-'"/>
-        </div>
-        <div class="col-sm-2">
-            <label>Bolsas recebidas</label>
-            <p th:if="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'"/>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-4">
-            <label>Número do processo</label>
-            <p th:text="${acao.numeroProcesso} ? ${acao.numeroProcesso} : '-'"/>
-        </div>
-        <div class="col-sm-8">
-            <label>Vínculo</label>
-            <p th:text="${acao.vinculo} ? ${acao.vinculo.titulo} : '-'"/>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <label>Observações</label>
-            <p th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'"/>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <label>Resumo</label>
-            <p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
-        </div>
-    </div>
+		<div class="col-sm-2">
+			<label>Identificador</label>
+			<p th:text="${acao.identificador}" />
+		</div>
+		<div class="col-sm-2">
+			<label>Código PREX</label>
+			<p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
+		</div>
+		<div class="col-sm-2">
+			<label>Prorrogável</label>
+			<p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
+		</div>
+	</div>
 
 	<div class="row">
+		<div class="col-sm-4">
+			<label>Status:</label>
+			<p th:text="${acao.status.descricao}"></p>
+		</div>
+		<div class="col-sm-2">
+			<label>Início</label>
+			<p
+				th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Término</label>
+			<p id="dataTermino"
+				th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Bolsas solicitadas</label>
+			<p
+				th:text="${acao.bolsasSolicitadas} ? ${acao.bolsasSolicitadas} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Bolsas recebidas</label>
+			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '0'" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Número do processo</label>
+			<p th:text="${acao.numeroProcesso} ? ${acao.numeroProcesso} : '-'" />
+		</div>
+		<div class="col-sm-8">
+			<label>Vínculo</label>
+			<p th:text="${acao.vinculo} ? ${acao.vinculo.titulo} : '-'" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<label>Observações</label>
+			<p
+				th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'" />
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<label>Resumo</label>
+			<p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
+		</div>
+	</div>
+
+	<div class="row"></div>
+
+	<div class="row">
+
 		<div class="col-sm-10">
 			<div class="text-right">
 	    	    <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}" 
@@ -90,6 +97,62 @@
 		    <div class="text-right">
 		        <a th:if="${acao.status.name() == 'NOVO'}" th:href="@{/acoes/editar/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
 		    </div>
+      
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<a
+					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal" data-target="#myModal"
+					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
+					Recebidas</a> <a
+					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:href="@{/acoes/submeter/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
+				<a th:if="${acao.status.name() == 'NOVO'}"
+					th:href="@{/acoes/editar/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<!-- sample modal content -->
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Bolsas Recebidas</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/bolsa/salvarBolsas/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="bolsasRecebidas">Quantidade de Bolsas
+												Recebidas</label> <input id="bolsasRecebidas" class="form-control"
+												name="bolsasRecebidas" type="text" required="required"
+												pattern="[0-9]+$" />
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Salvar" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		
 		
