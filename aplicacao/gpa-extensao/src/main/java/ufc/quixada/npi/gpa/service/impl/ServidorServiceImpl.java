@@ -1,9 +1,13 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import br.ufc.quixada.npi.ldap.model.Usuario;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.ufc.quixada.npi.ldap.model.Usuario;
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gpa.model.Papel;
 import ufc.quixada.npi.gpa.model.Papel.Tipo;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -13,9 +17,6 @@ import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.PapelRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.ServidorService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ServidorServiceImpl implements ServidorService {

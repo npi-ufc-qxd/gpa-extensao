@@ -60,12 +60,50 @@ public interface AcaoExtensaoService {
 	 * Retorna a quantidade de ações já encerradas
 	 */
 	int countAcoesEncerradas();
+	
+	/**
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando parecerista técnico, de aguardando relator;
+	 */
+	int countAcoesAguardandoPareceristaRelator();
+	
+	/**
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando homologação;
+	 */
+	int countAcoesAguardandoHomologacao();
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer tecnico
+	 */
+	int countAcoesPendenciasParecer(Pessoa coordenador);
+	
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer do relator
+	 */
+	int countAcoesPendenciasRelato(Pessoa coordenador);
+	
+	/**
+	 * @param parecerista
+	 * @return quantidade de acoes aguardando parecer (tecnico ou relato) da pessoa logada
+	 */
+	int countAcoesAguardandoParecer(Pessoa responsavel);
 
 	/**
 	 * Cadastra uma nova ação de extensão
 	 */
 	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException;
 
+	
+	/**
+	 * Adiciona um número de bolsas que foram recebidas na ação
+	 */
+	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	
+	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
@@ -82,8 +120,13 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
+
+	AcaoExtensao findById(Integer idAcao);
 	
-	
+	/**
+	 * Retorna o cpf do coordenador da ação
+	 */
+	String buscarCpfCoordenador(Integer id);
 
 }
 

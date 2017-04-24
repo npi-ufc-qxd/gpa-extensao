@@ -9,6 +9,45 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right pull-right">
 			<li class="dropdown">
+                <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                    <i class="icon-note"></i>
+                    <span>Coordenador/Parecerista</span>
+                    <div 
+                    	th:classappend="${qtdAguardandoParecer > 0 OR qtdPendenciasParecerTecnico > 0 OR
+                    	qtdPendenciasParecerRelator > 0} ? notify : none">
+                        <span class="heartbit"></span>
+                        <span class="point"></span>
+                    </div>          
+                </a>
+                <ul class="dropdown-menu dropdown-tasks animated slideInUp">
+                	<li th:if="${qtdAguardandoParecer == 0 AND qtdPendenciasParecerTecnico == 0 AND
+                    	qtdPendenciasParecerRelator == 0}">
+                    	<a>Não hã notificações!</a>
+                   	</li>
+                	<li th:if="${qtdAguardandoParecer > 0}"> <a th:text="'Aguardando parecer (' + ${qtdAguardandoParecer} + ')'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerTecnico > 0}"> <a th:text="'Resolver pendências parecer tecnico (' + ${qtdPendenciasParecerTecnico} + ')'"></a> </li>
+                	<li th:if="${qtdPendenciasParecerRelator > 0}"> <a th:text="'Resolver pendências do relato (' + ${qtdPendenciasParecerRelator} + ')'"></a> </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a sec:authorize="hasAuthority('DIRECAO')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                    <i class="icon-note"></i>
+                    <span>Direção</span>
+                    <div
+                    	th:classappend="${qtdAcoesPareceristaRelator > 0 OR qtdAcoesHomologacao > 0} ? notify : none">
+                        <span class="heartbit"></span>
+                        <span class="point"></span>
+                    </div>                
+                </a>
+                <ul class="dropdown-menu dropdown-tasks animated slideInUp">
+                	<li th:if="${qtdAcoesPareceristaRelator == 0 AND qtdAcoesHomologacao == 0}">
+                    	<a>Não hã notificações!</a>
+                   	</li>
+                    <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando parecerista/relator (' + ${qtdAcoesPareceristaRelator} + ')'"></a> </li>
+                    <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando homologação (' + ${qtdAcoesHomologacao} + ')'"></a> </li>
+                </ul>
+            </li>
+			<li class="dropdown">
 				<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"><b class="hidden-xs" th:text="${pessoaLogada.getNome()}"></b> <i class="icon-options-vertical"></i></a>
 				<ul class="dropdown-menu dropdown-user animated flipInY">
 					<li> <a th:href="@{/logout}"> <i class="fa fa-power-off"></i> Sair</a> </li>
@@ -39,6 +78,7 @@
 		</ul>
 	</div>
 </div>
+
 <!--
 <header class="main-header" th:fragment="menu">
 	<nav class="navbar navbar-static-top">
