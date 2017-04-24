@@ -1,6 +1,5 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static org.mockito.Matchers.intThat;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
 import java.util.Arrays;
