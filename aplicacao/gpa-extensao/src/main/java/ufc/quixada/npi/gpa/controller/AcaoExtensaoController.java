@@ -74,7 +74,6 @@ import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
-import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
