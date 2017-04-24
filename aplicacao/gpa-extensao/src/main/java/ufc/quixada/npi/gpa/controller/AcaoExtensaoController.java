@@ -247,10 +247,9 @@ public class AcaoExtensaoController {
                 && !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
             acaoExtensao.setHorasPraticas(null);
             acaoExtensao.setHorasTeoricas(null);
-        }
-        if (!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
             acaoExtensao.setProgramacao("");
         }
+        
         try {
             acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
         } catch (GpaExtensaoException e) {
