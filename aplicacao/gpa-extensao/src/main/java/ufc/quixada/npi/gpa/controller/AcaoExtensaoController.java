@@ -84,9 +84,6 @@ public class AcaoExtensaoController {
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
-	private ServidorService servidorService;
-
-	@Autowired
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
@@ -103,6 +100,9 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
+	
+	@Autowired
+	private ServidorService servidorService;
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -265,7 +265,7 @@ public class AcaoExtensaoController {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
 
-		return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO;
 	}
 
 	@Transactional(readOnly = true)
