@@ -1,11 +1,10 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
-import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +65,6 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	public void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa coordenador)
 			throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao);
-
 		if (old != null) {
 			if (participacao.getParticipante() != null) {
 				participacao.setCpfParticipante(participacao.getParticipante().getCpf());
@@ -78,17 +76,15 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				throw new GpaExtensaoException(ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO);
 			}
 
-			if (!participacao.getDataInicio().before(old.getInicio())
-					&& !participacao.getDataTermino().after(old.getTermino())
-					&& !participacao.getDataInicio().after(old.getTermino())
-					&& !participacao.getDataTermino().before(old.getInicio())) {
-				throw new GpaExtensaoException(ERROR_DATA_INVALIDA);
+			if (participacao.getDataInicio() == null || participacao.getDataTermino() == null
+					|| participacao.getDataInicio().before(old.getInicio())
+					|| participacao.getDataTermino().after(old.getTermino())
+					|| participacao.getDataInicio().after(old.getTermino())
+					|| participacao.getDataTermino().before(old.getInicio())
+					|| participacao.getDataTermino().before(participacao.getDataInicio())) {
+				throw new GpaExtensaoException(participacao.getDataInicio().toLocaleString());
 			}
-			if (participacao.getDataInicio() == null) {
-				participacao.setDataInicio(old.getInicio());
-			} else if (participacao.getDataTermino() == null) {
-				participacao.setDataTermino(old.getTermino());
-			}
+
 			participacao.setCoordenador(false);
 			participacao.setAcaoExtensao(old);
 

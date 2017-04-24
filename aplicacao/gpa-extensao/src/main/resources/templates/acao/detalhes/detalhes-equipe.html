@@ -70,7 +70,7 @@
 									th:action="@{/participacao/adicionar-participacao/{acao}(acao=${acao.id})}"
 									th:object="${participacao}" method="POST">
 									<div class="form-body">
-										<div class="row">
+										<div class="row col-md-12">
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="control-label">* Função</label> <select
@@ -112,7 +112,8 @@
 													disabled="disabled" />
 											</div>
 										</div>
-										<div class="row">
+										<div class="row col-md-12">
+											<h3>Novo Participante</h3>
 											<div class="form-group">
 												<div class="col-md-12">
 													<label class="control-label">* Nome</label> <input
@@ -139,25 +140,30 @@
 											</div>
 										</div>
 
-										<div class="row">
+										<div class="row col-md-12">
+											<h3>Tempo de Participação</h3>
+
 											<div class="col-md-6">
 												<div class="form-group">
 
 													<label>* Data de início</label> <input
-														th:field="${participacao.dataInicio}" placeholder=""
-														data-mask="99/99/9999" class="form-control" type="text" 
-														/>
-														<span class="font-13 text-muted">Data limite para
+														id="data_inicio_participacao" required="required"
+														data-mask="99/99/9999"
+														th:value="${acao.parseData(acao.inicio)}" name="dataInicio"
+														 class="form-control date" type="date" />
+													<span class="font-13 text-muted">Data limite para
 														início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 													</span>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label>* Data de término</label><input
-														th:field="*{dataTermino}" placeholder=""
-														data-mask="99/99/9999" class="form-control" type="text" />
-													<span class="font-13 text-muted">Data limite para
+													<label>* Data de término</label><input required="required"
+														id="data_termino_participacao" name="dataTermino"
+														data-mask="99/99/9999"
+														th:value="${acao.parseData(acao.termino)}"
+														class="form-control date" type="date" /> <span
+														class="font-13 text-muted">Data limite para
 														término: <small th:text="${acao.parseData(acao.termino)}"></small>
 													</span>
 												</div>
