@@ -5,24 +5,25 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Named;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
-@Named
+@Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
@@ -40,6 +41,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Autowired
 	private NotificationService notificationService;
 
+	@Autowired
+	private ParecerRepository parecerRepository;
+	
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
 		return acaoExtensaoRepository.findByParticipacao(pessoa);
@@ -274,6 +278,41 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public AcaoExtensao findById(Integer idAcao) {
 		return acaoExtensaoRepository.findOne(idAcao);
 	}
+
+	@Override
+	public int countAcoesAguardandoPareceristaRelator() {
+		return acaoExtensaoRepository.countByStatusIn(
+				Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
+	}
+	
+	@Override
+	public int countAcoesAguardandoHomologacao() {
+		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
+	}
+
+	@Override
+	public int countAcoesPendenciasParecer(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
+				coordenador, 
+				Status.RESOLVENDO_PENDENCIAS_PARECER);
+	}
+	
+	@Override
+	public int countAcoesPendenciasRelato(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
+				coordenador, 
+				Status.RESOLVENDO_PENDENCIAS_RELATO);
+	}
+
+	@Override
+	public int countAcoesAguardandoParecer(Pessoa responsavel) {
+		List<Parecer> pareceres = parecerRepository.findByResponsavel(responsavel);
+		int qtdPareceresTecnico = acaoExtensaoRepository
+				.countByParecerTecnicoInAndStatus(pareceres, Status.AGUARDANDO_PARECER_TECNICO);
+		int qtdPareceresRelato = acaoExtensaoRepository
+				.countByParecerRelatorInAndStatus(pareceres, Status.AGUARDANDO_PARECER_RELATOR);
+		return qtdPareceresRelato + qtdPareceresTecnico;
+  }
 	
 	@Override
 	public String buscarCpfCoordenador(Integer acaoId) {
