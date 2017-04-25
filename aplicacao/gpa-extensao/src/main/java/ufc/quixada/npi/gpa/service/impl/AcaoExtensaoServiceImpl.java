@@ -43,7 +43,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private ParecerRepository parecerRepository;
-	
+
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
 		return acaoExtensaoRepository.findByParticipacao(pessoa);
@@ -104,15 +104,15 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-	
+
 	@Override
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
-		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
+		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
 			acao.setBolsasRecebidas(numeroBolsas);
 			acaoExtensaoRepository.save(acao);
 			return true;
 		}
-		
+
 		return false;
 	}
 	
@@ -289,16 +289,16 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public AcaoExtensao findById(Integer id) {
-		return acaoExtensaoRepository.findOne(id);
+	public AcaoExtensao findById(Integer idAcao) {
+		return acaoExtensaoRepository.findOne(idAcao);
 	}
 
 	@Override
 	public int countAcoesAguardandoPareceristaRelator() {
-		return acaoExtensaoRepository.countByStatusIn(
-				Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
+		return acaoExtensaoRepository
+				.countByStatusIn(Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
 	}
-	
+
 	@Override
 	public int countAcoesAguardandoHomologacao() {
 		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
@@ -306,28 +306,24 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Override
 	public int countAcoesPendenciasParecer(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatus(
-				coordenador, 
-				Status.RESOLVENDO_PENDENCIAS_PARECER);
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_PARECER);
 	}
-	
+
 	@Override
 	public int countAcoesPendenciasRelato(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatus(
-				coordenador, 
-				Status.RESOLVENDO_PENDENCIAS_RELATO);
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_RELATO);
 	}
 
 	@Override
 	public int countAcoesAguardandoParecer(Pessoa responsavel) {
 		List<Parecer> pareceres = parecerRepository.findByResponsavel(responsavel);
-		int qtdPareceresTecnico = acaoExtensaoRepository
-				.countByParecerTecnicoInAndStatus(pareceres, Status.AGUARDANDO_PARECER_TECNICO);
-		int qtdPareceresRelato = acaoExtensaoRepository
-				.countByParecerRelatorInAndStatus(pareceres, Status.AGUARDANDO_PARECER_RELATOR);
+		int qtdPareceresTecnico = acaoExtensaoRepository.countByParecerTecnicoInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_TECNICO);
+		int qtdPareceresRelato = acaoExtensaoRepository.countByParecerRelatorInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_RELATOR);
 		return qtdPareceresRelato + qtdPareceresTecnico;
-  }
-	
+	}
+
 	@Override
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);

@@ -126,7 +126,6 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
-	
 	/**
 	 * Retorna o cpf do coordenador da ação
 	 */

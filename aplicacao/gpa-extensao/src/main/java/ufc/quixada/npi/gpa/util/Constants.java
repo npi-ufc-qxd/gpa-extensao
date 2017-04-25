@@ -69,7 +69,6 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
-	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -82,14 +81,14 @@ public class Constants {
 	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	public static final String EXCEPTION_SERVIDOR_JA_CADASTRADO = "O servidor já está cadastrado";
 	public static final String EXCEPTION_GET_ANEXO = "Não foi possível encontrar o anexo";
-	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";
-	
+	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";	
+	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
 
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
-	
+
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
@@ -125,6 +124,10 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
+
+	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
+	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
+
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
 	
 	// Tipos de arquivos
@@ -161,6 +164,5 @@ public class Constants {
 	 */
 
 	// Homologação
-	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao/";
-
+	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
 }

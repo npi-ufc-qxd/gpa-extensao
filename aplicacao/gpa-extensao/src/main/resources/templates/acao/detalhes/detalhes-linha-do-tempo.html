@@ -1,0 +1,39 @@
+<div class="white-box" th:fragment="linhadotempo">
+   <div class="row line-steps">
+	    <div th:classappend="${acao.status.name() eq 'NOVO'}? active : '' " class="col-md-1 column-step start">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div class="step-info">Nova</div>
+	    </div>
+	    <div th:classappend="${acao.status.name() eq 'AGUARDANDO_PARECERISTA'}? active : '' " class="col-md-2 column-step">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div class="step-info">Aguardando Parecerista Técnico</div>
+	    </div>
+	    <div th:classappend="${acao.status.name() eq 'AGUARDANDO_PARECER_TECNICO' or acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER'}? active : '' " class="col-md-2 column-step">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div th:text="${acao.status.name() eq 'RESOLVENDO_PENDENCIAS_PARECER'} ? 'Aguardando Parecer Técnico Resolvendo Pendências' : 'Aguardando Parecer Técnico'" class="step-info"></div>
+	    </div>
+	    <div th:classappend="${acao.status.name() eq 'AGUARDANDO_RELATOR'}? active : '' " class="col-md-2 column-step ">
+	    	<div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div class="step-info">Aguardando Relator</div>
+	    </div>           
+	     <div th:classappend="${acao.status.name() eq 'AGUARDANDO_PARECER_RELATOR' or acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'}? active : '' " class="col-md-2 column-step">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div th:text="${acao.status.name() eq 'RESOLVENDO_PENDENCIAS_RELATO'} ? 'Aguardando Parecer do relator Resolvendo Pendências' : 'Aguardando Parecer do relator' "  class="step-info"></div>
+	    </div>
+	    <div th:classappend="${acao.status.name() eq 'AGUARDANDO_HOMOLOGACAO'}? active : '' " class="col-md-2 column-step ">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div class="step-info">Aguardando Homologação</div>
+	    </div>
+	    <div th:classappend="${acao.status.name() eq 'APROVADO'}? active : '' " class="col-md-1 column-step ">
+	        <div class="step-number"><i class="fa fa-times" aria-hidden="true"></i></div>
+	        <div class="step-title"></div>
+	        <div class="step-info">Aprovada</div>
+	    </div>
+	</div>
+</div>
