@@ -79,6 +79,9 @@
 							order : [ [ 0, "asc" ] ]
 						});
 		
+		
+		
+		
 		$("#alterar-parecerista-button").on("click", function(){
 			$("#parecer-tecnico-acoes").hide();
 			$("#parecer-tecnico-info").hide();
@@ -129,7 +132,12 @@
 		
 		
 		
-		//Parte de validação do Formulário
+		//Parte de validação de Formulário tanto do Parecerista quanto do Relator
+		
+		
+		$("#parecerista-form").on("change", function(){
+			$(this).bootstrapValidator("revalidateField", "parecerTecnico.prazo");
+		});
 		
 		$("#parecerista-form").bootstrapValidator({
 			fields: {
@@ -147,9 +155,7 @@
 			}
 		});
 		
-		$("#parecerista-form").on("change", function(){
-			$(this).bootstrapValidator("revalidateField", "parecerTecnico.prazo");
-		});
+		
 		
 		$("#relator-form").bootstrapValidator({
 			fields: {
@@ -206,6 +212,7 @@
 				}
 			}
 		});
+		
 		
 	</script>
 </section>

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -28,7 +29,8 @@ public class Parecer {
 
 	@Enumerated(EnumType.STRING)
 	private Posicionamento posicionamento;
-
+	
+	
 	@Column(columnDefinition = "TEXT")
 	private String parecer;
 
