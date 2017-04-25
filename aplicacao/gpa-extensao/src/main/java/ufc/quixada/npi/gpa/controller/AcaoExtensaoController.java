@@ -320,14 +320,16 @@ public class AcaoExtensaoController {
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
 	public String salvarCodigo(@RequestParam("codigoAcao") String codigo,
-			@PathVariable("idAcao") Integer idAcao) {
+			@PathVariable("idAcao") Integer idAcao, Model model, RedirectAttributes redirectAttribute) {
 			
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
 		} catch (GpaExtensaoException e) {
-			e.printStackTrace();
+			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 		}
+		
+		model.addAttribute("acao", acao);
 		
 		return VISUALIZAR_ACAO;
 	}

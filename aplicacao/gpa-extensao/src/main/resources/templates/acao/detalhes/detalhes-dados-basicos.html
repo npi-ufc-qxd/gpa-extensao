@@ -77,13 +77,6 @@
 	</div>
 
 	<div class="row">
-		<div class="col-sm-9">
-					<a th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
-					href="" alt="default" data-toggle="modal" data-target="#myModal"
-					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
-					Recebidas</a> 
-				</div>	
-
 		 <div class="col-sm-1">
 			<div class="text-right">
 	    	    <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}" 
