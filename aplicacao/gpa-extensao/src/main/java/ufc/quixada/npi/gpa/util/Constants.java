@@ -57,7 +57,7 @@ public class Constants {
 	public static final String FRAGMENTS_INFO_SERVIDOR = "administracao/cadastro-servidor/cadastro-servidor :: info-cadastro-servidor";
 
 	// Redirects
-	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/detalhes/";
+	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/acoes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO = "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
 	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";

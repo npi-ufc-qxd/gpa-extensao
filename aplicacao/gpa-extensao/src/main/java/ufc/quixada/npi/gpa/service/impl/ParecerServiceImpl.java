@@ -43,14 +43,7 @@ public class ParecerServiceImpl implements ParecerService {
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
 			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
-			
-			/*System.out.println("PRAZO:" + acaoExtensaoForm.getParecerTecnico().getPrazo());
-			
-			System.out.println("Data Atribuição:" + acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());*/
-			
-			//System.out.println("Reponsável:" + acaoExtensaoForm.getParecerTecnico().getResponsavel());
-
-			
+		
 			acao.getParecerTecnico().setResponsavel(acaoExtensaoForm.getParecerTecnico().getResponsavel());
 			acao.getParecerTecnico().setPrazo(acaoExtensaoForm.getParecerTecnico().getPrazo()); 
 			acao.getParecerTecnico().setDataAtribuicao(acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());

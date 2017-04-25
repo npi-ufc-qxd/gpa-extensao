@@ -91,7 +91,7 @@
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" pattern="[^\s]+" name="prazo" required="required" th:field="*{parecerTecnico.prazo}" autocomplete="off"/>
+							<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required" th:field="*{parecerTecnico.prazo}" autocomplete="off"/>
 						</div>
 						<div class="help-block with-errors"></div>
 					</div>
@@ -236,7 +236,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-						<input class="prazo-parecer form-control" pattern="[^\s]+" name="prazo" required="required" th:field="*{parecerRelator.prazo}" autocomplete="off"/>
+						<input class="prazo-parecer form-control" pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required" th:field="*{parecerRelator.prazo}" autocomplete="off"/>
 					</div>
 					<div class="help-block with-errors"></div>
 				</div>
