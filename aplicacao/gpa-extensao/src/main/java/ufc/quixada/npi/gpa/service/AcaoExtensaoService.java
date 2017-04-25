@@ -65,22 +65,50 @@ public interface AcaoExtensaoService {
 	 * Retorna a quantidade de minhas Ações
 	 */
 	int countMinhasAcoes(Pessoa pessoa);
-
+	
 	/**
-	 * Retorna a quantidade de minhas ações aguardando parecer
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando parecerista técnico, de aguardando relator;
 	 */
-	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
-
+	int countAcoesAguardandoPareceristaRelator();
+	
 	/**
-	 * Retorna a quantidade de minhas ações com pareceres emitidos
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando homologação;
 	 */
-	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
+	int countAcoesAguardandoHomologacao();
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer tecnico
+	 */
+	int countAcoesPendenciasParecer(Pessoa coordenador);
+	
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer do relator
+	 */
+	int countAcoesPendenciasRelato(Pessoa coordenador);
+	
+	/**
+	 * @param parecerista
+	 * @return quantidade de acoes aguardando parecer (tecnico ou relato) da pessoa logada
+	 */
+	int countAcoesAguardandoParecer(Pessoa responsavel);
 
 	/**
 	 * Cadastra uma nova ação de extensão
 	 */
 	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException;
 
+	
+	/**
+	 * Adiciona um número de bolsas que foram recebidas na ação
+	 */
+	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	
+	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
@@ -97,5 +125,16 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
+
+	AcaoExtensao findById(Integer idAcao);
+	
+	/**
+	 * Retorna o cpf do coordenador da ação
+	 */
+	String buscarCpfCoordenador(Integer id);
+
+	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
+
+	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
 }
 

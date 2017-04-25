@@ -13,9 +13,11 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -38,6 +40,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
+
+	@Autowired
+	private ParecerRepository parecerRepository;
 	
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -97,6 +102,17 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		}
 
 		acaoExtensaoRepository.save(acaoExtensao);
+	}
+	
+	@Override
+	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
+		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
+			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -253,14 +269,62 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public int countAcoesEncerradas() {
 		return acaoExtensaoRepository.countByAtivo(false);
 	}
-	
-	
+
 	@Override
-	public int countMinhasAcoes(Pessoa pessoa) {
-		 return acaoExtensaoRepository.countByParticipacao(pessoa);
-			
+	public List<AcaoExtensao> findProgramasAprovados() {
+		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
+	}
+
+	@Override
+	public AcaoExtensao findById(Integer idAcao) {
+		return acaoExtensaoRepository.findOne(idAcao);
+	}
+
+	@Override
+	public int countAcoesAguardandoPareceristaRelator() {
+		return acaoExtensaoRepository.countByStatusIn(
+				Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
 	}
 	
+	@Override
+	public int countAcoesAguardandoHomologacao() {
+		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
+	}
+
+	@Override
+	public int countAcoesPendenciasParecer(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
+				coordenador, 
+				Status.RESOLVENDO_PENDENCIAS_PARECER);
+	}
+	
+	@Override
+	public int countAcoesPendenciasRelato(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(
+				coordenador, 
+				Status.RESOLVENDO_PENDENCIAS_RELATO);
+	}
+
+	@Override
+	public int countAcoesAguardandoParecer(Pessoa responsavel) {
+		List<Parecer> pareceres = parecerRepository.findByResponsavel(responsavel);
+		int qtdPareceresTecnico = acaoExtensaoRepository
+				.countByParecerTecnicoInAndStatus(pareceres, Status.AGUARDANDO_PARECER_TECNICO);
+		int qtdPareceresRelato = acaoExtensaoRepository
+				.countByParecerRelatorInAndStatus(pareceres, Status.AGUARDANDO_PARECER_RELATOR);
+		return qtdPareceresRelato + qtdPareceresTecnico;
+  }
+	
+	@Override
+	public String buscarCpfCoordenador(Integer acaoId) {
+		return acaoExtensaoRepository.findCoordenadorById(acaoId);
+	}
+
+	@Override
+	public int countMinhasAcoes(Pessoa pessoa) {
+		
+		return acaoExtensaoRepository.countByParticipacao(pessoa);
+	}
 
 	@Override
 	public int countMinhasAcoesAguardandoParecer(Pessoa pessoa) {
@@ -281,10 +345,4 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		return acoesParecerista + acoesRelator;
 	}
-
-	@Override
-	public List<AcaoExtensao> findProgramasAprovados() {
-		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
-	}
-
 }

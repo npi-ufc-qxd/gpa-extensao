@@ -8,21 +8,7 @@
 	<title>Extensão - Cadastrar Ação</title>
 </head>
 <div class="container-fluid" layout:fragment="conteudo">
-    <div class="row bg-title">
-        <!-- .page title -->
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title"></h4>
-        </div>
-        <!-- /.page title -->
-        <!-- .breadcrumb -->
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Starter Page</li>
-            </ol>
-        </div>
-        <!-- /.breadcrumb -->
-    </div>
+	<br/>
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="white-box">
@@ -79,7 +65,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-6">
 								<label for="vinculo">Vínculo com programa de extensão:</label>
 								<select id="vinculo" class="form-control" th:field="${acao.vinculo}">
 									<option value="">NENHUM</option>
@@ -103,15 +89,6 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-md-3">
-									<div class="form-group">
-										<label for="retroativa">Ação Retroativa?</label>
-										<select id="retroativa" class="form-control">
-											<option value="NAO" selected="selected">NÃO</option>
-											<option value="SIM">SIM</option>
-										</select>
-									</div>
-								</div>
 						</div>
 
 						<!-- Somente para modalidade curso ou evento -->
@@ -142,7 +119,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label for="anexo">* Anexo</label>
 									<input id="anexo" th:if="${acao.anexo} == null" name="anexoAcao" required="required" class="file" type="file" accept="application/pdf"/>
@@ -155,48 +132,41 @@
 									</div>
 								</div>
 							</div>
-							<div id="coordenador-acao" class="no-display">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="coordenador">Coordenador</label>
-										<select id="coordenador" class="form-control" th:field="${acao.coordenador}">
-											<option th:value="${null}" selected="selected">ESCOLHA UM SERVIDOR</option>
-											<option th:each="servidor : ${servidores}" th:value="${servidor.pessoa.id}" th:text="${servidor.pessoa.nome}"></option>
-										</select>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
-                    <div class="row text-right">
+					<div class="row text-right">
 						<button id="submeterAcaoExtensao" type="submit" class="btn btn-primary btn-flat pull-right">Salvar</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-</div>
-<section layout:fragment="js">
-	<script>
-        $('#menu-cadastrar-acao a').addClass("active");
-        if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
-            $('#curso-evento').removeClass('no-display');
-        }
-        $('#modalidade').change(function(){
-            if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
-                $('#curso-evento').removeClass('no-display');
-            } else {
-                $('#curso-evento').addClass('no-display');
-            }
-        });
-        $('#retroativa').change(function(){
-        	if($('#retroativa').val() === 'SIM') {
-        		$('#coordenador-acao').removeClass('no-display');
-        	}else {
-        		$('#coordenador-acao').addClass('no-display');
-        	}
-        });
-        
-	</script>
-</section>
+	</div>
+	<section layout:fragment="js">
+		<script>
+			 $('#menu-cadastrar-acao a').addClass("active");
+       if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+          $('#curso-evento').removeClass('no-display');
+       }
+       $('#modalidade').change(function(){
+          if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+              $('#curso-evento').removeClass('no-display');
+          } else {
+              $('#curso-evento').addClass('no-display');
+          }
+       });
+			 $('#retroativa').change(function(){
+			 	if($('#retroativa').val() === 'SIM') {
+			 		$('#coordenador-acao').removeClass('no-display');
+			 	}else {
+			 		$('#coordenador-acao').addClass('no-display');
+			 	}
+			 });
+			 
+			$(document).ready(function($) {
+			    $("#inicio").mask("99/99/9999");
+			    $("#termino").mask("99/99/9999");
+			});
+		</script>
+	</section>
 </html>
