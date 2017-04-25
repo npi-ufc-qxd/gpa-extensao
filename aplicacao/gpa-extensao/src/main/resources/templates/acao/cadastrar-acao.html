@@ -39,9 +39,9 @@
 							<div class="row" th:if="${action == 'editar'}">
 								<div class="col-md-12">
 									<div class="form-group">
-										<label for="identificador">Identificador</label> <input
-											id="identificador" class="form-control" disabled="true"
-											th:field="${acao.identificador}" type="text"
+										<label for="identificador" th:text="'Identificador - ' + ${acao.identificador}"></label>
+										<input id="identificador"
+											class="form-control" th:field="${acao.identificador}" type="hidden"
 											required="required" />
 									</div>
 								</div>
