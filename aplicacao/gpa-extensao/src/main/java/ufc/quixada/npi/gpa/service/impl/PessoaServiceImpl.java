@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.model.Pessoa;
-
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
