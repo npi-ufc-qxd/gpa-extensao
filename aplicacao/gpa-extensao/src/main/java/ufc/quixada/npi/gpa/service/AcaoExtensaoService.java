@@ -64,6 +64,11 @@ public interface AcaoExtensaoService {
 	int countAcoesEncerradas();
 	
 	/**
+	 * Retorna a quantidade de minhas Ações
+	 */
+	int countMinhasAcoes(Pessoa pessoa);
+	
+	/**
 	 * Valor exibido para a direcao quando logado
 	 * @return quantidade pendências de aguardando parecerista técnico, de aguardando relator;
 	 */
@@ -131,5 +136,8 @@ public interface AcaoExtensaoService {
 	 */
 	String buscarCpfCoordenador(Integer id);
 
+	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
+
+	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
 }
 

@@ -49,12 +49,6 @@ public class EmailServiceImpl implements NotificationService {
 
 	private String[] emailDirecao;
 	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
-	@Autowired
-	private PapelRepository papelRepository;
-
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
 	 * notificação deve ser enviado.
