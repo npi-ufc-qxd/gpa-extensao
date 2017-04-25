@@ -157,7 +157,6 @@ public class AcaoExtensaoController {
 		model.addAttribute("listaAtual", "encerrada");
 		return LISTAR_ACOES;
 	}
-
 	/**
 	 * Busca todas as ações relacionadas ao usuários logado: que coordena,
 	 * participa, parecerista ou relator.
