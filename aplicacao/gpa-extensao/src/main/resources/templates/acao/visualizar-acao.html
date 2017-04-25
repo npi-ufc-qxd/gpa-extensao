@@ -4,6 +4,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="base/base">
 
+
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+
+
 <head>
 <title>Extensão - Detalhes</title>
 </head>
@@ -49,22 +54,6 @@
 
 			<br />
 
-			<!-- Dados Básicos -->
-			<div class="row">
-				<div class="col-xs-12">
-					<div
-						th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
-				</div>
-			</div>
-
-
-			<!-- Equipe de Trabalho -->
-			<div class="row">
-				<div class="col-xs-12">
-					<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
-
-				</div>
-			</div>
 
 			<!-- Equipe de Trabalho -->
 			<div class="row">
@@ -79,12 +68,6 @@
 						</div>
 					</div>
 
-					<!-- Parcerias -->
-					<div class="row">
-						<div class="col-xs-12">
-							<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-						</div>
-					</div>
 
 					<!-- Pareceres -->
 					<div class="row">
@@ -100,25 +83,17 @@
 						</div>
 					</div>
 
-					<!-- Pareceres -->
-					<div class="row">
-						<!-- Parecer Técnico -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-						</div>
-						<!-- Parecer do Relator -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-						</div>
-					</div>
+
+
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
 <section layout:fragment="js">
+
+	<script th:src="@{/js/mask.js}"></script>
 	<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -163,10 +138,101 @@
 						});
 	</script>
 	<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({url : "/servidores/funcao/servidor",
+				contentType : "application/json",
+				type : "GET",
+				data : JSON.stringify(this.value),
+				beforeSend : function(xhr) {
+						xhr
+								.setRequestHeader("Content-Type",
+										"application/json");
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(data) {
+						document.getElementById('participanteServidor').options.length = 0;
+						$.each(data, function(key, value) {
+							$('#participanteServidor').append(
+									'<option value="' + value.pessoa.id + '">'
+											+ value.pessoa.nome + '</option>');
+						});
+					}
+				});
+
+		$('#funcao').change(function() {
+							if (this.value == "STA") {
+								$.ajax({	url : "/servidores/funcao/servidor",
+											contentType : "application/json",
+											type : "GET",
+											data : JSON.stringify(this.value),
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(
+														"Content-Type",
+														"application/json");
+												xhr.setRequestHeader(header,
+														token);
+											},
+											success : function(data) {
+												document.getElementById('participanteServidor').options.length = 0;
+												$.each(data,function(key,value) {
+																	$('#participanteServidor').append(
+																					'<option value="' + value.pessoa.id + '">'
+																							+ value.pessoa.nome
+																							+ '</option>');
+																});
+											}
+										});
+							}if (this.value == "DOCENTE") {
+								$.ajax({url : "/servidores/funcao/docente",
+											contentType : "application/json",
+											type : "GET",
+											data : JSON.stringify(this.value),
+											beforeSend : function(xhr) {
+												xhr.setRequestHeader(
+														"Content-Type",
+														"application/json");
+												xhr.setRequestHeader(header,
+														token);
+											},
+											success : function(data) {
+												document
+														.getElementById('participanteServidor').options.length = 0;
+												$.each(data,function(key, value) {
+													$('#participanteServidor').append('<option value="' + value.pessoa.id + '">'
+																							+ value.pessoa.nome
+																							+ '</option>');
+												});
+											}
+										});
+							}
+
+						});
+	</script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
+						});
+
+		$(".myadmin-alert .closed").click(function(event) {
+			$(this).parents(".myadmin-alert").fadeToggle(350);
+
+			return false;
+
 		$('#novoParcitipante').click(function() {
 			document.getElementById("nomeParceiro").disabled = false;
 			document.getElementById("tipoParceiro").disabled = false;
 			document.getElementById("parceiro").disabled = true;
+
 		});
 		$('#parcitipanteExistente').click(function() {
 			document.getElementById("parceiro").disabled = false;

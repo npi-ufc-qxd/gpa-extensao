@@ -5,9 +5,17 @@ import java.util.List;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Dedicacao;
+import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 
 public interface ServidorService {
 
+	
+	
+	/**
+	 * Busca todos os servidores pela função cadastrados no sistema
+	 */
+	List<Servidor> findByFuncao(List<Funcao> funcoes);
+	
 	/**
 	 * Busca todos os servidores cadastrados no sistema
 	 */

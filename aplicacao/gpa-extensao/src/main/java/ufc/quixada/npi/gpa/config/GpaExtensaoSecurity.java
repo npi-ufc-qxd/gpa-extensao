@@ -16,36 +16,32 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
-	
+
 	// Utilizado para autenticação via banco de dados
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	// Utilizado para autenticação via ldap
 	@Autowired
 	@Qualifier("authenticationProviderExtensao")
 	private AuthenticationProvider provider;
-	
+
 	private String login = "/login";
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").authenticated()
-				.antMatchers("/js/**", "/css/**", "/img/**").permitAll()
-				.antMatchers("/admin/**").hasAuthority("ADMINISTRACAO")
-				.antMatchers("/direcao/**").hasAuthority("DIRECAO")
-				.anyRequest().authenticated()
-				.and().formLogin()
-				.loginProcessingUrl(login).loginPage(login).permitAll().and().logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl(login);
-
+		http.authorizeRequests().antMatchers("/").authenticated().antMatchers("/js/**", "/css/**", "/img/**")
+				.permitAll().antMatchers("/admin/**").hasAuthority("ADMINISTRACAO").antMatchers("/direcao/**")
+				.hasAuthority("DIRECAO").anyRequest().authenticated().and().formLogin().loginProcessingUrl(login)
+				.loginPage(login).permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl(login);
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// Utilizado para autenticação via ldap
-		//auth.authenticationProvider(provider);
-		
+		// auth.authenticationProvider(provider);
+
 		// Utilizado para autenticação via banco de dados
 		auth.userDetailsService(userDetailsService);
 	}
