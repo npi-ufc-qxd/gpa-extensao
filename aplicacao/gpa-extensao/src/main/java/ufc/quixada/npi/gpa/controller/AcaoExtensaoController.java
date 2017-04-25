@@ -20,6 +20,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDEN
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
@@ -256,13 +257,12 @@ public class AcaoExtensaoController {
         
         try {
             acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+            redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
         } catch (GpaExtensaoException e) {
             redirect.addFlashAttribute(ERRO, e.getMessage());
-            return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
         }
 
-        redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
-        return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+        return REDIRECT_PAGINA_ACAO + acaoExtensao.getId();
 
     }
     
