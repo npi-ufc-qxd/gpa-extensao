@@ -1,12 +1,13 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
+import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,15 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,13 +29,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
-import ufc.quixada.npi.gpa.validator.BolsaValidator;
+
 
 @Controller
 @Transactional
@@ -51,11 +49,10 @@ public class BolsaController {
 	@Autowired
 	private AlunoService alunoService;
 
-	@Autowired
+	
+	@Autowired 
 	private BolsaService bolsaService;
 
-	@Autowired
-	private BolsaValidator bolsaValidator;
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
@@ -70,27 +67,18 @@ public class BolsaController {
 		return VISUALIZAR_ACAO;
 	}
 
-	@RequestMapping(value = "/cadastrar/{idAcao}", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> adicionarBolsista(@Valid @ModelAttribute("novaBolsa") Bolsa bolsa,
-			@PathVariable("idAcao") Integer idAcao, BindingResult result, Model model,
-			RedirectAttributes redirectAttributes, Authentication authentication) {
-
-		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-
-		bolsaValidator.validate(bolsa, result);
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (result.hasErrors()) {
-			map.put(MESSAGE_STATUS_RESPONSE, "ERROR");
-			map.put(RESPONSE_DATA, result.getFieldErrors());
-			return map;
+	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
+	public String adicionarBolsista(Bolsa bolsa, @PathVariable("acao") AcaoExtensao acao,
+			RedirectAttributes redirectAttributes) {
+		
+		try {
+			bolsaService.adicionarBolsista(acao, bolsa);
+		} catch (GpaExtensaoException e) {
+			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}
 
-		bolsaService.salvarBolsa(bolsa, acao);
+		return R_ACAO + acao.getId();
 
-		map.put(MESSAGE_STATUS_RESPONSE, "OK");
-		map.put(RESPONSE_DATA, MESSAGE_CADASTRO_SUCESSO);
-		return map;
 	}
 
 	@RequestMapping(value = "/buscarBolsas/{idAcao}", method = RequestMethod.GET)
