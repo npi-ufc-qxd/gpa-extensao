@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,10 +25,12 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Parceiro;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParceriaExternaRepository;
 import ufc.quixada.npi.gpa.service.ParceriaExternaService;
+import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @Transactional
@@ -42,6 +45,9 @@ public class ParceriaExternaController {
 	private ParceiroRepository parceiroRepository;
 
 	@Autowired
+	private PessoaService pessoaService;
+
+	@Autowired
 	private ParceriaExternaService parceriaExternaService;
 
 	@RequestMapping(value = "/buscarParceriasExternas/{idAcao}", method = RequestMethod.GET)
@@ -53,23 +59,30 @@ public class ParceriaExternaController {
 	}
 
 	@RequestMapping(value = "/excluir/{id}/{acao}")
-	public String deleteParceriaExterna(@PathVariable("id") Integer idParceriaExterna, @PathVariable("acao") Integer acao) {
-		parceriaExternaService.excluirParceriaExterna(idParceriaExterna);
-		return R_ACAO + acao;
+	public String deletarParceriaExterna(@PathVariable("id") ParceriaExterna parceria,
+			@PathVariable("acao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+			Authentication authentication) {
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+		try {
+			parceriaExternaService.excluirParceriaExterna(coordenador, parceria);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acao.getId();
 	}
 
 	@RequestMapping(value = "/salvar/{idAcao}", method = RequestMethod.POST)
-	public String novaParceriaExterna(@PathVariable("idAcao") Integer idAcao,
-			@ModelAttribute @Valid ParceriaExterna parceria,
-			@RequestParam(required = false) Integer parceiro, RedirectAttributes redirectAttribute) {
-
+	public String novaParceriaExterna(@PathVariable("idAcao") AcaoExtensao idAcao,
+			@ModelAttribute @Valid ParceriaExterna parceria, @RequestParam(required = false) Parceiro parceiro,
+			RedirectAttributes redirectAttribute, Authentication authentication) {
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
-			parceriaExternaService.adicionarParceriaExterna(parceria, idAcao, parceiro);
+			parceriaExternaService.adicionarParceriaExterna(coordenador, parceria, idAcao, parceiro);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
 
-		return R_ACAO + idAcao;
+		return R_ACAO + idAcao.getId();
 	}
 
 	@RequestMapping(value = "/buscarParceiros")

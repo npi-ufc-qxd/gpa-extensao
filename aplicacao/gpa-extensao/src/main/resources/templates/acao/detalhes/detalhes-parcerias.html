@@ -15,8 +15,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="parceria : ${acao.parceriasExternas}"> 
-				<td th:text="${parceria.parceiro.nome}"></td> 
+			<tr th:each="parceria : ${acao.parceriasExternas}">
+				<td th:text="${parceria.parceiro.nome}"></td>
 				<td><span
 					th:class="${parceria.geraDemanda} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
@@ -30,12 +30,10 @@
 					th:class="${parceria.financiamento} ? 'fa fa-check' : 'fa fa-times'"></span>
 				</td>
 				<td><span th:unless="${parceria.outrasFormas}"
-					class="fa fa-times"></span> <span
-					th:if="${parceria.outrasFormas}"
+					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				<td><a class="btn btn-block btn-danger"
-					th:href="@{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">Excluir</a>
-				</td>
+				<td><a class="btn btn-block btn-danger" alt="alert"
+					id="sa-warning">Excluir</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -191,3 +189,5 @@
 		</div>
 	</div>
 </div>
+
+
