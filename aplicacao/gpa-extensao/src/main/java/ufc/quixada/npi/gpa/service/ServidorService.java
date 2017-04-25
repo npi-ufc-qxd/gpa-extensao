@@ -22,9 +22,10 @@ public interface ServidorService {
 	 * Busca todos os servidores (docentes e técnicos) no LDAP e cadastra os que ainda não estão no sistema
 	 */
 	void cadastrarServidores();
-	
+
 	/*
 	 * Busca todos os servidores que não são o coordenador atual
 	 */
 	List<Servidor> buscarServidorNaoCoordenador(Integer id);
+
 }

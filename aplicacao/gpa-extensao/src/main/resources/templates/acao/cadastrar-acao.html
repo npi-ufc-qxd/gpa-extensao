@@ -141,20 +141,32 @@
 			</div>
 		</div>
 	</div>
-</div>
-<section layout:fragment="js">
-	<script>
-        $('#menu-cadastrar-acao a').addClass("active");
-        if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
-            $('#curso-evento').removeClass('no-display');
-        }
-        $('#modalidade').change(function(){
-            if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
-                $('#curso-evento').removeClass('no-display');
-            } else {
-                $('#curso-evento').addClass('no-display');
-            }
-        });
-	</script>
-</section>
+
+	<section layout:fragment="js">
+		<script>
+			 $('#menu-cadastrar-acao a').addClass("active");
+       if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+          $('#curso-evento').removeClass('no-display');
+       }
+       $('#modalidade').change(function(){
+          if ($('#modalidade').val() === 'CURSO' || $('#modalidade').val() === 'EVENTO') {
+              $('#curso-evento').removeClass('no-display');
+          } else {
+              $('#curso-evento').addClass('no-display');
+          }
+       });
+			 $('#retroativa').change(function(){
+			 	if($('#retroativa').val() === 'SIM') {
+			 		$('#coordenador-acao').removeClass('no-display');
+			 	}else {
+			 		$('#coordenador-acao').addClass('no-display');
+			 	}
+			 });
+			 
+			$(document).ready(function($) {
+			    $("#inicio").mask("99/99/9999");
+			    $("#termino").mask("99/99/9999");
+			});
+		</script>
+	</section>
 </html>

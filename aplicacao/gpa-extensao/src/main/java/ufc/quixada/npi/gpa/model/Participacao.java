@@ -15,46 +15,54 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "equipe_de_trabalho")
 public class Participacao {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@ManyToOne
 	private Pessoa participante;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Funcao funcao;
-	
+
 	private String descricaoFuncao;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Instituicao instituicao;
-	
+
 	private String nomeInstituicao;
-	
+
 	private Integer cargaHoraria;
-	
-	private Date dataInicio;	
-	
+
+	private Date dataInicio;
+
 	private Date dataTermino;
-	
+
 	private String nomeParticipante;
-	
+
 	private String cpfParticipante;
-	
+
 	private boolean coordenador;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "acao_id")
 	private AcaoExtensao acaoExtensao;
-	
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getDescricaoFuncao() {
+		return descricaoFuncao;
+	}
+
+	public String getNomeInstituicao() {
+		return nomeInstituicao;
 	}
 
 	public Pessoa getParticipante() {
@@ -65,11 +73,8 @@ public class Participacao {
 		this.participante = participante;
 	}
 
-	public String getFuncao() {
-		if (funcao.equals(Funcao.OUTRA)) {
-			return this.descricaoFuncao;
-		}
-		return this.funcao.descricao;
+	public Funcao getFuncao() {
+		return this.funcao;
 	}
 
 	public void setFuncao(Funcao funcao) {
@@ -80,11 +85,8 @@ public class Participacao {
 		this.descricaoFuncao = descricaoFuncao;
 	}
 
-	public String getInstituicao() {
-		if (instituicao.equals(Instituicao.UFC)) {
-			return instituicao.descricao;
-		}
-		return nomeInstituicao;
+	public Instituicao getInstituicao() {
+		return this.instituicao;
 	}
 
 	public void setInstituicao(Instituicao instituicao) {
@@ -120,10 +122,7 @@ public class Participacao {
 	}
 
 	public String getNomeParticipante() {
-		if (participante == null) {
-			return nomeParticipante.toUpperCase();
-		}
-		return participante.getNome().toUpperCase();
+		return this.nomeParticipante;
 	}
 
 	public void setNomeParticipante(String nomeParticipante) {
@@ -159,30 +158,37 @@ public class Participacao {
 	}
 
 	public enum Funcao {
-		STA ("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
-		
+		STA("Servidor Técnico Administrativo"), DOCENTE("Docente"), OUTRA("Outra");
+
 		private String descricao;
-		
-		private Funcao(String descricao){
-			this.descricao=descricao;
+
+		private Funcao(String descricao) {
+			this.descricao = descricao;
 		}
-		public String getDescricao(){
+
+		public String getDescricao() {
 			return this.descricao;
 		}
 	}
-	public enum Instituicao{
-		UFC("Universidade Federal do Ceará"), OUTRA_IES("Outra Instituição de Ensino Superior"), OUTRA("Outra Instituição");
-		
+
+	public enum Instituicao {
+		UFC("Universidade Federal do Ceará"), OUTRA_IES("Outra Instituição de Ensino Superior"), OUTRA(
+				"Outra Instituição");
+
 		private String descricao;
-		
-		private Instituicao(String descricao){
-			this.descricao=descricao;
+
+		private Instituicao(String descricao) {
+			this.descricao = descricao;
 		}
 
 		public String getDescricao() {
 			return descricao;
 		}
-		
+
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+
 	}
 
 	@Override
@@ -208,5 +214,27 @@ public class Participacao {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public String funcao() {
+		if (funcao.equals(Funcao.OUTRA)) {
+			return this.descricaoFuncao;
+		}
+		return this.funcao.descricao;
+
+	}
+
+	public String instituicao() {
+		if (instituicao.equals(Instituicao.UFC)) {
+			return instituicao.descricao;
+		}
+		return nomeInstituicao;
+	}
+
+	public String participante() {
+		if (participante == null) {
+			return nomeParticipante.toUpperCase();
+		}
+		return participante.getNome().toUpperCase();
 	}
 }
