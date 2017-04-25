@@ -328,7 +328,32 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);
 	}
-	
-	
+
+
+	@Override
+	public int countMinhasAcoes(Pessoa pessoa) {
+		
+		return acaoExtensaoRepository.countByParticipacao(pessoa);
+	}
+
+	@Override
+	public int countMinhasAcoesAguardandoParecer(Pessoa pessoa) {
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
+		return acoesParecerista + acoesRelator;
+	}
+
+	@Override
+	public int countMinhasAcoesPareceresEmitidos(Pessoa pessoa) {
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		return acoesParecerista + acoesRelator;
+	}	
 
 }
