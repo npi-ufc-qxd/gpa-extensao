@@ -14,5 +14,7 @@ public interface DocumentoService {
 	public byte[] getArquivo(Documento documento) throws GpaExtensaoException;
 
 	Documento save(MultipartFile arquivo, AcaoExtensao acaoExtensao) throws GpaExtensaoException;
+	
+	AcaoExtensao deletarDocumento(AcaoExtensao acao) throws GpaExtensaoException;
 }
 

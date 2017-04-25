@@ -77,39 +77,21 @@
 	</div>
 
 	<div class="row">
-		 <div class="col-sm-1">
-			<div class="text-right">
-	    	    <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}" 
-	    	    th:href="@{/acoes/submeter/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
-		    </div>
-		</div> 
-		   
-		    
-		 <div class="col-sm-1">
-		    <div class="text-right">
-		        <a th:if="${acao.status.name() == 'NOVO'}" th:href="@{/acoes/editar/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
-		    </div>
-	    </div>	   
-	    
-	    <div class="col-sm-1">
-		    <div class="text-right">
-		        <a sec:authorize="hasAuthority('SERVIDOR')" th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}" th:href="@{/acoes/deletar/__${acao.id}__}" class="btn btn-block btn-danger m-t-10"
-		        onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
-		    </div>
-		</div>   
-    
+
 		<div class="col-sm-12">
 			<div class="pull-right">
 				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#myModal"
 					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
-					Recebidas</a> <a
+					Recebidas</a> 
+				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal"
 					data-target="#modalCodigo"
 					class="btn btn-primary waves-effect waves-light m-t-10">Cadastrar
-					Código</a> <a
+					Código</a> 
+				<a
 					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/submeter/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
@@ -117,6 +99,11 @@
 				<a th:if="${acao.status.name() == 'NOVO'}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
+				<a sec:authorize="hasAuthority('SERVIDOR')"
+					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:href="@{/acoes/deletar/__${acao.id}__}"
+					class="btn btn-block btn-danger m-t-10"
+					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
 			</div>
 		</div>
 	</div>
@@ -159,8 +146,8 @@
 				</div>
 			</div>
 		</div>
-  </div>
-  
+	</div>
+
 	<div class="col-md-4">
 		<!-- sample modal content -->
 		<div id="modalCodigo" class="modal fade" tabindex="-1" role="dialog"
@@ -200,6 +187,6 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 
 </div>

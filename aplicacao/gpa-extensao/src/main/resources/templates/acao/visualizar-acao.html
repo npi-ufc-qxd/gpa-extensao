@@ -41,32 +41,56 @@
         </div>
     </div>
     <br/>
-    <!-- Equipe de Trabalho -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
-        </div>
-    </div>
+    
 
-    <!-- Parcerias -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-        </div>
-    </div>
+			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+				<div
+					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
+					<i class="ti-check"></i> O número de bolsas foi inserido com
+					sucesso! <a href="#" class="closed">&times;</a>
+				</div>
+			</div>
 
-    <!-- Pareceres -->
-    <div class="row">
-        <!-- Parecer Técnico -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
-        </div>
-        <!-- Parecer do Relator -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
-        </div>
-    </div>
-</div>
+			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+				<div
+					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
+					<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
+					que foi solicitada! <a href="#" class="closed">&times;</a>
+				</div>
+			</div>
+
+			<br />
+
+			<!-- Equipe de Trabalho -->
+			<div class="row">
+				<div class="col-xs-12">
+					<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+
+					<!-- Parcerias -->
+					<div class="row">
+						<div class="col-xs-12">
+							<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+
+						</div>
+					</div>
+
+					<!-- Pareceres -->
+					<div class="row">
+						<!-- Parecer Técnico -->
+						<div class="col-xs-6">
+							<div
+								th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+						</div>
+						<!-- Parecer do Relator -->
+						<div class="col-xs-6">
+							<div
+								th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
 <section layout:fragment="js">
 
 	<script th:src="@{/js/mask.js}"></script>
