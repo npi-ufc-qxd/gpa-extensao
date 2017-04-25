@@ -155,7 +155,7 @@ public class AcaoExtensaoController {
 	/**
 	 * Busca todas as ações relacionadas ao usuários logado: que coordena,participa, parecerista ou relator.
 	 */
-	@GetMapping({ "/minhas","/minhas/minhas-acoes"})
+	@GetMapping({ "/minhas", "/minhas/minhas-acoes"})
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaService.buscarPorCpf(authentication.getName());		
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
