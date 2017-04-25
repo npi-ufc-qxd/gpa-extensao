@@ -27,10 +27,7 @@ import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +69,6 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
@@ -94,9 +90,6 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-
-	@Autowired
-	private ParticipacaoRepository participacaoRepository;
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
@@ -168,6 +161,7 @@ public class AcaoExtensaoController {
 	@GetMapping("/{acao}")
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 		model.addAttribute("acao", acao);
+		model.addAttribute("servidores", servidorService.findAllServidores());
 		return VISUALIZAR_ACAO;
 	}
 
@@ -343,50 +337,17 @@ public class AcaoExtensaoController {
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
 	public String salvarNovoCoordenador(@PathVariable("id") Integer id,
 			@RequestParam("idNovoCoordenador") Integer idNovoCoordenador, @RequestParam("dataInicio") String dataInicio,
-			@RequestParam("chNovoCoordenador") Integer cargaHoraria, RedirectAttributes redirectAttributes,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttributes,
 			Authentication authentication) throws ParseException {
 
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		Date dataI = df.parse(dataInicio);
-
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-
-		if (acao == null) {
-			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		AcaoExtensao acao = acaoExtensaoService.findByAcao(id);
+		
+		try {
+			acaoExtensaoService.transeferirCoordenacao(acao, idNovoCoordenador, dataInicio, cargaHoraria);
+		}catch (GpaExtensaoException e) {
+			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}
-
-		Pessoa velhoCoordenador = acao.getCoordenador();
-
-		List<Participacao> pVelhoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao,
-				velhoCoordenador);
-
-		if (pVelhoCoordenador != null) {
-			for (Participacao p : pVelhoCoordenador) {
-				if (p.isCoordenador()) {
-					p.setDataTermino(dataI);
-					p.setCoordenador(false);
-					participacaoRepository.save(p);
-				}
-			}
-		}
-
-		Pessoa novoCoordenador = pessoaRepository.findOne(idNovoCoordenador);
-
-		Participacao pVelhaNovoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(novoCoordenador,
-				acao);
-
-		if (pVelhaNovoCoordenador != null) {
-			pVelhaNovoCoordenador.setDataTermino(dataI);
-			participacaoRepository.save(pVelhaNovoCoordenador);
-		}
-
-		acao.setCoordenador(novoCoordenador);
-		Participacao pNovaNovoCoordenador = participacaoService.participacaoCoordenador(acao, cargaHoraria);
-		pNovaNovoCoordenador.setDataInicio(dataI);
-
-		participacaoRepository.save(pNovaNovoCoordenador);
-		acaoExtensaoRepository.save(acao);
+	
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 
