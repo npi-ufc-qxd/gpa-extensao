@@ -32,9 +32,7 @@
 				<td><span th:unless="${parceria.outrasFormas}"
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				<td>
-					<a class="btn-sweetalert btn btn-block btn-danger" alt="alert">Excluir</a>
-				</td>
+				 <td th:replace="acao/listar-options-acao :: table-options-cell"></td>
 			</tr>
 		</tbody>
 	</table>
