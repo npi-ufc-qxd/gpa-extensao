@@ -57,8 +57,8 @@ public class Constants {
 	public static final String FRAGMENTS_INFO_SERVIDOR = "administracao/cadastro-servidor/cadastro-servidor :: info-cadastro-servidor";
 
 	// Redirects
-	public static final String REDIRECT_PAGINA_ACAO = "redirect:/acoes/";
-	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/acoes/detalhes";
+
+	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/acoes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO = "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
 	public static final String REDIRECT_PAGINA_INICIAL_DIRECAO = "redirect:/direcao/";
@@ -69,6 +69,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
+	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -84,6 +85,11 @@ public class Constants {
 	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";
 	
 
+	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
+	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
+	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
+	
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
@@ -106,17 +112,21 @@ public class Constants {
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
 	public static final String VALOR_INVALIDO = "Valor inválido!";
+	public static final String CAMPO_OBRIGATORIO_VAZIO = "Um campo obrigatório não pode ser vazio!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
 
 	// Errors
+	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
+	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 	public static final String ERROR_ALUNO_JA_BOLSISTA = "Esse aluno já é bolsista desse projeto";
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-
+	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
@@ -151,6 +161,6 @@ public class Constants {
 	 */
 
 	// Homologação
-	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
-	
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/marcelo.pereira/gpa-extensao/documentos";
+
 }

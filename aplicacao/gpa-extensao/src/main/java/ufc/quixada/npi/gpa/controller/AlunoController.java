@@ -1,5 +1,11 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_ADMIN;
+import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_ADMIN_COORDENADORIA;
+import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ALUNOS;
+import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ALUNO;
+import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ALUNOS;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -7,15 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
-
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_ADMIN;
-import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_ADMIN_COORDENADORIA;
-import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ALUNOS;
-import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ALUNO;
-import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ALUNOS;
 
 @Controller
 @RequestMapping("/alunos")

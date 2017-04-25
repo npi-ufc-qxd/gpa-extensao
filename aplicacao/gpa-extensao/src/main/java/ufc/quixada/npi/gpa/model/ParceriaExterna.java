@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class ParceriaExterna {
 	@OneToOne
 	private AcaoExtensao acaoExtensao;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Parceiro parceiro;
 	
 	public ParceriaExterna(boolean geraDemanda, boolean definicaoAcoes, boolean equipamento, boolean financiamento,
