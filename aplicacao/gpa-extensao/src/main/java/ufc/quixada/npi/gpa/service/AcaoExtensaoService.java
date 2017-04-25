@@ -110,6 +110,10 @@ public interface AcaoExtensaoService {
 	 */
 	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
 	
+	/**
+	 * Cadastra o código PREX de uma ação aprovada que não foi encerrada
+	 */
+	void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException;
 	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
@@ -127,7 +131,6 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
-	
 	/**
 	 * Retorna o cpf do coordenador da ação
 	 */
