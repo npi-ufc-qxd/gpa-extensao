@@ -162,29 +162,13 @@ public class AcaoExtensaoController {
 	 * Busca todas as ações relacionadas ao usuários logado: que coordena,
 	 * participa, parecerista ou relator.
 	 */
-	@GetMapping("/minhas")
+	@GetMapping({"/minhas","/minhas/minhas-acoes"})
 	public String listarMinhasAcoes(Model model, Authentication authentication) {
 		Pessoa pessoa = pessoaService.buscarPorCpf(authentication.getName());		
 		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
 		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
 		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));				
      	model.addAttribute("minhaLista", "countmeusTudo");		
-		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAll(pessoa));
-		
-		return LISTAR_MINHAS_ACOES;
-	}
-	
-	/**
-	 * Busca todas as acoes em tramitação relacionadas ao usuario logado: que coordena, participa, parecerista ou relator.
-	 */
-
-	@GetMapping("/minhas/minhas-acoes")
-	public String listarMinhasAcoesEmTramitacao(Model model, Authentication authentication) {
-		Pessoa pessoa = pessoaService.buscarPorCpf(authentication.getName());
-		model.addAttribute("countmeusTudo", acaoExtensaoService.countMinhasAcoes(pessoa));		
-		model.addAttribute("countmeusPareceres", acaoExtensaoService.countMinhasAcoesAguardandoParecer(pessoa));
-		model.addAttribute("countmeusPareceresEmitidos", acaoExtensaoService.countMinhasAcoesPareceresEmitidos(pessoa));								
-		model.addAttribute("minhaLista", "countmeusTudo");		
 		model.addAttribute("minhaListaAtual", acaoExtensaoService.findAll(pessoa));
 		
 		return LISTAR_MINHAS_ACOES;
