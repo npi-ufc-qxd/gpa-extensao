@@ -70,12 +70,13 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador)
+			throws GpaExtensaoException {
 		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setAtivo(true);
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
-		
+
 	}
 
 	@Override
@@ -116,17 +117,16 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
-			throws GpaExtensaoException {
-		
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
+
 		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
-			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
-					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação " + acaoExtensao.getCodigo()
+					+ " pois não é o coordenador!");
 		}
 
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old = checkAcaoExtensao(old, acaoExtensao);
-		
+
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -208,21 +208,21 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
-	
+
 	@Override
 	public void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoId);
-		
+
 		Documento documento = null;
-		
-		if(acao != null){
+
+		if (acao != null) {
 			documento = documentoService.save(arquivo, acao);
 		}
-		
-		if(documento != null) {
+
+		if (documento != null) {
 			acao.setRelatorioFinal(documento);
 		}
-		
+
 		acaoExtensaoRepository.save(acao);
 	}
 
@@ -245,8 +245,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista) {
 		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
-				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO, Status.AGUARDANDO_PARECER_RELATOR,
-						Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
 		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		acoesParecerista.removeAll(acoesRelator);
@@ -275,8 +276,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public AcaoExtensao findById(Integer idAcao) {
-		return acaoExtensaoRepository.findOne(idAcao);
+	public AcaoExtensao findById(Integer id) {
+		return acaoExtensaoRepository.findOne(id);
 	}
 
 	@Override

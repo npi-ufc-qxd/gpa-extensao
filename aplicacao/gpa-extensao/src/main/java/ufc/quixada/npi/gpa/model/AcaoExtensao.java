@@ -1,6 +1,7 @@
 
 package ufc.quixada.npi.gpa.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,19 +27,19 @@ public class AcaoExtensao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String codigo;
-	
+
 	private String identificador;
-	
+
 	private String titulo;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String resumo;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
-	
+
 	// Somente para modalidade curso ou evento
 	private Integer horasPraticas;
 
@@ -48,59 +49,59 @@ public class AcaoExtensao {
 	// Somente para modalidade curso ou evento
 	@Column(columnDefinition = "TEXT")
 	private String programacao;
-	
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
-	
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date termino;
-	
+
 	private boolean prorrogavel;
-	
+
 	@ManyToOne
 	private Pessoa coordenador;
-	
+
 	@ManyToOne
 	private AcaoExtensao vinculo;
-	
+
 	private Integer bolsasSolicitadas;
-	
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataDeHomologacao;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String observacaoHomologacao;
-	
+
 	private String numeroProcesso;
-	
+
 	private Integer bolsasRecebidas;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	
-	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
+
+	@OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	private Documento anexo;
-	
-	@OneToOne(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
+
+	@OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	private Documento relatorioFinal;
-	
-	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "acaoExtensao", cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	private List<Participacao> equipeDeTrabalho;
-	
-	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "acaoExtensao", cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	private List<Bolsa> bolsistas;
-	
-	@OneToMany(mappedBy = "acaoExtensao", cascade={CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(mappedBy = "acaoExtensao", cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	private List<ParceriaExterna> parceriasExternas;
-	
-	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	private Parecer parecerTecnico;
-	
-	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
 	private Parecer parecerRelator;
-	
+
 	private boolean ativo;
-	
+
 	public AcaoExtensao getVinculo() {
 		return vinculo;
 	}
@@ -135,7 +136,7 @@ public class AcaoExtensao {
 
 	public String getTitulo() {
 		return titulo;
-		}
+	}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
@@ -180,7 +181,7 @@ public class AcaoExtensao {
 	public void setProgramacao(String programacao) {
 		this.programacao = programacao;
 	}
-	
+
 	public Date getInicio() {
 		return inicio;
 	}
@@ -236,7 +237,7 @@ public class AcaoExtensao {
 	public void setAnexo(Documento anexo) {
 		this.anexo = anexo;
 	}
-	
+
 	public Documento getRelatorioFinal() {
 		return relatorioFinal;
 	}
@@ -258,7 +259,7 @@ public class AcaoExtensao {
 	}
 
 	public void addParceriaExterna(ParceriaExterna parceriasExterna) {
-		if(this.parceriasExternas == null){
+		if (this.parceriasExternas == null) {
 			this.parceriasExternas = new ArrayList<>();
 		}
 		this.parceriasExternas.add(parceriasExterna);
@@ -287,7 +288,7 @@ public class AcaoExtensao {
 	public void setDataDeHomologacao(Date dataDeHomologacao) {
 		this.dataDeHomologacao = dataDeHomologacao;
 	}
-	
+
 	public String getObservacaoHomologacao() {
 		return observacaoHomologacao;
 	}
@@ -319,7 +320,7 @@ public class AcaoExtensao {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-	
+
 	public List<Bolsa> getBolsistas() {
 		return bolsistas;
 	}
@@ -343,6 +344,7 @@ public class AcaoExtensao {
 	}
 
 	public enum Status {
+
 		NOVO("NOVA"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), 
 		AGUARDANDO_PARECER_TECNICO("AGUARDANDO PARECER TÉCNICO"), 
 		AGUARDANDO_PARECER_RELATOR("AGUARDANDO PARECER DO RELATOR"), 
@@ -351,6 +353,7 @@ public class AcaoExtensao {
 		RESOLVENDO_PENDENCIAS_RELATO("RESOLVENDO PENDÊNCIAS DO RELATO"), 
 		AGUARDANDO_HOMOLOGACAO("AGUARDANDO HOMOLOGAÇÃO"), 
 		APROVADO("APROVADA"), REPROVADO("REPROVADA");
+
 		private String descricao;
 
 		private Status(String descricao) {
@@ -386,4 +389,9 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
+	
+	public String parseData(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
+}
 }

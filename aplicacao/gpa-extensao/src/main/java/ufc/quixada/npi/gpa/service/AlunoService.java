@@ -32,4 +32,5 @@ public interface AlunoService {
      * Busca um aluno cadastrado
      */
 	Aluno buscarAluno(Integer idAluno);
+
 }
