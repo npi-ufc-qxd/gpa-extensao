@@ -69,7 +69,7 @@ public class ParticipacaoController {
 	 */
 
 	@PostMapping("/adicionar-participacao/{acao}")
-	public String adicionarParticipante(@PathVariable("acao") Integer acaoExtensao, Participacao participacao,
+	public String adicionarParticipante(@PathVariable("acao") AcaoExtensao acaoExtensao, Participacao participacao,
 			Authentication authentication, RedirectAttributes redirectAttribute) {
 
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
@@ -79,7 +79,7 @@ public class ParticipacaoController {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
 
-		return R_ACAO + acaoExtensao;
+		return R_ACAO + acaoExtensao.getId();
 
 	}
 

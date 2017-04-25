@@ -9,7 +9,7 @@ public interface ParticipacaoService {
 
 	Participacao participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria);
 
-	void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa pessoa)
+	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 
 }

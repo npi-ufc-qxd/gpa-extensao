@@ -63,9 +63,9 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public void adicionarParticipanteEquipeTrabalho(Integer acaoExtensao, Participacao participacao, Pessoa coordenador)
+	public void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa coordenador)
 			throws GpaExtensaoException {
-		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao);
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		if (old != null) {
 			if (participacao.getParticipante() != null) {
 				participacao.setCpfParticipante(participacao.getParticipante().getCpf());
