@@ -70,12 +70,13 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador)
+			throws GpaExtensaoException {
 		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setAtivo(true);
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
-		
+
 	}
 
 	@Override
@@ -116,17 +117,16 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
-			throws GpaExtensaoException {
-		
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
+
 		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
-			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
-					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação " + acaoExtensao.getCodigo()
+					+ " pois não é o coordenador!");
 		}
 
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old = checkAcaoExtensao(old, acaoExtensao);
-		
+
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -276,8 +276,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public AcaoExtensao findById(Integer idAcao) {
-		return acaoExtensaoRepository.findOne(idAcao);
+	public AcaoExtensao findById(Integer id) {
+		return acaoExtensaoRepository.findOne(id);
 	}
 
 	@Override
