@@ -18,7 +18,6 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
-import ufc.quixada.npi.gpa.util.Constants;
 
 @Service
 public class DocumentoServiceImpl implements DocumentoService{
@@ -76,17 +75,15 @@ public class DocumentoServiceImpl implements DocumentoService{
 	@Override
 	public AcaoExtensao deletarDocumento(AcaoExtensao acao) throws GpaExtensaoException {
 		Documento documento = null;
-		try {
-			documento = acao.getAnexo();
+		
+		documento = acao.getAnexo();
+		if (documento != null) {
 			File file = new File(documento.getCaminho());
 			file.delete();
 			acao.setAnexo(null);
 			documentoRepository.delete(documento);
-		} catch (NullPointerException e) {
-			throw new GpaExtensaoException(Constants.EXCEPTION_GET_ANEXO);
-		} catch (Exception e) {
-			throw new GpaExtensaoException(Constants.EXCEPTION_DELETAR_ARQUIVO);
 		}
+		
 		return acao;
 	}
 }
