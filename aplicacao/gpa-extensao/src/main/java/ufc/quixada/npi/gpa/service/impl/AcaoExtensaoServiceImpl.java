@@ -2,7 +2,11 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +18,12 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
 import ufc.quixada.npi.gpa.model.Parecer;
+import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
+import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -43,6 +49,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private ParecerRepository parecerRepository;
+	
+	@Autowired
+	private ParticipacaoRepository participacaoRepository;
 	
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -116,16 +125,33 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 	
 	@Override
-	public boolean salvarCodigoAcao(AcaoExtensao acao, String codigo) {
+	public void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException{
 		String codigoUpper = codigo.toUpperCase();
 		
-		if(acao != null && !codigoUpper.isEmpty()){
-			acao.setCodigo(codigoUpper);
-			acaoExtensaoRepository.save(acao);
-			return true;
+		if(acao == null || codigoUpper.isEmpty()){
+			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
 		}
 		
-		return false;
+		acao.setCodigo(codigoUpper);
+		acaoExtensaoRepository.save(acao);
+	}
+	
+	public void transferirCoordenacao(Integer idAcao, Integer idNovoCoordenador, String dataInicio, Integer cargaHoraria) throws ParseException {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Date dataI = df.parse(dataInicio);
+
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
+		
+		if(acao != null) {
+			Pessoa coordenadorAntigo = acao.getCoordenador();
+			List<Participacao> participantesCoordenadorAntigo = participacaoRepository.findByAcaoExtensaoAndParticipante(acao, coordenadorAntigo);
+		
+			if(coordenadorAntigo != null) {
+				for(Participacao p : participantesCoordenadorAntigo) {
+					
+				}
+			}
+		}
 	}
 
 	@Override
@@ -217,7 +243,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
 	}
-
+	
+	
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
@@ -331,4 +358,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);
 	}
+	
+	
+
 }

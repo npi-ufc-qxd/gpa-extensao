@@ -320,13 +320,14 @@ public class AcaoExtensaoController {
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
 	public String salvarCodigo(@RequestParam("codigoAcao") String codigo,
-			@PathVariable("idAcao") Integer idAcao, Model model) {
+			@PathVariable("idAcao") Integer idAcao) {
 			
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		boolean message = acaoExtensaoService.salvarCodigoAcao(acao, codigo);
-		
-		model.addAttribute("messageCodigo", message);
-		model.addAttribute("acao", acao);
+		try {
+			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
+		} catch (GpaExtensaoException e) {
+			e.printStackTrace();
+		}
 		
 		return VISUALIZAR_ACAO;
 	}
