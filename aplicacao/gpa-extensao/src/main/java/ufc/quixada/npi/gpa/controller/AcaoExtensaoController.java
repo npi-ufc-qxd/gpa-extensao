@@ -70,7 +70,6 @@ import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
-import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.ParceiroService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
@@ -86,7 +85,6 @@ public class AcaoExtensaoController {
 	@Autowired
 	private PessoaService pessoaService;
 
-
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 
@@ -101,16 +99,13 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
+
 	@Autowired
-	private DocumentoService documentoService;
-
 	private ServidorService servidorService;
-
 
 	@Autowired
 	private AlunoService alunoService;
-	
+
 	@Autowired
 	private ParceiroService parceiroService;
 
@@ -258,47 +253,27 @@ public class AcaoExtensaoController {
 		return CADASTRAR_ACAO;
 	}
 
-    @RequestMapping(value = "/editar", method = RequestMethod.POST)
-    public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-                             @RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, 
-                             Model model, RedirectAttributes redirect) {
+	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
+			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Model model,
+			RedirectAttributes redirect) {
 
-        if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
-                && !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
-            acaoExtensao.setHorasPraticas(null);
-            acaoExtensao.setHorasTeoricas(null);
-            acaoExtensao.setProgramacao("");
-        }
-        
-        try {
-            acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
-            redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
-        } catch (GpaExtensaoException e) {
-            redirect.addFlashAttribute(ERRO, e.getMessage());
-        }
+		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
+				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
+			acaoExtensao.setHorasPraticas(null);
+			acaoExtensao.setHorasTeoricas(null);
+			acaoExtensao.setProgramacao("");
+		}
 
-        return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-    }
-    
-    @RequestMapping(value="/deletar-arquivo/{id}")
-    public String deletarArquivo(@PathVariable("id") AcaoExtensao acaoExtensao, 
-    							Model model, RedirectAttributes redirect) {
-    	AcaoExtensao novaAcao = null;
-    	try {
-    		novaAcao = documentoService.deletarDocumento(acaoExtensao);
-    		acaoExtensaoService.editarAcaoExtensao(novaAcao, null);
-    		model.addAttribute("acao", novaAcao);
-            model.addAttribute("modalidades", Modalidade.values());
-            model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-            model.addAttribute("action", "editar");
-            model.addAttribute("cargaHoraria", 4);
-            return CADASTRAR_ACAO;
-    	} catch (GpaExtensaoException e) {
-    		redirect.addFlashAttribute(ERRO, e.getMessage());
-    		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-    	}
-    }
+		try {
+			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
+		} catch (GpaExtensaoException e) {
+			redirect.addFlashAttribute(ERRO, e.getMessage());
+		}
 
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+	}
 
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
@@ -362,18 +337,18 @@ public class AcaoExtensaoController {
 	}
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo,
-			@PathVariable("idAcao") Integer idAcao, Model model, RedirectAttributes redirectAttribute) {
-			
+	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
+			Model model, RedirectAttributes redirectAttribute) {
+
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 		}
-		
+
 		model.addAttribute("acao", acao);
-		
+
 		return VISUALIZAR_ACAO;
 	}
 
