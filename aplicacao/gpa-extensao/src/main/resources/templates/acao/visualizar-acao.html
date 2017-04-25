@@ -69,6 +69,8 @@
 	<script>
 		$(".column-step").each(function(index,element) { 
 			$( element ).toggleClass( "upcoming" );
+			$( element ).find("i").removeClass( "fa-times" );
+			$( element ).find("i").toggleClass( "fa-check" );
 			if($( this ).is( ".active" ) ){
 				return false;
 			}
