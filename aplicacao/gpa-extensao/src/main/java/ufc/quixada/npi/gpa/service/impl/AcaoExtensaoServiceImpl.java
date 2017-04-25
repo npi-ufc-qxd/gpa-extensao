@@ -115,6 +115,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		
 		return false;
 	}
+	
+	@Override
+	public void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException{
+		String codigoUpper = codigo.toUpperCase();
+		
+		if(acao == null || codigoUpper.isEmpty()){
+			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
+		}
+		
+		acao.setCodigo(codigoUpper);
+		acaoExtensaoRepository.save(acao);
+	}
 
 	@Override
 	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
@@ -204,7 +216,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
 	}
-
+	
+	
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
@@ -319,4 +332,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);
 	}
+	
+	
+
 }

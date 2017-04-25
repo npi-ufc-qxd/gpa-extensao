@@ -105,6 +105,10 @@ public interface AcaoExtensaoService {
 	 */
 	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
 	
+	/**
+	 * Cadastra o código PREX de uma ação aprovada que não foi encerrada
+	 */
+	void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException;
 	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
