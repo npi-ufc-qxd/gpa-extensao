@@ -39,17 +39,13 @@ public class AcaoExtensao {
 
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
-
 	// Somente para modalidade curso ou evento
 	private Integer horasPraticas;
-
 	// Somente para modalidade curso ou evento
 	private Integer horasTeoricas;
-
 	// Somente para modalidade curso ou evento
 	@Column(columnDefinition = "TEXT")
 	private String programacao;
-
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
 
@@ -345,14 +341,14 @@ public class AcaoExtensao {
 
 	public enum Status {
 
-		NOVO("NOVA"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), 
-		AGUARDANDO_PARECER_TECNICO("AGUARDANDO PARECER TÉCNICO"), 
-		AGUARDANDO_PARECER_RELATOR("AGUARDANDO PARECER DO RELATOR"), 
-		AGUARDANDO_RELATOR("AGUARDANDO RELATOR"), 
-		RESOLVENDO_PENDENCIAS_PARECER("RESOLVENDO PENDÊNCIAS DO PARECER"), 
-		RESOLVENDO_PENDENCIAS_RELATO("RESOLVENDO PENDÊNCIAS DO RELATO"), 
-		AGUARDANDO_HOMOLOGACAO("AGUARDANDO HOMOLOGAÇÃO"), 
-		APROVADO("APROVADA"), REPROVADO("REPROVADA");
+		NOVO("NOVA"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), AGUARDANDO_PARECER_TECNICO(
+				"AGUARDANDO PARECER TÉCNICO"), AGUARDANDO_PARECER_RELATOR(
+						"AGUARDANDO PARECER DO RELATOR"), AGUARDANDO_RELATOR(
+								"AGUARDANDO RELATOR"), RESOLVENDO_PENDENCIAS_PARECER(
+										"RESOLVENDO PENDÊNCIAS DO PARECER"), RESOLVENDO_PENDENCIAS_RELATO(
+												"RESOLVENDO PENDÊNCIAS DO RELATO"), AGUARDANDO_HOMOLOGACAO(
+														"AGUARDANDO HOMOLOGAÇÃO"), APROVADO(
+																"APROVADA"), REPROVADO("REPROVADA");
 
 		private String descricao;
 
@@ -389,9 +385,10 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-	
+
 	public String parseData(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
-}
+	}
+
 }

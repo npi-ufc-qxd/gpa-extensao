@@ -21,5 +21,7 @@ public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	List<Pessoa> findAll();
 
 	List<Pessoa> findAllByPapeis(List<Papel> papeis);
+	
+	Pessoa findByNome(String nome);
 
 }
