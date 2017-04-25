@@ -10,6 +10,8 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 public interface AcaoExtensaoService {
 
+	AcaoExtensao findById(Integer id);
+	
 	/**
 	 * Retorna todas as ações que uma pessoa coordena ou participa
 	 */
@@ -120,9 +122,6 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
-
-	AcaoExtensao findById(Integer idAcao);
-	
 	/**
 	 * Retorna o cpf do coordenador da ação
 	 */

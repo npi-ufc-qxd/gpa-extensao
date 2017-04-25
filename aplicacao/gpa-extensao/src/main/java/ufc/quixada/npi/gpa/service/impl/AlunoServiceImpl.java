@@ -27,7 +27,7 @@ public class AlunoServiceImpl implements AlunoService {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
-	
+
 	@Autowired
 	private PapelRepository papelRepository;
 
@@ -62,10 +62,6 @@ public class AlunoServiceImpl implements AlunoService {
 		}
 	}
 
-	@Override
-	public List<Aluno> findAllAlunos() {
-		return alunoRepository.findAll();
-	}
 
 	@Override
 	public void cadastrarAlunos() {
@@ -78,6 +74,11 @@ public class AlunoServiceImpl implements AlunoService {
 	@Override
 	public Aluno buscarAluno(Integer idAluno) {
 		return alunoRepository.findOne(idAluno);
+	}
+
+	@Override
+	public List<Aluno> findAllAlunos() {
+		return alunoRepository.findAll();
 	}
 
 }

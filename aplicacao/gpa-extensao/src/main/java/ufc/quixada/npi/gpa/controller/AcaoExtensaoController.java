@@ -61,6 +61,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Bolsa.TipoBolsa;
 import ufc.quixada.npi.gpa.model.Parceiro;
+import ufc.quixada.npi.gpa.model.Parceiro.Tipo;
 import ufc.quixada.npi.gpa.model.ParceriaExterna;
 import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Participacao;
@@ -70,12 +71,12 @@ import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
-import ufc.quixada.npi.gpa.repository.ParceiroRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
+import ufc.quixada.npi.gpa.service.ParceiroService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.service.ServidorService;
@@ -87,8 +88,6 @@ public class AcaoExtensaoController {
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
 
-	@Autowired
-	private ParceiroRepository parceiroRepository;
 
 	@Autowired
 	private PessoaService pessoaService;
@@ -115,6 +114,10 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private AlunoService alunoService;
+
+	@Autowired
+	private ParceiroService parceiroService;
+
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -181,6 +184,11 @@ public class AcaoExtensaoController {
 		model.addAttribute("instituicoes", Instituicao.values());
 		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("alunos", alunoService.findAllAlunos());
+		model.addAttribute("tipoBolsa", TipoBolsa.values());
+		model.addAttribute("bolsa", new Bolsa());
+		model.addAttribute("parceriaExterna", new ParceriaExterna());
+		model.addAttribute(PARCEIROS, parceiroService.listarParceiros());
+		model.addAttribute("tipoParceria", Tipo.values());
 		return VISUALIZAR_ACAO;
 	}
 
@@ -304,7 +312,7 @@ public class AcaoExtensaoController {
 
 		model.addAttribute("parceiro", new Parceiro());
 		model.addAttribute("parceriaExterna", new ParceriaExterna());
-		model.addAttribute(PARCEIROS, parceiroRepository.findAll());
+		model.addAttribute(PARCEIROS, parceiroService.listarParceiros());
 
 		model.addAttribute("novaParticipacao", new Participacao());
 		model.addAttribute("funcoes", Funcao.values());

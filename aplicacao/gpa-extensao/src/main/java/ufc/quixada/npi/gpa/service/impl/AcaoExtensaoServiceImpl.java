@@ -70,12 +70,13 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador)
+			throws GpaExtensaoException {
 		acaoExtensao.setCoordenador(coordenador);
 		acaoExtensao.setAtivo(true);
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
-		
+
 	}
 
 	@Override
@@ -103,30 +104,29 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-	
+
 	@Override
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
-		if(acao.getBolsasSolicitadas() >= numeroBolsas) {
+		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
 			acao.setBolsasRecebidas(numeroBolsas);
 			acaoExtensaoRepository.save(acao);
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
-			throws GpaExtensaoException {
-		
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
+
 		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
-			throw new GpaExtensaoException("Usuário logado não pode submeter a ação "
-					+ acaoExtensao.getCodigo() + " pois não é o coordenador!");
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação " + acaoExtensao.getCodigo()
+					+ " pois não é o coordenador!");
 		}
 
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old = checkAcaoExtensao(old, acaoExtensao);
-		
+
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -280,13 +280,12 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findOne(idAcao);
 	}
 
-
 	@Override
 	public int countAcoesAguardandoPareceristaRelator() {
-		return acaoExtensaoRepository.countByStatusIn(
-				Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
+		return acaoExtensaoRepository
+				.countByStatusIn(Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
 	}
-	
+
 	@Override
 	public int countAcoesAguardandoHomologacao() {
 		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
@@ -294,28 +293,24 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Override
 	public int countAcoesPendenciasParecer(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatus(
-				coordenador, 
-				Status.RESOLVENDO_PENDENCIAS_PARECER);
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_PARECER);
 	}
-	
+
 	@Override
 	public int countAcoesPendenciasRelato(Pessoa coordenador) {
-		return acaoExtensaoRepository.countByCoordenadorAndStatus(
-				coordenador, 
-				Status.RESOLVENDO_PENDENCIAS_RELATO);
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_RELATO);
 	}
 
 	@Override
 	public int countAcoesAguardandoParecer(Pessoa responsavel) {
 		List<Parecer> pareceres = parecerRepository.findByResponsavel(responsavel);
-		int qtdPareceresTecnico = acaoExtensaoRepository
-				.countByParecerTecnicoInAndStatus(pareceres, Status.AGUARDANDO_PARECER_TECNICO);
-		int qtdPareceresRelato = acaoExtensaoRepository
-				.countByParecerRelatorInAndStatus(pareceres, Status.AGUARDANDO_PARECER_RELATOR);
+		int qtdPareceresTecnico = acaoExtensaoRepository.countByParecerTecnicoInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_TECNICO);
+		int qtdPareceresRelato = acaoExtensaoRepository.countByParecerRelatorInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_RELATOR);
 		return qtdPareceresRelato + qtdPareceresTecnico;
-  }
-	
+	}
+
 	@Override
 	public String buscarCpfCoordenador(Integer acaoId) {
 		return acaoExtensaoRepository.findCoordenadorById(acaoId);

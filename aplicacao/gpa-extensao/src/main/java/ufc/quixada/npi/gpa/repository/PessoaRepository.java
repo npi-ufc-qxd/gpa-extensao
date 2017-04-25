@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import ufc.quixada.npi.gpa.model.Papel;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import java.lang.String;
 
 @Repository
 public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {

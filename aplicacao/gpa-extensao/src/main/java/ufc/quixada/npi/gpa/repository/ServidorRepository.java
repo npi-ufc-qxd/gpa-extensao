@@ -15,7 +15,7 @@ public interface ServidorRepository extends CrudRepository<Servidor, Integer>{
 	List<Servidor> findAll();
 	
 	@Query("FROM Servidor s WHERE s.funcao in :funcoes ORDER BY pessoa.nome")
-	List<Servidor> findByFuncao(@Param("funcoes") List<Funcao> funcoes);
+	List<Servidor> findServidoresByFuncao(@Param("funcoes") List<Funcao> funcoes);
 	
 	Servidor findByPessoa_id(Integer id);
 	
