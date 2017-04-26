@@ -24,7 +24,9 @@ public class Constants {
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
-
+	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
 
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
