@@ -1,12 +1,13 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import static ufc.quixada.npi.gpa.util.Constants.CAMPO_OBRIGATORIO_VAZIO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARCEIRO_JA_PARTICIPANTE;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -37,9 +38,6 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		Parceiro parceiroExistente = null;
 
-		if (parceiro != null) {
-			parceiroExistente = parceiroRepository.findOne(parceiro.getId());
-		}
 		if (acaoOld != null) {
 			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
@@ -50,7 +48,11 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA);
 			}
-			if (parceiroExistente != null) {
+			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
+				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
+			}
+			if (parceiro != null) {
+				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
 					if (acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim()
 							.equalsIgnoreCase(parceiroExistente.getNome().trim())) {
@@ -58,15 +60,13 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 					}
 				}
 				parceriaExterna.setParceiro(parceiroExistente);
-			}
-			for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
-				if (parceriaExterna.getParceiro().getNome().trim()
-						.equalsIgnoreCase(acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim())) {
-					throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
+			} else {
+				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
+					if (parceriaExterna.getParceiro().getNome().trim()
+							.equalsIgnoreCase(acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim())) {
+						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
+					}
 				}
-			}
-			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
-				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
 			}
 			acaoOld.getParceriasExternas().add(parceriaExterna);
 			parceriaExterna.setAcaoExtensao(acaoOld);

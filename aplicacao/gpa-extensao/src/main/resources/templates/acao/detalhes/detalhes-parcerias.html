@@ -15,7 +15,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="parceria : ${acao.parceriasExternas}">
+			<tr th:each="parceria : ${acao.parceriasExternas}"
+				th:with="
+	    		removeEnabled = true, 
+	    		removeTip = 'Remover', 
+	    		removeLink = @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}, 
+	    		removeClass = 'sweet-alert'"
+				>
 				<td th:text="${parceria.parceiro.nome}"></td>
 				<td><span
 					th:class="${parceria.geraDemanda} ? 'fa fa-check' : 'fa fa-times'"></span>
@@ -32,7 +38,7 @@
 				<td><span th:unless="${parceria.outrasFormas}"
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				 <td th:replace="acao/listar-options-acao :: table-options-cell"></td>
+				 <td th:replace="acao/listar-opcoes-acao :: table-options-cell"></td>
 			</tr>
 		</tbody>
 	</table>
