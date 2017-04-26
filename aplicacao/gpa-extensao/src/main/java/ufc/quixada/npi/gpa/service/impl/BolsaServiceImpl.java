@@ -8,6 +8,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,43 +39,43 @@ public class BolsaServiceImpl implements BolsaService {
 
 	@Override
 	public void salvarBolsa(Bolsa bolsa, AcaoExtensao acao) {
-		if(acao != null && bolsa != null) {
+		if (acao != null && bolsa != null) {
 			bolsa.setAcaoExtensao(acao);
 			bolsa.setAtivo(true);
-				
+
 			bolsaRepository.save(bolsa);
 		}
 	}
-	
+
 	@Override
 	public void encerrarBolsa(Bolsa bolsa, Date data) {
-		if(bolsa != null) {
+		if (bolsa != null) {
 			bolsa.setAtivo(false);
 			bolsa.setTermino(data);
 			bolsaRepository.save(bolsa);
 		}
 	}
-	
+
 	@Override
 	public List<Bolsa> listarBolsasAcao(Integer acaoId) {
 		return bolsaRepository.findByAcaoExtensao_id(acaoId);
 	}
-	
+
 	@Override
 	public void deletarBolsa(Integer bolsaId) {
 		bolsaRepository.delete(bolsaId);
 	}
-	
+
 	@Override
 	public Bolsa buscarBolsa(Integer bolsaId) {
 		return bolsaRepository.findOne(bolsaId);
 	}
-	
+
 	@Override
 	public List<Bolsa> listarBolsasAluno(Integer idAluno) {
 		return bolsaRepository.findByBolsista_id(idAluno);
 	}
-	
+
 	@Override
 	public List<FrequenciaView> getBolsas(Integer ano) {
 		List<Bolsa> bolsas = bolsaRepository.findByYear(ano);
@@ -142,7 +143,7 @@ public class BolsaServiceImpl implements BolsaService {
 
 	@Override
 	public void adicionarBolsista(AcaoExtensao acao, Bolsa bolsa) throws GpaExtensaoException {
-		
+
 		if (acao != null) {
 
 			if (bolsa.getInicio() == null || bolsa.getTermino() == null || bolsa.getInicio().before(acao.getInicio())
@@ -176,6 +177,22 @@ public class BolsaServiceImpl implements BolsaService {
 			bolsaRepository.save(bolsa);
 			acaoExtensaoRepository.save(acao);
 
+		}
+	}
+
+	@Override
+	public void removerBolsista(AcaoExtensao acao, Bolsa bolsista) throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acao.getId());
+
+		if (old != null) {
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
+			}
+			old.getBolsistas().remove(bolsista);
+			acaoExtensaoRepository.save(old);
+			bolsaRepository.delete(bolsista);
 		}
 	}
 

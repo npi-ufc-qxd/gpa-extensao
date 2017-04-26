@@ -269,5 +269,13 @@
 			$(".alerttop").fadeToggle(350);
 		});
 	</script>
+	<script type="text/javascript">
+		$('#exclusao_bolsa').on('show.bs.modal', function (e) {
+		  var $invoker = $(e.relatedTarget);
+		  var link = $invoker.attr('link_exclusao');
+		  var a = document.getElementById('btn_confirmacao_exclusao');
+		  a.href = link;
+		});		
+	</script>
 </section>
 </html>
