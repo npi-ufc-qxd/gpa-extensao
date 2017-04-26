@@ -173,19 +173,22 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 					}
 				}
 			}
+
+			List<Participacao> participacoesNovoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao, novoCoordenador);
 			
-			Participacao participacaoNovoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(novoCoordenador,
-					acao);
-			
-			if (participacaoNovoCoordenador != null) {
-				participacaoNovoCoordenador.setDataTermino(acao.getTermino());
-				participacaoRepository.save(participacaoNovoCoordenador);
+			if(participacoesNovoCoordenador != null) {
+				for (Participacao p : participacoesNovoCoordenador) {
+					if(p.equals(novoCoordenador)) {
+						p.setDataTermino(acao.getTermino());
+						participacaoRepository.save(p);
+					}
+				}
 			}
-	
+			
 			acao.setCoordenador(novoCoordenador);
 			Participacao novaParticipacaoNovoCoordenador = participacaoService.participacaoCoordenador(acao, cargaHoraria);
 			novaParticipacaoNovoCoordenador.setDataInicio(dataI);
-	
+			
 			participacaoRepository.save(novaParticipacaoNovoCoordenador);
 			acaoExtensaoRepository.save(acao);
 		}
