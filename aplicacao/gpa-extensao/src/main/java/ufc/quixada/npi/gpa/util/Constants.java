@@ -147,6 +147,7 @@ public class Constants {
 	public static final String EMAIL_DIRECAO_EMISSAO_RELATO = "A avaliação para a ação #TITULO_ACAO# foi emitida por #NOME_PESSOA#. A ação aguarda a homologação.";
 	public static final String EMAIL_RELATOR_RESOLUCAO_PENDENCIAS = "A ação #TITULO_ACAO# do servidor #NOME_PESSOA# passou pela resolução de pendências, e aguarda pela sua avaliação.";
 	public static final String EMAIL_COORDENACAO_HOMOLOGACAO = "A sua ação #TITULO_ACAO# foi homologada com o status de #STATUS#.";
+	public static final String EMAIL_PARECERISTA_PRAZO = "O prazo para submissão do seu parecer se encerra amanhã, #PRAZO#.";
 
 	// e-mail variable properties
 	public static final String EMAIL_TITULO_ACAO = "#TITULO_ACAO#";

@@ -12,6 +12,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_EMISSAO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
@@ -20,9 +21,9 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 
+import java.util.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.repository.PapelRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
 
 /**
@@ -42,12 +43,15 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
-	//@Autowired
+//	@Autowired
 	private MailSender mailSender;
 
 	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
 
 	private String[] emailDirecao;
+	
+	@Autowired
+	private AcaoExtensaoRepository acaoRepository;
 	
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
@@ -443,4 +447,52 @@ public class EmailServiceImpl implements NotificationService {
 		enviarEmail(emailCoordenador);
 	}
 
+	/**
+	 * Envia um e-mail informando ao parecerista/relator 
+	 * que o prazo para emissão do parecer se encerra em um dia.
+	 */
+	@Override
+	public void notificarPareceristaRelatorPrazo(Date now) {
+		java.sql.Date newNow = new java.sql.Date(now.getTime());
+		List<AcaoExtensao> acoesAguardandoParecer =
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, newNow);
+		acoesAguardandoParecer.addAll(
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, newNow));
+		System.out.println(now);
+		System.out.println(acoesAguardandoParecer.size());
+		if (!acoesAguardandoParecer.isEmpty()) {
+			System.out.println("ENTROU NO IF");
+			SimpleMailMessage email = null;
+			String destinatario = null;
+			String assuntoEmail = null;
+			String texto = null;
+			for (AcaoExtensao acao : acoesAguardandoParecer) {
+				email = new SimpleMailMessage();
+				
+				// Set remetente e destinatario
+				email.setFrom(EMAIL_REMETENTE);
+				if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+					destinatario = acao.getParecerTecnico().getResponsavel().getEmail();
+				} else if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+					destinatario = acao.getParecerRelator().getResponsavel().getEmail();
+				}
+				email.setTo(destinatario);
+				
+				// Set assunto do email
+				assuntoEmail = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo());
+				email.setSubject(assuntoEmail);
+				
+				// Set corpo do email
+				texto = EMAIL_PARECERISTA_PRAZO.replaceAll(EMAIL_PRAZO,
+						formatDate(Status.AGUARDANDO_PARECER_TECNICO.equals(acao.getStatus()) ? 
+								acao.getParecerTecnico().getPrazo() :
+									acao.getParecerRelator().getPrazo()));
+				email.setText(texto);
+				
+				System.out.println(email.getTo()+" "+email.getText());
+				
+				enviarEmail(email);
+			}
+		}
+	}
 }
