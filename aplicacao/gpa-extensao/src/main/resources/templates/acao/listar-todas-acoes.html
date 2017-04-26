@@ -16,7 +16,7 @@
                 <div class="white-box">
                     <h3 class="box-title text-info">Em tramitação</h3>
                     <ul class="list-inline two-part">
-                        <li><i class="ti-exchange-vertical text-info"></i></li>
+                        <li><i class="ti-loop text-info"></i></li>
                         <li class="text-right text-info"><span class="counter" th:text="${tramitacao}"></span></li>
                     </ul>
                 </div>
@@ -48,11 +48,11 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
-                <h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">Em tramitação</h3>
+                <h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">Em tramitação <span class="label label-info m-l-5" th:text="${tramitacao}"></span></h3>
                 <p th:if="${listaAtual == 'tramitacao'}" class="text-muted m-b-30">Ações de extensão que estão em processo de aprovação</p>
-                <h3 th:if="${listaAtual == 'andamento'}" class="box-title m-b-0">Em andamento</h3>
+                <h3 th:if="${listaAtual == 'andamento'}" class="box-title m-b-0">Em andamento <span class="label label-info m-l-5" th:text="${andamento}"></span></h3>
                 <p th:if="${listaAtual == 'andamento'}" class="text-muted m-b-30">Ações de extensão aprovadas que estão em andamento</p>
-                <h3 th:if="${listaAtual == 'encerrada'}" class="box-title m-b-0">Encerradas</h3>
+                <h3 th:if="${listaAtual == 'encerrada'}" class="box-title m-b-0">Encerradas <span class="label label-info m-l-5" th:text="${encerrada}"></span></h3>
                 <p th:if="${listaAtual == 'encerrada'}" class="text-muted m-b-30">Ações de extensão aprovadas que já foram encerradas</p>
                 <table id="acoes" class="table table-hover">
                     <thead>
@@ -68,7 +68,8 @@
                             <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
                             <td th:text="${acao.coordenador.nome}"></td>
                             <td>
-                                <span class="label label-primary" th:text="${acao.status.descricao}">
+                                <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-primary'}"
+                                      th:text="${acao.status.descricao}">
                                 </span>
                             </td>
                             <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +

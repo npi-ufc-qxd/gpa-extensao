@@ -1,9 +1,11 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,19 +21,24 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.ParticipacaoService;
+import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -50,6 +57,31 @@ public class ParticipacaoController {
 
 	@Autowired
 	private ServidorRepository servirdorRepository;
+
+	@Autowired
+	private PessoaService pessoaService;
+
+	@Autowired
+	private ParticipacaoService participacaoService;
+
+	/**
+	 * Adiciona um novo participante a equipe de trabalho
+	 */
+
+	@PostMapping("/adicionar-participacao/{acao}")
+	public String adicionarParticipante(@PathVariable("acao") AcaoExtensao acaoExtensao, Participacao participacao,
+			Authentication authentication, RedirectAttributes redirectAttribute) {
+
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+		try {
+			participacaoService.adicionarParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+
+		return R_ACAO + acaoExtensao.getId();
+
+	}
 
 	@RequestMapping(value = "/cadastrar/{idAcao}", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> adicionarParticipacao(

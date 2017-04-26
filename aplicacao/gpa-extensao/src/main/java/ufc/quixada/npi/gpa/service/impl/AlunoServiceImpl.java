@@ -1,9 +1,15 @@
 package ufc.quixada.npi.gpa.service.impl;
 
-import br.ufc.quixada.npi.ldap.model.Usuario;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import static ufc.quixada.npi.gpa.util.Constants.USUARIO_NAO_ENCONTRADO_EXCEPTION;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.ufc.quixada.npi.ldap.model.Usuario;
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Papel;
@@ -13,11 +19,6 @@ import ufc.quixada.npi.gpa.repository.AlunoRepository;
 import ufc.quixada.npi.gpa.repository.PapelRepository;
 import ufc.quixada.npi.gpa.service.AlunoService;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static ufc.quixada.npi.gpa.util.Constants.USUARIO_NAO_ENCONTRADO_EXCEPTION;
-
 @Service
 public class AlunoServiceImpl implements AlunoService {
 
@@ -26,7 +27,7 @@ public class AlunoServiceImpl implements AlunoService {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
-	
+
 	@Autowired
 	private PapelRepository papelRepository;
 
@@ -61,10 +62,6 @@ public class AlunoServiceImpl implements AlunoService {
 		}
 	}
 
-	@Override
-	public List<Aluno> findAllAlunos() {
-		return alunoRepository.findAll();
-	}
 
 	@Override
 	public void cadastrarAlunos() {
@@ -77,6 +74,11 @@ public class AlunoServiceImpl implements AlunoService {
 	@Override
 	public Aluno buscarAluno(Integer idAluno) {
 		return alunoRepository.findOne(idAluno);
+	}
+
+	@Override
+	public List<Aluno> findAllAlunos() {
+		return alunoRepository.findAll();
 	}
 
 }

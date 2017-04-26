@@ -14,6 +14,8 @@ public interface BolsaService {
 
 	void setarFrequencia(Integer bolsaId, Integer mes, Integer ano, String acao) throws GpaExtensaoException;
 	
+	void adicionarBolsista(AcaoExtensao acao, Bolsa bolsista)throws GpaExtensaoException;
+
 	/*
 	 * Salva uma bolsa na ação
 	 */
@@ -43,4 +45,5 @@ public interface BolsaService {
 	 * Retorna as bolsas de um aluno que é bolsista
 	 */
 	List<Bolsa> listarBolsasAluno(Integer alunoId);
+
 }

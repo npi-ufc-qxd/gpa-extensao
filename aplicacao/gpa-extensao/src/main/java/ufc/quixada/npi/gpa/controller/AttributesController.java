@@ -20,7 +20,7 @@ public class AttributesController {
 	@Autowired
 	private AcaoExtensaoService acaoService;
 
-	@ModelAttribute("pessoaLogada")
+	//@ModelAttribute("pessoaLogada")
 	public Pessoa pessoaLogada(Authentication authentication) {
 		return this.pessoaLogada = 
 				pessoaService.findServidor(authentication.getName()).getPessoa();
