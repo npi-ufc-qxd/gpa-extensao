@@ -19,9 +19,7 @@
 				th:with="
 	    		removeEnabled = true, 
 	    		removeTip = 'Remover', 
-	    		removeLink = @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}, 
-	    		removeClass = 'sweet-alert'"
-				>
+	    		removeLink = @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">
 				<td th:text="${parceria.parceiro.nome}"></td>
 				<td><span
 					th:class="${parceria.geraDemanda} ? 'fa fa-check' : 'fa fa-times'"></span>
@@ -38,13 +36,12 @@
 				<td><span th:unless="${parceria.outrasFormas}"
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				 <td th:replace="acao/listar-opcoes-acao :: table-options-cell"></td>
+				<td th:replace="acao/listar-opcoes-acao :: table-options-cell"></td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="text-right">
-		<a
-			th:if="${acao.status.name() == 'NOVO' AND  acao.coordenador.nome == pessoaLogada.getNome()}"
+		<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 			class="btn btn-primary waves-effect waves-light m-t-10"
 			data-toggle="modal" data-target="#parceria-modal">Nova Parceria</a>
 	</div>
