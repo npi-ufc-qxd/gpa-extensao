@@ -71,18 +71,72 @@
             <p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
         </div>
     </div>
-
+	
 	<div class="row">
-		<div class="col-sm-11">
-			<div class="text-right">
-	    	    <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}" 
-	    	    th:href="@{/acoes/submeter/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
-		    </div>
-		</div>
-		<div class="col-sm-1">
-		    <div class="text-right">
-		        <a th:if="${acao.status.name() == 'NOVO'}" th:href="@{/acoes/editar/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
-		    </div>
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<a  
+					sec:authorize="hasAuthority('DIRECAO')"
+					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+					href="" alt="default" data-toggle="modal" data-target="#modalHomologar"
+					class="btn btn-primary waves-effect waves-light m-t-10">Homologar Ação</a>
+				<a
+					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal" data-target="#myModal"
+					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
+					Recebidas</a> <a
+					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:href="@{/acoes/submeter/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
+				<a th:if="${acao.status.name() == 'NOVO'}"
+					th:href="@{/acoes/editar/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
+			</div>
 		</div>
 	</div>
+	
+	<div class="col-md-4">
+		<div id="modalHomologar" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="modalHomologarLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Homologar Resultado da Ação</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/bolsa/salvarBolsas/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="resultado">Resultado</label>
+											<select id="resulado" class="form-control" name="resultado">
+												<option value="">APROVADO</option>
+												<option value="">REPROVADO</option>
+											</select> 
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group pull-right">
+											<label for="dataHomologacao">Data de Homologação</label>
+											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${acao.parseData(acao.inicio)}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="observação">Observação</label>
+											<textarea name="observacao" class="form-control" rows="5" style="resize: none"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
 </div>
