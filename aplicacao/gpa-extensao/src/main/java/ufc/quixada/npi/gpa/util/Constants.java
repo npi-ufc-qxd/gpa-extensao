@@ -166,5 +166,5 @@ public class Constants {
 	 */
 
 	// Homologação
-	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/julio.martins/gpa-extensao/documentos";
 }
