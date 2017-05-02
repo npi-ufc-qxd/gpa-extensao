@@ -1,8 +1,13 @@
 package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
@@ -100,7 +105,30 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-
+	
+	@Override
+	public void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao)
+			throws GpaExtensaoException, ParseException {
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Date dataH = df.parse(dataHomologacao);
+		
+		if(acao == null) {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		}
+		
+		acao.setDataDeHomologacao(dataH);
+		acao.setObservacaoHomologacao(observacao);
+		
+		if(resultado.equals("APROVADO")) {
+			acao.setStatus(Status.APROVADO);
+		}else {
+			acao.setStatus(Status.REPROVADO);
+		}
+		
+		acaoExtensaoRepository.save(acao);
+	}
+	
 	@Override
 	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada)
 			throws GpaExtensaoException {

@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -71,6 +72,8 @@ public interface AcaoExtensaoService {
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
+	void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao) throws GpaExtensaoException, ParseException;
+	
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
