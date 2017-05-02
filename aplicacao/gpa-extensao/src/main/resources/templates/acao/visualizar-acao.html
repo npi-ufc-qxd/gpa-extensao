@@ -12,6 +12,7 @@
 <head>
 	<title>Extensão - Detalhes</title>
 </head>
+<<<<<<< HEAD
 
 <div class="container-fluid" layout:fragment="conteudo">
     <br/>
@@ -42,7 +43,164 @@
     </div>
     <br/>
     
+=======
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+		<div class="row bg-title">
+			<!-- .page title -->
+			<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+				<h4 class="page-title"></h4>
+			</div>
+			<!-- /.page title -->
+			<!-- .breadcrumb -->
+			<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+				<ol class="breadcrumb">
+					<li><a href="#">Dashboard</a></li>
+					<li class="active">Starter Page</li>
+				</ol>
+			</div>
+			<!-- /.breadcrumb -->
+		</div>
+	
+		<!-- Dados Básicos -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div
+					th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+			</div>
+		</div>
+	
+		<!-- Equipe de Trabalho -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+			</div>
+		</div>
+	
+		<!-- Parcerias -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+			</div>
+		</div>
+	
+		<!-- Pareceres -->
+		<div class="row">
+			<!-- Parecer Técnico -->
+			<div class="col-xs-6">
+				<div
+					th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+			</div>
+			<!-- Parecer do Relator -->
+			<div class="col-xs-6">
+				<div
+					th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+			</div>
+		</div>
+	
+	</div>
+	<section layout:fragment="js">
+		<script>
+			$('#menu-acoes a').addClass("active");
+			$('#equipe,#parcerias')
+					.dataTable(
+							{
+								language : {
+									"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+								},
+								paging : false,
+								searching : false,
+								info : false,
+								order : [ [ 0, "asc" ] ]
+							});
+		</script>
+	
+		<script type="text/javascript">
+			$('#instituicao').change(function() {
+				if (this.value == "UFC") {
+					document.getElementById("nomeInstituicao").disabled = true;
+				} else {
+					document.getElementById("nomeInstituicao").disabled = false;
+				}
+			});
+		</script>
+	
+		<script type="text/javascript">
+			$('#funcao')
+					.change(
+							function() {
+								if (this.value == "OUTRA") {
+									document.getElementById("participanteServidor").disabled = true;
+									document.getElementById("nomeParticipante").disabled = false;
+									document.getElementById("cpfParticipante").disabled = false;
+									document.getElementById("descricaoFuncao").disabled = false;
+	
+								} else {
+									document.getElementById("participanteServidor").disabled = false;
+									document.getElementById("nomeParticipante").disabled = true;
+									document.getElementById("cpfParticipante").disabled = true;
+									document.getElementById("descricaoFuncao").disabled = true;
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			$('#novoParcitipante').click(function() {
+				document.getElementById("nomeParceiro").disabled = false;
+				document.getElementById("tipoParceiro").disabled = false;
+				document.getElementById("parceiro").disabled = true;
+			});
+			$('#parcitipanteExistente').click(function() {
+				document.getElementById("parceiro").disabled = false;
+				document.getElementById("nomeParceiro").disabled = true;
+				document.getElementById("tipoParceiro").disabled = true;
+			});
+			$('#outrasFormas')
+					.click(
+							function() {
+								if (document.getElementById("outrasFormas").checked) {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = false;
+								} else {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = true;
+								}
+	
+							});
+		</script>
+		<script type="text/javascript">
+			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
+	
+			checkboxes.click(function() {
+				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
+			});
+		</script>
+		
+		<script type="text/javascript">	
+		document.querySelector('.btn-sweetalert').onclick = function(){
+			swal({
+				title: "Are you sure?",
+				text: "You will not be able to recover this imaginary file!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: '#DD6B55',
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: "No, cancel plx!",
+				closeOnConfirm: false,
+				closeOnCancel: false
+			},
+			function(isConfirm){
+		    if (isConfirm){
+		      swal("Deleted!", "Your imaginary file has been deleted!", "success");
+		    } else {
+		      swal("Cancelled", "Your imaginary file is safe :)", "error");
+		    }
+			});
+		};
+		</script>
+	</section>
+>>>>>>> refs/remotes/origin/#185_Homologar_resultado_de_avaliação_de_ação_de_extensão
 
+<<<<<<< HEAD
 			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
 				<div
 					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
@@ -283,4 +441,7 @@
 		});
 	</script>
 </section>
+=======
+</body>
+>>>>>>> refs/remotes/origin/#185_Homologar_resultado_de_avaliação_de_ação_de_extensão
 </html>

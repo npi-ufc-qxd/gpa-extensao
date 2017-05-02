@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
@@ -37,7 +38,6 @@ import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
 
-
 @Controller
 @Transactional
 @RequestMapping("/bolsa")
@@ -52,7 +52,6 @@ public class BolsaController {
 	
 	@Autowired 
 	private BolsaService bolsaService;
-
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
