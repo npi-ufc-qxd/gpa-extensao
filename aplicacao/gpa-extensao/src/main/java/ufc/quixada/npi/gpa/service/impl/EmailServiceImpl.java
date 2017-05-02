@@ -33,10 +33,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -464,12 +462,12 @@ public class EmailServiceImpl implements NotificationService {
 	 * que o prazo para emissão do parecer se encerra em um dia.
 	 */
 	@Override
-	public void notificarPareceristaRelatorPrazo(Date hoje) {
-		hoje = formataData(hoje);
+	public void notificarPareceristaRelatorPrazo(Date data) {
+		data = formataData(data);
 		List<AcaoExtensao> acoesAguardandoParecer =
-				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, hoje);
+				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, data);
 		acoesAguardandoParecer.addAll(
-				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, hoje));
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, data));
 		
 		if (!acoesAguardandoParecer.isEmpty()) {
 			MimeMessage mimeMessage;
@@ -511,11 +509,11 @@ public class EmailServiceImpl implements NotificationService {
 		}
 	}
 	
-	private Date formataData(Date hoje) {
+	private Date formataData(Date data) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			hoje = sdf.parse(sdf.format(hoje));
-			return hoje;
+			data = sdf.parse(sdf.format(data));
+			return data;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
