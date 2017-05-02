@@ -25,12 +25,9 @@ public class DocumentoServiceImpl implements DocumentoService {
 	@Autowired
 	private DocumentoRepository documentoRepository;
 	
-	/*@Value("${documentos.gpa}")
-	private String PASTA;*/
-
 	@Override
 	public Documento getDocumento(Integer idDocumento) {
-
+		
 		Documento documento = documentoRepository.findOne(idDocumento);
 		return documento;
 	}
@@ -48,10 +45,10 @@ public class DocumentoServiceImpl implements DocumentoService {
 		} catch (IOException e) {
 			throw new GpaExtensaoException(documento.getCaminho() + EXCEPTION_BUSCAR_ARQUIVO + e.getMessage());
 		}
-
+		
 		return bFile;
 	}
-
+	
 	@Override
 	public Documento save(MultipartFile arquivo, AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		if (arquivo != null && !(arquivo.getOriginalFilename().toString().equals(""))) {
@@ -63,6 +60,7 @@ public class DocumentoServiceImpl implements DocumentoService {
 					documento.setCaminho(
 							PASTA_DOCUMENTOS_GPA + "/" + acaoExtensao.getIdentificador() + "/" + documento.getNome());
 					documentoRepository.save(documento);
+					
 					return documento;
 				} catch (IOException e) {
 					throw new GpaExtensaoException(MESSAGE_SALVAR_ARQUIVO_ERROR);
@@ -73,4 +71,19 @@ public class DocumentoServiceImpl implements DocumentoService {
 		}
 		return null;
 	}
+
+	@Override
+	public AcaoExtensao deletarDocumento(AcaoExtensao acao) throws GpaExtensaoException {
+		Documento documento = null;
+		
+		documento = acao.getAnexo();
+		if (documento != null) {
+			File file = new File(documento.getCaminho());
+			file.delete();
+			acao.setAnexo(null);
+			documentoRepository.delete(documento);
+		}
+		
+		return acao;
+  }
 }

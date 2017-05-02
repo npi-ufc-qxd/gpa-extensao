@@ -57,6 +57,7 @@ public class Constants {
 	public static final String FRAGMENTS_INFO_SERVIDOR = "administracao/cadastro-servidor/cadastro-servidor :: info-cadastro-servidor";
 
 	// Redirects
+
 	public static final String REDIRECT_PAGINA_DETALHES_ACAO = "redirect:/acoes/";
 	public static final String REDIRECT_PAGINA_ADICIONAR_PARTICIPACAO = "redirect:/participacoes/";
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENACAO = "redirect:/listagem";
@@ -79,6 +80,14 @@ public class Constants {
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	public static final String EXCEPTION_SERVIDOR_JA_CADASTRADO = "O servidor já está cadastrado";
+	public static final String EXCEPTION_GET_ANEXO = "Não foi possível encontrar o anexo";
+	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";	
+	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
+
+	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
+	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
+	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 
 	// Mensagens
 	public static final String ERRO = "erro";
@@ -102,17 +111,25 @@ public class Constants {
 	public static final String PARCEIROS = "parceiros";
 	public static final String RESPONSE_DATA = "result";
 	public static final String VALOR_INVALIDO = "Valor inválido!";
+	public static final String CAMPO_OBRIGATORIO_VAZIO = "Um campo obrigatório não pode ser vazio!";
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
 
 	// Errors
+	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
+	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";
 	public static final String ERROR_PESSOA_JA_PARTICIPANTE = "Essa pessoa já participa desse projeto";
 	public static final String ERROR_ALUNO_JA_BOLSISTA = "Esse aluno já é bolsista desse projeto";
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
 
+	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
+	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
+
+	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 

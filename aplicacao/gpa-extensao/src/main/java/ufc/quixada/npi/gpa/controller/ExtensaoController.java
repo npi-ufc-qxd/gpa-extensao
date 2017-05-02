@@ -1,9 +1,9 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.RedirectConstants.R_MINHAS_ACOES;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import static ufc.quixada.npi.gpa.util.RedirectConstants.R_MINHAS_ACOES;
 
 @Controller
 public class ExtensaoController {

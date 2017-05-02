@@ -1,28 +1,17 @@
 package ufc.quixada.npi.gpa.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
-
-import java.util.Collection;
-import java.util.List;
 
 public interface AcaoExtensaoService {
-	
-	
-	
-	
-	/**
-	 * Retorna 1 dos 4 status "Aguardando Parecer","Aguardando Parecerista", Aguardando Relator"
-	 *  ou "Aguardando Homologação"
-	 * 
-	 */
-	
-	List<AcaoExtensao> findByStatusIn(Collection<Status> status);
+
+AcaoExtensao findById(Integer id);
 	
 	/**
 	 * Retorna todas as ações que uma pessoa coordena ou participa
@@ -74,16 +63,63 @@ public interface AcaoExtensaoService {
 	 * Retorna a quantidade de ações já encerradas
 	 */
 	int countAcoesEncerradas();
+	
+	/**
+	 * Retorna a quantidade de minhas Ações
+	 */
+	int countMinhasAcoes(Pessoa pessoa);
+	
+	/**
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando parecerista técnico, de aguardando relator;
+	 */
+	int countAcoesAguardandoPareceristaRelator();
+	
+	/**
+	 * Valor exibido para a direcao quando logado
+	 * @return quantidade pendências de aguardando homologação;
+	 */
+	int countAcoesAguardandoHomologacao();
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer tecnico
+	 */
+	int countAcoesPendenciasParecer(Pessoa coordenador);
+	
+	
+	/**
+	 * @param coordenador
+	 * @return quantidade de acoes resolvendo pendencias parecer do relator
+	 */
+	int countAcoesPendenciasRelato(Pessoa coordenador);
+	
+	/**
+	 * @param parecerista
+	 * @return quantidade de acoes aguardando parecer (tecnico ou relato) da pessoa logada
+	 */
+	int countAcoesAguardandoParecer(Pessoa responsavel);
 
 	/**
 	 * Cadastra uma nova ação de extensão
 	 */
-	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador) throws GpaExtensaoException;
 
+	
+	/**
+	 * Adiciona um número de bolsas que foram recebidas na ação
+	 */
+	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	
+	/**
+	 * Cadastra o código PREX de uma ação aprovada que não foi encerrada
+	 */
+	void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException;
+	
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
-	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
 
@@ -96,7 +132,13 @@ public interface AcaoExtensaoService {
     List<AcaoExtensao> findAll(Pessoa pessoa);
 
 	List<AcaoExtensao> findProgramasAprovados();
+	/**
+	 * Retorna o cpf do coordenador da ação
+	 */
+	String buscarCpfCoordenador(Integer id);
 
+	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
 
+	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
 }
 

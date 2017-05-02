@@ -2,31 +2,35 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 
-import javax.inject.Named;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Documento;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pessoa;
-import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
+import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Named
+
+@Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
@@ -43,7 +47,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private NotificationService notificationService;
-	
+
+	@Autowired
+	private ParecerRepository parecerRepository;
+
 
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
@@ -71,9 +78,13 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void cadastrar(AcaoExtensao acaoExtensao, MultipartFile arquivo, Pessoa coordenador)
+			throws GpaExtensaoException {
+		acaoExtensao.setCoordenador(coordenador);
+		acaoExtensao.setAtivo(true);
 		acaoExtensao.setStatus(Status.NOVO);
 		salvarAcao(acaoExtensao, arquivo);
+
 	}
 
 	@Override
@@ -103,15 +114,38 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
+		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
+			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
+			return true;
+		}
+
+		return false;
+	}
+	
+	@Override
+	public void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException{
+		String codigoUpper = codigo.toUpperCase();
+		
+		if(acao == null || codigoUpper.isEmpty()){
+			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
+		}
+		
+		acao.setCodigo(codigoUpper);
+		acaoExtensaoRepository.save(acao);
+	}
+
+	@Override
+	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
+
+		if (!acaoExtensao.getCoordenador().getCpf().equals(pessoaLogada.getCpf())) {
+			throw new GpaExtensaoException("Usuário logado não pode submeter a ação " + acaoExtensao.getCodigo()
+					+ " pois não é o coordenador!");
+		}
+
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old = checkAcaoExtensao(old, acaoExtensao);
-
-		Documento documento = documentoService.save(arquivo, old);
-
-		if (documento != null) {
-			old.setAnexo(documento);
-		}
 
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
@@ -190,25 +224,26 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		bolsaRepository.inativarBolsas(idAcao);
 		acaoExtensaoRepository.save(acao);
 	}
-
+	
+	
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
-	
+
 	@Override
 	public void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoId);
-		
+
 		Documento documento = null;
-		
-		if(acao != null){
+
+		if (acao != null) {
 			documento = documentoService.save(arquivo, acao);
 		}
-		
-		if(documento != null) {
+
+		if (documento != null) {
 			acao.setRelatorioFinal(documento);
 		}
-		
+
 		acaoExtensaoRepository.save(acao);
 	}
 
@@ -231,8 +266,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public List<AcaoExtensao> findAcoesParecerEmitido(Pessoa parecerista) {
 		List<AcaoExtensao> acoesParecerista = acaoExtensaoRepository.findByPareceristaAndStatus(parecerista,
-				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO, Status.AGUARDANDO_PARECER_RELATOR,
-						Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
 		List<AcaoExtensao> acoesRelator = acaoExtensaoRepository.findByRelatorAndStatus(parecerista,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		acoesParecerista.removeAll(acoesRelator);
@@ -260,11 +296,73 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
-	@Override
-	public List<AcaoExtensao> findByStatusIn(Collection<Status> status) {
-		return acaoExtensaoRepository.findByStatusIn(status);
-		
+	public AcaoExtensao findById(Integer idAcao) {
+		return acaoExtensaoRepository.findOne(idAcao);
 	}
+
+	@Override
+	public int countAcoesAguardandoPareceristaRelator() {
+		return acaoExtensaoRepository
+				.countByStatusIn(Arrays.asList(Status.AGUARDANDO_PARECERISTA, Status.AGUARDANDO_RELATOR));
+	}
+
+	@Override
+	public int countAcoesAguardandoHomologacao() {
+		return acaoExtensaoRepository.countByStatus(Status.AGUARDANDO_HOMOLOGACAO);
+	}
+
+	@Override
+	public int countAcoesPendenciasParecer(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_PARECER);
+	}
+
+	@Override
+	public int countAcoesPendenciasRelato(Pessoa coordenador) {
+		return acaoExtensaoRepository.countByCoordenadorAndStatus(coordenador, Status.RESOLVENDO_PENDENCIAS_RELATO);
+	}
+
+	@Override
+	public int countAcoesAguardandoParecer(Pessoa responsavel) {
+		List<Parecer> pareceres = parecerRepository.findByResponsavel(responsavel);
+		int qtdPareceresTecnico = acaoExtensaoRepository.countByParecerTecnicoInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_TECNICO);
+		int qtdPareceresRelato = acaoExtensaoRepository.countByParecerRelatorInAndStatus(pareceres,
+				Status.AGUARDANDO_PARECER_RELATOR);
+		return qtdPareceresRelato + qtdPareceresTecnico;
+	}
+
+	@Override
+	public String buscarCpfCoordenador(Integer acaoId) {
+		return acaoExtensaoRepository.findCoordenadorById(acaoId);
+	}
+
+
+	@Override
+	public int countMinhasAcoes(Pessoa pessoa) {
+		
+		return acaoExtensaoRepository.countByParticipacao(pessoa);
+	}
+
+	@Override
+	public int countMinhasAcoesAguardandoParecer(Pessoa pessoa) {
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_TECNICO, Status.RESOLVENDO_PENDENCIAS_PARECER));
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_PARECER_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO));
+		return acoesParecerista + acoesRelator;
+	}
+
+	@Override
+	public int countMinhasAcoesPareceresEmitidos(Pessoa pessoa) {
+		int acoesParecerista = acaoExtensaoRepository.countByPareceristaAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_RELATOR, Status.RESOLVENDO_PENDENCIAS_RELATO,
+						Status.AGUARDANDO_PARECER_RELATOR, Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO,
+						Status.REPROVADO));
+		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
+				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
+		return acoesParecerista + acoesRelator;
+	}
+
 	
-	
+
 }
