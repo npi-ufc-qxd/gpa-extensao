@@ -24,9 +24,10 @@ public class Constants {
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
+	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
 	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
 	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
-	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
+
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
@@ -123,8 +124,12 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
+
+	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
+
+	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 

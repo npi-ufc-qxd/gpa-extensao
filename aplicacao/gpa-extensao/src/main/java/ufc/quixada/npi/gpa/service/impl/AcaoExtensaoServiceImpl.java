@@ -34,6 +34,7 @@ import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
+
 @Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
@@ -54,7 +55,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private ParecerRepository parecerRepository;
-	
+
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 	
@@ -361,7 +362,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
-	@Override
 	public AcaoExtensao findById(Integer idAcao) {
 		return acaoExtensaoRepository.findOne(idAcao);
 	}
@@ -425,5 +425,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		return acoesParecerista + acoesRelator;
-	}	
+
+	}
+
 }
