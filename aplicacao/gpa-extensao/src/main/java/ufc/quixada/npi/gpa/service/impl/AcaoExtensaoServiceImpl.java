@@ -24,12 +24,6 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-
 @Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
