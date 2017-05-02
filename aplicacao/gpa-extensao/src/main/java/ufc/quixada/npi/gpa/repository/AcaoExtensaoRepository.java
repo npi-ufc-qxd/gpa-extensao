@@ -19,7 +19,7 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 
 @Repository
 public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Integer>, JpaSpecificationExecutor<AcaoExtensao> {
-
+	
 	@Query("SELECT e.acaoExtensao FROM equipe_de_trabalho AS e where e.participante = :pessoa")
 	List<AcaoExtensao> findByParticipacao(@Param("pessoa") Pessoa pessoa);
 

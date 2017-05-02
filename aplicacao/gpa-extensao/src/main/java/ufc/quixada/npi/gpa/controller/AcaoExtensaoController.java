@@ -23,10 +23,7 @@ import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -66,7 +63,6 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
-import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.DirecaoService;
@@ -82,13 +78,7 @@ public class AcaoExtensaoController {
 	@Autowired
 	private AcaoExtensaoService acaoExtensaoService;
 
-
-	@Autowired
 	private PessoaService pessoaService;
-
-
-	@Autowired
-	private ParticipacaoRepository participacaoRepository;
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
@@ -101,17 +91,15 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
+
 	@Autowired
 	private ServidorService servidorService;
-
 
 	@Autowired
 	private AlunoService alunoService;
 
 	@Autowired
 	private ParceiroService parceiroService;
-
 
 	/**
 	 * Busca todas as ações que estão em tramitação e ainda não foram aprovadas
@@ -197,6 +185,7 @@ public class AcaoExtensaoController {
 	@GetMapping("/{acao}")
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 		model.addAttribute("acao", acao);
+		model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("participacao", new Participacao());
 		model.addAttribute("funcoes", Funcao.values());
 		model.addAttribute("instituicoes", Instituicao.values());
@@ -207,6 +196,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("parceriaExterna", new ParceriaExterna());
 		model.addAttribute(PARCEIROS, parceiroService.listarParceiros());
 		model.addAttribute("tipoParceria", Tipo.values());
+
 		return VISUALIZAR_ACAO;
 	}
 
@@ -281,28 +271,25 @@ public class AcaoExtensaoController {
 
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
 	public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
-			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Authentication authentication,
-			Model model, RedirectAttributes redirect) {
+			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Model model,
+			RedirectAttributes redirect) {
 
 		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
 				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
 			acaoExtensao.setHorasPraticas(null);
 			acaoExtensao.setHorasTeoricas(null);
-		}
-		if (!acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
 			acaoExtensao.setProgramacao("");
 		}
+
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
-			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 		}
 
-        redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
-        return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-
-    }
+		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+	}
 
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
 	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
@@ -366,68 +353,35 @@ public class AcaoExtensaoController {
 	}
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo,
-			@PathVariable("idAcao") Integer idAcao, Model model, RedirectAttributes redirectAttribute) {
-			
+	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
+			Model model, RedirectAttributes redirectAttribute) {
+
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 		}
-		
+
 		model.addAttribute("acao", acao);
-		
+
 		return VISUALIZAR_ACAO;
 	}
 
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
 	public String salvarNovoCoordenador(@PathVariable("id") Integer id,
 			@RequestParam("idNovoCoordenador") Integer idNovoCoordenador, @RequestParam("dataInicio") String dataInicio,
-			@RequestParam("chNovoCoordenador") Integer cargaHoraria, RedirectAttributes redirectAttributes,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttributes,
 			Authentication authentication) throws ParseException {
 
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		Date dataI = df.parse(dataInicio);
-
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-
-		if (acao == null) {
-			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+		AcaoExtensao acao = acaoExtensaoService.findById(id);
+		
+		try {
+			acaoExtensaoService.transeferirCoordenacao(acao, idNovoCoordenador, dataInicio, cargaHoraria);
+		}catch (GpaExtensaoException e) {
+			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}
-
-		Pessoa velhoCoordenador = acao.getCoordenador();
-
-		List<Participacao> pVelhoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao,
-				velhoCoordenador);
-
-		if (pVelhoCoordenador != null) {
-			for (Participacao p : pVelhoCoordenador) {
-				if (p.isCoordenador()) {
-					p.setDataTermino(dataI);
-					p.setCoordenador(false);
-					participacaoRepository.save(p);
-				}
-			}
-		}
-
-		Pessoa novoCoordenador = pessoaService.buscarPorId(idNovoCoordenador);
-
-		Participacao pVelhaNovoCoordenador = participacaoRepository.findByParticipanteAndAcaoExtensao(novoCoordenador,
-				acao);
-
-		if (pVelhaNovoCoordenador != null) {
-			pVelhaNovoCoordenador.setDataTermino(dataI);
-			participacaoRepository.save(pVelhaNovoCoordenador);
-		}
-
-		acao.setCoordenador(novoCoordenador);
-		Participacao pNovaNovoCoordenador = participacaoService.participacaoCoordenador(acao, cargaHoraria);
-		pNovaNovoCoordenador.setDataInicio(dataI);
-
-		participacaoRepository.save(pNovaNovoCoordenador);
-		acaoExtensaoRepository.save(acao);
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 
