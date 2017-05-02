@@ -462,12 +462,12 @@ public class EmailServiceImpl implements NotificationService {
 	 * que o prazo para emissão do parecer se encerra em um dia.
 	 */
 	@Override
-	public void notificarPareceristaRelatorPrazo(Date dataHoje) {
-		dataHoje = formataData(dataHoje);
+	public void notificarPareceristaRelatorPrazo(Date agora) {
+		agora = formataData(agora);
 		List<AcaoExtensao> acoesAguardandoParecer =
-				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, dataHoje);
+				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, agora);
 		acoesAguardandoParecer.addAll(
-				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, dataHoje));
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, agora));
 		
 		if (!acoesAguardandoParecer.isEmpty()) {
 			MimeMessage mimeMessage;
@@ -509,11 +509,11 @@ public class EmailServiceImpl implements NotificationService {
 		}
 	}
 	
-	private Date formataData(Date date) {
+	private Date formataData(Date umaData) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			date = sdf.parse(sdf.format(date));
-			return date;
+			umaData = sdf.parse(sdf.format(umaData));
+			return umaData;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
