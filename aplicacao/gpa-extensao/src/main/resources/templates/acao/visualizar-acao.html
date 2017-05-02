@@ -43,16 +43,16 @@
     </div>
     <br/>
     
->>>>>>> refs/heads/master
 
-<<<<<<< HEAD
+
+
 	<!-- Equipe de Trabalho -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 		</div>
 	</div>
-=======
+
 			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
 				<div
 					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
@@ -60,16 +60,15 @@
 					sucesso! <a href="#" class="closed">&times;</a>
 				</div>
 			</div>
->>>>>>> refs/heads/master
 
-<<<<<<< HEAD
+
+
 	<!-- Parcerias -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 		</div>
 	</div>
-=======
 			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
 				<div
 					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
@@ -77,9 +76,8 @@
 					que foi solicitada! <a href="#" class="closed">&times;</a>
 				</div>
 			</div>
->>>>>>> refs/heads/master
 
-<<<<<<< HEAD
+
 	<!-- Pareceres -->
 	<div class="row">
 	
@@ -87,11 +85,11 @@
 		<!-- Parecer Técnico -->
 		<div class="col-xs-6">
 			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico">
-=======
-			<br />
->>>>>>> refs/heads/master
 
-<<<<<<< HEAD
+			<br />
+
+
+
 			</div>
 		</div>
 		<!-- Parecer do Relator -->
@@ -101,40 +99,10 @@
 	</div>
 	
 </div>
-=======
-			<!-- Equipe de Trabalho -->
-			<div class="row">
-				<div class="col-xs-12">
-					<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 
-					<!-- Parcerias -->
-					<div class="row">
-						<div class="col-xs-12">
-							<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-
-						</div>
-					</div>
-
-					<!-- Pareceres -->
-					<div class="row">
-						<!-- Parecer Técnico -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-						</div>
-						<!-- Parecer do Relator -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
->>>>>>> refs/heads/master
+			
 <section layout:fragment="js">
-<<<<<<< HEAD
+	<script th:src="@{/js/mask.js}"></script>
 	<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -148,10 +116,7 @@
 							info : false,
 							order : [ [ 0, "asc" ] ]
 						});
-		
-		
-		
-		
+
 		$("#alterar-parecerista-button").on("click", function(){
 			$("#parecer-tecnico-acoes").hide();
 			$("#parecer-tecnico-info").hide();
@@ -200,106 +165,6 @@
 		});
 		
 		
-		
-		
-		//Parte de validação de Formulário tanto do Parecerista quanto do Relator
-		
-		
-		$("#parecerista-form").on("change", function(){
-			$(this).bootstrapValidator("revalidateField", "parecerTecnico.prazo");
-		});
-		
-		$("#parecerista-form").bootstrapValidator({
-			fields: {
-				"parecerTecnico.prazo": {
-					validators: {
-						date: {
-	                        format: 'DD/MM/YYYY',
-	                        message: "Formato incorreto"
-	                    },
-	                    notEmpty: {
-	                        message: "Especifique o prazo"
-	                    }
-	                }
-				}
-			}
-		});
-		
-		
-		
-		$("#relator-form").bootstrapValidator({
-			fields: {
-				"parecerRelator.prazo": {
-					validators: {
-						date: {
-	                        format: 'DD/MM/YYYY',
-	                        message: "Formato incorreto"
-	                    },
-	                    notEmpty: {
-	                        message: "Especifique o prazo"
-	                    }
-	                }
-				}
-			}
-		});
-		
-		$("#relator-form").on("change", function(){
-			$(this).bootstrapValidator("revalidateField", "parecerRelator.prazo");
-		});
-		
-		$(".pendencias-form").bootstrapValidator({
-			fields: {
-				descricao:{
-					validators:{
-						notEmpty:{
-							message: "Descreva as pendências"
-						}
-					}
-				}
-			}
-		});
-		
-		$("#parecer-form").bootstrapValidator({
-			fields:{
-				"parecerTecnico.parecer":{
-					validators:{
-						notEmpty:{
-							message: "Especifique o parecer"
-						}
-					}
-				}
-			}
-		});
-		
-		$("#relato-form").bootstrapValidator({
-			fields: {
-				"parecerRelator.parecer":{
-					validators:{
-						notEmpty:{
-							message: "Especifique o parecer"
-						}
-					}
-				}
-			}
-		});
-		
-		
-=======
-
-	<script th:src="@{/js/mask.js}"></script>
-	<script>
-		$('#menu-acoes a').addClass("active");
-		$('#equipe,#parcerias')
-				.dataTable(
-						{
-							language : {
-								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-							},
-							paging : false,
-							searching : false,
-							info : false,
-							order : [ [ 0, "asc" ] ]
-						});
 	</script>
 
 	<script type="text/javascript">
@@ -403,6 +268,7 @@
 
 						});
 	</script>
+	
 	<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -474,7 +340,6 @@
 				return false;
 			}
 		});
->>>>>>> refs/heads/master
 	</script>
 </section>
 </html>
