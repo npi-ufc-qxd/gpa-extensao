@@ -8,5 +8,5 @@ public interface NotificationService {
 
 	void notificar(AcaoExtensao acaoExtensao);
 
-	void notificarPareceristaRelatorPrazo(Date data);
+	void notificarPareceristaRelatorPrazo(Date dataHoje);
 }
