@@ -15,7 +15,7 @@ public class EmailTask {
 	private NotificationService notificationService;
 
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron = "50 25 11 * * ?")
+	@Scheduled(cron = "0 1 0 * * ?")
     public void executarEmRegineCronologico() {
 		Date date = new Date();
 		date.setDate(date.getDate()+1);

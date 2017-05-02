@@ -21,15 +21,23 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 
-import java.util.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -43,8 +51,8 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
-//	@Autowired
-	private MailSender mailSender;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
 
@@ -146,6 +154,10 @@ public class EmailServiceImpl implements NotificationService {
 	private void enviarEmail(SimpleMailMessage email) {
 		this.mailSender.send(email);
 	}
+	
+	private void enviarEmail(MimeMessage email) {
+		this.mailSender.send(email);
+}
 
 	/**
 	 * Encapsula o envio de multiplos emails
@@ -453,46 +465,60 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificarPareceristaRelatorPrazo(Date now) {
-		java.sql.Date newNow = new java.sql.Date(now.getTime());
+		now = formataData(now);
 		List<AcaoExtensao> acoesAguardandoParecer =
-				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, newNow);
+				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, now);
 		acoesAguardandoParecer.addAll(
-				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, newNow));
-		System.out.println(now);
-		System.out.println(acoesAguardandoParecer.size());
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, now));
+		
 		if (!acoesAguardandoParecer.isEmpty()) {
-			System.out.println("ENTROU NO IF");
-			SimpleMailMessage email = null;
+			MimeMessage mimeMessage;
+			MimeMessageHelper mensagem;
 			String destinatario = null;
 			String assuntoEmail = null;
 			String texto = null;
 			for (AcaoExtensao acao : acoesAguardandoParecer) {
-				email = new SimpleMailMessage();
+				mimeMessage = mailSender.createMimeMessage();
+				mensagem = new MimeMessageHelper(mimeMessage, "UTF-8");
 				
-				// Set remetente e destinatario
-				email.setFrom(EMAIL_REMETENTE);
+				// Set destinatario
 				if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
 					destinatario = acao.getParecerTecnico().getResponsavel().getEmail();
-				} else if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+				} else {
 					destinatario = acao.getParecerRelator().getResponsavel().getEmail();
 				}
-				email.setTo(destinatario);
 				
 				// Set assunto do email
 				assuntoEmail = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo());
-				email.setSubject(assuntoEmail);
 				
 				// Set corpo do email
 				texto = EMAIL_PARECERISTA_PRAZO.replaceAll(EMAIL_PRAZO,
 						formatDate(Status.AGUARDANDO_PARECER_TECNICO.equals(acao.getStatus()) ? 
 								acao.getParecerTecnico().getPrazo() :
 									acao.getParecerRelator().getPrazo()));
-				email.setText(texto);
 				
-				System.out.println(email.getTo()+" "+email.getText());
+				try {
+					mensagem.setTo(destinatario);
+					mensagem.setFrom(EMAIL_REMETENTE);
+					mensagem.setSubject(assuntoEmail);
+					mensagem.setText(texto, true);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
 				
-				enviarEmail(email);
+				enviarEmail(mimeMessage);
 			}
 		}
+	}
+	
+	private Date formataData(Date now) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			now = sdf.parse(sdf.format(now));
+			return now;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
