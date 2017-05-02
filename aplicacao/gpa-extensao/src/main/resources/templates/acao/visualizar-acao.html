@@ -14,27 +14,13 @@
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
+	<br />
 
-	<div class="row bg-title">
-		<!-- .page title -->
-		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-			<h4 class="page-title"></h4>
-		</div>
-		<!-- /.page title -->
-		<!-- .breadcrumb -->
-		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-			<ol class="breadcrumb">
-				<li><a href="#">Dashboard</a></li>
-				<li class="active">Starter Page</li>
-			</ol>
-		</div>
-		<!-- /.breadcrumb -->
-	</div>
-	<!-- Dados Básicos -->
+	<!-- Linha do tempo -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div
-				th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+				th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo"></div>
 
 			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
 				<div
@@ -43,7 +29,6 @@
 					sucesso! <a href="#" class="closed">&times;</a>
 				</div>
 			</div>
-
 			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
 				<div
 					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
@@ -51,40 +36,61 @@
 					que foi solicitada! <a href="#" class="closed">&times;</a>
 				</div>
 			</div>
+		</div>
+	</div>
 
-			<br />
+	<!-- Dados Básicos -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div
+				th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+		</div>
+	</div>
+	<br />
 
 
-			<!-- Equipe de Trabalho -->
+	<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+		<div
+			class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
+			<i class="ti-check"></i> O número de bolsas foi inserido com sucesso!
+			<a href="#" class="closed">&times;</a>
+		</div>
+	</div>
+
+	<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+		<div
+			class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
+			<i class="ti-alert"></i> Não é possível adicionar mais bolsas do que
+			foi solicitada! <a href="#" class="closed">&times;</a>
+		</div>
+	</div>
+
+	<br />
+
+	<!-- Equipe de Trabalho -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+
+			<!-- Parcerias -->
 			<div class="row">
 				<div class="col-xs-12">
-					<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+					<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 
-					<!-- Parcerias -->
-					<div class="row">
-						<div class="col-xs-12">
-							<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+				</div>
+			</div>
 
-						</div>
-					</div>
-
-
-					<!-- Pareceres -->
-					<div class="row">
-						<!-- Parecer Técnico -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-						</div>
-						<!-- Parecer do Relator -->
-						<div class="col-xs-6">
-							<div
-								th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-						</div>
-					</div>
-
-
-
+			<!-- Pareceres -->
+			<div class="row">
+				<!-- Parecer Técnico -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+				</div>
+				<!-- Parecer do Relator -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
 				</div>
 			</div>
 
@@ -92,7 +98,6 @@
 	</div>
 </div>
 <section layout:fragment="js">
-
 	<script th:src="@{/js/mask.js}"></script>
 	<script>
 		$('#menu-acoes a').addClass("active");
@@ -137,6 +142,7 @@
 							}
 						});
 	</script>
+
 	<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -183,6 +189,7 @@
 
 		});
 	</script>
+
 	<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -226,6 +233,7 @@
 
 						});
 	</script>
+
 	<script type="text/javascript">
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
@@ -256,6 +264,17 @@
 			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
 			  a.href = link;
 		});	
+	</script>
+
+	<script>
+		$(".column-step").each(function(index,element) { 
+			$( element ).toggleClass( "upcoming" );
+			$( element ).find("i").removeClass( "fa-times" );
+			$( element ).find("i").toggleClass( "fa-check" );
+			if($( this ).is( ".active" ) ){
+				return false;
+			}
+		});
 	</script>
 </section>
 </html>
