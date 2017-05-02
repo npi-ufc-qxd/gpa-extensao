@@ -130,6 +130,21 @@ public class ParticipacaoController {
 		}
 		return R_ACAO + acaoExtensao.getId();
 	}
+	
+	@RequestMapping(value = "/alterar/{participacao}/{acao}")
+	public String alterarParticipacao(@PathVariable("participacao") Participacao participacao,
+			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+			Authentication authentication) {
+
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+
+		try {
+			participacaoService.alterarDataParticipacao(acaoExtensao, participacao, coordenador);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acaoExtensao.getId();
+	}
 
 	@RequestMapping(value = "/buscarParticipacoes/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
@@ -144,5 +159,9 @@ public class ParticipacaoController {
 		List<Funcao> funcoes = new ArrayList<>();
 		funcoes.add(funcao);
 		return servidorService.findByFuncao(funcoes);
+	}
+	@RequestMapping("/buscar")
+	public @ResponseBody Participacao buscarParticipacao(@RequestParam("participacao") Participacao participacao) {
+		return participacaoService.buscarParticipante(participacao);
 	}
 }

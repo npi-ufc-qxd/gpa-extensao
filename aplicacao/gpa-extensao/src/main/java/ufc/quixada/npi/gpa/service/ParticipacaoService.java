@@ -15,4 +15,9 @@ public interface ParticipacaoService {
 	void excluirParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 
+	void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException;
+
+	Participacao buscarParticipante(Participacao participacao);
+
 }

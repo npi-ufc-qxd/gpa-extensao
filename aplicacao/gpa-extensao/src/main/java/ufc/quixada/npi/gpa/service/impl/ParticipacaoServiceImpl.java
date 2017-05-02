@@ -7,6 +7,7 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 			participacao.setCoordenador(false);
 			participacao.setAcaoExtensao(acaoExtensao);
 
-			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			} else if (participacao.getFuncao().equals(Funcao.OUTRA)
 					&& (participacao.getDescricaoFuncao().replaceAll(" ", "").isEmpty()
@@ -105,7 +106,6 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				if (participacao.getNomeInstituicao().replaceAll(" ", "").isEmpty()) {
 					throw new GpaExtensaoException(VALOR_INVALIDO);
 				}
-
 			} else if (participacao.getCargaHoraria() < 4 || participacao.getCargaHoraria() > 16) {
 				throw new GpaExtensaoException(ERROR_QTD_HORAS_NAO_PERMITIDA);
 			} else if (participacao.getParticipante() != null) {
@@ -132,7 +132,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 
 		if (acaoOld != null) {
-			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			}
 			if (!acaoOld.getStatus().equals(Status.NOVO)
@@ -144,6 +144,41 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 			acaoOld.getEquipeDeTrabalho().remove(participacao);
 			acaoExtensaoRepository.save(acaoOld);
 			participacaoRepository.delete(participacao);
+		}
+
+	}
+
+	@Override
+	public Participacao buscarParticipante(Participacao participacao) {
+		return participacaoRepository.findOne(participacao.getId());
+	}
+
+	@Override
+	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+
+		if (old != null) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (participacao.getDataInicio() == null || participacao.getDataTermino() == null
+					|| participacao.getDataInicio().before(old.getInicio())
+					|| participacao.getDataTermino().after(old.getTermino())
+					|| participacao.getDataInicio().after(old.getTermino())
+					|| participacao.getDataTermino().before(old.getInicio())
+					|| participacao.getDataTermino().before(participacao.getDataInicio())) {
+				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
+			}
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+			if (!old.isAtivo()) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+			participacaoRepository.save(participacao);
 		}
 
 	}
