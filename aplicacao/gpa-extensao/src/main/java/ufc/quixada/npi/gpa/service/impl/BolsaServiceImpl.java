@@ -7,8 +7,9 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEB
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
-import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +25,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.FrequenciaBolsista;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.service.BolsaService;
@@ -138,7 +140,6 @@ public class BolsaServiceImpl implements BolsaService {
 		} else {
 			throw new GpaExtensaoException(EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA);
 		}
-
 	}
 
 	@Override
@@ -176,15 +177,17 @@ public class BolsaServiceImpl implements BolsaService {
 			bolsa.setCargaHoraria(12);
 			bolsaRepository.save(bolsa);
 			acaoExtensaoRepository.save(acao);
-
 		}
 	}
 
 	@Override
-	public void removerBolsista(AcaoExtensao acao, Bolsa bolsista) throws GpaExtensaoException {
+	public void removerBolsista(AcaoExtensao acao, Bolsa bolsista, Pessoa coordenador) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acao.getId());
 
 		if (old != null) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
 			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
 					&& !old.getStatus().equals(Status.APROVADO)) {

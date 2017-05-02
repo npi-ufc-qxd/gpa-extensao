@@ -151,7 +151,7 @@
 						xhr.setRequestHeader(header, token);
 					},
 					success : function(data) {
-						document.getElementById('participanteServidor').options.length = 0;
+						$('#participanteServidor').empty();
 						$.each(data, function(key, value) {
 							$('#participanteServidor').append(
 									'<option value="' + value.pessoa.id + '">'
@@ -161,53 +161,27 @@
 				});
 
 		$('#funcao').change(function() {
-							if (this.value == "STA") {
-								$.ajax({	url : "/servidores/funcao/servidor",
-											contentType : "application/json",
-											type : "GET",
-											data : JSON.stringify(this.value),
-											beforeSend : function(xhr) {
-												xhr.setRequestHeader(
-														"Content-Type",
-														"application/json");
-												xhr.setRequestHeader(header,
-														token);
-											},
-											success : function(data) {
-												document.getElementById('participanteServidor').options.length = 0;
-												$.each(data,function(key,value) {
-																	$('#participanteServidor').append(
-																					'<option value="' + value.pessoa.id + '">'
-																							+ value.pessoa.nome
-																							+ '</option>');
-																});
-											}
-										});
-							}if (this.value == "DOCENTE") {
-								$.ajax({url : "/servidores/funcao/docente",
-											contentType : "application/json",
-											type : "GET",
-											data : JSON.stringify(this.value),
-											beforeSend : function(xhr) {
-												xhr.setRequestHeader(
-														"Content-Type",
-														"application/json");
-												xhr.setRequestHeader(header,
-														token);
-											},
-											success : function(data) {
-												document
-														.getElementById('participanteServidor').options.length = 0;
-												$.each(data,function(key, value) {
-													$('#participanteServidor').append('<option value="' + value.pessoa.id + '">'
-																							+ value.pessoa.nome
-																							+ '</option>');
-												});
-											}
-										});
-							}
+			$.ajax({
+				type:"GET",
+				data: {funcao : this.value},
+				 beforeSend: function (request)
+		         {
+		                request.setRequestHeader(header, token);
+		            },
+				url: "/participacao/buscarServidores",
+				contentType: 'application/json',
+				success : function(data) {
+					$('#participanteServidor').empty();
+					$.each(data, function(key, value) {
+						$('#participanteServidor').append(
+								'<option value="' + value.pessoa.id + '">'
+										+ value.pessoa.nome + '</option>');
+					});
+				}
+			});
+		
 
-						});
+		});
 	</script>
 	<script>
 		$('#menu-acoes a').addClass("active");
@@ -270,12 +244,18 @@
 		});
 	</script>
 	<script type="text/javascript">
-		$('#exclusao_bolsa').on('show.bs.modal', function (e) {
-		  var $invoker = $(e.relatedTarget);
-		  var link = $invoker.attr('link_exclusao');
-		  var a = document.getElementById('btn_confirmacao_exclusao');
+		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
+		  var $elementoQueInvocouModal = $(e.relatedTarget);
+		  var link = $elementoQueInvocouModal.attr('link_exclusao');
+		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
 		  a.href = link;
-		});		
+		});
+		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var link = $elementoQueInvocouModal.attr('link_exclusao');
+			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
+			  a.href = link;
+		});	
 	</script>
 </section>
 </html>

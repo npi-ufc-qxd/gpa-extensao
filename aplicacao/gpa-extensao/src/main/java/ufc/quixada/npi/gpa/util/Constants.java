@@ -87,6 +87,7 @@ public class Constants {
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";

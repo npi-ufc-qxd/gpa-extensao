@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,28 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 			}
 			acaoExtensao.getEquipeDeTrabalho().add(participacao);
 			acaoExtensaoRepository.save(acaoExtensao);
+		}
+
+	}
+
+	@Override
+	public void excluirParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException {
+		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+
+		if (acaoOld != null) {
+			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (!acaoOld.getStatus().equals(Status.NOVO)
+					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
+			}
+			acaoOld.getEquipeDeTrabalho().remove(participacao);
+			acaoExtensaoRepository.save(acaoOld);
+			participacaoRepository.delete(participacao);
 		}
 
 	}

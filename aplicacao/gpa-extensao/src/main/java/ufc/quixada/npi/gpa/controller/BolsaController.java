@@ -33,9 +33,11 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
+import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Controller
 @Transactional
@@ -50,6 +52,9 @@ public class BolsaController {
 
 	@Autowired
 	private BolsaService bolsaService;
+
+	@Autowired
+	private PessoaService pessoaService;
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
@@ -87,9 +92,12 @@ public class BolsaController {
 
 	@RequestMapping(value = "/excluir/{bolsa}/{acao}")
 	public String excluirBolsa(@PathVariable("bolsa") Bolsa bolsa, @PathVariable("acao") AcaoExtensao acao,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Authentication auth) {
+
+		Pessoa coordenador = pessoaService.buscarPorCpf(auth.getName());
+
 		try {
-			bolsaService.removerBolsista(acao, bolsa);
+			bolsaService.removerBolsista(acao, bolsa, coordenador);
 		} catch (GpaExtensaoException e) {
 			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}

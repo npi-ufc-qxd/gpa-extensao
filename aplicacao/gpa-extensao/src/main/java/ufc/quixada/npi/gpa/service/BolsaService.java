@@ -7,6 +7,7 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
+import ufc.quixada.npi.gpa.model.Pessoa;
 
 public interface BolsaService {
 
@@ -16,7 +17,7 @@ public interface BolsaService {
 	
 	void adicionarBolsista(AcaoExtensao acao, Bolsa bolsista)throws GpaExtensaoException;
 	
-	void removerBolsista(AcaoExtensao acao, Bolsa bolsista)throws GpaExtensaoException;
+	void removerBolsista(AcaoExtensao acao, Bolsa bolsista, Pessoa coordenador)throws GpaExtensaoException;
 
 	/*
 	 * Salva uma bolsa na ação
