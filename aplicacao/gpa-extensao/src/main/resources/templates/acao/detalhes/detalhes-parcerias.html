@@ -16,6 +16,7 @@
 		</thead>
 		<tbody>
 			<tr th:each="parceria : ${acao.parceriasExternas}">
+
 				<td th:text="${parceria.parceiro.nome}"></td>
 				<td><span
 					th:class="${parceria.geraDemanda} ? 'fa fa-check' : 'fa fa-times'"></span>
@@ -36,6 +37,7 @@
 					data-toggle="modal" data-target="#modal_exclusao_parceria"
 					data-dismiss="modal" class="btn btn-block btn-danger"
 					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">EXCLUIR</a></td>
+
 
 			</tr>
 		</tbody>

@@ -46,8 +46,6 @@ public class ParceriaExternaController {
 	
 	@Autowired
 	private PessoaService pessoaService;
-
-
 	@Autowired
 	private ParceriaExternaService parceriaExternaService;
 

@@ -26,10 +26,12 @@ public class Constants {
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
 
 	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
-	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
-	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
 
-
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	public static final String MENSAGEM_DATA_HOMOLOGACAO_MAIOR = "A data de homologação não pode maior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_HOMOLOGACAO_MENOR = "A data de homologação não pode ser menor que a data de inicio da ação";
+	
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
@@ -94,6 +96,7 @@ public class Constants {
 
 	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
+
 
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 

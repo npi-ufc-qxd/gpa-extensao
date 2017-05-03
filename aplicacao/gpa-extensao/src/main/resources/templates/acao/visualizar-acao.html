@@ -10,7 +10,7 @@
 
 
 <head>
-<title>Extensão - Detalhes</title>
+	<title>Extensão - Detalhes</title>
 </head>
 <body>
 	<div class="container-fluid" layout:fragment="conteudo">
@@ -46,6 +46,43 @@
 			<div class="col-xs-12">
 				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 			</div>
+	
+    <br/>
+    
+    <!-- Linha do tempo -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo" ></div>
+        </div>
+    </div>
+    
+    <!-- Dados Básicos -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
+        </div>
+    </div>
+    <br/>
+
+	<!-- Equipe de Trabalho -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+		</div>
+	</div>
+
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
+
+	<!-- Pareceres -->
+	<div class="row">
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
 		</div>
 
 		<!-- Pareceres -->
@@ -290,6 +327,8 @@
 							info : false,
 							order : [ [ 0, "asc" ] ]
 						});
+	
+	<script>
 
 		$(".myadmin-alert .closed").click(function(event) {
 			$(this).parents(".myadmin-alert").fadeToggle(350);
@@ -349,6 +388,6 @@
 			}
 		});
 	</script>
-	</section>
+</section>
 </body>
 </html>

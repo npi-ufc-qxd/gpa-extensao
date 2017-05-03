@@ -32,7 +32,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 	@Autowired
 	private ParceiroRepository parceiroRepository;
 
-	@Override
+@Override
 	public void adicionarParceriaExterna(Pessoa coordenador, ParceriaExterna parceriaExterna, AcaoExtensao acaoExtensao,
 			Parceiro parceiro) throws GpaExtensaoException {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
