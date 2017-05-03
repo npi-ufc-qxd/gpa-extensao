@@ -77,6 +77,10 @@
 		<div class="col-sm-12">
 			<div class="pull-right">
 				<a
+					th:if="${acao.status.name() != 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal" data-target="#modalDownload"
+					class="btn btn-primary waves-effect waves-light m-t-10"><i class="ti-download text-info"></i> Download do documento</a>
+				<a
 					th:if="${acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
 					class="btn btn-primary waves-effect waves-light m-t-10">Transferir Coordenação</a>
@@ -104,6 +108,25 @@
 					th:href="@{/acoes/deletar/__${acao.id}__}"
 					class="btn btn-block btn-danger m-t-10"
 					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<!-- sample modal content -->
+		<div id="modalDownload" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Download do documento</h4>
+					</div>
+					<div class="modal-body">
+						<a th:text="${acao.anexo.nome}"> </a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
