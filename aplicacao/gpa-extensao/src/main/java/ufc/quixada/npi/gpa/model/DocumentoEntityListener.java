@@ -34,6 +34,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 		context.getAutowireCapableBeanFactory().autowireBean(this);
 		
 		String caminhoDiretorio = getDiretorioDocumento(documento);
+		
 		File diretorio = new File(caminhoDiretorio);
 		diretorio.mkdirs();
 		

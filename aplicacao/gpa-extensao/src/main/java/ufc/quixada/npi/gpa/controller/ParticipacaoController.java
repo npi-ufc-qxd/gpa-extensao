@@ -57,21 +57,21 @@ public class ParticipacaoController {
 
 	@Autowired
 	private ServidorRepository servirdorRepository;
-	
+
 	@Autowired
-	private PessoaService pessoaService;	
-	
+	private PessoaService pessoaService;
+
 	@Autowired
 	private ParticipacaoService participacaoService;
-	
+
 	/**
 	 * Adiciona um novo participante a equipe de trabalho
 	 */
 
 	@PostMapping("/adicionar-participacao/{acao}")
-	public String adicionarParticipante(@PathVariable("acao") Integer acaoExtensao, Participacao participacao,
+	public String adicionarParticipante(@PathVariable("acao") AcaoExtensao acaoExtensao, Participacao participacao,
 			Authentication authentication, RedirectAttributes redirectAttribute) {
-		
+
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
 			participacaoService.adicionarParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
@@ -79,7 +79,7 @@ public class ParticipacaoController {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
 
-		return R_ACAO + acaoExtensao;
+		return R_ACAO + acaoExtensao.getId();
 
 	}
 
@@ -89,7 +89,7 @@ public class ParticipacaoController {
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
 
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		
+
 		participacao.setAcaoExtensao(acao);
 		participacaoValidator.validate(participacao, result);
 

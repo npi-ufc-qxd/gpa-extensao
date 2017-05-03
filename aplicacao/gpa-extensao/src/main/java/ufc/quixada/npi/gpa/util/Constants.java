@@ -25,6 +25,11 @@ public class Constants {
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
 
+	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
+
+
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
@@ -79,11 +84,19 @@ public class Constants {
 	public static final String EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA = "Falha ao atribuir frequência";
 	public static final String EXCEPTION_ALUNO_JA_CADASTRADO = "O aluno já está cadastrado";
 	public static final String EXCEPTION_SERVIDOR_JA_CADASTRADO = "O servidor já está cadastrado";
+	public static final String EXCEPTION_GET_ANEXO = "Não foi possível encontrar o anexo";
+	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";	
+	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
+
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
+
 	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
+
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
+
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
@@ -119,6 +132,10 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
+
+	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
+	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
+
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
 
 	// Tipos de arquivos
@@ -155,6 +172,5 @@ public class Constants {
 	 */
 
 	// Homologação
-	public static final String PASTA_DOCUMENTOS_GPA = "/home/marcelo.pereira/gpa-extensao/documentos";
-
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/julio.martins/gpa-extensao/documentos";
 }
