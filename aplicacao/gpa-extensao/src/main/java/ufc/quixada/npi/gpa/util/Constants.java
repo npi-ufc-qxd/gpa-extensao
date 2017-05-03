@@ -24,6 +24,7 @@ public class Constants {
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
+
 	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
 	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
 	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
@@ -89,6 +90,7 @@ public class Constants {
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
 	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
+
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
@@ -129,7 +131,7 @@ public class Constants {
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
 
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
-	
+
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 

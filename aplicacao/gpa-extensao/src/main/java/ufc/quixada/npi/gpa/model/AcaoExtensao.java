@@ -394,7 +394,6 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-
 	
 	public String parseData(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

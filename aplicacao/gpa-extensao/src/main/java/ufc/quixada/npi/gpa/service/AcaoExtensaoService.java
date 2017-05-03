@@ -131,6 +131,8 @@ public interface AcaoExtensaoService {
 	 */
 	void transeferirCoordenacao(AcaoExtensao acao, Integer idNovoCoordenador, String dataInicio, Integer cargaHoraria) throws ParseException, GpaExtensaoException;
 	
+	void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao) throws GpaExtensaoException, ParseException;
+	
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;

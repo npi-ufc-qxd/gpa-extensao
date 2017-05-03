@@ -122,7 +122,30 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-
+	
+	@Override
+	public void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao)
+			throws GpaExtensaoException, ParseException {
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Date dataH = df.parse(dataHomologacao);
+		
+		if(acao == null) {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		}
+		
+		acao.setDataDeHomologacao(dataH);
+		acao.setObservacaoHomologacao(observacao);
+		
+		if(resultado.equals("APROVADO")) {
+			acao.setStatus(Status.APROVADO);
+		}else {
+			acao.setStatus(Status.REPROVADO);
+		}
+		
+		acaoExtensaoRepository.save(acao);
+	}
+	
 	@Override
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
 		if (acao.getBolsasSolicitadas() >= numeroBolsas) {

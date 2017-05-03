@@ -10,12 +10,10 @@
 
 
 <head>
-<title>Extensão - Detalhes</title>
+	<title>Extensão - Detalhes</title>
 </head>
-
-<div class="container-fluid" layout:fragment="conteudo">
-
-    <br/>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
     
     <!-- Linha do tempo -->
     <div class="row">
@@ -42,10 +40,7 @@
         </div>
     </div>
     <br/>
-    
-
-
-
+ 
 	<!-- Equipe de Trabalho -->
 	<div class="row">
 		<div class="col-xs-12">
@@ -53,43 +48,19 @@
 		</div>
 	</div>
 
-			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
-				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
-					<i class="ti-check"></i> O número de bolsas foi inserido com
-					sucesso! <a href="#" class="closed">&times;</a>
-				</div>
-			</div>
-
-
-
 	<!-- Parcerias -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 		</div>
 	</div>
-			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
-				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
-					<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
-					que foi solicitada! <a href="#" class="closed">&times;</a>
-				</div>
-			</div>
-
 
 	<!-- Pareceres -->
 	<div class="row">
-	
-	
 		<!-- Parecer Técnico -->
 		<div class="col-xs-6">
 			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico">
-
 			<br />
-
-
-
 			</div>
 		</div>
 		<!-- Parecer do Relator -->
@@ -342,4 +313,5 @@
 		});
 	</script>
 </section>
+</body>
 </html>

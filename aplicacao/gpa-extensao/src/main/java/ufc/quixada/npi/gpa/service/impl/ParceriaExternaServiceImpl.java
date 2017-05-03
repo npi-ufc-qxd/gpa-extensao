@@ -2,6 +2,12 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.CAMPO_OBRIGATORIO_VAZIO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARCEIRO_JA_PARTICIPANTE;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA;
@@ -39,8 +45,6 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		Parceiro parceiroExistente = null;
 
-
-
 		if (acaoOld != null) {
 			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
@@ -57,16 +61,24 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			}
 			if (parceiro != null) {
 				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
-
+			}
+			
+			if (!acaoOld.getStatus().equals(Status.NOVO)
+					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA);
+			}
+			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
+				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
+			}
+			if (parceiro != null) {
+				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
-					if (acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim()
-
-							.equalsIgnoreCase(parceiroExistente.getNome().trim())) {
-
+					if (acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim().equalsIgnoreCase(parceiroExistente.getNome().trim())) {
 						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
 					}
 				}
-
 				parceriaExterna.setParceiro(parceiroExistente);
 			} else {
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
@@ -75,14 +87,14 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
 					}
 				}
-
 			}
+		
 			acaoOld.getParceriasExternas().add(parceriaExterna);
 			parceriaExterna.setAcaoExtensao(acaoOld);
 			parceriaExternaRepository.save(parceriaExterna);
 			acaoExtensaoRepository.save(acaoOld);
+		
 		}
-
 	}
 
 	@Override
