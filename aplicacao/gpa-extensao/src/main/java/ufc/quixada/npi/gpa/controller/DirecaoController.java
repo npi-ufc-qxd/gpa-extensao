@@ -64,5 +64,6 @@ public class DirecaoController {
 
 		redirectAttributes.addFlashAttribute("homologado", true);
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
-	}
+}
+
 }
