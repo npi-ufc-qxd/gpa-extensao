@@ -10,28 +10,17 @@
 
 
 <head>
-<title>Extensão - Detalhes</title>
+	<title>Extensão - Detalhes</title>
 </head>
-
-<div class="container-fluid" layout:fragment="conteudo">
-
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+	
     <br/>
     
     <!-- Linha do tempo -->
     <div class="row">
         <div class="col-xs-12">
             <div th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo" ></div>
-          	
-            <div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
-                <div class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
-                    <i class="ti-check"></i> O número de bolsas foi inserido com sucesso! <a href="#" class="closed">&times;</a>
-			      	</div>
-			      </div>
-            <div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
-               <div class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
-					        <i class="ti-alert"></i> Não é possível adicionar mais bolsas do que foi solicitada! <a href="#" class="closed">&times;</a>
-				      </div>
-			    </div>
         </div>
     </div>
     
@@ -42,9 +31,6 @@
         </div>
     </div>
     <br/>
-    
-
-
 
 	<!-- Equipe de Trabalho -->
 	<div class="row">
@@ -53,44 +39,18 @@
 		</div>
 	</div>
 
-			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
-				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
-					<i class="ti-check"></i> O número de bolsas foi inserido com
-					sucesso! <a href="#" class="closed">&times;</a>
-				</div>
-			</div>
-
-
-
 	<!-- Parcerias -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 		</div>
 	</div>
-			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
-				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
-					<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
-					que foi solicitada! <a href="#" class="closed">&times;</a>
-				</div>
-			</div>
-
 
 	<!-- Pareceres -->
 	<div class="row">
-	
-	
 		<!-- Parecer Técnico -->
 		<div class="col-xs-6">
-			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico">
-
-			<br />
-
-
-
-			</div>
+			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
 		</div>
 		<!-- Parecer do Relator -->
 		<div class="col-xs-6">
@@ -270,18 +230,6 @@
 	</script>
 	
 	<script>
-		$('#menu-acoes a').addClass("active");
-		$('#equipe,#parcerias')
-				.dataTable(
-						{
-							language : {
-								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-							},
-							paging : false,
-							searching : false,
-							info : false,
-							order : [ [ 0, "asc" ] ]
-						});
 
 		$(".myadmin-alert .closed").click(function(event) {
 			$(this).parents(".myadmin-alert").fadeToggle(350);
@@ -342,4 +290,5 @@
 		});
 	</script>
 </section>
+</body>
 </html>
