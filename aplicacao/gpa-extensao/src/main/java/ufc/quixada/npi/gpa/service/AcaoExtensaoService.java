@@ -15,6 +15,7 @@ public interface AcaoExtensaoService {
 	 * Retorna a ação que possui o id passado como paramêtro 
 	 */
 	AcaoExtensao findById(Integer id);
+
 	
 	/**
 	 * Retorna todas as ações que uma pessoa coordena ou participa

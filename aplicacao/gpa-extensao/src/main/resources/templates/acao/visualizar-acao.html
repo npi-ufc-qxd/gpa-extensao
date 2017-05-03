@@ -14,7 +14,7 @@
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
-	<br />
+	<br /> <br />
 
 	<!-- Linha do tempo -->
 	<div class="row">
@@ -49,54 +49,50 @@
 	<br />
 
 
-	<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
-		<div
-			class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
-			<i class="ti-check"></i> O número de bolsas foi inserido com sucesso!
-			<a href="#" class="closed">&times;</a>
-		</div>
-	</div>
 
-	<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
-		<div
-			class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
-			<i class="ti-alert"></i> Não é possível adicionar mais bolsas do que
-			foi solicitada! <a href="#" class="closed">&times;</a>
-		</div>
-	</div>
-
-	<br />
 
 	<!-- Equipe de Trabalho -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
-
-			<!-- Parcerias -->
-			<div class="row">
-				<div class="col-xs-12">
-					<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-
-				</div>
-			</div>
-
-			<!-- Pareceres -->
-			<div class="row">
-				<!-- Parecer Técnico -->
-				<div class="col-xs-6">
-					<div
-						th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-				</div>
-				<!-- Parecer do Relator -->
-				<div class="col-xs-6">
-					<div
-						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-				</div>
-			</div>
-
 		</div>
 	</div>
+
+
+
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
+
+
+
+	<br />
+
+
+
+	<!-- Pareceres -->
+	<div class="row">
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+		</div>
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
+	</div>
+
 </div>
+
+
+
+
+
 <section layout:fragment="js">
 	<script th:src="@{/js/mask.js}"></script>
 	<script>
@@ -112,6 +108,55 @@
 							info : false,
 							order : [ [ 0, "asc" ] ]
 						});
+
+		$("#alterar-parecerista-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#parecer-tecnico-form").fadeIn(500);
+		});
+		
+		$("#alterar-relator-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#parecer-relator-form").fadeIn(500);
+		});
+		
+		$("#emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form").hide();
+			$("#emitir-parecer-form").fadeIn(500);
+		});
+		
+		$("#emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#emitir-relato-form").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#emitir-relato-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#emitir-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-tecnico-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-relato-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-relator-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		
 	</script>
 
 	<script type="text/javascript">
