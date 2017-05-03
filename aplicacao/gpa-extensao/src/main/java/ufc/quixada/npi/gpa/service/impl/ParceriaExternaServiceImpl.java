@@ -86,6 +86,9 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 				&& !parceria.getAcaoExtensao().getStatus().equals(Status.APROVADO)) {
 			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
 		}
+		if (!parceria.getAcaoExtensao().isAtivo()) {
+			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
+		}
 		parceriaExternaRepository.delete(parceria);
 	}
 

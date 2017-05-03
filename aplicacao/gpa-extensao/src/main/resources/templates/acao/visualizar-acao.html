@@ -5,7 +5,7 @@
 	layout:decorator="base/base">
 
 <head>
-	<title>Extensão - Detalhes</title>
+<title>Extensão - Detalhes</title>
 </head>
 <body>
 	<div class="container-fluid" layout:fragment="conteudo">
@@ -24,7 +24,7 @@
 			</div>
 			<!-- /.breadcrumb -->
 		</div>
-	
+
 		<!-- Dados Básicos -->
 		<div class="row">
 			<div class="col-xs-12">
@@ -32,21 +32,21 @@
 					th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
 			</div>
 		</div>
-	
+
 		<!-- Equipe de Trabalho -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 			</div>
 		</div>
-	
+
 		<!-- Parcerias -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 			</div>
 		</div>
-	
+
 		<!-- Pareceres -->
 		<div class="row">
 			<!-- Parecer Técnico -->
@@ -60,7 +60,7 @@
 					th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
 			</div>
 		</div>
-	
+
 	</div>
 	<section layout:fragment="js">
 		<script>
@@ -77,29 +77,33 @@
 								order : [ [ 0, "asc" ] ]
 							});
 		</script>
-	
+
 		<script type="text/javascript">
-			$('#instituicao').change(function() {
-				if (this.value == "UFC") {
-					document.getElementById("nomeInstituicao").disabled = true;
-				} else {
-					document.getElementById("nomeInstituicao").disabled = false;
-				}
-			});
+			$('#instituicao')
+					.change(
+							function() {
+								if (this.value == "UFC") {
+									document.getElementById("nomeInstituicao").disabled = true;
+								} else {
+									document.getElementById("nomeInstituicao").disabled = false;
+								}
+							});
 		</script>
-	
+
 		<script type="text/javascript">
 			$('#funcao')
 					.change(
 							function() {
 								if (this.value == "OUTRA") {
-									document.getElementById("participanteServidor").disabled = true;
+									document
+											.getElementById("participanteServidor").disabled = true;
 									document.getElementById("nomeParticipante").disabled = false;
 									document.getElementById("cpfParticipante").disabled = false;
 									document.getElementById("descricaoFuncao").disabled = false;
-	
+
 								} else {
-									document.getElementById("participanteServidor").disabled = false;
+									document
+											.getElementById("participanteServidor").disabled = false;
 									document.getElementById("nomeParticipante").disabled = true;
 									document.getElementById("cpfParticipante").disabled = true;
 									document.getElementById("descricaoFuncao").disabled = true;
@@ -127,39 +131,61 @@
 									document
 											.getElementById("descricaoOutrasFormas").disabled = true;
 								}
-	
+
 							});
 		</script>
 		<script type="text/javascript">
 			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-	
+
 			checkboxes.click(function() {
 				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
 			});
 		</script>
-		
-		<script type="text/javascript">	
-		document.querySelector('.btn-sweetalert').onclick = function(){
-			swal({
-				title: "Are you sure?",
-				text: "You will not be able to recover this imaginary file!",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: '#DD6B55',
-				confirmButtonText: 'Yes, delete it!',
-				cancelButtonText: "No, cancel plx!",
-				closeOnConfirm: false,
-				closeOnCancel: false
-			},
-			function(isConfirm){
-		    if (isConfirm){
-		      swal("Deleted!", "Your imaginary file has been deleted!", "success");
-		    } else {
-		      swal("Cancelled", "Your imaginary file is safe :)", "error");
-		    }
-			});
-		};
+
+		<script type="text/javascript">
+			document.querySelector('.btn-sweetalert').onclick = function() {
+				swal(
+						{
+							title : "Are you sure?",
+							text : "You will not be able to recover this imaginary file!",
+							type : "warning",
+							showCancelButton : true,
+							confirmButtonColor : '#DD6B55',
+							confirmButtonText : 'Yes, delete it!',
+							cancelButtonText : "No, cancel plx!",
+							closeOnConfirm : false,
+							closeOnCancel : false
+						},
+						function(isConfirm) {
+							if (isConfirm) {
+								swal(
+										"Deleted!",
+										"Your imaginary file has been deleted!",
+										"success");
+							} else {
+								swal("Cancelled",
+										"Your imaginary file is safe :)",
+										"error");
+							}
+						});
+			};
 		</script>
+
+
+		<script type="text/javascript">
+			$('#modal_exclusao_parceria')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link_exclusao');
+								var a = document
+										.getElementById('btn_confirmacao_exclusao_parceria');
+								a.href = link;
+							});
+		</script>
+
 	</section>
 
 </body>
