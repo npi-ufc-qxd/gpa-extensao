@@ -3,11 +3,11 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,10 +154,8 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
-			throws GpaExtensaoException {
+	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
 		if (old != null) {
 			if (!old.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
@@ -169,6 +167,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 					|| participacao.getDataTermino().before(old.getInicio())
 					|| participacao.getDataTermino().before(participacao.getDataInicio())) {
 				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
+		
 			}
 			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
@@ -178,6 +177,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 			if (!old.isAtivo()) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
 			}
+			
 			participacaoRepository.save(participacao);
 		}
 

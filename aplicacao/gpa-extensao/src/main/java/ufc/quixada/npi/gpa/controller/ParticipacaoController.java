@@ -8,6 +8,7 @@ import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -130,16 +132,21 @@ public class ParticipacaoController {
 		}
 		return R_ACAO + acaoExtensao.getId();
 	}
-	
-	@RequestMapping(value = "/alterar/{participacao}/{acao}")
-	public String alterarParticipacao(@PathVariable("participacao") Participacao participacao,
+
+	@PostMapping("/alterar/{participacao}/{acao}")
+	public String alterarParticipacao(@PathVariable("participacao") Integer participacao,
 			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
-			Authentication authentication) {
-
+			Authentication authentication,
+			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
+		
+		Participacao old = participacaoRepository.findOne(participacao);
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
-
+		old.setDataInicio(dataInicio);
+		old.setDataTermino(dataTermino);
+		
 		try {
-			participacaoService.alterarDataParticipacao(acaoExtensao, participacao, coordenador);
+			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
@@ -160,6 +167,7 @@ public class ParticipacaoController {
 		funcoes.add(funcao);
 		return servidorService.findByFuncao(funcoes);
 	}
+
 	@RequestMapping("/buscar")
 	public @ResponseBody Participacao buscarParticipacao(@RequestParam("participacao") Participacao participacao) {
 		return participacaoService.buscarParticipante(participacao);

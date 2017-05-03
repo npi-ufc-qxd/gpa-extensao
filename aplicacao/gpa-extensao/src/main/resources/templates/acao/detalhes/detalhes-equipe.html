@@ -29,6 +29,8 @@
 					data-target="#modal_alterar_periodo_participante"
 					data-dismiss="modal" class="btn btn-block btn-info"
 					th:attr="participacao=${membro.id},
+							dataInicio=${membro.dataInicio},
+							dataTermino=${membro.dataTermino},	
 							link_alteracao=@{/participacao/alterar/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">Alterar</a>
 				</td>
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
@@ -92,7 +94,7 @@
 					<div class="panel panel-info">
 						<div class="panel-wrapper collapse in" aria-expanded="true">
 							<div class="panel-body">
-								<form 
+								<form
 									th:action="@{/participacao/adicionar-participacao/{acao}(acao=${acao.id})}"
 									th:object="${participacao}" method="POST">
 									<div class="form-body">
@@ -282,7 +284,8 @@
 					<div class="panel panel-info">
 						<div class="panel-wrapper collapse in" aria-expanded="true">
 							<div class="panel-body">
-								<form id="alterar_periodo_participante" method="POST">
+								<form id="alterar_periodo_participante" method="POST"
+								th:action="@{#}">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -309,7 +312,8 @@
 												<label>* Data de início</label> <input
 													id="data_inicio_participacao_alterar_periodo"
 													required="required" data-mask="99/99/9999"
-													name="dataInicio" class="form-control date" type="date" />
+													name="inicio"
+													class="form-control date" type="date" />
 												<span class="font-13 text-muted">Data limite para
 													início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 												</span>
@@ -319,7 +323,8 @@
 											<div class="form-group">
 												<label>* Data de término</label><input required="required"
 													id="data_termino_participacao_alterar_periodo"
-													name="dataTermino" data-mask="99/99/9999"
+													data-mask="99/99/9999"
+													name="termino"
 													class="form-control date" type="date" /> <span
 													class="font-13 text-muted">Data limite para término:
 													<small th:text="${acao.parseData(acao.termino)}"></small>

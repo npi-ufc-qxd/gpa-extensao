@@ -269,10 +269,14 @@
 			  var $elementoQueInvocouModal = $(e.relatedTarget);
 			  var participacao = $elementoQueInvocouModal.attr('participacao');
 			  var linkAlteracaoParticipacao =  $elementoQueInvocouModal.attr('link_alteracao');
+			  var dataInicio = $elementoQueInvocouModal.attr('dataInicio');
+			  var dataTermino = $elementoQueInvocouModal.attr('dataTermino');
 			  var form = document.getElementById('alterar_periodo_participante');
 			  var token = $("meta[name='_csrf']").attr("content");
 			  var header = $("meta[name='_csrf_header']").attr("content");
-			  form.action = linkAlteracaoParticipacao;
+			  form.action = linkAlteracaoParticipacao;			  
+			  
+			  
 			  $.ajax({
 					type:"GET",
 					data: {participacao : participacao},
@@ -300,7 +304,6 @@
 						
 						data_termino_participacao_alterar_periodo.value = data.dataTermino;
 						data_inicio_participacao_alterar_periodo.value = data.dataInicio;
-						
 					}
 				});
 		});	
