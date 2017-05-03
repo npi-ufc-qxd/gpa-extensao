@@ -39,17 +39,13 @@ public class AcaoExtensao {
 
 	@Enumerated(EnumType.STRING)
 	private Modalidade modalidade;
-
 	// Somente para modalidade curso ou evento
 	private Integer horasPraticas;
-
 	// Somente para modalidade curso ou evento
 	private Integer horasTeoricas;
-
 	// Somente para modalidade curso ou evento
 	@Column(columnDefinition = "TEXT")
 	private String programacao;
-
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
 
@@ -328,6 +324,15 @@ public class AcaoExtensao {
 	public void setBolsistas(List<Bolsa> bolsistas) {
 		this.bolsistas = bolsistas;
 	}
+	
+	public boolean temParecerTecnico(){
+		return getParecerTecnico()!= null;
+	}
+	
+	public boolean temParecerRelator(){
+		return getParecerRelator()!= null;
+	}
+
 
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(
@@ -344,6 +349,7 @@ public class AcaoExtensao {
 	}
 
 	public enum Status {
+
 		NOVO("NOVA"), AGUARDANDO_PARECERISTA("AGUARDANDO PARECERISTA"), AGUARDANDO_PARECER_TECNICO(
 				"AGUARDANDO PARECER TÉCNICO"), AGUARDANDO_PARECER_RELATOR(
 						"AGUARDANDO PARECER DO RELATOR"), AGUARDANDO_RELATOR(
@@ -352,6 +358,7 @@ public class AcaoExtensao {
 												"RESOLVENDO PENDÊNCIAS DO RELATO"), AGUARDANDO_HOMOLOGACAO(
 														"AGUARDANDO HOMOLOGAÇÃO"), APROVADO(
 																"APROVADA"), REPROVADO("REPROVADA");
+
 		private String descricao;
 
 		private Status(String descricao) {

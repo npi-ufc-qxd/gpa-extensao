@@ -36,6 +36,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 	public void adicionarParceriaExterna(Pessoa coordenador, ParceriaExterna parceriaExterna, AcaoExtensao acaoExtensao,
 			Parceiro parceiro) throws GpaExtensaoException {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+
 		Parceiro parceiroExistente = null;
 
 		if (acaoOld != null) {
@@ -59,7 +60,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
 					}
 				}
-				parceriaExterna.setParceiro(parceiroExistente);
+				parceriaExterna.setParceiro(parceiroExistente);		
 			} else {
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
 					if (parceriaExterna.getParceiro().getNome().trim()
@@ -68,14 +69,14 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 					}
 				}
 			}
+		
 			acaoOld.getParceriasExternas().add(parceriaExterna);
 			parceriaExterna.setAcaoExtensao(acaoOld);
 			parceriaExternaRepository.save(parceriaExterna);
 			acaoExtensaoRepository.save(acaoOld);
+	
 		}
-
 	}
-
 	@Override
 	public void excluirParceriaExterna(Pessoa coordenador, ParceriaExterna parceria) throws GpaExtensaoException {
 		if (!parceria.getAcaoExtensao().getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {

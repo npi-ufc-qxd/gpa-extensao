@@ -32,9 +32,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.model.Papel;
-import ufc.quixada.npi.gpa.model.Papel.Tipo;
-import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.PapelRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -52,12 +49,6 @@ public class EmailServiceImpl implements NotificationService {
 
 	private String[] emailDirecao;
 	
-	@Autowired
-	private PessoaRepository pessoaRepository;
-	
-	@Autowired
-	private PapelRepository papelRepository;
-
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
 	 * notificação deve ser enviado.

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "equipe_de_trabalho")
@@ -34,9 +36,9 @@ public class Participacao {
 	private String nomeInstituicao;
 
 	private Integer cargaHoraria;
-
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataInicio;
-
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataTermino;
 
 	private String nomeParticipante;

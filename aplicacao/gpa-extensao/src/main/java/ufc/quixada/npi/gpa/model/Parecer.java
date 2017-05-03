@@ -28,13 +28,14 @@ public class Parecer {
 
 	@Enumerated(EnumType.STRING)
 	private Posicionamento posicionamento;
-
+	
+	
 	@Column(columnDefinition = "TEXT")
 	private String parecer;
 
 	@Column(columnDefinition = "TEXT")
 	private String observacoes;
-
+	
 	private Date dataAtribuicao;
 
 	private Date dataRealizacao;
@@ -42,7 +43,7 @@ public class Parecer {
 	@ManyToOne
 	@JoinColumn(name = "parecerista_id")
 	private Pessoa responsavel;
-
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date prazo;
 
@@ -151,6 +152,10 @@ public class Parecer {
 				pendencia.setResolvida(true);
 			}
 		}
+	}
+	
+	public boolean temParecerista(){
+		return getResponsavel()!= null;
 	}
 
 	public enum Posicionamento {
