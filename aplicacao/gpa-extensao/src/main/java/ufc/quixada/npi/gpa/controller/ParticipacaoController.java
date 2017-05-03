@@ -139,14 +139,12 @@ public class ParticipacaoController {
 			Authentication authentication,
 			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
 			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
-		
+
 		Participacao old = participacaoRepository.findOne(participacao);
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
-		old.setDataInicio(dataInicio);
-		old.setDataTermino(dataTermino);
-		
+
 		try {
-			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador);
+			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}

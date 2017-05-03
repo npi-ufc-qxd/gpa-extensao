@@ -9,6 +9,8 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMI
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -154,20 +156,21 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa) throws GpaExtensaoException {
+	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa,
+			Date dataInicio, Date dataTermino) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		if (old != null) {
 			if (!old.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			}
-			if (participacao.getDataInicio() == null || participacao.getDataTermino() == null
-					|| participacao.getDataInicio().before(old.getInicio())
-					|| participacao.getDataTermino().after(old.getTermino())
-					|| participacao.getDataInicio().after(old.getTermino())
-					|| participacao.getDataTermino().before(old.getInicio())
-					|| participacao.getDataTermino().before(participacao.getDataInicio())) {
+			if (dataInicio == null || dataTermino == null
+					|| dataInicio.before(old.getInicio())
+					|| dataTermino.after(old.getTermino())
+					|| dataInicio.after(old.getTermino())
+					|| dataTermino.before(old.getInicio())
+					|| dataTermino.before(dataInicio)) {
 				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
-		
+
 			}
 			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
@@ -178,6 +181,8 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
 			}
 			
+			participacao.setDataInicio(dataInicio);
+			participacao.setDataTermino(dataTermino);
 			participacaoRepository.save(participacao);
 		}
 
