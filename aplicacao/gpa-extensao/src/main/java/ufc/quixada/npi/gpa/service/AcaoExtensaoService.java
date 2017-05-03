@@ -72,6 +72,9 @@ public interface AcaoExtensaoService {
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
+	/**
+	 * Homologa uma ação de extensão para dizer se a ação foi aprovada ou reprovada.
+	 */
 	void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao) throws GpaExtensaoException, ParseException;
 	
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;

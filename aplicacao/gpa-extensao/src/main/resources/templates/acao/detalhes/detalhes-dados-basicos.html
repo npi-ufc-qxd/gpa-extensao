@@ -106,7 +106,7 @@
 						<h4 class="modal-title" id="myModalLabel">Homologar Resultado da Ação</h4>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/acoes/homologar/__${acao.id}__}"
+						<form th:action="@{/acoes/homologarAcao/__${acao.id}__}"
 							method="POST">
 							<div class="form-body">
 								<div class="row">
@@ -114,21 +114,28 @@
 										<div class="form-group">
 											<label for="resultado">Resultado</label>
 											<select id="resulado" class="form-control" name="resultado">
-												<option value="">APROVADO</option>
-												<option value="">REPROVADO</option>
+												<option value="APROVADO">APROVADO</option>
+												<option value="REPROVADO">REPROVADO</option>
 											</select> 
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group pull-right">
 											<label for="dataHomologacao">Data de Homologação</label>
-											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${acao.parseData(acao.inicio)}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
+											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="observação">Observação</label>
 											<textarea name="observacao" class="form-control" rows="5" style="resize: none"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Homologar" />
 										</div>
 									</div>
 								</div>

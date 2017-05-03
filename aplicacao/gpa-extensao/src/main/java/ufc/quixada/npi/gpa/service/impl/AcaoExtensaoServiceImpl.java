@@ -2,6 +2,8 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -116,6 +118,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		if(acao == null) {
 			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
+		
+		if(dataH.before(acao.getInicio())) throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MENOR);
+		
+		if(dataH.after(acao.getTermino())) throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MAIOR);
 		
 		acao.setDataDeHomologacao(dataH);
 		acao.setObservacaoHomologacao(observacao);

@@ -455,14 +455,19 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 	
-	@PostMapping("/homologar")
-	public String homologarAcao(@PathVariable("id") Integer idAcao, @RequestParam("resultado") String resultado, 
+	@PostMapping("/homologarAcao/{idAcao}")
+	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado, 
 			@RequestParam("dataHomologacao") String dataHomologacao, @RequestParam("observacao") String observacao,
-			RedirectAttributes redirectAttribute) throws GpaExtensaoException, ParseException {
+			RedirectAttributes redirectAttribute, Model model) throws GpaExtensaoException, ParseException {
 		
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
 		
-		return VISUALIZAR_ACAO;
+		try {
+			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		
+		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 }
