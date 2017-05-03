@@ -193,6 +193,9 @@ public class BolsaServiceImpl implements BolsaService {
 					&& !old.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
 			}
+			if(!old.isAtivo()){
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
+			}
 			old.getBolsistas().remove(bolsista);
 			acaoExtensaoRepository.save(old);
 			bolsaRepository.delete(bolsista);
