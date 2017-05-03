@@ -137,14 +137,18 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
 		
-		if(dataH.before(acao.getInicio())) throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MENOR);
+		if(dataH.before(acao.getInicio())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MENOR);
+		}
 		
-		if(dataH.after(acao.getTermino())) throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MAIOR);
+		if(dataH.after(acao.getTermino())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MAIOR);
+		}
 		
 		acao.setDataDeHomologacao(dataH);
 		acao.setObservacaoHomologacao(observacao);
 		
-		if(resultado.equals("APROVADO")) {
+		if("APROVADO".equals(resultado)) {
 			acao.setStatus(Status.APROVADO);
 		}else {
 			acao.setStatus(Status.REPROVADO);
