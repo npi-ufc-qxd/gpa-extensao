@@ -77,9 +77,9 @@
 		<div class="col-sm-12">
 			<div class="pull-right">
 				<a
-					th:if="${acao.status.name() != 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:if="${acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#modalDownload"
-					class="btn btn-primary waves-effect waves-light m-t-10"><i class="ti-download text-info"></i> Download do documento</a>
+					class="btn btn-primary waves-effect waves-light m-t-10"><i class="ti-download text-info"></i> Download</a>
 				<a
 					th:if="${acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
@@ -124,7 +124,8 @@
 						<h4 class="modal-title" id="myModalLabel">Download do documento</h4>
 					</div>
 					<div class="modal-body">
-						<a th:text="${acao.anexo.nome}"> </a>
+						<a th:text="${acao.anexo.nome}" th:href="@{/documento/download/} + ${acao.anexo.id}" 
+						   target="_blank"></a>
 					</div>
 				</div>
 			</div>
