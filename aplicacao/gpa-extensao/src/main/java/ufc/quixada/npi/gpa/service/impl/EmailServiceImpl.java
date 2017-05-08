@@ -463,11 +463,11 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificarPareceristaRelatorPrazo(Date agora) {
-		agora = formataData(agora);
+		Date novoAgora = formataData(agora);
 		List<AcaoExtensao> acoesAguardandoParecer =
-				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, agora);
+				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, novoAgora);
 		acoesAguardandoParecer.addAll(
-				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, agora));
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, novoAgora));
 		
 		if (!acoesAguardandoParecer.isEmpty()) {
 			MimeMessage mimeMessage;
@@ -511,9 +511,10 @@ public class EmailServiceImpl implements NotificationService {
 	
 	private Date formataData(Date agora) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date novoAgora;
 		try {
-			agora = sdf.parse(sdf.format(agora));
-			return agora;
+			novoAgora = sdf.parse(sdf.format(agora));
+			return novoAgora;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
