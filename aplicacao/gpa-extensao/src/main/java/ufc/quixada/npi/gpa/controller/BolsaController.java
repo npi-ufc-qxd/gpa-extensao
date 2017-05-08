@@ -57,7 +57,6 @@ public class BolsaController {
 	@Autowired
 	private PessoaService pessoaService;
 
-
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
 			@PathVariable("idAcao") Integer idAcao, Model model) {

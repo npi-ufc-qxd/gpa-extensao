@@ -13,7 +13,9 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
+
 	<div class="container-fluid" layout:fragment="conteudo">
+
 		<br />
 		<!-- Linha do tempo -->
 		<div class="row">
@@ -53,19 +55,21 @@
 				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 			</div>
 		</div>
-
 		<!-- Parcerias -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 			</div>
+		</div>
 
-			<br />
 
+		<br />
+
+		<!-- Pareceres -->
+		<div class="row">
 
 			<!-- Pareceres -->
 			<div class="row">
-
 				<!-- Parecer Técnico -->
 				<div class="col-xs-6">
 					<div
@@ -77,15 +81,43 @@
 						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
 				</div>
 			</div>
-
 		</div>
 
 
 
 	</div>
+
+
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
+
+
+	<br />
+	<!-- Pareceres -->
+	<div class="row">
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+		</div>
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
+	</div>
+
+
+
 	<section layout:fragment="js">
 		<script th:src="@{/js/mask.js}"></script>
 		<script>
+
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
 				.dataTable(
