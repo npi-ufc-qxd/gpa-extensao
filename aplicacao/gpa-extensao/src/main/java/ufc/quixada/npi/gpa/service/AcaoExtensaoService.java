@@ -137,8 +137,6 @@ public interface AcaoExtensaoService {
 
 	void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException;
 	
-	void encerrarAcao(Integer idAcao) throws GpaExtensaoException;
-	
 	void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException;
 
     List<AcaoExtensao> findAll(Pessoa pessoa);
@@ -152,5 +150,7 @@ public interface AcaoExtensaoService {
 	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
 
 	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
+	
+	void encerrarAcao(AcaoExtensao acaoExtensao, Pessoa pessoa)throws GpaExtensaoException;
 }
 
