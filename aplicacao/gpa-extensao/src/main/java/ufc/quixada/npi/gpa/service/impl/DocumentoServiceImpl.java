@@ -20,7 +20,7 @@ import ufc.quixada.npi.gpa.repository.DocumentoRepository;
 import ufc.quixada.npi.gpa.service.DocumentoService;
 
 @Service
-public class DocumentoServiceImpl implements DocumentoService{
+public class DocumentoServiceImpl implements DocumentoService {
 
 	@Autowired
 	private DocumentoRepository documentoRepository;
@@ -85,6 +85,5 @@ public class DocumentoServiceImpl implements DocumentoService{
 		}
 		
 		return acao;
-	}
+  }
 }
-

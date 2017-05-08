@@ -5,6 +5,9 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
+
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,6 +37,7 @@ import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
+
 @Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
@@ -54,7 +58,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private ParecerRepository parecerRepository;
-	
+
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
 	
@@ -121,7 +125,38 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-
+	
+	@Override
+	public void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao)
+			throws GpaExtensaoException, ParseException {
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		Date dataH = df.parse(dataHomologacao);
+		
+		if(acao == null) {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		}
+		
+		if(dataH.before(acao.getInicio())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MENOR);
+		}
+		
+		if(dataH.after(acao.getTermino())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MAIOR);
+		}
+		
+		acao.setDataDeHomologacao(dataH);
+		acao.setObservacaoHomologacao(observacao);
+		
+		if("APROVADO".equals(resultado)) {
+			acao.setStatus(Status.APROVADO);
+		}else {
+			acao.setStatus(Status.REPROVADO);
+		}
+		
+		acaoExtensaoRepository.save(acao);
+	}
+	
 	@Override
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
 		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
@@ -361,7 +396,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return acaoExtensaoRepository.findByModalidadeAndStatus(AcaoExtensao.Modalidade.PROGRAMA, Status.APROVADO);
 	}
 
-	@Override
 	public AcaoExtensao findById(Integer idAcao) {
 		return acaoExtensaoRepository.findOne(idAcao);
 	}
@@ -425,5 +459,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		int acoesRelator = acaoExtensaoRepository.countByRelatorAndStatus(pessoa,
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		return acoesParecerista + acoesRelator;
-	}	
+
+	}
+
 }

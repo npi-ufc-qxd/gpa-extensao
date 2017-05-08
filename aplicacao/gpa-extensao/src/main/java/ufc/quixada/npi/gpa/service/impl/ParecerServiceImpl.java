@@ -25,19 +25,28 @@ public class ParecerServiceImpl implements ParecerService {
 
 	@Autowired
 	private NotificationService notificationService;
+	
+	
+	
 
 	@Override
-	public void atribuirParecerista(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-		acao.setParecerTecnico(acaoExtensao.getParecerTecnico());
+	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
+		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensaoForm.getId());
+		
+		acao.setParecerTecnico(acaoExtensaoForm.getParecerTecnico());
+		
 
-		if (acao.getEquipeDeTrabalho().contains(acaoExtensao.getParecerTecnico().getResponsavel())) {
+		if (acao.getEquipeDeTrabalho().contains(acaoExtensaoForm.getParecerTecnico().getResponsavel())) {
 			throw new GpaExtensaoException(EXCEPTION_PARECERISTA_DA_EQUIPE);
 
 		} else if (acao.getStatus().equals(Status.AGUARDANDO_PARECERISTA)
 				|| acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
 			acao.getParecerTecnico().setDataAtribuicao(new Date());
 
+		
+			acao.getParecerTecnico().setResponsavel(acaoExtensaoForm.getParecerTecnico().getResponsavel());
+			acao.getParecerTecnico().setPrazo(acaoExtensaoForm.getParecerTecnico().getPrazo()); 
+			acao.getParecerTecnico().setDataAtribuicao(acaoExtensaoForm.getParecerTecnico().getDataAtribuicao());
 			acao.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
 			acaoExtensaoRepository.save(acao);
 

@@ -1,37 +1,23 @@
 <div class="white-box" th:fragment="parecer-relator">
-    <h3 class="box-title m-b-0">Parecer do(a) Relator(a)</h3>
-    <p th:if="${acao.parecerRelator == null}" class="text-muted m-b-30">Não há nenhum parecer do(a) relator(a)</p>
-    <div th:if="${acao.parecerRelator}">
-        <div class="row">
-            <div class="col-sm-8">
-                <label>Relator(a)</label>
-                <p th:text="${acao.parecerRelator.responsavel} ? ${acao.parecerRelator.responsavel.nome} : '-'"/>
-            </div>
-            <div class="col-sm-4">
-                <label>Posicionamento</label>
-                <p th:text="${acao.parecerRelator.posicionamento} ? ${acao.parecerRelator.posicionamento.descricao} : '-'"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <label>Prazo estimado</label>
-                <p th:text="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"/>
-            </div>
-            <div class="col-sm-4">
-                <label>Data de atribuição</label>
-                <p th:text="${acao.parecerRelator.dataAtribuicao} ? ${#dates.format(acao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy HH:mm')} : '-'"/>
-            </div>
-            <div class="col-sm-4">
-                <label>Data de realização</label>
-                <p th:text="${acao.parecerRelator.dataRealizacao} ? ${#dates.format(acao.parecerRelator.dataRealizacao, 'dd/MM/yyyy HH:mm')} : '-'"/>
-            </div>
+	
+	
+	<p th:if="${acaoExtensao.temParecerRelator() == false}">
+	<div
+		th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer-relator">
+	</div>
 
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <label>Parecer</label>
-                <p th:text="${acao.parecerRelator.parecer} ? ${acao.parecerRelator.parecer} : '-'"/>
-            </div>
-        </div>
-    </div>
+	</p>
+
+
+
+
+	 <div th:if="${acaoExtensao.temParecerRelator() == true}">
+		 <div
+			th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator">
+
+		 </div>
+
+	</div> 
+	
+	
 </div>

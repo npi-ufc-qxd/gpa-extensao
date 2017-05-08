@@ -46,7 +46,7 @@ public class ParceriaExternaController {
 	
 	@Autowired
 	private PessoaService pessoaService;
-	
+
 	@Autowired
 	private ParceriaExternaService parceriaExternaService;
 
@@ -59,9 +59,16 @@ public class ParceriaExternaController {
 	}
 
 	@RequestMapping(value = "/excluir/{id}/{acao}")
-	public String deleteParceriaExterna(@PathVariable("id") Integer idParceriaExterna, @PathVariable("acao") Integer acao) {
-		parceriaExternaService.excluirParceriaExterna(idParceriaExterna);
-		return R_ACAO + acao;
+	public String deletarParceriaExterna(@PathVariable("id") ParceriaExterna parceria,
+			@PathVariable("acao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+			Authentication authentication) {
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+		try {
+			parceriaExternaService.excluirParceriaExterna(coordenador, parceria);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acao.getId();
 	}
 
 	@RequestMapping(value = "/salvar/{idAcao}", method = RequestMethod.POST)

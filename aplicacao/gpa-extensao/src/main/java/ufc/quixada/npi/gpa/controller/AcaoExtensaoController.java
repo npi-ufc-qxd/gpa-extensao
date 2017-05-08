@@ -92,7 +92,7 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private ParticipacaoService participacaoService;
-
+	
 	@Autowired
 	private ServidorService servidorService;
 
@@ -182,11 +182,14 @@ public class AcaoExtensaoController {
 	}
 	/**
 	 * Busca uma ação específica pelo id
+	 * 
 	 */
 	@GetMapping("/{acao}")
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
-		model.addAttribute("acao", acao);
-		model.addAttribute("servidores", servidorService.findAllServidores());
+
+		model.addAttribute("pendencia", new Pendencia()); //Se tirar essa linha, gera erro.
+		model.addAttribute("pareceristas",servidorService.findAllServidores());
+		model.addAttribute("acaoExtensao", acao);
 		model.addAttribute("participacao", new Participacao());
 		model.addAttribute("funcoes", Funcao.values());
 		model.addAttribute("instituicoes", Instituicao.values());
@@ -200,6 +203,7 @@ public class AcaoExtensaoController {
 
 		return VISUALIZAR_ACAO;
 	}
+	
 
 	/**
 	 * Formulário para cadastro de nova ação de extensão
@@ -308,7 +312,7 @@ public class AcaoExtensaoController {
 	public String verDetalhes(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
-
+		
 		if (acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
@@ -425,5 +429,21 @@ public class AcaoExtensaoController {
 			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+	}
+	
+	@PostMapping("/homologarAcao/{idAcao}")
+	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado, 
+			@RequestParam("dataHomologacao") String dataHomologacao, @RequestParam("observacao") String observacao,
+			RedirectAttributes redirectAttribute, Model model) throws GpaExtensaoException, ParseException {
+		
+		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
+		
+		try {
+			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		
+		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 }
