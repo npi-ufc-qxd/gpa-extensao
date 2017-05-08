@@ -16,7 +16,7 @@ public class EmailTask {
 
 	@SuppressWarnings("deprecation")
 	@Scheduled(cron = "0 1 0 * * ?")
-    public void executarEmRegineCronologico() {
+    public void executarEmRegimeCronologico() {
 		Date agora = new Date();
 		agora.setDate(agora.getDate()+1);
 		notificationService.notificarPareceristaRelatorPrazo(agora);
