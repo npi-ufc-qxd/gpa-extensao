@@ -1,28 +1,29 @@
 <div class="white-box" th:fragment="dados-basicos">
-	<h3 class="box-title" th:text="${acao.titulo}"></h3>
-	<div class="row">
-		<div class="col-sm-4">
-			<label>Coordenador(a)</label>
-			<p th:text="${acao.coordenador.nome}"></p>
-		</div>
-		<div class="col-sm-2">
-			<label>Modalidade</label>
-			<p th:text="${acao.modalidade.descricao}"></p>
-		</div>
 
-		<div class="col-sm-2">
-			<label>Identificador</label>
-			<p th:text="${acao.identificador}" />
-		</div>
-		<div class="col-sm-2">
-			<label>Código PREX</label>
-			<p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
-		</div>
-		<div class="col-sm-2">
-			<label>Prorrogável</label>
-			<p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
-		</div>
-	</div>
+    <h3 class="box-title" th:text="${acao.titulo}"></h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Coordenador(a)</label>
+            <p th:text="${acao.coordenador.nome}"></p>
+        </div>
+        <div class="col-sm-2">
+            <label>Modalidade</label>
+            <p th:text="${acao.modalidade.descricao}"></p>
+        </div>
+
+        <div class="col-sm-2">
+            <label>Identificador</label>
+            <p th:text="${acao.identificador}"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Código PREX</label>
+            <p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
+        </div>
+        <div class="col-sm-2">
+            <label>Prorrogável</label>
+            <p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
+        </div>
+    </div>
 
 	<div class="row">
 		<div class="col-sm-4">
@@ -77,9 +78,13 @@
 	</div>
 
 	<div class="row">
-
 		<div class="col-sm-12">
 			<div class="pull-right">
+				<a  
+					sec:authorize="hasAuthority('DIRECAO')"
+					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+					href="" alt="default" data-toggle="modal" data-target="#modalHomologar"
+					class="btn btn-primary waves-effect waves-light m-t-10">Homologar Ação</a>
 				<a
 					th:if="${acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
@@ -244,5 +249,57 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="col-md-4">
+		<div id="modalHomologar" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="modalHomologarLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Homologar Resultado da Ação</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/acoes/homologarAcao/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="resultado">Resultado</label>
+											<select id="resulado" class="form-control" name="resultado">
+												<option value="APROVADO">APROVADO</option>
+												<option value="REPROVADO">REPROVADO</option>
+											</select> 
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group pull-right">
+											<label for="dataHomologacao">Data de Homologação</label>
+											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="observação">Observação</label>
+											<textarea name="observacao" class="form-control" rows="5" style="resize: none"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Homologar" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
 
 </div>

@@ -24,10 +24,14 @@ public class Constants {
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
-	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
-	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior qua a data de termino da ação";
-	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor qua a data de inicio da ação";
 
+	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
+
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	public static final String MENSAGEM_DATA_HOMOLOGACAO_MAIOR = "A data de homologação não pode maior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_HOMOLOGACAO_MENOR = "A data de homologação não pode ser menor que a data de inicio da ação";
+	
 	// Paginas
 	public static final String PAGINA_INICIAL = "principal/index";
 	public static final String PAGINA_INICIAL_DIRECAO = "direcao/index";
@@ -49,8 +53,8 @@ public class Constants {
 	public static final String PAGINA_ERRO_404 = "/error/404";
 	public static final String PAGINA_ERRO_403 = "/error/403";
 	public static final String PAGINA_ERRO_500 = "/error/500";
-	
-	//fragments
+
+	// fragments
 	public static final String FRAGMENTS_TABLE_PARTICIPACOES = "detalhes/acao/table-participacoes :: participacoesList";
 	public static final String FRAGMENTS_TABLE_BOLSAS = "detalhes/acao/table-bolsas :: bolsasList";
 	public static final String FRAGMENTS_TABLE_PARCERIAS_EXTERNAS = "detalhes/acao/table-parceirias :: table-parceria-externa";
@@ -71,7 +75,7 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
-	
+
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
@@ -89,6 +93,11 @@ public class Constants {
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
+
+	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
+	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
+
+
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
@@ -134,7 +143,7 @@ public class Constants {
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
 
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
-	
+
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
@@ -154,6 +163,7 @@ public class Constants {
 	public static final String EMAIL_DIRECAO_EMISSAO_RELATO = "A avaliação para a ação #TITULO_ACAO# foi emitida por #NOME_PESSOA#. A ação aguarda a homologação.";
 	public static final String EMAIL_RELATOR_RESOLUCAO_PENDENCIAS = "A ação #TITULO_ACAO# do servidor #NOME_PESSOA# passou pela resolução de pendências, e aguarda pela sua avaliação.";
 	public static final String EMAIL_COORDENACAO_HOMOLOGACAO = "A sua ação #TITULO_ACAO# foi homologada com o status de #STATUS#.";
+	public static final String EMAIL_PARECERISTA_PRAZO = "O prazo para submissão do seu parecer se encerra amanhã, #PRAZO#.";
 
 	// e-mail variable properties
 	public static final String EMAIL_TITULO_ACAO = "#TITULO_ACAO#";
