@@ -15,6 +15,7 @@
 <body>
 <div class="container-fluid" layout:fragment="conteudo">
 
+
 		<br />
 		<!-- Linha do tempo -->
 		<div class="row">
@@ -111,12 +112,10 @@
 		</div>
 	</div>
 
-
-
-
 	<section layout:fragment="js">
 		<script th:src="@{/js/mask.js}"></script>
 		<script>
+
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
 				.dataTable(
@@ -244,6 +243,17 @@
 		
 	</script>
 
+		<script type="text/javascript">
+		$('#instituicao').change(function() {
+			if (this.value == "UFC") {
+				document.getElementById("nomeInstituicao").disabled = true;
+			} else {
+				document.getElementById("nomeInstituicao").disabled = false;
+			}
+		});
+	</script>
+
+
 
 		<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");
@@ -337,8 +347,13 @@
 								var a = document
 										.getElementById('btn_confirmacao_exclusao_parceria');
 								a.href = link;
-							});
-		</script>
+
+
+
+		$(".showtop").ready(function() {
+			$(".alerttop").fadeToggle(350);
+		});
+	</script>
 		<script type="text/javascript">
 		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
 		  var $elementoQueInvocouModal = $(e.relatedTarget);
@@ -417,8 +432,8 @@
 					});  
 			  }
 		});	
-		
-		
+
+		});	
 	</script>
 
 		<script>

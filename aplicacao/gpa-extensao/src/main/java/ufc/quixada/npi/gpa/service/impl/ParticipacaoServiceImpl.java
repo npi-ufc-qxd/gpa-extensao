@@ -8,8 +8,12 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMI
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
-
 import java.util.Date;
+=======
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,7 +138,8 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 
 		if (acaoOld != null) {
-			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+			if (!acaoExtensao.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			}
 			if (!acaoOld.getStatus().equals(Status.NOVO)
@@ -142,6 +147,13 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
 					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
+			}
+			if (!acaoOld.isAtivo()) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
+			}
+			if (participacao.getParticipante() != null
+					&& participacao.getParticipante().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+				throw new GpaExtensaoException(EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO);
 			}
 			acaoOld.getEquipeDeTrabalho().remove(participacao);
 			acaoExtensaoRepository.save(acaoOld);
@@ -187,5 +199,4 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 		}
 
 	}
-
 }

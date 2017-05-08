@@ -184,7 +184,6 @@ public class BolsaServiceImpl implements BolsaService {
 	@Override
 	public void removerBolsista(AcaoExtensao acao, Bolsa bolsista, Pessoa coordenador) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acao.getId());
-
 		if (old != null) {
 			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
@@ -192,6 +191,9 @@ public class BolsaServiceImpl implements BolsaService {
 			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
 					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
+			}
+			if(!old.isAtivo()){
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
 			}
 			old.getBolsistas().remove(bolsista);
