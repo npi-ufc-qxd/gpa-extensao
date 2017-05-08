@@ -509,11 +509,11 @@ public class EmailServiceImpl implements NotificationService {
 		}
 	}
 	
-	private Date formataData(Date umaData) {
+	private Date formataData(Date agora) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			umaData = sdf.parse(sdf.format(umaData));
-			return umaData;
+			agora = sdf.parse(sdf.format(agora));
+			return agora;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
