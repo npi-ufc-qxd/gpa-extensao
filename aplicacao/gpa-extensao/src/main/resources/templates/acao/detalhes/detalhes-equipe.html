@@ -9,6 +9,7 @@
 				<th>Instituição</th>
 				<th>CH</th>
 				<th>Período</th>
+				<th>Declaração de Participação</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -18,8 +19,10 @@
 				<td th:text="${membro.funcao()}"></td>
 				<td th:text="${membro.instituicao()}"></td>
 				<td th:text="__${membro.cargaHoraria}__h"></td>
-				<td
-					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+				<td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+				<td> <a sec:authorize="hasAuthority('SERVIDOR')"
+					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${membro.participante.id}__}"
+					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
 			</tr>
 			<tr th:each="bolsa: ${acao.bolsistas}">
 				<td th:text="${bolsa.bolsista.pessoa.nome}"></td>

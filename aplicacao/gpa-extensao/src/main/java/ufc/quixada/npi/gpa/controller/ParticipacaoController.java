@@ -4,6 +4,7 @@ import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
@@ -131,5 +132,23 @@ public class ParticipacaoController {
 	@RequestMapping("/buscarServidores")
 	public @ResponseBody List<Servidor> buscarServidores(@RequestParam("funcao") Funcao funcao) {
 		return servirdorRepository.findByFuncao(funcao);
+	}
+	
+	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
+	public String emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
+			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er){
+		try{
+			Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
+			AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+			//Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
+			
+			model.addAttribute("participante",pessoa);
+			model.addAttribute("acao", acao);
+			participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
+		} catch (Exception e) {
+			attr.addFlashAttribute(ERRO, e.getMessage());
+		}
+		
+		return REDIRECT_PAGINA_DETALHES_ACAO;
 	}
 }

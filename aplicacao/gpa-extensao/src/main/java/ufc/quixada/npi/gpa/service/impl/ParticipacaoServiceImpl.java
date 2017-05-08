@@ -125,4 +125,16 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 
 	}
 
+	@Override
+	public void emitirDeclaracaoParticipanteEquipeTrabalho(Integer participante, Integer idAcaoExtensao,
+			String cpfCoordenador) {
+		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+		System.out.println("Teste service");
+		
+		if (acaoExtensao.getCoordenador().getCpf().equals(cpfCoordenador)) {
+			// manda emitir
+		}
+		
+	}
+
 }

@@ -11,5 +11,8 @@ public interface ParticipacaoService {
 
 	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
+	
+	void emitirDeclaracaoParticipanteEquipeTrabalho(Integer participante, Integer acaoExtensao,
+			String cpfCoordenador);
 
 }
