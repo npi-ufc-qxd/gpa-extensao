@@ -144,7 +144,7 @@ public class ParticipacaoController {
 			
 			model.addAttribute("participante",pessoa);
 			model.addAttribute("acao", acao);
-			participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
+			//participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
 		} catch (Exception e) {
 			attr.addFlashAttribute(ERRO, e.getMessage());
 		}
