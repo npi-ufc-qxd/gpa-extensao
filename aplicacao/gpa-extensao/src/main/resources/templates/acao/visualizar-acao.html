@@ -12,85 +12,84 @@
 <head>
 <title>Extensão - Detalhes</title>
 </head>
+<body>
 
-<div class="container-fluid" layout:fragment="conteudo">
-	<br />
+	<div class="container-fluid" layout:fragment="conteudo">
+		<br />
 
-	<!-- Linha do tempo -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div
-				th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo"></div>
-
-			<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+		<!-- Linha do tempo -->
+		<div class="row">
+			<div class="col-xs-12">
 				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
-					<i class="ti-check"></i> O número de bolsas foi inserido com
-					sucesso! <a href="#" class="closed">&times;</a>
+					th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo"></div>
+
+				<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
+						<i class="ti-check"></i> O número de bolsas foi inserido com
+						sucesso! <a href="#" class="closed">&times;</a>
+					</div>
+				</div>
+				<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
+						<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
+						que foi solicitada! <a href="#" class="closed">&times;</a>
+					</div>
 				</div>
 			</div>
-			<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+		</div>
+
+		<!-- Dados Básicos -->
+		<div class="row">
+			<div class="col-xs-12">
 				<div
-					class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
-					<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
-					que foi solicitada! <a href="#" class="closed">&times;</a>
+					th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+			</div>
+		</div>
+		<br />
+
+		<!-- Equipe de Trabalho -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+			</div>
+		</div>
+		<!-- Parcerias -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+			</div>
+		</div>
+
+
+		<br />
+
+		<!-- Pareceres -->
+		<div class="row">
+
+			<!-- Pareceres -->
+			<div class="row">
+				<!-- Parecer Técnico -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+				</div>
+				<!-- Parecer do Relator -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
-	<!-- Dados Básicos -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div
-				th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
-		</div>
-	</div>
-	<br />
-
-
-
-	<!-- Equipe de Trabalho -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
-		</div>
-	</div>
-
-
-
-	<!-- Parcerias -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-		</div>
-	</div>
-
-
-	<br />
-
-	<!-- Pareceres -->
-	<div class="row">
-		<!-- Parecer Técnico -->
-		<div class="col-xs-6">
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-		</div>
-		<!-- Parecer do Relator -->
-		<div class="col-xs-6">
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-		</div>
-	</div>
-
-</div>
-
-
-<section layout:fragment="js">
-	<script th:src="@{/js/mask.js}"></script>
-	<script>
+	<section layout:fragment="js">
+		<script th:src="@{/js/mask.js}"></script>
+		<script>
 		$('#menu-acoes a').addClass("active");
-		$('#equipe,#parcerias')
+		$('#equipe, #parcerias')
 				.dataTable(
 						{
 							language : {
@@ -101,119 +100,135 @@
 							info : false,
 							order : [ [ 0, "asc" ] ]
 						});
+		</script>
+		<script type="text/javascript">
+			$('#instituicao')
+					.change(
+							function() {
+								if (this.value == "UFC") {
+									document.getElementById("nomeInstituicao").disabled = true;
+								} else {
+									document.getElementById("nomeInstituicao").disabled = false;
+								}
+							});
+		</script>
 
-		$("#alterar-parecerista-button").on("click", function(){
-			$("#parecer-tecnico-acoes").hide();
-			$("#parecer-tecnico-info").hide();
-			$("#parecer-tecnico-form").fadeIn(500);
-		});
-		
-		$("#alterar-relator-button").on("click", function(){
-			$("#parecer-tecnico-acoes").hide();
-			$("#parecer-relator-info").hide();
-			$("#parecer-relator-form").fadeIn(500);
-		});
-		
-		$("#emitir-parecer-button").on("click", function(){
-			$("#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form").hide();
-			$("#emitir-parecer-form").fadeIn(500);
-		});
-		
-		$("#emitir-relato-button").on("click", function(){
-			$("#parecer-relator-acoes").hide();
-			$("#parecer-relator-info").hide();
-			$("#emitir-relato-form").fadeIn(500);
-		});
-		
-		$("#cancelar-emitir-relato-button").on("click", function(){
-			$("#parecer-relator-acoes").show();
-			$("#emitir-relato-form").hide();
-			$("#parecer-relator-info").fadeIn(500);
-		});
-		
-		$("#cancelar-emitir-parecer-button").on("click", function(){
-			$("#parecer-tecnico-acoes").show();
-			$("#emitir-parecer-form").hide();
-			$("#parecer-tecnico-info").fadeIn(500);
-		});
-		
-		$("#cancelar-parecer-button").on("click", function(){
-			$("#parecer-tecnico-acoes").show();
-			$("#parecer-tecnico-form").hide();
-			$("#parecer-tecnico-info").fadeIn(500);
-		});
-		
-		$("#cancelar-relato-button").on("click", function(){
-			$("#parecer-tecnico-acoes").show();
-			$("#parecer-relator-form").hide();
-			$("#parecer-relator-info").fadeIn(500);
-		});
-		
-		
-	</script>
+		<script type="text/javascript">
+			$('#funcao')
+					.change(
+							function() {
+								if (this.value == "OUTRA") {
+									document
+											.getElementById("participanteServidor").disabled = true;
+									document.getElementById("nomeParticipante").disabled = false;
+									document.getElementById("cpfParticipante").disabled = false;
+									document.getElementById("descricaoFuncao").disabled = false;
+								} else {
+									document
+											.getElementById("participanteServidor").disabled = false;
+									document.getElementById("nomeParticipante").disabled = true;
+									document.getElementById("cpfParticipante").disabled = true;
+									document.getElementById("descricaoFuncao").disabled = true;
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
-	<script type="text/javascript">
-		$('#instituicao').change(function() {
-			if (this.value == "UFC") {
-				document.getElementById("nomeInstituicao").disabled = true;
-			} else {
-				document.getElementById("nomeInstituicao").disabled = false;
-			}
-		});
-	</script>
+			checkboxes.click(function() {
+				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
+			});
+		</script>
+		<script type="text/javascript">
+			$('#novoParcitipante').click(function() {
+				document.getElementById("nomeParceiro").disabled = false;
+				document.getElementById("tipoParceiro").disabled = false;
+				document.getElementById("parceiro").disabled = true;
+			});
+			$('#parcitipanteExistente').click(function() {
+				document.getElementById("parceiro").disabled = false;
+				document.getElementById("nomeParceiro").disabled = true;
+				document.getElementById("tipoParceiro").disabled = true;
+			});
+			$('#outrasFormas')
+					.click(
+							function() {
+								if (document.getElementById("outrasFormas").checked) {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = false;
+								} else {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = true;
+								}
+							});
+		</script>
+		<script>
+			$("#alterar-parecerista-button").on("click", function() {
+				$("#parecer-tecnico-acoes").hide();
+				$("#parecer-tecnico-info").hide();
+				$("#parecer-tecnico-form").fadeIn(500);
+			});
 
-	<script type="text/javascript">
-		$('#funcao')
-				.change(
-						function() {
-							if (this.value == "OUTRA") {
-								document.getElementById("participanteServidor").disabled = true;
-								document.getElementById("nomeParticipante").disabled = false;
-								document.getElementById("cpfParticipante").disabled = false;
-								document.getElementById("descricaoFuncao").disabled = false;
+			$("#alterar-relator-button").on("click", function() {
+				$("#parecer-tecnico-acoes").hide();
+				$("#parecer-relator-info").hide();
+				$("#parecer-relator-form").fadeIn(500);
+			});
 
-							} else {
-								document.getElementById("participanteServidor").disabled = false;
-								document.getElementById("nomeParticipante").disabled = true;
-								document.getElementById("cpfParticipante").disabled = true;
-								document.getElementById("descricaoFuncao").disabled = true;
-							}
-						});
-	</script>
+			$("#emitir-parecer-button")
+					.on(
+							"click",
+							function() {
+								$(
+										"#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form")
+										.hide();
+								$("#emitir-parecer-form").fadeIn(500);
+							});
 
-	<script type="text/javascript">
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		$.ajax({url : "/servidores/funcao/servidor",
+			$("#emitir-relato-button").on("click", function() {
+				$("#parecer-relator-acoes").hide();
+				$("#parecer-relator-info").hide();
+				$("#emitir-relato-form").fadeIn(500);
+			});
+
+			$("#cancelar-emitir-relato-button").on("click", function() {
+				$("#parecer-relator-acoes").show();
+				$("#emitir-relato-form").hide();
+				$("#parecer-relator-info").fadeIn(500);
+			});
+
+			$("#cancelar-emitir-parecer-button").on("click", function() {
+				$("#parecer-tecnico-acoes").show();
+				$("#emitir-parecer-form").hide();
+				$("#parecer-tecnico-info").fadeIn(500);
+			});
+
+			$("#cancelar-parecer-button").on("click", function() {
+				$("#parecer-tecnico-acoes").show();
+				$("#parecer-tecnico-form").hide();
+				$("#parecer-tecnico-info").fadeIn(500);
+			});
+
+			$("#cancelar-relato-button").on("click", function() {
+				$("#parecer-tecnico-acoes").show();
+				$("#parecer-relator-form").hide();
+				$("#parecer-relator-info").fadeIn(500);
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+				url : "/servidores/funcao/servidor",
 				contentType : "application/json",
 				type : "GET",
 				data : JSON.stringify(this.value),
 				beforeSend : function(xhr) {
-						xhr
-								.setRequestHeader("Content-Type",
-										"application/json");
-						xhr.setRequestHeader(header, token);
-					},
-					success : function(data) {
-						$('#participanteServidor').empty();
-						$.each(data, function(key, value) {
-							$('#participanteServidor').append(
-									'<option value="' + value.pessoa.id + '">'
-											+ value.pessoa.nome + '</option>');
-						});
-					}
-				});
-
-		$('#funcao').change(function() {
-			$.ajax({
-				type:"GET",
-				data: {funcao : this.value},
-				 beforeSend: function (request)
-		         {
-		                request.setRequestHeader(header, token);
-		            },
-				url: "/participacao/buscarServidores",
-				contentType: 'application/json',
+					xhr.setRequestHeader("Content-Type", "application/json");
+					xhr.setRequestHeader(header, token);
+				},
 				success : function(data) {
 					$('#participanteServidor').empty();
 					$.each(data, function(key, value) {
@@ -223,147 +238,189 @@
 					});
 				}
 			});
-		
 
-		});
-	</script>
-
-	<script>
-		$('#menu-acoes a').addClass("active");
-		$('#equipe,#parcerias')
-				.dataTable(
-						{
-							language : {
-								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+			$('#funcao').change(
+					function() {
+						$.ajax({
+							type : "GET",
+							data : {
+								funcao : this.value
 							},
-							paging : false,
-							searching : false,
-							info : false,
-							order : [ [ 0, "asc" ] ]
-						});
-
-		$(".myadmin-alert .closed").click(function(event) {
-			$(this).parents(".myadmin-alert").fadeToggle(350);
-
-			return false;
-
-		$('#novoParcitipante').click(function() {
-			document.getElementById("nomeParceiro").disabled = false;
-			document.getElementById("tipoParceiro").disabled = false;
-			document.getElementById("parceiro").disabled = true;
-
-		});
-		$('#parcitipanteExistente').click(function() {
-			document.getElementById("parceiro").disabled = false;
-			document.getElementById("nomeParceiro").disabled = true;
-			document.getElementById("tipoParceiro").disabled = true;
-		});
-		$('#outrasFormas')
-				.click(
-						function() {
-							if (document.getElementById("outrasFormas").checked) {
-								document
-										.getElementById("descricaoOutrasFormas").disabled = false;
-							} else {
-								document
-										.getElementById("descricaoOutrasFormas").disabled = true;
+							beforeSend : function(request) {
+								request.setRequestHeader(header, token);
+							},
+							url : "/participacao/buscarServidores",
+							contentType : 'application/json',
+							success : function(data) {
+								$('#participanteServidor').empty();
+								$.each(data, function(key, value) {
+									$('#participanteServidor').append(
+											'<option value="' + value.pessoa.id + '">'
+													+ value.pessoa.nome
+													+ '</option>');
+								});
 							}
-
 						});
-	</script>
 
-	<script type="text/javascript">
-		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
+					});
+		</script>
 
-		checkboxes.click(function() {
-			btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
-		});
+		<script>
+			$('#novoParcitipante').click(function() {
+				document.getElementById("nomeParceiro").disabled = false;
+				document.getElementById("tipoParceiro").disabled = false;
+				document.getElementById("parceiro").disabled = true;
 
-		$(".myadmin-alert .closed").click(function(event) {
-			$(this).parents(".myadmin-alert").fadeToggle(350);
+			});
+			$('#parcitipanteExistente').click(function() {
+				document.getElementById("parceiro").disabled = false;
+				document.getElementById("nomeParceiro").disabled = true;
+				document.getElementById("tipoParceiro").disabled = true;
+			});
+			$('#outrasFormas')
+					.click(
+							function() {
+								if (document.getElementById("outrasFormas").checked) {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = false;
+								} else {
+									document
+											.getElementById("descricaoOutrasFormas").disabled = true;
+								}
 
-			return false;
-		});
+							});
+		</script>
 
-		$(".showtop").ready(function() {
-			$(".alerttop").fadeToggle(350);
-		});
-	</script>
-	<script type="text/javascript">
-		$('#modal_encerramento_acao').on('show.bs.modal', function (e) {
-		  var $elementoQueInvocouModal = $(e.relatedTarget);
-		  var link = $elementoQueInvocouModal.attr('link');
-		  var a = document.getElementById('btn_confirmacao_encerramento_acao');
-		  a.href = link;
-		});		
-		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
-		  var $elementoQueInvocouModal = $(e.relatedTarget);
-		  var link = $elementoQueInvocouModal.attr('link_exclusao');
-		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
-		  a.href = link;
-		});
-		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
-			  var $elementoQueInvocouModal = $(e.relatedTarget);
-			  var link = $elementoQueInvocouModal.attr('link_exclusao');
-			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
-			  a.href = link;
-		});
-		
-		$('#modal_alterar_periodo_participante').on('show.bs.modal', function (e) {
-			  var $elementoQueInvocouModal = $(e.relatedTarget);
-			  var participacao = $elementoQueInvocouModal.attr('participacao');
-			  var linkAlteracaoParticipacao =  $elementoQueInvocouModal.attr('link_alteracao');
-			  var dataInicio = $elementoQueInvocouModal.attr('dataInicio');
-			  var dataTermino = $elementoQueInvocouModal.attr('dataTermino');
-			  var form = document.getElementById('alterar_periodo_participante');
-			  var token = $("meta[name='_csrf']").attr("content");
-			  var header = $("meta[name='_csrf_header']").attr("content");
-			  form.action = linkAlteracaoParticipacao;			  
-			  
-			  
-			  $.ajax({
-					type:"GET",
-					data: {participacao : participacao},
-					beforeSend: function (request){
-			                request.setRequestHeader(header, token);
-			        },
-					url: "/participacao/buscar",
-					contentType: 'application/json',
-					success : function(data) {
-						form.object = data;
-						var nomeParticipanteAlteracaoPeriodo = document.getElementById('nomeParticipanteAlteracaoPeriodo');
-						var funcaoParticipanteAlteracaoPeriodo = document.getElementById('funcaoParticipanteAlteracaoPeriodo');
-						var data_termino_participacao_alterar_periodo = document.getElementById('data_termino_participacao_alterar_periodo');
-						var data_inicio_participacao_alterar_periodo = document.getElementById('data_inicio_participacao_alterar_periodo');
-						if(data.participante != null){
-							nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
-						}else{
-							nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
-						}
-						if(data.funcao != null){
-							funcaoParticipanteAlteracaoPeriodo.value = data.funcao;	
-						}else{
-							funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
-						}
-						
-						data_termino_participacao_alterar_periodo.value = data.dataTermino;
-						data_inicio_participacao_alterar_periodo.value = data.dataInicio;
-					}
-				});
-		});	
-		
-		
-	</script>
+		<script type="text/javascript">
+			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
-	<script>
-		$(".column-step").each(function(index,element) { 
-			$( element ).toggleClass( "upcoming" );
-			$( element ).find("i").removeClass( "fa-times" );
-			$( element ).find("i").toggleClass( "fa-check" );
-			if($( this ).is( ".active" ) ){
-				return false;
-			}
-		});
-	</script>
-</section>
+			$('#modal_exclusao_parceria')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link_exclusao');
+								var a = document
+										.getElementById('btn_confirmacao_exclusao_parceria');
+								a.href = link;
+							});
+		</script>
+
+
+		<script type="text/javascript">
+			$(".showtop").ready(function() {
+				$(".alerttop").fadeToggle(350);
+			});
+		</script>
+		<script type="text/javascript">
+			$('#modal_encerramento_acao')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link');
+								var a = document
+										.getElementById('btn_confirmacao_encerramento_acao');
+								a.href = link;
+							});
+			$('#modal_exclusao_bolsa')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link_exclusao');
+								var a = document
+										.getElementById('btn_confirmacao_exclusao_bolsista');
+								a.href = link;
+							});
+			$('#modal_exclusao_participacao')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link_exclusao');
+								var a = document
+										.getElementById('btn_confirmacao_exclusao_participacao');
+								a.href = link;
+							});
+
+			$('#modal_alterar_periodo_participante')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var participacao = $elementoQueInvocouModal
+										.attr('participacao');
+								var linkAlteracaoParticipacao = $elementoQueInvocouModal
+										.attr('link_alteracao');
+								var dataInicio = $elementoQueInvocouModal
+										.attr('dataInicio');
+								var dataTermino = $elementoQueInvocouModal
+										.attr('dataTermino');
+								var form = document
+										.getElementById('alterar_periodo_participante');
+								var token = $("meta[name='_csrf']").attr(
+										"content");
+								var header = $("meta[name='_csrf_header']")
+										.attr("content");
+								form.action = linkAlteracaoParticipacao;
+
+								$
+										.ajax({
+											type : "GET",
+											data : {
+												participacao : participacao
+											},
+											beforeSend : function(request) {
+												request.setRequestHeader(
+														header, token);
+											},
+											url : "/participacao/buscar",
+											contentType : 'application/json',
+											success : function(data) {
+												form.object = data;
+												var nomeParticipanteAlteracaoPeriodo = document
+														.getElementById('nomeParticipanteAlteracaoPeriodo');
+												var funcaoParticipanteAlteracaoPeriodo = document
+														.getElementById('funcaoParticipanteAlteracaoPeriodo');
+												var data_termino_participacao_alterar_periodo = document
+														.getElementById('data_termino_participacao_alterar_periodo');
+												var data_inicio_participacao_alterar_periodo = document
+														.getElementById('data_inicio_participacao_alterar_periodo');
+												if (data.participante != null) {
+													nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
+												} else {
+													nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
+												}
+												if (data.funcao != null) {
+													funcaoParticipanteAlteracaoPeriodo.value = data.funcao;
+												} else {
+													funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
+												}
+
+												data_termino_participacao_alterar_periodo.value = data.dataTermino;
+												data_inicio_participacao_alterar_periodo.value = data.dataInicio;
+											}
+										});
+							});
+		</script>
+
+
+
+		<script>
+			$(".column-step").each(function(index, element) {
+				$(element).toggleClass("upcoming");
+				$(element).find("i").removeClass("fa-times");
+				$(element).find("i").toggleClass("fa-check");
+				if ($(this).is(".active")) {
+					return false;
+				}
+			});
+		</script>
+	</section>
+</body>
 </html>

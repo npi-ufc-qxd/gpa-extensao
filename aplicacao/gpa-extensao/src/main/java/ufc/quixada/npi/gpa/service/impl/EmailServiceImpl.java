@@ -12,6 +12,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_EMISSAO_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
@@ -21,19 +22,25 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.repository.PapelRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
 
 /**
@@ -42,12 +49,15 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
-	//@Autowired
-	private MailSender mailSender;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
 
 	private String[] emailDirecao;
+	
+	@Autowired
+	private AcaoExtensaoRepository acaoRepository;
 	
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
@@ -142,6 +152,10 @@ public class EmailServiceImpl implements NotificationService {
 	private void enviarEmail(SimpleMailMessage email) {
 		this.mailSender.send(email);
 	}
+	
+	private void enviarEmail(MimeMessage email) {
+		this.mailSender.send(email);
+}
 
 	/**
 	 * Encapsula o envio de multiplos emails
@@ -443,4 +457,67 @@ public class EmailServiceImpl implements NotificationService {
 		enviarEmail(emailCoordenador);
 	}
 
+	/**
+	 * Envia um e-mail informando ao parecerista/relator 
+	 * que o prazo para emissão do parecer se encerra em um dia.
+	 */
+	@Override
+	public void notificarPareceristaRelatorPrazo(Date agora) {
+		Date novoAgora = formataData(agora);
+		List<AcaoExtensao> acoesAguardandoParecer =
+				acaoRepository.findByStatusAndParecerTecnico_prazo(Status.AGUARDANDO_PARECER_TECNICO, novoAgora);
+		acoesAguardandoParecer.addAll(
+				acaoRepository.findByStatusAndParecerRelator_prazo(Status.AGUARDANDO_PARECER_RELATOR, novoAgora));
+		
+		if (!acoesAguardandoParecer.isEmpty()) {
+			MimeMessage mimeMessage;
+			MimeMessageHelper mensagem;
+			String destinatario = null;
+			String assuntoEmail = null;
+			String texto = null;
+			for (AcaoExtensao acao : acoesAguardandoParecer) {
+				mimeMessage = mailSender.createMimeMessage();
+				mensagem = new MimeMessageHelper(mimeMessage, "UTF-8");
+				
+				// Set destinatario
+				if (acao.getStatus().equals(Status.AGUARDANDO_PARECER_TECNICO)) {
+					destinatario = acao.getParecerTecnico().getResponsavel().getEmail();
+				} else {
+					destinatario = acao.getParecerRelator().getResponsavel().getEmail();
+				}
+				
+				// Set assunto do email
+				assuntoEmail = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo());
+				
+				// Set corpo do email
+				texto = EMAIL_PARECERISTA_PRAZO.replaceAll(EMAIL_PRAZO,
+						formatDate(Status.AGUARDANDO_PARECER_TECNICO.equals(acao.getStatus()) ? 
+								acao.getParecerTecnico().getPrazo() :
+									acao.getParecerRelator().getPrazo()));
+				
+				try {
+					mensagem.setTo(destinatario);
+					mensagem.setFrom(EMAIL_REMETENTE);
+					mensagem.setSubject(assuntoEmail);
+					mensagem.setText(texto, true);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+				
+				enviarEmail(mimeMessage);
+			}
+		}
+	}
+	
+	private Date formataData(Date agora) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date novoAgora;
+		try {
+			novoAgora = sdf.parse(sdf.format(agora));
+			return novoAgora;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

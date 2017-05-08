@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.repository;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -37,6 +38,10 @@ public interface AcaoExtensaoRepository extends CrudRepository<AcaoExtensao, Int
 	List<AcaoExtensao> findByModalidadeAndStatus(Modalidade modalidade, Status status);
 	
 	List<AcaoExtensao> findAll(Specification<AcaoExtensao> spec);
+	
+	List<AcaoExtensao> findByStatusAndParecerTecnico_prazo(Status status, Date now);
+	
+	List<AcaoExtensao> findByStatusAndParecerRelator_prazo(Status status, Date now);
 	
 	@Query("SELECT coordenador.cpf FROM AcaoExtensao WHERE id=:idAcao")
 	String findCoordenadorById(@Param("idAcao") Integer id);

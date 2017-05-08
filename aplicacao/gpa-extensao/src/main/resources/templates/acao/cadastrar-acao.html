@@ -244,6 +244,11 @@
 				$('#coordenador-acao').removeClass('no-display');
 			} else {
 				$('#coordenador-acao').addClass('no-display');
+
+			$('#menu-cadastrar-acao a').addClass("active");
+			if ($('#modalidade').val() === 'CURSO'
+					|| $('#modalidade').val() === 'EVENTO') {
+				$('#curso-evento').removeClass('no-display');
 			}
 		});
 
