@@ -30,7 +30,9 @@
 					data-dismiss="modal" class="btn btn-block btn-info"
 					th:attr="participacao=${membro.id},
 							dataInicio=${membro.dataInicio},
-							dataTermino=${membro.dataTermino},	
+							dataTermino=${membro.dataTermino},
+							funcaoParticipante = ${membro.funcao.descricao},
+							action = participacao,	
 							link_alteracao=@{/participacao/alterar/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">Alterar</a>
 				</td>
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
@@ -48,6 +50,17 @@
 				<td th:text="__${bolsa.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}">
+					<a data-toggle="modal"
+					data-target="#modal_alterar_periodo_participante"
+					data-dismiss="modal" class="btn btn-block btn-info"
+					th:attr="pessoa=${bolsa.bolsista.pessoa.id},
+							dataInicio=${bolsa.inicio},
+							dataTermino=${bolsa.termino},
+							funcaoBolsista = Bolsista +' '+${bolsa.tipo.descricao},
+							action = bolsa,	
+							link_alteracao=@{/bolsa/alterar/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}">Alterar</a>
+				</td>
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
 					data-toggle="modal" data-target="#modal_exclusao_bolsa"
 					data-dismiss="modal" class="btn btn-block btn-danger"
@@ -203,7 +216,7 @@
 												<div class="form-group">
 													<label for="cargaHoraria">* Carga Horária Semanal</label> <input
 														id="cargaHoraria" type="number" name="cargaHoraria"
-														class="form-control" min="4" max="16"
+														required="required" class="form-control" min="4" max="16"
 														th:field="*{cargaHoraria}" />
 
 												</div>
@@ -285,7 +298,7 @@
 						<div class="panel-wrapper collapse in" aria-expanded="true">
 							<div class="panel-body">
 								<form id="alterar_periodo_participante" method="POST"
-								th:action="@{#}">
+									th:action="@{#}">
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -311,11 +324,10 @@
 
 												<label>* Data de início</label> <input
 													id="data_inicio_participacao_alterar_periodo"
-													required="required" data-mask="99/99/9999"
-													name="inicio"
-													class="form-control date" type="date" />
-												<span class="font-13 text-muted">Data limite para
-													início: <small th:text="${acao.parseData(acao.inicio)}"></small>
+													required="required" data-mask="99/99/9999" name="inicio"
+													class="form-control date" type="date" /> <span
+													class="font-13 text-muted">Data limite para início:
+													<small th:text="${acao.parseData(acao.inicio)}"></small>
 												</span>
 											</div>
 										</div>
@@ -323,8 +335,7 @@
 											<div class="form-group">
 												<label>* Data de término</label><input required="required"
 													id="data_termino_participacao_alterar_periodo"
-													data-mask="99/99/9999"
-													name="termino"
+													data-mask="99/99/9999" name="termino"
 													class="form-control date" type="date" /> <span
 													class="font-13 text-muted">Data limite para término:
 													<small th:text="${acao.parseData(acao.termino)}"></small>

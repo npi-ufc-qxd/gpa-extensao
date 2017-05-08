@@ -18,11 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,4 +137,24 @@ public class BolsaController {
 		model.addAttribute("bolsas", bolsaService.listarBolsasAluno(idAluno));
 		return PAGINA_DETALHES_BOLSISTA;
 	}
+
+	@PostMapping("/alterar/{bolsa}/{acao}")
+	public String alterarTempoBolsa(@PathVariable("bolsa") Integer bolsa,
+			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+			Authentication authentication,
+			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
+
+		Bolsa old = bolsaService.buscarBolsa(bolsa);
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+
+		try {
+			bolsaService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acaoExtensao.getId();
+	}
+
+	
 }

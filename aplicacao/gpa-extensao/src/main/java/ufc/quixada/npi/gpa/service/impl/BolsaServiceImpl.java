@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_MAXIMO_BOLSISTAS
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
@@ -197,6 +198,40 @@ public class BolsaServiceImpl implements BolsaService {
 			acaoExtensaoRepository.save(old);
 			bolsaRepository.delete(bolsista);
 		}
+	}
+
+	@Override
+	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Bolsa bolsa, Pessoa pessoa, Date dataInicio,
+			Date dataTermino) throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		if (old != null) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (dataInicio == null || dataTermino == null || dataInicio.before(old.getInicio())
+					|| dataTermino.after(old.getTermino()) || dataInicio.after(old.getTermino())
+					|| dataTermino.before(old.getInicio()) || dataTermino.before(dataInicio)) {
+				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
+
+			}
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+			if (!old.isAtivo()) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+
+			bolsa.setInicio(dataInicio);
+			bolsa.setTermino(dataTermino);
+			bolsaRepository.save(bolsa);
+		}
+	}
+
+	@Override
+	public Bolsa buscarBolsa(Bolsa bolsa) {
+		return bolsaRepository.findOne(bolsa.getId());
 	}
 
 }
