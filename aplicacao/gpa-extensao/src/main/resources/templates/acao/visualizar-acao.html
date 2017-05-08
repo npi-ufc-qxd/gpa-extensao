@@ -10,18 +10,33 @@
 
 
 <head>
-	<title>Extensão - Detalhes</title>
+<title>Extensão - Detalhes</title>
 </head>
 <body>
+
 	<div class="container-fluid" layout:fragment="conteudo">
 
 		<br />
-
 		<!-- Linha do tempo -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div
 					th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo"></div>
+
+				<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
+						<i class="ti-check"></i> O número de bolsas foi inserido com
+						sucesso! <a href="#" class="closed">&times;</a>
+					</div>
+				</div>
+				<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
+						<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
+						que foi solicitada! <a href="#" class="closed">&times;</a>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -40,36 +55,38 @@
 				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 			</div>
 		</div>
-
 		<!-- Parcerias -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
 			</div>
-	
-    <br/>
-    
-    <!-- Linha do tempo -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo" ></div>
-        </div>
-    </div>
-    
-    <!-- Dados Básicos -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
-        </div>
-    </div>
-    <br/>
-
-	<!-- Equipe de Trabalho -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
 		</div>
+
+
+		<br />
+
+		<!-- Pareceres -->
+		<div class="row">
+
+			<!-- Pareceres -->
+			<div class="row">
+				<!-- Parecer Técnico -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+				</div>
+				<!-- Parecer do Relator -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+				</div>
+			</div>
+		</div>
+
+
+
 	</div>
+
 
 	<!-- Parcerias -->
 	<div class="row">
@@ -78,42 +95,41 @@
 		</div>
 	</div>
 
+
+	<br />
 	<!-- Pareceres -->
 	<div class="row">
 		<!-- Parecer Técnico -->
 		<div class="col-xs-6">
-			<div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-		</div>
 
-		<!-- Pareceres -->
-		<div class="row">
-			<!-- Parecer Técnico -->
-			<div class="col-xs-6">
-				<div
-					th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-			</div>
-			<!-- Parecer do Relator -->
-			<div class="col-xs-6">
-				<div
-					th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-			</div>
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
 		</div>
-
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
 	</div>
 
+
+
 	<section layout:fragment="js">
+		<script th:src="@{/js/mask.js}"></script>
 		<script>
-			$('#equipe,#parcerias')
-					.dataTable(
-							{
-								language : {
-									"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-								},
-								paging : false,
-								searching : false,
-								info : false,
-								order : [ [ 0, "asc" ] ]
-							});
+
+		$('#menu-acoes a').addClass("active");
+		$('#equipe,#parcerias')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							paging : false,
+							searching : false,
+							info : false,
+							order : [ [ 0, "asc" ] ]
+						});
 		</script>
 		<script th:src="@{/js/mask.js}"></script>
 		<script type="text/javascript">
@@ -240,7 +256,6 @@
 	</script>
 
 
-
 		<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -255,7 +270,7 @@
 						xhr.setRequestHeader(header, token);
 					},
 					success : function(data) {
-						document.getElementById('participanteServidor').options.length = 0;
+						$('#participanteServidor').empty();
 						$.each(data, function(key, value) {
 							$('#participanteServidor').append(
 									'<option value="' + value.pessoa.id + '">'
@@ -265,70 +280,30 @@
 				});
 
 		$('#funcao').change(function() {
-							if (this.value == "STA") {
-								$.ajax({	url : "/servidores/funcao/servidor",
-											contentType : "application/json",
-											type : "GET",
-											data : JSON.stringify(this.value),
-											beforeSend : function(xhr) {
-												xhr.setRequestHeader(
-														"Content-Type",
-														"application/json");
-												xhr.setRequestHeader(header,
-														token);
-											},
-											success : function(data) {
-												document.getElementById('participanteServidor').options.length = 0;
-												$.each(data,function(key,value) {
-																	$('#participanteServidor').append(
-																					'<option value="' + value.pessoa.id + '">'
-																							+ value.pessoa.nome
-																							+ '</option>');
-																});
-											}
-										});
-							}if (this.value == "DOCENTE") {
-								$.ajax({url : "/servidores/funcao/docente",
-											contentType : "application/json",
-											type : "GET",
-											data : JSON.stringify(this.value),
-											beforeSend : function(xhr) {
-												xhr.setRequestHeader(
-														"Content-Type",
-														"application/json");
-												xhr.setRequestHeader(header,
-														token);
-											},
-											success : function(data) {
-												document
-														.getElementById('participanteServidor').options.length = 0;
-												$.each(data,function(key, value) {
-													$('#participanteServidor').append('<option value="' + value.pessoa.id + '">'
-																							+ value.pessoa.nome
-																							+ '</option>');
-												});
-											}
-										});
-							}
+			$.ajax({
+				type:"GET",
+				data: {funcao : this.value},
+				 beforeSend: function (request)
+		         {
+		                request.setRequestHeader(header, token);
+		            },
+				url: "/participacao/buscarServidores",
+				contentType: 'application/json',
+				success : function(data) {
+					$('#participanteServidor').empty();
+					$.each(data, function(key, value) {
+						$('#participanteServidor').append(
+								'<option value="' + value.pessoa.id + '">'
+										+ value.pessoa.nome + '</option>');
+					});
+				}
+			});
+		
 
-						});
+		});
 	</script>
 
 		<script>
-		$('#menu-acoes a').addClass("active");
-		$('#equipe,#parcerias')
-				.dataTable(
-						{
-							language : {
-								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-							},
-							paging : false,
-							searching : false,
-							info : false,
-							order : [ [ 0, "asc" ] ]
-						});
-	
-	<script>
 
 		$(".myadmin-alert .closed").click(function(event) {
 			$(this).parents(".myadmin-alert").fadeToggle(350);
@@ -361,6 +336,7 @@
 	</script>
 
 		<script type="text/javascript">
+		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
 			$('#modal_exclusao_parceria')
 					.on(
@@ -373,10 +349,25 @@
 										.getElementById('btn_confirmacao_exclusao_parceria');
 								a.href = link;
 							});
-		</script>
 
-
-
+		$(".showtop").ready(function() {
+			$(".alerttop").fadeToggle(350);
+		});
+	</script>
+		<script type="text/javascript">
+		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
+		  var $elementoQueInvocouModal = $(e.relatedTarget);
+		  var link = $elementoQueInvocouModal.attr('link_exclusao');
+		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
+		  a.href = link;
+		});
+		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var link = $elementoQueInvocouModal.attr('link_exclusao');
+			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
+			  a.href = link;
+		});	
+	</script>
 
 		<script>
 		$(".column-step").each(function(index,element) { 
@@ -388,6 +379,6 @@
 			}
 		});
 	</script>
-</section>
+	</section>
 </body>
 </html>

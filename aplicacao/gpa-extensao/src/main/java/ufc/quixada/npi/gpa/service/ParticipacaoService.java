@@ -12,4 +12,7 @@ public interface ParticipacaoService {
 	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 
+	void excluirParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException;
+
 }
