@@ -1,6 +1,8 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SOLICITACAO_PENDENCIA_PARECER_SUCCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,6 @@ public class ParecerController {
 
 	@Autowired
 	private ParecerService parecerService;
-	
-	
 
 	@RequestMapping(value = "/parecerista", method = RequestMethod.POST)
 	public String atribuirParecerista(AcaoExtensao acaoExtensao, Model model) {
@@ -46,9 +46,10 @@ public class ParecerController {
 	
 
 	@RequestMapping(value = "/acoes/{idAcao}/pendencias", method = RequestMethod.POST)
-	public String solicitarResolucaoPendenciasParecer(@PathVariable Integer idAcao, Pendencia pendencia) {
+	public String solicitarResolucaoPendenciasParecer(@PathVariable Integer idAcao, Pendencia pendencia, 
+			RedirectAttributes redirect) throws GpaExtensaoException {
 		parecerService.solicitarResolucaoPendencias(idAcao, pendencia);
-
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
 

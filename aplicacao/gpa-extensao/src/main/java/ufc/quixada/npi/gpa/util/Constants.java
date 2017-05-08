@@ -121,7 +121,8 @@ public class Constants {
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
-
+	public static final String MESSAGE_SOLICITACAO_PENDENCIA_PARECER_SUCCESSO = "A solicitação foi enviada com sucesso!";
+	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
 	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";
@@ -130,12 +131,12 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-
+	
 	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
 
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
-
+		
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
@@ -147,7 +148,7 @@ public class Constants {
 	public static final String EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA = "A ação #TITULO_ACAO# foi atribuída para sua apreciação, com prazo até #PRAZO#.";
 	public static final String EMAIL_COORDENACAO_EMISSAO_PARECER = "O parecer técnico foi emitido por #NOME_PESSOA# para a sua ação: #TITULO_ACAO#.";
 	public static final String EMAIL_DIRECAO_EMISSAO_PARECER = "O parecer técnico para a ação #TITULO_ACAO# foi emitido por #NOME_PESSOA#. A ação aguarda a atribuição do relator.";
-	public static final String EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS = "Foi solicitado que pendências existentes na ação #TITULO_ACAO# sejam resolvidas.";
+	public static final String EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS = "Foi solicitado que as seguintes pendencias: \"#PENDENCIAS_PARECER#\", existentes na ação #TITULO_ACAO# sejam resolvidas.";
 	public static final String EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS = "A ação #TITULO_ACAO# do servidor #NOME_PESSOA# passou pela resolução de pendências, e aguarda pelo parecer.";
 	public static final String EMAIL_COORDENACAO_ATRIBUICAO_RELATOR = "#NOME_PESSOA# foi encarregado(a) de emitir uma avaliação sobre a sua ação: #TITULO_ACAO#.";
 	public static final String EMAIL_RELATOR_ATRIBUICAO_RELATOR = "Você foi atribuído(a) como relator(a) da ação #TITULO_ACAO#, com prazo até #PRAZO#. Sua avaliação sobre a mesma é aguardada.";
@@ -161,6 +162,7 @@ public class Constants {
 	public static final String EMAIL_NOME_PESSOA = "#NOME_PESSOA#";
 	public static final String EMAIL_PRAZO = "#PRAZO#";
 	public static final String EMAIL_STATUS = "#STATUS#";
+	public static final String EMAIL_PENDENCIAS = "#PENDENCIAS_PARECER#";
 
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.

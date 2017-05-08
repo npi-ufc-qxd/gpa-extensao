@@ -13,27 +13,31 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_DIRECAO_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
-import ufc.quixada.npi.gpa.repository.PapelRepository;
-import ufc.quixada.npi.gpa.repository.PessoaRepository;
+import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.service.NotificationService;
 
 /**
@@ -42,13 +46,13 @@ import ufc.quixada.npi.gpa.service.NotificationService;
 @Service
 public class EmailServiceImpl implements NotificationService {
 
-	//@Autowired
-	private MailSender mailSender;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	private DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
 
 	private String[] emailDirecao;
-	
+
 	/**
 	 * Recebe uma ação de extensão e verifica seu estado para saber qual tipo de
 	 * notificação deve ser enviado.
@@ -57,81 +61,64 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificar(AcaoExtensao acaoExtensao) {
-		/*List<Papel> papeis = new ArrayList<Papel>();
-		papeis.add(papelRepository.findByNome(Tipo.DIRECAO));
-		List<Pessoa> direcao = pessoaRepository.findAllByPapeis(papeis);
-		Integer direcaoSize = direcao.size();
-
-		this.emailDirecao = new String[direcaoSize];
-
-		for (int i = 0; i < direcaoSize; i++) {
-			this.emailDirecao[i] = direcao.get(i).getEmail();
-		}
-		Runnable notificacao = new Runnable() {
-
-			@Override
-			public void run() {
-				switch (acaoExtensao.getStatus()) {
-
-				case AGUARDANDO_PARECERISTA:
-
-					notificarSubmissao(acaoExtensao);
-					break;
-
-				case AGUARDANDO_PARECER_TECNICO:
-
-					if (acaoExtensao.getParecerTecnico().getPendencias() == null) {
-						notificarAtribuicaoParecerista(acaoExtensao);
-
-					} else {
-						notificarResolucaoPendenciasParecer(acaoExtensao);
-					}
-
-					break;
-
-				case RESOLVENDO_PENDENCIAS_PARECER:
-
-					notificarSolicitacaoResolucaoPendenciasParecer(acaoExtensao);
-					break;
-
-				case AGUARDANDO_RELATOR:
-
-					notificarEmissaoParecer(acaoExtensao);
-					break;
-
-				case AGUARDANDO_PARECER_RELATOR:
-
-					if (acaoExtensao.getParecerRelator().getPendencias() == null) {
-						notificarAtribuicaoRelator(acaoExtensao);
-					} else {
-						notificarResolucaoPendenciasRelato(acaoExtensao);
-					}
-
-					break;
-
-				case RESOLVENDO_PENDENCIAS_RELATO:
-
-					notificarSolicitacaoResolucaoPendenciasRelato(acaoExtensao);
-					break;
-
-				case AGUARDANDO_HOMOLOGACAO:
-
-					notificarEmissaoRelato(acaoExtensao);
-					break;
-
-				case APROVADO:
-
-					notificarHomologacao(acaoExtensao);
-					break;
-
-				default:
-					break;
-				}
-			}
-		};
-
-		Thread notificar = new Thread(notificacao);
-		notificar.start();*/
+		/*
+		 * List<Papel> papeis = new ArrayList<Papel>();
+		 * papeis.add(papelRepository.findByNome(Tipo.DIRECAO)); List<Pessoa>
+		 * direcao = pessoaRepository.findAllByPapeis(papeis); Integer
+		 * direcaoSize = direcao.size();
+		 * 
+		 * this.emailDirecao = new String[direcaoSize];
+		 * 
+		 * for (int i = 0; i < direcaoSize; i++) { this.emailDirecao[i] =
+		 * direcao.get(i).getEmail(); } Runnable notificacao = new Runnable() {
+		 * 
+		 * @Override public void run() { switch (acaoExtensao.getStatus()) {
+		 * 
+		 * case AGUARDANDO_PARECERISTA:
+		 * 
+		 * notificarSubmissao(acaoExtensao); break;
+		 * 
+		 * case AGUARDANDO_PARECER_TECNICO:
+		 * 
+		 * if (acaoExtensao.getParecerTecnico().getPendencias() == null) {
+		 * notificarAtribuicaoParecerista(acaoExtensao);
+		 * 
+		 * } else { notificarResolucaoPendenciasParecer(acaoExtensao); }
+		 * 
+		 * break;
+		 * 
+		 * case RESOLVENDO_PENDENCIAS_PARECER:
+		 * 
+		 * notificarSolicitacaoResolucaoPendenciasParecer(acaoExtensao); break;
+		 * 
+		 * case AGUARDANDO_RELATOR:
+		 * 
+		 * notificarEmissaoParecer(acaoExtensao); break;
+		 * 
+		 * case AGUARDANDO_PARECER_RELATOR:
+		 * 
+		 * if (acaoExtensao.getParecerRelator().getPendencias() == null) {
+		 * notificarAtribuicaoRelator(acaoExtensao); } else {
+		 * notificarResolucaoPendenciasRelato(acaoExtensao); }
+		 * 
+		 * break;
+		 * 
+		 * case RESOLVENDO_PENDENCIAS_RELATO:
+		 * 
+		 * notificarSolicitacaoResolucaoPendenciasRelato(acaoExtensao); break;
+		 * 
+		 * case AGUARDANDO_HOMOLOGACAO:
+		 * 
+		 * notificarEmissaoRelato(acaoExtensao); break;
+		 * 
+		 * case APROVADO:
+		 * 
+		 * notificarHomologacao(acaoExtensao); break;
+		 * 
+		 * default: break; } } };
+		 * 
+		 * Thread notificar = new Thread(notificacao); notificar.start();
+		 */
 	}
 
 	/**
@@ -142,7 +129,11 @@ public class EmailServiceImpl implements NotificationService {
 	private void enviarEmail(SimpleMailMessage email) {
 		this.mailSender.send(email);
 	}
-
+	
+	private void enviarEmail(MimeMessage email) {
+		this.mailSender.send(email);
+	}
+	
 	/**
 	 * Encapsula o envio de multiplos emails
 	 * 
@@ -178,8 +169,8 @@ public class EmailServiceImpl implements NotificationService {
 		String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		email.setSubject(assunto);
 
-		String texto = EMAIL_DIRECAO_SUBMISSAO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo()).replaceAll(EMAIL_NOME_PESSOA,
-				acaoExtensao.getCoordenador().getNome());
+		String texto = EMAIL_DIRECAO_SUBMISSAO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
 		email.setText(texto);
 
 		enviarEmail(email);
@@ -238,7 +229,8 @@ public class EmailServiceImpl implements NotificationService {
 		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_PARECER.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_PARECER
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
 				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerTecnico().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
@@ -266,20 +258,30 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) {
-		SimpleMailMessage emailCoordenador = new SimpleMailMessage();
+	@Override
+	public void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) throws GpaExtensaoException{
+		if (acaoExtensao != null) {
+			SimpleMailMessage email = new SimpleMailMessage();
+			
+			String[] emailsResponsaveis = {acaoExtensao.getCoordenador().getEmail(), acaoExtensao.getParecerTecnico().getResponsavel().getEmail()};
+			
+			email.setTo(emailsResponsaveis);
+			email.setFrom(EMAIL_REMETENTE);
 
-		emailCoordenador.setTo(acaoExtensao.getCoordenador().getEmail());
-		emailCoordenador.setFrom(EMAIL_REMETENTE);
+			String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
-		emailCoordenador.setSubject(assuntoCoordenador);
-
-		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS.replaceAll(EMAIL_TITULO_ACAO,
-				acaoExtensao.getTitulo());
-		emailCoordenador.setText(textoCoordenador);
-
-		enviarEmail(emailCoordenador);
+			email.setSubject(assunto);
+			
+			String texto = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS
+					.replaceAll(EMAIL_PENDENCIAS, pendencia.getDescricao().toUpperCase())
+					.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
+				
+			email.setText(texto);
+	
+			enviarEmail(email);
+		} else {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		}
 	}
 
 	/**
@@ -288,7 +290,7 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) {
+	private void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) {
 		SimpleMailMessage emailParecerista = new SimpleMailMessage();
 
 		emailParecerista.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail());
@@ -320,7 +322,8 @@ public class EmailServiceImpl implements NotificationService {
 		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_ATRIBUICAO_RELATOR.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+		String textoCoordenador = EMAIL_COORDENACAO_ATRIBUICAO_RELATOR
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
 				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
@@ -356,7 +359,8 @@ public class EmailServiceImpl implements NotificationService {
 		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
 		emailCoordenador.setSubject(assuntoCoordenador);
 
-		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_RELATO.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+		String textoCoordenador = EMAIL_COORDENACAO_EMISSAO_RELATO
+				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
 				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getParecerRelator().getResponsavel().getNome());
 		emailCoordenador.setText(textoCoordenador);
 
