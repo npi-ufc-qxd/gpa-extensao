@@ -10,6 +10,7 @@ public interface ParceriaExternaService {
 	
 	
 	void adicionarParceriaExterna(Pessoa coordenador, ParceriaExterna parceriaExterna, AcaoExtensao acaoExtensao, Parceiro parceiro) throws GpaExtensaoException;
+
 	void excluirParceriaExterna(Pessoa coordenador, ParceriaExterna parceria) throws GpaExtensaoException;
 
 }
