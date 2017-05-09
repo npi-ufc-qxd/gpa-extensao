@@ -50,31 +50,6 @@
 			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'" />
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<label>Status:</label>
-			<p th:text="${acao.status.descricao}"></p>
-		</div>
-		<div class="col-sm-2">
-			<label>Início</label>
-			<p
-				th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'" />
-		</div>
-		<div class="col-sm-2">
-			<label>Término</label>
-			<p id="dataTermino"
-				th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'" />
-		</div>
-		<div class="col-sm-2">
-			<label>Bolsas solicitadas</label>
-			<p
-				th:text="${acao.bolsasSolicitadas} ? ${acao.bolsasSolicitadas} : '-'" />
-		</div>
-		<div class="col-sm-2">
-			<label>Bolsas recebidas</label>
-			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '0'" />
-		</div>
-	</div>
 
 	<div class="row">
 		<div class="col-sm-4">
@@ -92,21 +67,6 @@
 			<label>Observações</label>
 			<p
 				th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'" />
-		</div>
-	</div>
-
-
-	<div class="row">
-		<div class="col-sm-12">
-			<label>Observações</label>
-			<p
-				th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'" />
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<label>Resumo</label>
-			<p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
 		</div>
 	</div>
 

@@ -52,20 +52,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
 				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
 			}
-			if (parceiro != null) {
-				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
-
-			}
-			
-			if (!acaoOld.getStatus().equals(Status.NOVO)
-					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
-					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
-					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
-				throw new GpaExtensaoException(EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA);
-			}
-			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
-				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
-			}
+					
 			if (parceiro != null) {
 				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
 
