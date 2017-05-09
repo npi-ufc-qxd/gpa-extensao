@@ -32,11 +32,10 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 	@Autowired
 	private ParceiroRepository parceiroRepository;
 
-	@Override
+@Override
 	public void adicionarParceriaExterna(Pessoa coordenador, ParceriaExterna parceriaExterna, AcaoExtensao acaoExtensao,
 			Parceiro parceiro) throws GpaExtensaoException {
 		AcaoExtensao acaoOld = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
 		Parceiro parceiroExistente = null;
 
 		if (acaoOld != null) {
@@ -60,7 +59,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
 					}
 				}
-				parceriaExterna.setParceiro(parceiroExistente);		
+				parceriaExterna.setParceiro(parceiroExistente);
 			} else {
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
 					if (parceriaExterna.getParceiro().getNome().trim()
@@ -69,14 +68,14 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 					}
 				}
 			}
-		
 			acaoOld.getParceriasExternas().add(parceriaExterna);
 			parceriaExterna.setAcaoExtensao(acaoOld);
 			parceriaExternaRepository.save(parceriaExterna);
 			acaoExtensaoRepository.save(acaoOld);
-	
 		}
+
 	}
+
 	@Override
 	public void excluirParceriaExterna(Pessoa coordenador, ParceriaExterna parceria) throws GpaExtensaoException {
 		if (!parceria.getAcaoExtensao().getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
@@ -85,6 +84,9 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 				&& !parceria.getAcaoExtensao().getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 				&& !parceria.getAcaoExtensao().getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
 				&& !parceria.getAcaoExtensao().getStatus().equals(Status.APROVADO)) {
+			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
+		}
+		if (!parceria.getAcaoExtensao().isAtivo()) {
 			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
 		}
 		parceriaExternaRepository.delete(parceria);

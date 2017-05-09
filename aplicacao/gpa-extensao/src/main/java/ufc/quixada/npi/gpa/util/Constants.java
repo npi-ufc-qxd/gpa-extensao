@@ -24,7 +24,9 @@ public class Constants {
 	public static final String MENSAGEM_ACAO_EXTENSAO_INEXISTENTE = "A Açao de extensão solicitada não foi encontrada";
 	public static final String MENSAGEM_PERMISSAO_NEGADA = "Permissão negada";
 	public static final String LOGIN_INVALIDO = "Usuário e/ou senha inválidos";
+
 	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
+
 	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior que a data de termino da ação";
 	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";
 	public static final String MENSAGEM_DATA_HOMOLOGACAO_MAIOR = "A data de homologação não pode maior que a data de termino da ação";
@@ -91,10 +93,18 @@ public class Constants {
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
+
 	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
-	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 
+
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO = "Para o status atual da ação, não é permitida a alteração no tempo de participação";
+	public static final String EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO = "O coordenador da ação não pode ser excluído da participação.";
+
+	
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
@@ -156,6 +166,7 @@ public class Constants {
 	public static final String EMAIL_DIRECAO_EMISSAO_RELATO = "A avaliação para a ação #TITULO_ACAO# foi emitida por #NOME_PESSOA#. A ação aguarda a homologação.";
 	public static final String EMAIL_RELATOR_RESOLUCAO_PENDENCIAS = "A ação #TITULO_ACAO# do servidor #NOME_PESSOA# passou pela resolução de pendências, e aguarda pela sua avaliação.";
 	public static final String EMAIL_COORDENACAO_HOMOLOGACAO = "A sua ação #TITULO_ACAO# foi homologada com o status de #STATUS#.";
+	public static final String EMAIL_PARECERISTA_PRAZO = "O prazo para submissão do seu parecer se encerra amanhã, #PRAZO#.";
 
 	// e-mail variable properties
 	public static final String EMAIL_TITULO_ACAO = "#TITULO_ACAO#";

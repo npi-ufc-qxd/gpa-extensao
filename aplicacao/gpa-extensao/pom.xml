@@ -30,7 +30,6 @@
 			<url>http://npi-ufc-qxd.github.io/npi-mvn-repo/</url>
 		</repository>
 	</repositories>
-
 	<dependencies>
 		<!-- Dependecia para ajudar do desenvolvimento -->
 		<dependency>

@@ -9,6 +9,10 @@
 				<th>Instituição</th>
 				<th>CH</th>
 				<th>Período</th>
+				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					data-toogle="tooltip" title="Alterar">Alterar</th>
+				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					data-toogle="tooltip" title="Excluir">Excluir</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,6 +24,24 @@
 				<td th:text="__${membro.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}">
+					<a data-toggle="modal"
+					data-target="#modal_alterar_periodo_participante"
+					data-dismiss="modal" class="btn btn-block btn-info"
+					th:attr="participacao=${membro.id},
+							dataInicio=${membro.dataInicio},
+							dataTermino=${membro.dataTermino},
+							funcaoParticipante = ${membro.funcao.descricao},
+							action = participacao,	
+							link_alteracao=@{/participacao/alterar/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">Alterar</a>
+				</td>
+
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
+					data-toggle="modal" data-target="#modal_exclusao_participacao"
+					data-dismiss="modal" class="btn btn-block btn-danger"
+					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">EXCLUIR</a></td>
+
 			</tr>
 			<tr th:each="bolsa: ${acao.bolsistas}">
 				<td th:text="${bolsa.bolsista.pessoa.nome}"></td>
@@ -30,6 +52,23 @@
 				<td th:text="__${bolsa.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}">
+					<a data-toggle="modal"
+					data-target="#modal_alterar_periodo_participante"
+					data-dismiss="modal" class="btn btn-block btn-info"
+					th:attr="pessoa=${bolsa.bolsista.pessoa.id},
+							dataInicio=${bolsa.inicio},
+							dataTermino=${bolsa.termino},
+							funcaoBolsista = Bolsista +' '+${bolsa.tipo.descricao},
+							action = bolsa,	
+							link_alteracao=@{/bolsa/alterar/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}">Alterar</a>
+				</td>
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
+					data-toggle="modal" data-target="#modal_exclusao_bolsa"
+					data-dismiss="modal" class="btn btn-block btn-danger"
+					th:attr="link_exclusao=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}">EXCLUIR</a></td>
+
 			</tr>
 		</tbody>
 	</table>
@@ -82,7 +121,8 @@
 														id="funcao" class="form-control" th:field="*{funcao}">
 														<option th:each="f : ${funcoes}" th:text="${f.descricao}"
 															th:value="${f}"></option>
-													</select> <span class="help-block"> Selecione a função do participante </span>
+													</select> <span class="help-block"> Selecione a função do
+														participante </span>
 												</div>
 
 											</div>
@@ -172,6 +212,21 @@
 												</div>
 											</div>
 										</div>
+										<div class="row">
+
+											<div class="col-md-6">
+
+												<div class="form-group">
+													<label for="cargaHoraria">* Carga Horária Semanal</label> <input
+														id="cargaHoraria" type="number" name="cargaHoraria"
+														required="required" class="form-control" min="4" max="16"
+														th:field="*{cargaHoraria}" />
+
+												</div>
+
+											</div>
+
+										</div>
 
 										<div class="form-actions pull-right">
 											<button type="submit" class="btn btn-success">
@@ -191,14 +246,170 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+
+
+	<div id="modal_exclusao_bolsa" class="modal fade bs-example-modal-sm"
+		tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+		style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Deseja realmente excluir esse
+						bolsista?</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="col-md-6">
+										<button type="button" class="btn btn-default"
+											style="color: black;" data-dismiss="modal">Fechar</button>
+									</div>
+									<div class="col-md-6">
+										<a id="btn_confirmacao_exclusao_bolsista"
+											class="btn btn-block btn-danger" style="color: black;">Excluir</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="modal_alterar_periodo_participante"
+		class="modal fade bs-example-modal-md" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Alterar período de participação</h4>
+				</div>
+				<div class="modal-body">
+
+
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<form id="alterar_periodo_participante" method="POST"
+									th:action="@{#}">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">Nome</label> <input
+													id="nomeParticipanteAlteracaoPeriodo" class="form-control"
+													type="text" disabled="disabled" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">Função</label> <input
+													id="funcaoParticipanteAlteracaoPeriodo"
+													class="form-control" type="text" disabled="disabled" />
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<h3>Tempo de Participação</h3>
+
+										<div class="col-md-6">
+											<div class="form-group">
+
+												<label>* Data de início</label> <input
+													id="data_inicio_participacao_alterar_periodo"
+													required="required" data-mask="99/99/9999" name="inicio"
+													class="form-control date" type="date" /> <span
+													class="font-13 text-muted">Data limite para início:
+													<small th:text="${acao.parseData(acao.inicio)}"></small>
+												</span>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>* Data de término</label><input required="required"
+													id="data_termino_participacao_alterar_periodo"
+													data-mask="99/99/9999" name="termino"
+													class="form-control date" type="date" /> <span
+													class="font-13 text-muted">Data limite para término:
+													<small th:text="${acao.parseData(acao.termino)}"></small>
+												</span>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-actions text-right">
+
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Fechar</button>
+										<button type="submit" class="btn btn-success">
+											<i class="fa fa-check"></i> Alterar
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div id="modal_exclusao_participacao"
+		class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Deseja realmente excluir esse
+						participante?</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="col-md-6">
+										<button type="button" class="btn btn-default"
+											style="color: black;" data-dismiss="modal">Fechar</button>
+									</div>
+									<div class="col-md-6">
+										<a id="btn_confirmacao_exclusao_participacao"
+											class="btn btn-block btn-danger" style="color: black;">Excluir</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 	<div id="bolsista-modal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true"
 		style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close"
-						onClick="window.location.reload();" aria-hidden="true">×</button>
+					<button type="button" class="close" aria-hidden="true">×</button>
 					<h4 class="modal-title">Adicionar Novo Bolsista</h4>
 				</div>
 				<div class="modal-body">

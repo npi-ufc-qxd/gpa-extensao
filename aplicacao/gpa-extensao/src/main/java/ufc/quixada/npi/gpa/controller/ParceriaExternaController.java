@@ -46,7 +46,6 @@ public class ParceriaExternaController {
 	
 	@Autowired
 	private PessoaService pessoaService;
-
 	@Autowired
 	private ParceriaExternaService parceriaExternaService;
 
@@ -75,6 +74,7 @@ public class ParceriaExternaController {
 	public String novaParceriaExterna(@PathVariable("idAcao") AcaoExtensao idAcao,
 			@ModelAttribute @Valid ParceriaExterna parceria,
 			@RequestParam(required = false) Parceiro parceiro, RedirectAttributes redirectAttribute, Authentication authentication) {
+
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
 			parceriaExternaService.adicionarParceriaExterna(coordenador, parceria, idAcao, parceiro);
