@@ -14,5 +14,4 @@ public interface NotificationService {
 	void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) throws GpaExtensaoException;
 
 	void notificarPareceristaRelatorPrazo(Date agora);
-
 }

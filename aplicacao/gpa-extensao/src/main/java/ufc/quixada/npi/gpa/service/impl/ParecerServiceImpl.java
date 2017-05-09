@@ -100,9 +100,7 @@ public class ParecerServiceImpl implements ParecerService {
 			}
 
 			acaoExtensaoRepository.save(acaoExtensao);
-			
 			notificationService.notificarSolicitacaoResolucaoPendenciasParecer(acaoExtensao, pendencia);
-		
 	}
 	
 	@Override
@@ -122,7 +120,6 @@ public class ParecerServiceImpl implements ParecerService {
 				break;
 
 			case AGUARDANDO_PARECER_RELATOR:
-
 				acao.getParecerRelator().setDataRealizacao(new Date());
 				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
 				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());

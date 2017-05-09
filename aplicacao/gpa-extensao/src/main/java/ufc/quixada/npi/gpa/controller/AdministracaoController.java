@@ -3,7 +3,6 @@ package ufc.quixada.npi.gpa.controller;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_LISTAGEM_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_CADASTRO_RETROATIVO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_LISTAGEM_BOLSISTAS;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -206,14 +204,6 @@ public class AdministracaoController {
 		}
 
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
-	}
-
-	@RequestMapping(value = "/encerrarAcao/{idAcao}")
-	public String encerrarAcaoExtensao(@PathVariable("idAcao") Integer idAcao, RedirectAttributes redirect)
-			throws GpaExtensaoException {
-		acaoExtensaoService.encerrarAcao(idAcao);
-		redirect.addFlashAttribute(MESSAGE, MESSAGE_ACAO_ENCERRADA);
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
 
 	@RequestMapping(value = "/salvarNumeroProcesso/{idAcao}", method = RequestMethod.GET)

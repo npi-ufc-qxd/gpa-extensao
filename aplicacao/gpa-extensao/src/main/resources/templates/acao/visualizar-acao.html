@@ -13,11 +13,8 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
-<div class="container-fluid" layout:fragment="conteudo">
-
-
+	<div class="container-fluid" layout:fragment="conteudo">
 		<br />
-		<!-- Linha do tempo -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div
@@ -83,39 +80,14 @@
 			</div>
 		</div>
 
-
-
 	</div>
 
 
-	<!-- Parcerias -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-		</div>
-	</div>
+	<section layout:fragment="js">
 
+		<script th:src="@{/js/mask.js}"></script>
 
-	<br />
-	<!-- Pareceres -->
-	<div class="row">
-		<!-- Parecer Técnico -->
-		<div class="col-xs-6">
-
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-		</div>
-		<!-- Parecer do Relator -->
-		<div class="col-xs-6">
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-		</div>
-	</div>
-			
-<section layout:fragment="js">
-	<script th:src="@{/js/mask.js}"></script>
-	<script th:src="@{/gpa/direcao/detalhes.js}"></script>
-	<script>
+		<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
 				.dataTable(
@@ -151,7 +123,6 @@
 									document.getElementById("nomeParticipante").disabled = false;
 									document.getElementById("cpfParticipante").disabled = false;
 									document.getElementById("descricaoFuncao").disabled = false;
-
 								} else {
 									document
 											.getElementById("participanteServidor").disabled = false;
@@ -163,7 +134,6 @@
 		</script>
 		<script type="text/javascript">
 			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
 			checkboxes.click(function() {
 				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
 			});
@@ -192,7 +162,6 @@
 					});
 			</script>
 		<script>
-
 		$("#alterar-parecerista-button").on("click", function(){
 			$("#parecer-tecnico-acoes").hide();
 			$("#parecer-tecnico-info").hide();
@@ -252,6 +221,17 @@
 			$("#parecer-tecnico-info").fadeIn(500);
 		});
 		
+		$("#pendencias-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#pendencias-relato-form").fadeIn(500);			
+		});
+		
+		$("#cancelar-pendencia-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#parecer-relator-info").show();
+			$("#pendencias-relato-form").hide();			
+		});
 		
 	</script>
 
@@ -289,7 +269,6 @@
 						});
 					}
 				});
-
 		$('#funcao').change(function() {
 			$.ajax({
 				type:"GET",
@@ -310,22 +289,17 @@
 				}
 			});
 		
-
 		});
 	</script>
 
 		<script>
-
 		$(".myadmin-alert .closed").click(function(event) {
 			$(this).parents(".myadmin-alert").fadeToggle(350);
-
 			return false;
-
 		$('#novoParcitipante').click(function() {
 			document.getElementById("nomeParceiro").disabled = false;
 			document.getElementById("tipoParceiro").disabled = false;
 			document.getElementById("parceiro").disabled = true;
-
 		});
 		$('#parcitipanteExistente').click(function() {
 			document.getElementById("parceiro").disabled = false;
@@ -342,13 +316,10 @@
 								document
 										.getElementById("descricaoOutrasFormas").disabled = true;
 							}
-
 						});
 	</script>
-
 		<script type="text/javascript">
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
 			$('#modal_exclusao_parceria')
 					.on(
 							'show.bs.modal',
@@ -359,9 +330,6 @@
 								var a = document
 										.getElementById('btn_confirmacao_exclusao_parceria');
 								a.href = link;
-
-
-
 		$(".showtop").ready(function() {
 			$(".alerttop").fadeToggle(350);
 		});
@@ -445,7 +413,6 @@
 			  }
 		});	
 	</script>
-
 		<script>
 		$(".column-step").each(function(index,element) { 
 			$( element ).toggleClass( "upcoming" );
