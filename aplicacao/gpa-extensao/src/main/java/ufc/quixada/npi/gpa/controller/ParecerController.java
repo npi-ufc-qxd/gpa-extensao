@@ -1,8 +1,6 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
-import static ufc.quixada.npi.gpa.util.Constants.SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SOLICITACAO_PENDENCIA_PARECER_SUCCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 
 import org.springframework.beans.factory.annotation.Autowired;

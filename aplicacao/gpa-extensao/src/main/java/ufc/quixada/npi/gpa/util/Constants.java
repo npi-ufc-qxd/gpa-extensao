@@ -132,8 +132,7 @@ public class Constants {
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
-	public static final String MESSAGE_SOLICITACAO_PENDENCIA_PARECER_SUCCESSO = "A solicitação foi enviada com sucesso!";
-	
+
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
 	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";
