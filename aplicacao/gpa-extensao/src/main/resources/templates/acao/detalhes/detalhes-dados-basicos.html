@@ -87,11 +87,7 @@
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-primary waves-effect waves-light m-t-10">Homologar
-					Ação</a> <a th:if="${acao.coordenador.cpf == #authentication.name}"
-					href="" alt="default" data-toggle="modal"
-					data-target="#modalTransferir"
-					class="btn btn-primary waves-effect waves-light m-t-10">Transferir
-					Coordenação</a> <a
+					Ação</a> <a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#myModal"
 					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
