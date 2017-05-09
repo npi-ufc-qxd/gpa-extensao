@@ -8,6 +8,7 @@ import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,6 +133,24 @@ public class ParticipacaoController {
 		return R_ACAO + acaoExtensao.getId();
 	}
 
+	@PostMapping("/alterar/{participacao}/{acao}")
+	public String alterarParticipacao(@PathVariable("participacao") Integer participacao,
+			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+			Authentication authentication,
+			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
+
+		Participacao old = participacaoRepository.findOne(participacao);
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+
+		try {
+			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acaoExtensao.getId();
+	}
+
 	@RequestMapping(value = "/buscarParticipacoes/{idAcao}", method = RequestMethod.GET)
 	public String showGuestList(@PathVariable("idAcao") Integer id, Model model) {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
@@ -144,5 +164,10 @@ public class ParticipacaoController {
 		List<Funcao> funcoes = new ArrayList<>();
 		funcoes.add(funcao);
 		return servidorService.findByFuncao(funcoes);
+	}
+
+	@RequestMapping("/buscar")
+	public @ResponseBody Participacao buscarParticipacao(@RequestParam("participacao") Participacao participacao) {
+		return participacaoService.buscarParticipante(participacao);
 	}
 }
