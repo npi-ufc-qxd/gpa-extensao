@@ -89,7 +89,7 @@ public class Constants {
 	public static final String EXCEPTION_GET_ANEXO = "Não foi possível encontrar o anexo";
 	public static final String EXCEPTION_DELETAR_ARQUIVO = "Não foi possível deletar o arquivo";	
 	public static final String EXCEPTION_DATA_INVALIDA = "A data inserida é inválida";
-
+	public static final String EXCEPTION_ACAO_JA_ENCERRADA = "A ação selecionada já está encerrada";
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
@@ -102,9 +102,10 @@ public class Constants {
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO = "Para o status atual da ação, não é permitida a alteração no tempo de participação";
+	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ENCERRAMENTO = "Para o status atual da ação, não é permitido encerrá-la!";
 	public static final String EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO = "O coordenador da ação não pode ser excluído da participação.";
 
-	
+
 	// Mensagens
 	public static final String ERRO = "erro";
 	public static final String SUCESSO = "sucesso";
