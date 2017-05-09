@@ -21,5 +21,4 @@ public interface ParticipacaoService {
 			Date dataTermino) throws GpaExtensaoException;
 
 	Participacao buscarParticipante(Participacao participacao);
-
 }

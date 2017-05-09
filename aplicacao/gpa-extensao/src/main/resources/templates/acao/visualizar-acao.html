@@ -13,11 +13,8 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
-
 	<div class="container-fluid" layout:fragment="conteudo">
 		<br />
-
-		<!-- Linha do tempo -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div
@@ -86,10 +83,12 @@
 	</div>
 
 	<section layout:fragment="js">
+
 		<script th:src="@{/js/mask.js}"></script>
+
 		<script>
 		$('#menu-acoes a').addClass("active");
-		$('#equipe, #parcerias')
+		$('#equipe,#parcerias')
 				.dataTable(
 						{
 							language : {
@@ -101,6 +100,7 @@
 							order : [ [ 0, "asc" ] ]
 						});
 		</script>
+		<script th:src="@{/js/mask.js}"></script>
 		<script type="text/javascript">
 			$('#instituicao')
 					.change(
@@ -112,7 +112,6 @@
 								}
 							});
 		</script>
-
 		<script type="text/javascript">
 			$('#funcao')
 					.change(
@@ -134,7 +133,6 @@
 		</script>
 		<script type="text/javascript">
 			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
 			checkboxes.click(function() {
 				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
 			});
@@ -151,84 +149,112 @@
 				document.getElementById("tipoParceiro").disabled = true;
 			});
 			$('#outrasFormas')
-					.click(
-							function() {
-								if (document.getElementById("outrasFormas").checked) {
-									document
-											.getElementById("descricaoOutrasFormas").disabled = false;
-								} else {
-									document
-											.getElementById("descricaoOutrasFormas").disabled = true;
-								}
-							});
-		</script>
+			.click(
+					function() {
+						if (document.getElementById("outrasFormas").checked) {
+							document
+									.getElementById("descricaoOutrasFormas").disabled = false;
+						} else {
+							document
+									.getElementById("descricaoOutrasFormas").disabled = true;
+						}
+					});
+			</script>
 		<script>
-			$("#alterar-parecerista-button").on("click", function() {
-				$("#parecer-tecnico-acoes").hide();
-				$("#parecer-tecnico-info").hide();
-				$("#parecer-tecnico-form").fadeIn(500);
-			});
+		$("#alterar-parecerista-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#parecer-tecnico-form").fadeIn(500);
+		});
+		
+		$("#alterar-relator-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#parecer-relator-form").fadeIn(500);
+		});
+		
+		$("#emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form").hide();
+			$("#emitir-parecer-form").fadeIn(500);
+		});
+		
+		$("#emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#emitir-relato-form").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#emitir-relato-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#emitir-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-tecnico-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-relato-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-relator-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		
+	</script>
 
-			$("#alterar-relator-button").on("click", function() {
-				$("#parecer-tecnico-acoes").hide();
-				$("#parecer-relator-info").hide();
-				$("#parecer-relator-form").fadeIn(500);
-			});
+		<script type="text/javascript">
+		$('#instituicao').change(function() {
+			if (this.value == "UFC") {
+				document.getElementById("nomeInstituicao").disabled = true;
+			} else {
+				document.getElementById("nomeInstituicao").disabled = false;
+			}
+		});
+	</script>
 
-			$("#emitir-parecer-button")
-					.on(
-							"click",
-							function() {
-								$(
-										"#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form")
-										.hide();
-								$("#emitir-parecer-form").fadeIn(500);
-							});
-
-			$("#emitir-relato-button").on("click", function() {
-				$("#parecer-relator-acoes").hide();
-				$("#parecer-relator-info").hide();
-				$("#emitir-relato-form").fadeIn(500);
-			});
-
-			$("#cancelar-emitir-relato-button").on("click", function() {
-				$("#parecer-relator-acoes").show();
-				$("#emitir-relato-form").hide();
-				$("#parecer-relator-info").fadeIn(500);
-			});
-
-			$("#cancelar-emitir-parecer-button").on("click", function() {
-				$("#parecer-tecnico-acoes").show();
-				$("#emitir-parecer-form").hide();
-				$("#parecer-tecnico-info").fadeIn(500);
-			});
-
-			$("#cancelar-parecer-button").on("click", function() {
-				$("#parecer-tecnico-acoes").show();
-				$("#parecer-tecnico-form").hide();
-				$("#parecer-tecnico-info").fadeIn(500);
-			});
-
-			$("#cancelar-relato-button").on("click", function() {
-				$("#parecer-tecnico-acoes").show();
-				$("#parecer-relator-form").hide();
-				$("#parecer-relator-info").fadeIn(500);
-			});
-		</script>
 
 
 		<script type="text/javascript">
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			$.ajax({
-				url : "/servidores/funcao/servidor",
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({url : "/servidores/funcao/servidor",
 				contentType : "application/json",
 				type : "GET",
 				data : JSON.stringify(this.value),
 				beforeSend : function(xhr) {
-					xhr.setRequestHeader("Content-Type", "application/json");
-					xhr.setRequestHeader(header, token);
-				},
+						xhr
+								.setRequestHeader("Content-Type",
+										"application/json");
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(data) {
+						$('#participanteServidor').empty();
+						$.each(data, function(key, value) {
+							$('#participanteServidor').append(
+									'<option value="' + value.pessoa.id + '">'
+											+ value.pessoa.nome + '</option>');
+						});
+					}
+				});
+		$('#funcao').change(function() {
+			$.ajax({
+				type:"GET",
+				data: {funcao : this.value},
+				 beforeSend: function (request)
+		         {
+		                request.setRequestHeader(header, token);
+		            },
+				url: "/participacao/buscarServidores",
+				contentType: 'application/json',
 				success : function(data) {
 					$('#participanteServidor').empty();
 					$.each(data, function(key, value) {
@@ -238,62 +264,38 @@
 					});
 				}
 			});
-
-			$('#funcao').change(
-					function() {
-						$.ajax({
-							type : "GET",
-							data : {
-								funcao : this.value
-							},
-							beforeSend : function(request) {
-								request.setRequestHeader(header, token);
-							},
-							url : "/participacao/buscarServidores",
-							contentType : 'application/json',
-							success : function(data) {
-								$('#participanteServidor').empty();
-								$.each(data, function(key, value) {
-									$('#participanteServidor').append(
-											'<option value="' + value.pessoa.id + '">'
-													+ value.pessoa.nome
-													+ '</option>');
-								});
-							}
-						});
-
-					});
-		</script>
+		
+		});
+	</script>
 
 		<script>
-			$('#novoParcitipante').click(function() {
-				document.getElementById("nomeParceiro").disabled = false;
-				document.getElementById("tipoParceiro").disabled = false;
-				document.getElementById("parceiro").disabled = true;
-
-			});
-			$('#parcitipanteExistente').click(function() {
-				document.getElementById("parceiro").disabled = false;
-				document.getElementById("nomeParceiro").disabled = true;
-				document.getElementById("tipoParceiro").disabled = true;
-			});
-			$('#outrasFormas')
-					.click(
-							function() {
-								if (document.getElementById("outrasFormas").checked) {
-									document
-											.getElementById("descricaoOutrasFormas").disabled = false;
-								} else {
-									document
-											.getElementById("descricaoOutrasFormas").disabled = true;
-								}
-
-							});
-		</script>
-
+		$(".myadmin-alert .closed").click(function(event) {
+			$(this).parents(".myadmin-alert").fadeToggle(350);
+			return false;
+		$('#novoParcitipante').click(function() {
+			document.getElementById("nomeParceiro").disabled = false;
+			document.getElementById("tipoParceiro").disabled = false;
+			document.getElementById("parceiro").disabled = true;
+		});
+		$('#parcitipanteExistente').click(function() {
+			document.getElementById("parceiro").disabled = false;
+			document.getElementById("nomeParceiro").disabled = true;
+			document.getElementById("tipoParceiro").disabled = true;
+		});
+		$('#outrasFormas')
+				.click(
+						function() {
+							if (document.getElementById("outrasFormas").checked) {
+								document
+										.getElementById("descricaoOutrasFormas").disabled = false;
+							} else {
+								document
+										.getElementById("descricaoOutrasFormas").disabled = true;
+							}
+						});
+	</script>
 		<script type="text/javascript">
-			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
+		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 			$('#modal_exclusao_parceria')
 					.on(
 							'show.bs.modal',
@@ -304,123 +306,99 @@
 								var a = document
 										.getElementById('btn_confirmacao_exclusao_parceria');
 								a.href = link;
-							});
-		</script>
-
-
+		$(".showtop").ready(function() {
+			$(".alerttop").fadeToggle(350);
+		});
+	</script>
 		<script type="text/javascript">
-			$(".showtop").ready(function() {
-				$(".alerttop").fadeToggle(350);
-			});
-		</script>
-		<script type="text/javascript">
-			$('#modal_encerramento_acao')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var link = $elementoQueInvocouModal
-										.attr('link');
-								var a = document
-										.getElementById('btn_confirmacao_encerramento_acao');
-								a.href = link;
-							});
-			$('#modal_exclusao_bolsa')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var link = $elementoQueInvocouModal
-										.attr('link_exclusao');
-								var a = document
-										.getElementById('btn_confirmacao_exclusao_bolsista');
-								a.href = link;
-							});
-			$('#modal_exclusao_participacao')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var link = $elementoQueInvocouModal
-										.attr('link_exclusao');
-								var a = document
-										.getElementById('btn_confirmacao_exclusao_participacao');
-								a.href = link;
-							});
-
-			$('#modal_alterar_periodo_participante')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var participacao = $elementoQueInvocouModal
-										.attr('participacao');
-								var linkAlteracaoParticipacao = $elementoQueInvocouModal
-										.attr('link_alteracao');
-								var dataInicio = $elementoQueInvocouModal
-										.attr('dataInicio');
-								var dataTermino = $elementoQueInvocouModal
-										.attr('dataTermino');
-								var form = document
-										.getElementById('alterar_periodo_participante');
-								var token = $("meta[name='_csrf']").attr(
-										"content");
-								var header = $("meta[name='_csrf_header']")
-										.attr("content");
-								form.action = linkAlteracaoParticipacao;
-
-								$
-										.ajax({
-											type : "GET",
-											data : {
-												participacao : participacao
-											},
-											beforeSend : function(request) {
-												request.setRequestHeader(
-														header, token);
-											},
-											url : "/participacao/buscar",
-											contentType : 'application/json',
-											success : function(data) {
-												form.object = data;
-												var nomeParticipanteAlteracaoPeriodo = document
-														.getElementById('nomeParticipanteAlteracaoPeriodo');
-												var funcaoParticipanteAlteracaoPeriodo = document
-														.getElementById('funcaoParticipanteAlteracaoPeriodo');
-												var data_termino_participacao_alterar_periodo = document
-														.getElementById('data_termino_participacao_alterar_periodo');
-												var data_inicio_participacao_alterar_periodo = document
-														.getElementById('data_inicio_participacao_alterar_periodo');
-												if (data.participante != null) {
-													nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
-												} else {
-													nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
-												}
-												if (data.funcao != null) {
-													funcaoParticipanteAlteracaoPeriodo.value = data.funcao;
-												} else {
-													funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
-												}
-
-												data_termino_participacao_alterar_periodo.value = data.dataTermino;
-												data_inicio_participacao_alterar_periodo.value = data.dataInicio;
-											}
-										});
-							});
-		</script>
-
-
-
+		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
+		  var $elementoQueInvocouModal = $(e.relatedTarget);
+		  var link = $elementoQueInvocouModal.attr('link_exclusao');
+		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
+		  a.href = link;
+		});
+		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var link = $elementoQueInvocouModal.attr('link_exclusao');
+			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
+			  a.href = link;
+		});
+		
+		$('#modal_alterar_periodo_participante').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var participacao = $elementoQueInvocouModal.attr('participacao');
+			  var pessoa = $elementoQueInvocouModal.attr('pessoa');
+			  var linkAlteracaoParticipacao =  $elementoQueInvocouModal.attr('link_alteracao');
+			  var dataInicio = new Date($elementoQueInvocouModal.attr('dataInicio'));
+			  var dataTermino = new Date($elementoQueInvocouModal.attr('dataTermino'));
+			  var form = document.getElementById('alterar_periodo_participante');
+			  form.action = linkAlteracaoParticipacao;			  
+			  var token = $("meta[name='_csrf']").attr("content");
+			  var header = $("meta[name='_csrf_header']").attr("content");
+			  var action = $elementoQueInvocouModal.attr('action');
+			  var nomeParticipanteAlteracaoPeriodo = document.getElementById('nomeParticipanteAlteracaoPeriodo');
+			  var funcaoParticipanteAlteracaoPeriodo = document.getElementById('funcaoParticipanteAlteracaoPeriodo');
+			  var data_termino_participacao_alterar_periodo = document.getElementById('data_termino_participacao_alterar_periodo');
+			  var data_inicio_participacao_alterar_periodo = document.getElementById('data_inicio_participacao_alterar_periodo');
+			  var funcaoBolsista = 	$elementoQueInvocouModal.attr('funcaoBolsista');
+			  var funcaoParticipante = $elementoQueInvocouModal.attr('funcaoParticipante');
+			  
+			  if(action == "participacao"){
+			  	$.ajax({
+					type:"GET",
+					data: {participacao : participacao},
+					beforeSend: function (request){
+			                request.setRequestHeader(header, token);
+			        },
+					url: "/participacao/buscar",
+					contentType: 'application/json',
+					success : function(data) {
+						console.log(data);
+						form.object = data;
+						if(data.participante != null){
+							nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
+						}else{
+							nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
+						}
+						if(data.funcao != "OUTRA" ){
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoParticipante;	
+						}else{
+							funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
+						}
+						data_termino_participacao_alterar_periodo.value = data.dataTermino;
+						data_inicio_participacao_alterar_periodo.value = data.dataInicio;
+					}
+				});
+			  }else{
+				  $.ajax({
+						type:"GET",
+						data: {pessoa : pessoa},
+						beforeSend: function (request){
+				                request.setRequestHeader(header, token);
+				        },
+						url: "/buscar/pessoa",
+						contentType: 'application/json',
+						success : function(data) {
+							console.log(data);
+							nomeParticipanteAlteracaoPeriodo.value = data.nome;
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoBolsista;
+							data_termino_participacao_alterar_periodo.value = dataTermino.toLocaleDateString("pt-BR");
+							data_inicio_participacao_alterar_periodo.value = dataInicio.toLocaleDateString("pt-BR");
+						}
+					});  
+			  }
+		});	
+	</script>
 		<script>
-			$(".column-step").each(function(index, element) {
-				$(element).toggleClass("upcoming");
-				$(element).find("i").removeClass("fa-times");
-				$(element).find("i").toggleClass("fa-check");
-				if ($(this).is(".active")) {
-					return false;
-				}
-			});
-		</script>
+		$(".column-step").each(function(index,element) { 
+			$( element ).toggleClass( "upcoming" );
+			$( element ).find("i").removeClass( "fa-times" );
+			$( element ).find("i").toggleClass( "fa-check" );
+			if($( this ).is( ".active" ) ){
+				return false;
+			}
+		});
+	</script>
 	</section>
 </body>
 </html>
