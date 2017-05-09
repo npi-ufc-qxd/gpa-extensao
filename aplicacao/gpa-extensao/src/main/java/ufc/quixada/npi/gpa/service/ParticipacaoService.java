@@ -8,7 +8,11 @@ import ufc.quixada.npi.gpa.model.Pessoa;
 public interface ParticipacaoService {
 
 	Participacao participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria);
-	
-	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa) throws GpaExtensaoException;
-	
+
+	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException;
+
+	void excluirParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
+			throws GpaExtensaoException;
+
 }

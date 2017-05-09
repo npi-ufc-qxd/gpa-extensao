@@ -1,28 +1,29 @@
 <div class="white-box" th:fragment="dados-basicos">
-	<h3 class="box-title" th:text="${acao.titulo}"></h3>
-	<div class="row">
-		<div class="col-sm-4">
-			<label>Coordenador(a)</label>
-			<p th:text="${acao.coordenador.nome}"></p>
-		</div>
-		<div class="col-sm-2">
-			<label>Modalidade</label>
-			<p th:text="${acao.modalidade.descricao}"></p>
-		</div>
 
-		<div class="col-sm-2">
-			<label>Identificador</label>
-			<p th:text="${acao.identificador}" />
-		</div>
-		<div class="col-sm-2">
-			<label>Código PREX</label>
-			<p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
-		</div>
-		<div class="col-sm-2">
-			<label>Prorrogável</label>
-			<p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
-		</div>
-	</div>
+    <h3 class="box-title" th:text="${acao.titulo}"></h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Coordenador(a)</label>
+            <p th:text="${acao.coordenador.nome}"></p>
+        </div>
+        <div class="col-sm-2">
+            <label>Modalidade</label>
+            <p th:text="${acao.modalidade.descricao}"></p>
+        </div>
+
+        <div class="col-sm-2">
+            <label>Identificador</label>
+            <p th:text="${acao.identificador}"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Código PREX</label>
+            <p th:text="${acao.codigo} ? ${acao.codigo} : '-'"></p>
+        </div>
+        <div class="col-sm-2">
+            <label>Prorrogável</label>
+            <p th:text="${acao.prorrogavel} ? 'SIM' : 'NÃO'"></p>
+        </div>
+    </div>
 
 	<div class="row">
 		<div class="col-sm-4">
@@ -77,37 +78,43 @@
 	</div>
 
 	<div class="row">
-		<div class="col-sm-9">
-					<a th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
+		<div class="col-sm-12">
+			<div class="pull-right">
+				<a  
+					sec:authorize="hasAuthority('DIRECAO')"
+					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+					href="" alt="default" data-toggle="modal" data-target="#modalHomologar"
+					class="btn btn-primary waves-effect waves-light m-t-10">Homologar Ação</a>
+				<a
+					th:if="${acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
+					class="btn btn-primary waves-effect waves-light m-t-10">Transferir Coordenação</a>
+				<a
+					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#myModal"
 					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
 					Recebidas</a> 
-				</div>	
+				<a
+					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal"
+					data-target="#modalCodigo"
+					class="btn btn-primary waves-effect waves-light m-t-10">Cadastrar
+					Código</a> 
+				<a
+					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:href="@{/acoes/submeter/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
 
-		 <div class="col-sm-1">
-			<div class="text-right">
-	    	    <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}" 
-	    	    th:href="@{/acoes/submeter/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
-		    </div>
-		</div> 
-		   
-		    
-		 <div class="col-sm-1">
-		    <div class="text-right">
-		        <a th:if="${acao.status.name() == 'NOVO'}" th:href="@{/acoes/editar/__${acao.id}__}" class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
-		    </div>
-	    </div>	   
-	    
-	    <div class="col-sm-1">
-		    <div class="text-right">
-		        <a sec:authorize="hasAuthority('SERVIDOR')" th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}" th:href="@{/acoes/deletar/__${acao.id}__}" class="btn btn-block btn-danger m-t-10"
-		        onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
-		    </div>
-		</div>   
-      
-		
-		
-		
+				<a th:if="${acao.status.name() == 'NOVO'}"
+					th:href="@{/acoes/editar/__${acao.id}__}"
+					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
+				<a sec:authorize="hasAuthority('SERVIDOR')"
+					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
+					th:href="@{/acoes/deletar/__${acao.id}__}"
+					class="btn btn-block btn-danger m-t-10"
+					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão');">Excluir</a>
+			</div>
+		</div>
 	</div>
 
 	<div class="col-md-4">
@@ -147,11 +154,152 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
-		
-		
-		
+	</div>
+
+	<div class="col-md-4">
+		<!-- sample modal content -->
+		<div id="modalCodigo" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Cadastrar Código
+							PREX</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/acoes/salvarCodigo/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="codigoAcao">Código PREX</label> <input
+												id="codigoAcao" class="form-control" name="codigoAcao"
+												type="text" required="required" maxlength="17"
+												pattern="[a-z0-9]+$" />
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Salvar" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	
+	<div class="col-md-4">
+		<!-- sample modal content -->
+		<div id="modalTransferir" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Transferir Coordenação da Ação</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/acoes/salvarNovoCoordenador/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="coordenador">Novo Coordenador</label>
+											<select id="coordenador" class="form-control" name="idNovoCoordenador">
+											<option th:each="servidor : ${servidores}" th:value="${servidor.pessoa.id}" th:text="${servidor.pessoa.nome}"></option>
+										</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="dataInicio">Data de Início</label> 
+											<input type="text" data-mask="99/99/9999" name="dataInicio" class="form-control" required="required" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="cargaHoraria">* Carga horária do coordenador</label>
+											<input id="cargaHoraria" type="number" name="cargaHoraria" class="form-control" required="required" min="4" max="16"/>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Salvar" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-4">
+		<div id="modalHomologar" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="modalHomologarLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">Homologar Resultado da Ação</h4>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/acoes/homologarAcao/__${acao.id}__}"
+							method="POST">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="resultado">Resultado</label>
+											<select id="resulado" class="form-control" name="resultado">
+												<option value="APROVADO">APROVADO</option>
+												<option value="REPROVADO">REPROVADO</option>
+											</select> 
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group pull-right">
+											<label for="dataHomologacao">Data de Homologação</label>
+											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="observação">Observação</label>
+											<textarea name="observacao" class="form-control" rows="5" style="resize: none"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Homologar" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
 </div>

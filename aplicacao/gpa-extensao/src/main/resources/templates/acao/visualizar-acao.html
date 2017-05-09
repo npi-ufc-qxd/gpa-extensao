@@ -1,59 +1,123 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base/base">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="base/base">
+
+
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+
 
 <head>
-	<title>Extensão - Detalhes</title>
+<title>Extensão - Detalhes</title>
 </head>
+<body>
 
-<div class="container-fluid" layout:fragment="conteudo">
-    <br/>
-    
-    <!-- Linha do tempo -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo" ></div>
-        </div>
-    </div>
-    
-    <!-- Dados Básicos -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos" ></div>
-        </div>
-    </div>
+	<div class="container-fluid" layout:fragment="conteudo">
 
-    <!-- Equipe de Trabalho -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-equipe :: equipe" ></div>
-        </div>
-    </div>
+		<br />
+		<!-- Linha do tempo -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div
+					th:replace="acao/detalhes/detalhes-linha-do-tempo :: linhadotempo"></div>
 
-    <!-- Parcerias -->
-    <div class="row">
-        <div class="col-xs-12">
-            <div th:replace="acao/detalhes/detalhes-parcerias :: parcerias" ></div>
-        </div>
-    </div>
+				<div th:if="${message}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop">
+						<i class="ti-check"></i> O número de bolsas foi inserido com
+						sucesso! <a href="#" class="closed">&times;</a>
+					</div>
+				</div>
+				<div th:if="${message == false}" class="col-lg-3 col-sm-6 col-xs-12">
+					<div
+						class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop">
+						<i class="ti-alert"></i> Não é possível adicionar mais bolsas do
+						que foi solicitada! <a href="#" class="closed">&times;</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Pareceres -->
-    <div class="row">
-        <!-- Parecer Técnico -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico" ></div>
-        </div>
-        <!-- Parecer do Relator -->
-        <div class="col-xs-6">
-            <div th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator" ></div>
-        </div>
-    </div>
+		<!-- Dados Básicos -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div
+					th:replace="acao/detalhes/detalhes-dados-basicos :: dados-basicos"></div>
+			</div>
+		</div>
+		<br />
 
-</div>
-<section layout:fragment="js">
-	<script>
+		<!-- Equipe de Trabalho -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-equipe :: equipe"></div>
+			</div>
+		</div>
+		<!-- Parcerias -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+			</div>
+		</div>
+
+
+		<br />
+
+		<!-- Pareceres -->
+		<div class="row">
+
+			<!-- Pareceres -->
+			<div class="row">
+				<!-- Parecer Técnico -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+				</div>
+				<!-- Parecer do Relator -->
+				<div class="col-xs-6">
+					<div
+						th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+	<!-- Parcerias -->
+	<div class="row">
+		<div class="col-xs-12">
+			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
+		</div>
+	</div>
+
+
+	<br />
+	<!-- Pareceres -->
+	<div class="row">
+		<!-- Parecer Técnico -->
+		<div class="col-xs-6">
+
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
+		</div>
+		<!-- Parecer do Relator -->
+		<div class="col-xs-6">
+			<div
+				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
+		</div>
+	</div>
+
+
+
+	<section layout:fragment="js">
+		<script th:src="@{/js/mask.js}"></script>
+		<script>
+
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
 				.dataTable(
@@ -66,9 +130,122 @@
 							info : false,
 							order : [ [ 0, "asc" ] ]
 						});
+		</script>
+		<script th:src="@{/js/mask.js}"></script>
+		<script type="text/javascript">
+			$('#instituicao')
+					.change(
+							function() {
+								if (this.value == "UFC") {
+									document.getElementById("nomeInstituicao").disabled = true;
+								} else {
+									document.getElementById("nomeInstituicao").disabled = false;
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			$('#funcao')
+					.change(
+							function() {
+								if (this.value == "OUTRA") {
+									document
+											.getElementById("participanteServidor").disabled = true;
+									document.getElementById("nomeParticipante").disabled = false;
+									document.getElementById("cpfParticipante").disabled = false;
+									document.getElementById("descricaoFuncao").disabled = false;
+
+								} else {
+									document
+											.getElementById("participanteServidor").disabled = false;
+									document.getElementById("nomeParticipante").disabled = true;
+									document.getElementById("cpfParticipante").disabled = true;
+									document.getElementById("descricaoFuncao").disabled = true;
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
+
+			checkboxes.click(function() {
+				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
+			});
+		</script>
+		<script type="text/javascript">
+			$('#novoParcitipante').click(function() {
+				document.getElementById("nomeParceiro").disabled = false;
+				document.getElementById("tipoParceiro").disabled = false;
+				document.getElementById("parceiro").disabled = true;
+			});
+			$('#parcitipanteExistente').click(function() {
+				document.getElementById("parceiro").disabled = false;
+				document.getElementById("nomeParceiro").disabled = true;
+				document.getElementById("tipoParceiro").disabled = true;
+			});
+			$('#outrasFormas')
+			.click(
+					function() {
+						if (document.getElementById("outrasFormas").checked) {
+							document
+									.getElementById("descricaoOutrasFormas").disabled = false;
+						} else {
+							document
+									.getElementById("descricaoOutrasFormas").disabled = true;
+						}
+					});
+			</script>
+		<script>
+
+		$("#alterar-parecerista-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#parecer-tecnico-form").fadeIn(500);
+		});
+		
+		$("#alterar-relator-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#parecer-relator-form").fadeIn(500);
+		});
+		
+		$("#emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes, #parecer-tecnico-info, #pendencias-parecer-form").hide();
+			$("#emitir-parecer-form").fadeIn(500);
+		});
+		
+		$("#emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#emitir-relato-form").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#emitir-relato-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		$("#cancelar-emitir-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#emitir-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-tecnico-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#cancelar-relato-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#parecer-relator-form").hide();
+			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		
 	</script>
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 		$('#instituicao').change(function() {
 			if (this.value == "UFC") {
 				document.getElementById("nomeInstituicao").disabled = true;
@@ -78,30 +255,66 @@
 		});
 	</script>
 
-	<script type="text/javascript">
-		$('#funcao')
-				.change(
-						function() {
-							if (this.value == "OUTRA") {
-								document.getElementById("participanteServidor").disabled = true;
-								document.getElementById("nomeParticipante").disabled = false;
-								document.getElementById("cpfParticipante").disabled = false;
-								document.getElementById("descricaoFuncao").disabled = false;
 
-							} else {
-								document.getElementById("participanteServidor").disabled = false;
-								document.getElementById("nomeParticipante").disabled = true;
-								document.getElementById("cpfParticipante").disabled = true;
-								document.getElementById("descricaoFuncao").disabled = true;
-							}
+		<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$.ajax({url : "/servidores/funcao/servidor",
+				contentType : "application/json",
+				type : "GET",
+				data : JSON.stringify(this.value),
+				beforeSend : function(xhr) {
+						xhr
+								.setRequestHeader("Content-Type",
+										"application/json");
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(data) {
+						$('#participanteServidor').empty();
+						$.each(data, function(key, value) {
+							$('#participanteServidor').append(
+									'<option value="' + value.pessoa.id + '">'
+											+ value.pessoa.nome + '</option>');
 						});
+					}
+				});
+
+		$('#funcao').change(function() {
+			$.ajax({
+				type:"GET",
+				data: {funcao : this.value},
+				 beforeSend: function (request)
+		         {
+		                request.setRequestHeader(header, token);
+		            },
+				url: "/participacao/buscarServidores",
+				contentType: 'application/json',
+				success : function(data) {
+					$('#participanteServidor').empty();
+					$.each(data, function(key, value) {
+						$('#participanteServidor').append(
+								'<option value="' + value.pessoa.id + '">'
+										+ value.pessoa.nome + '</option>');
+					});
+				}
+			});
+		
+
+		});
 	</script>
-	
-	<script type="text/javascript">
+
+		<script>
+
+		$(".myadmin-alert .closed").click(function(event) {
+			$(this).parents(".myadmin-alert").fadeToggle(350);
+
+			return false;
+
 		$('#novoParcitipante').click(function() {
 			document.getElementById("nomeParceiro").disabled = false;
 			document.getElementById("tipoParceiro").disabled = false;
 			document.getElementById("parceiro").disabled = true;
+
 		});
 		$('#parcitipanteExistente').click(function() {
 			document.getElementById("parceiro").disabled = false;
@@ -121,26 +334,42 @@
 
 						});
 	</script>
-	
-	<script type="text/javascript">
+
+		<script type="text/javascript">
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
-		checkboxes.click(function() {
-			btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
-		});
-
-		$(".myadmin-alert .closed").click(function(event) {
-			$(this).parents(".myadmin-alert").fadeToggle(350);
-
-			return false;
-		});
+			$('#modal_exclusao_parceria')
+					.on(
+							'show.bs.modal',
+							function(e) {
+								var $elementoQueInvocouModal = $(e.relatedTarget);
+								var link = $elementoQueInvocouModal
+										.attr('link_exclusao');
+								var a = document
+										.getElementById('btn_confirmacao_exclusao_parceria');
+								a.href = link;
+							});
 
 		$(".showtop").ready(function() {
 			$(".alerttop").fadeToggle(350);
 		});
 	</script>
-    
-	<script>
+		<script type="text/javascript">
+		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
+		  var $elementoQueInvocouModal = $(e.relatedTarget);
+		  var link = $elementoQueInvocouModal.attr('link_exclusao');
+		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
+		  a.href = link;
+		});
+		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var link = $elementoQueInvocouModal.attr('link_exclusao');
+			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
+			  a.href = link;
+		});	
+	</script>
+
+		<script>
 		$(".column-step").each(function(index,element) { 
 			$( element ).toggleClass( "upcoming" );
 			$( element ).find("i").removeClass( "fa-times" );
@@ -150,5 +379,6 @@
 			}
 		});
 	</script>
-</section>
+	</section>
+</body>
 </html>

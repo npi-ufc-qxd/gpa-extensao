@@ -9,6 +9,8 @@
 				<th>Instituição</th>
 				<th>CH</th>
 				<th>Período</th>
+				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					data-toogle="tooltip" title="Excluir">Excluir</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,6 +22,11 @@
 				<td th:text="__${membro.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
+					data-toggle="modal" data-target="#modal_exclusao_participacao"
+					data-dismiss="modal" class="btn btn-block btn-danger"
+					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">EXCLUIR</a></td>
+
 			</tr>
 			<tr th:each="bolsa: ${acao.bolsistas}">
 				<td th:text="${bolsa.bolsista.pessoa.nome}"></td>
@@ -30,24 +37,36 @@
 				<td th:text="__${bolsa.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
+					data-toggle="modal" data-target="#modal_exclusao_bolsa"
+					data-dismiss="modal" class="btn btn-block btn-danger"
+					th:attr="link_exclusao=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}">EXCLUIR</a></td>
+
 			</tr>
 		</tbody>
 	</table>
-
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="pull-right">
-				<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
-					class="btn btn-primary waves-effect waves-light m-t-10"
-					data-toggle="modal" data-target="#bolsista-modal"
-					data-dismiss="modal">Bolsista</a> <a
-					th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
-					class="btn btn-primary waves-effect waves-light m-t-10"
-					data-toggle="modal" data-target="#participacao-modal"
-					data-dismiss="modal">Participação</a>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="pull-right">
+							<a th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+								class="btn btn-primary waves-effect waves-light m-t-10"
+								data-toggle="modal" data-target="#bolsista-modal"
+								data-dismiss="modal">Bolsista</a> <a
+								th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+								class="btn btn-primary waves-effect waves-light m-t-10"
+								data-toggle="modal" data-target="#participacao-modal"
+								data-dismiss="modal">Participação</a>
+						</div>
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true"
 		style="display: none;" id="participacao-modal">
@@ -68,7 +87,7 @@
 									th:action="@{/participacao/adicionar-participacao/{acao}(acao=${acao.id})}"
 									th:object="${participacao}" method="POST">
 									<div class="form-body">
-										<div class="row">
+										<div class="row col-md-12">
 											<div class="col-md-6">
 												<div class="form-group">
 													<label class="control-label">* Função</label> <select
@@ -76,18 +95,20 @@
 														<option th:each="f : ${funcoes}" th:text="${f.descricao}"
 															th:value="${f}"></option>
 													</select> <span class="help-block"> Selecione a função do
-														participante </span> <label>* Nome</label> <input
-														id="nomeParticipante"
-														th:field="${participacao.nomeParticipante}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" /> <label>* CPF</label> <input
-														id="cpfParticipante" th:field="*{cpfParticipante}"
-														class="form-control" type="text" required="required"
-														disabled="disabled" /> <label>* Descrição da
-														Função</label> <input id="descricaoFuncao"
-														th:field="*{descricaoFuncao}" class="form-control"
-														type="text" required="required" disabled="disabled" />
+														participante </span>
 												</div>
+
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+
+													<label class="control-label" for="participanteServidor">*
+														Servidor</label> <select class="form-control"
+														data-placeholder="Selecione uma função" tabindex="1"
+														id="participanteServidor" th:field="*{participante}">
+													</select> <span class="help-block">Selecione um servidor </span>
+												</div>
+
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
@@ -97,34 +118,74 @@
 														<option th:each="i : ${instituicoes}"
 															th:text="${i.descricao}" th:value="${i}"></option>
 													</select> <span class="help-block"> Selecione a instituição </span>
-													<label>Nome Instituição</label> <input id="nomeInstituicao"
-														th:field="*{nomeInstituicao}" class="form-control"
-														type="text" required="required" disabled="disabled" />
+
 												</div>
 											</div>
+											<div class="col-md-6">
+												<label class="control-label">Nome Instituição</label> <input
+													id="nomeInstituicao" th:field="*{nomeInstituicao}"
+													class="form-control" type="text" required="required"
+													disabled="disabled" />
+											</div>
 										</div>
-										<div class="row">
+										<div class="row col-md-12">
+											<h3>Novo Participante</h3>
+											<div class="form-group">
+												<div class="col-md-12">
+													<label class="control-label">* Nome</label> <input
+														id="nomeParticipante"
+														th:field="${participacao.nomeParticipante}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+												</div>
+												<div class="col-md-6">
+													<label class="control-label">* CPF</label> <input
+														id="cpfParticipante" th:field="*{cpfParticipante}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+
+												</div>
+												<div class="col-md-6">
+													<label>* Descrição da Função</label> <input
+														id="descricaoFuncao" th:field="*{descricaoFuncao}"
+														class="form-control" type="text" required="required"
+														disabled="disabled" />
+
+												</div>
+
+											</div>
+										</div>
+
+										<div class="row col-md-12">
+											<h3>Tempo de Participação</h3>
+
 											<div class="col-md-6">
 												<div class="form-group">
 
-													<label for="cargaHoraria">* Carga Horária Semanal</label> <input
-														id="cargaHoraria" type="number" name="cargaHoraria"
-														class="form-control" required="required" min="4" max="16"
-														th:field="*{cargaHoraria}" />
+													<label>* Data de início</label> <input
+														id="data_inicio_participacao" required="required"
+														data-mask="99/99/9999"
+														th:value="${acao.parseData(acao.inicio)}"
+														name="dataInicio" class="form-control date" type="date" />
+													<span class="font-13 text-muted">Data limite para
+														início: <small th:text="${acao.parseData(acao.inicio)}"></small>
+													</span>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label class="control-label" for="funcao">*
-														Servidor</label> <select class="form-control"
-														data-placeholder="Selecione uma função" tabindex="1"
-														id="participanteServidor" th:field="*{participante}">
-														<option th:each="s : ${servidores}" id="servidor"
-															th:text="${s.pessoa.nome}" th:value="${s.pessoa.id}"></option>
-													</select> <span class="help-block">Selecione um servidor </span>
+													<label>* Data de término</label><input required="required"
+														id="data_termino_participacao" name="dataTermino"
+														data-mask="99/99/9999"
+														th:value="${acao.parseData(acao.termino)}"
+														class="form-control date" type="date" /> <span
+														class="font-13 text-muted">Data limite para
+														término: <small th:text="${acao.parseData(acao.termino)}"></small>
+													</span>
 												</div>
 											</div>
 										</div>
+
 										<div class="form-actions pull-right">
 											<button type="submit" class="btn btn-success">
 												<i class="fa fa-check"></i> Adicionar
@@ -143,14 +204,87 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+
+
+	<div id="modal_exclusao_bolsa" class="modal fade bs-example-modal-sm"
+		tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+		style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Deseja realmente excluir esse
+						bolsista?</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="col-md-6">
+										<button type="button" class="btn btn-default"
+											style="color: black;" data-dismiss="modal">Fechar</button>
+									</div>
+									<div class="col-md-6">
+										<a id="btn_confirmacao_exclusao_bolsista"
+											class="btn btn-block btn-danger" style="color: black;">Excluir</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="modal_exclusao_participacao"
+		class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title">Deseja realmente excluir esse
+						participante?</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-info">
+						<div class="panel-wrapper collapse in" aria-expanded="true">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<div class="col-md-6">
+										<button type="button" class="btn btn-default"
+											style="color: black;" data-dismiss="modal">Fechar</button>
+									</div>
+									<div class="col-md-6">
+										<a id="btn_confirmacao_exclusao_participacao"
+											class="btn btn-block btn-danger" style="color: black;">Excluir</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 	<div id="bolsista-modal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true"
 		style="display: none;">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close"
-						onClick="window.location.reload();" aria-hidden="true">×</button>
+					<button type="button" class="close" aria-hidden="true">×</button>
 					<h4 class="modal-title">Adicionar Novo Bolsista</h4>
 				</div>
 				<div class="modal-body">
@@ -159,8 +293,7 @@
 					<div class="panel panel-info">
 						<div class="panel-wrapper collapse in" aria-expanded="true">
 							<div class="panel-body">
-								<form
-									th:action="@{/bolsa/cadastrar/{acao}(acao=${acao.id})}"
+								<form th:action="@{/bolsa/cadastrar/{acao}(acao=${acao.id})}"
 									th:object="${bolsa}" method="POST">
 									<div class="form-body">
 										<div class="row">
@@ -189,12 +322,11 @@
 												<div class="col-md-6">
 													<div class="form-group">
 
-														<label>* Data de início</label> <input
-															required="required"
+														<label>* Data de início</label> <input required="required"
 															data-mask="99/99/9999"
-															th:value="${acao.parseData(acao.inicio)}"
-															name="inicio" class="form-control date" type="date" />
-														<span class="font-13 text-muted">Data limite para
+															th:value="${acao.parseData(acao.inicio)}" name="inicio"
+															class="form-control date" type="date" /> <span
+															class="font-13 text-muted">Data limite para
 															início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 														</span>
 													</div>
@@ -202,8 +334,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>* Data de término</label><input required="required"
-															name="termino"
-															data-mask="99/99/9999"
+															name="termino" data-mask="99/99/9999"
 															th:value="${acao.parseData(acao.termino)}"
 															class="form-control date" type="date" /> <span
 															class="font-13 text-muted">Data limite para
@@ -231,5 +362,3 @@
 		</div>
 	</div>
 </div>
-
-
