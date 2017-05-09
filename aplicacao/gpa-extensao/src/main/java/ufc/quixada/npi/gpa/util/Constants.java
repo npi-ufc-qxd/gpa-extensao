@@ -155,7 +155,7 @@ public class Constants {
 	public static final String EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA = "A ação #TITULO_ACAO# foi atribuída para sua apreciação, com prazo até #PRAZO#.";
 	public static final String EMAIL_COORDENACAO_EMISSAO_PARECER = "O parecer técnico foi emitido por #NOME_PESSOA# para a sua ação: #TITULO_ACAO#.";
 	public static final String EMAIL_DIRECAO_EMISSAO_PARECER = "O parecer técnico para a ação #TITULO_ACAO# foi emitido por #NOME_PESSOA#. A ação aguarda a atribuição do relator.";
-	public static final String EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS = "Foi solicitado que pendências existentes na ação #TITULO_ACAO# sejam resolvidas.";
+	public static final String EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS = "Foi solicitado que as seguintes pendências:\n#PENDENCIAS#\nexistentes na ação #TITULO_ACAO# sejam resolvidas.";
 	public static final String EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS = "A ação #TITULO_ACAO# do servidor #NOME_PESSOA# passou pela resolução de pendências, e aguarda pelo parecer.";
 	public static final String EMAIL_COORDENACAO_ATRIBUICAO_RELATOR = "#NOME_PESSOA# foi encarregado(a) de emitir uma avaliação sobre a sua ação: #TITULO_ACAO#.";
 	public static final String EMAIL_RELATOR_ATRIBUICAO_RELATOR = "Você foi atribuído(a) como relator(a) da ação #TITULO_ACAO#, com prazo até #PRAZO#. Sua avaliação sobre a mesma é aguardada.";
@@ -170,6 +170,7 @@ public class Constants {
 	public static final String EMAIL_NOME_PESSOA = "#NOME_PESSOA#";
 	public static final String EMAIL_PRAZO = "#PRAZO#";
 	public static final String EMAIL_STATUS = "#STATUS#";
+	public static final String EMAIL_PENDENCIAS = "#PENDENCIAS#";
 
 	/**
 	 * Caminho da pasta de uploads no sistema de arquivos local.

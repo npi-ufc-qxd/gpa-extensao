@@ -242,6 +242,17 @@
 			$("#parecer-relator-info").fadeIn(500);
 		});
 		
+		$("#pendencias-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#pendencias-relato-form").fadeIn(500);			
+		});
+		
+		$("#cancelar-pendencia-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#parecer-relator-info").show();
+			$("#pendencias-relato-form").hide();			
+		});
 		
 	</script>
 
