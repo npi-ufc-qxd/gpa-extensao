@@ -307,19 +307,12 @@
 	</script>
 		<script type="text/javascript">
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-			$('#modal_exclusao_parceria')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var link = $elementoQueInvocouModal
-										.attr('link_exclusao');
-								var a = document
-										.getElementById('btn_confirmacao_exclusao_parceria');
-								a.href = link;
-		$(".showtop").ready(function() {
-			$(".alerttop").fadeToggle(350);
-		});
+			$('#modal_exclusao_parceria').on('show.bs.modal', function(e) {
+				var $elementoQueInvocouModal = $(e.relatedTarget);
+				var link = $elementoQueInvocouModal.attr('link_exclusao');
+				var a = document.getElementById('btn_confirmacao_exclusao_parceria');
+				a.href = link;
+			});
 	</script>
 		<script type="text/javascript">
 		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
