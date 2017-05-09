@@ -1,4 +1,5 @@
 <div class="white-box" th:fragment="dados-basicos">
+
     <h3 class="box-title" th:text="${acao.titulo}"></h3>
     <div class="row">
         <div class="col-sm-4">
@@ -46,24 +47,64 @@
             <p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'"/>
         </div>
     </div>
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Status:</label>
+			<p th:text="${acao.status.descricao}"></p>
+		</div>
+		<div class="col-sm-2">
+			<label>Início</label>
+			<p
+				th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Término</label>
+			<p id="dataTermino"
+				th:text="${acao.termino} ? ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Bolsas solicitadas</label>
+			<p
+				th:text="${acao.bolsasSolicitadas} ? ${acao.bolsasSolicitadas} : '-'" />
+		</div>
+		<div class="col-sm-2">
+			<label>Bolsas recebidas</label>
+			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '0'" />
+		</div>
+	</div>
 
-    <div class="row">
-        <div class="col-sm-4">
-            <label>Número do processo</label>
-            <p th:text="${acao.numeroProcesso} ? ${acao.numeroProcesso} : '-'"/>
-        </div>
-        <div class="col-sm-8">
-            <label>Vínculo</label>
-            <p th:text="${acao.vinculo} ? ${acao.vinculo.titulo} : '-'"/>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-sm-4">
+			<label>Número do processo</label>
+			<p th:text="${acao.numeroProcesso} ? ${acao.numeroProcesso} : '-'" />
+		</div>
+		<div class="col-sm-8">
+			<label>Vínculo</label>
+			<p th:text="${acao.vinculo} ? ${acao.vinculo.titulo} : '-'" />
+		</div>
+	</div>
 
+	<div class="row">
+		<div class="col-sm-12">
+			<label>Observações</label>
+			<p
+				th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'" />
+		</div>
+	</div>
+
+    
     <div class="row">
-        <div class="col-sm-12">
-            <label>Observações</label>
-            <p th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'"/>
-        </div>
-    </div>
+		<div class="col-sm-12">
+			<label>Observações</label>
+			<p
+				th:text="${acao.observacaoHomologacao} ? ${acao.observacaoHomologacao} : '-'" />
+		</div>
+	</div>	<div class="row">
+		<div class="col-sm-12">
+			<label>Resumo</label>
+			<p th:text="${acao.resumo} ? ${acao.resumo} : '-'"></p>
+		</div>
+	</div>
 
     <div class="row">
         <div class="col-sm-12">
@@ -82,9 +123,13 @@
     </div>
 
 	<div class="row">
-
-		<div class="col-sm-12">						
+		<div class="col-sm-12">
 			<div class="pull-right">
+				<a  
+					sec:authorize="hasAuthority('DIRECAO')"
+					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
+					href="" alt="default" data-toggle="modal" data-target="#modalHomologar"
+					class="btn btn-primary waves-effect waves-light m-t-10">Homologar Ação</a>
 				<a
 					th:if="${acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
@@ -261,7 +306,7 @@
 						<h4 class="modal-title" id="myModalLabel">Homologar Resultado da Ação</h4>
 					</div>
 					<div class="modal-body">
-						<form th:action="@{/acoes/homologar/__${acao.id}__}"
+						<form th:action="@{/acoes/homologarAcao/__${acao.id}__}"
 							method="POST">
 							<div class="form-body">
 								<div class="row">
@@ -269,21 +314,28 @@
 										<div class="form-group">
 											<label for="resultado">Resultado</label>
 											<select id="resulado" class="form-control" name="resultado">
-												<option value="">APROVADO</option>
-												<option value="">REPROVADO</option>
+												<option value="APROVADO">APROVADO</option>
+												<option value="REPROVADO">REPROVADO</option>
 											</select> 
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group pull-right">
 											<label for="dataHomologacao">Data de Homologação</label>
-											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${acao.parseData(acao.inicio)}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
+											<input id="dataHomologacao" name="dataHomologacao" type="text" th:value="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}" class="form-control date" required="required" autocomplete="off" data-mask="99/99/9999"/>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="observação">Observação</label>
 											<textarea name="observacao" class="form-control" rows="5" style="resize: none"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<input type="submit"
+												class="btn btn-success waves-effect waves-light m-t-10"
+												value="Homologar" />
 										</div>
 									</div>
 								</div>
@@ -294,4 +346,5 @@
 			</div>
 		</div>
 	</div>	
+
 </div>

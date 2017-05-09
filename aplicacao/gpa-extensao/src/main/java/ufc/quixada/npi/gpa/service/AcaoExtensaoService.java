@@ -126,13 +126,18 @@ public interface AcaoExtensaoService {
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
 
+	
 	/**
 	 * Transfere a coordenação de uma ação para outro coordenador
 	 */
 	void transeferirCoordenacao(AcaoExtensao acao, Integer idNovoCoordenador, String dataInicio, Integer cargaHoraria) throws ParseException, GpaExtensaoException;
-	
+
+
+	/**
+	 * Homologa uma ação de extensão para dizer se a ação foi aprovada ou reprovada.
+	 */
 	void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao) throws GpaExtensaoException, ParseException;
-	
+
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
 	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;

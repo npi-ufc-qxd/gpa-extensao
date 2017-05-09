@@ -71,11 +71,4 @@ public class ServidorController {
 		return new ResponseEntity<List<Servidor>>(servidorService.findByFuncao(funcoes), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/funcao/docente", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Servidor>> buscarPorFuncaoDocente() {
-		List<Funcao> funcoes = new ArrayList<>();
-		funcoes.add(Funcao.DOCENTE);
-		return new ResponseEntity<List<Servidor>>(servidorService.findByFuncao(funcoes), HttpStatus.OK);
-	}
-
 }

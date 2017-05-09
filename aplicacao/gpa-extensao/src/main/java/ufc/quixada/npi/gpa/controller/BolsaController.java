@@ -2,7 +2,6 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
@@ -34,9 +33,13 @@ import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Aluno;
 import ufc.quixada.npi.gpa.model.Bolsa;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
+import ufc.quixada.npi.gpa.service.PessoaService;
+
+
 
 @Controller
 @Transactional
@@ -49,27 +52,31 @@ public class BolsaController {
 	@Autowired
 	private AlunoService alunoService;
 
-	
-	@Autowired 
+	@Autowired
 	private BolsaService bolsaService;
+
+
+	@Autowired
+	private PessoaService pessoaService;
+
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
 			@PathVariable("idAcao") Integer idAcao, Model model) {
-		
+
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		boolean message = acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
-		
+
 		model.addAttribute("message", message);
 		model.addAttribute("acao", acao);
-		
+
 		return VISUALIZAR_ACAO;
 	}
 
 	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
 	public String adicionarBolsista(Bolsa bolsa, @PathVariable("acao") AcaoExtensao acao,
 			RedirectAttributes redirectAttributes) {
-		
+
 		try {
 			bolsaService.adicionarBolsista(acao, bolsa);
 		} catch (GpaExtensaoException e) {
@@ -87,9 +94,18 @@ public class BolsaController {
 		return FRAGMENTS_TABLE_BOLSAS;
 	}
 
-	@RequestMapping(value = "/excluir/{id}")
-	public @ResponseBody void deleteBolsa(@PathVariable("id") Integer id) {
-		bolsaService.deletarBolsa(id);
+	@RequestMapping(value = "/excluir/{bolsa}/{acao}")
+	public String excluirBolsa(@PathVariable("bolsa") Bolsa bolsa, @PathVariable("acao") AcaoExtensao acao,
+			RedirectAttributes redirectAttributes, Authentication auth) {
+
+		Pessoa coordenador = pessoaService.buscarPorCpf(auth.getName());
+
+		try {
+			bolsaService.removerBolsista(acao, bolsa, coordenador);
+		} catch (GpaExtensaoException e) {
+			redirectAttributes.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acao.getId();
 	}
 
 	@RequestMapping(value = "/encerrar/{id}", method = RequestMethod.POST)
@@ -99,7 +115,7 @@ public class BolsaController {
 
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date dataTermino = df.parse(data);
-		
+
 		Bolsa bolsa = bolsaService.buscarBolsa(id);
 
 		if (bolsa.getInicio().before(dataTermino)) {
