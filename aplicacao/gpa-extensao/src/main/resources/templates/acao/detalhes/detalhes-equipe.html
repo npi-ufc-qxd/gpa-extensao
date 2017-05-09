@@ -194,7 +194,7 @@
 														id="data_inicio_participacao" required="required"
 														data-mask="99/99/9999"
 														th:value="${acao.parseData(acao.inicio)}"
-														name="dataInicio" class="form-control date" type="date" />
+														name="dataInicio" class="form-control date" />
 													<span class="font-13 text-muted">Data limite para
 														início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 													</span>
@@ -206,7 +206,7 @@
 														id="data_termino_participacao" name="dataTermino"
 														data-mask="99/99/9999"
 														th:value="${acao.parseData(acao.termino)}"
-														class="form-control date" type="date" /> <span
+														class="form-control date" /> <span
 														class="font-13 text-muted">Data limite para
 														término: <small th:text="${acao.parseData(acao.termino)}"></small>
 													</span>
@@ -329,7 +329,7 @@
 												<label>* Data de início</label> <input
 													id="data_inicio_participacao_alterar_periodo"
 													required="required" data-mask="99/99/9999" name="inicio"
-													class="form-control date" type="date" /> <span
+													class="form-control date" /> <span
 													class="font-13 text-muted">Data limite para início:
 													<small th:text="${acao.parseData(acao.inicio)}"></small>
 												</span>
@@ -340,7 +340,7 @@
 												<label>* Data de término</label><input required="required"
 													id="data_termino_participacao_alterar_periodo"
 													data-mask="99/99/9999" name="termino"
-													class="form-control date" type="date" /> <span
+													class="form-control date" /> <span
 													class="font-13 text-muted">Data limite para término:
 													<small th:text="${acao.parseData(acao.termino)}"></small>
 												</span>
@@ -451,7 +451,7 @@
 														<label>* Data de início</label> <input required="required"
 															data-mask="99/99/9999"
 															th:value="${acao.parseData(acao.inicio)}" name="inicio"
-															class="form-control date" type="date" /> <span
+															class="form-control date" /> <span
 															class="font-13 text-muted">Data limite para
 															início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 														</span>
@@ -462,7 +462,7 @@
 														<label>* Data de término</label><input required="required"
 															name="termino" data-mask="99/99/9999"
 															th:value="${acao.parseData(acao.termino)}"
-															class="form-control date" type="date" /> <span
+															class="form-control date"  /> <span
 															class="font-13 text-muted">Data limite para
 															término: <small th:text="${acao.parseData(acao.termino)}"></small>
 														</span>

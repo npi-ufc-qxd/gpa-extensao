@@ -26,8 +26,6 @@ public class ParecerServiceImpl implements ParecerService {
 	@Autowired
 	private NotificationService notificationService;
 	
-	
-	
 
 	@Override
 	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
@@ -103,7 +101,8 @@ public class ParecerServiceImpl implements ParecerService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 
-		notificar(acaoExtensao);
+		notificationService.notificarSolicitacaoResolucaoPendenciasParecer(acaoExtensao, pendencia);
+		
 	}
 
 	@Override
@@ -123,7 +122,6 @@ public class ParecerServiceImpl implements ParecerService {
 				break;
 
 			case AGUARDANDO_PARECER_RELATOR:
-
 				acao.getParecerRelator().setDataRealizacao(new Date());
 				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
 				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());
