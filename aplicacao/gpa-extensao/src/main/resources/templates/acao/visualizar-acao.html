@@ -82,6 +82,7 @@
 
 	</div>
 
+
 	<section layout:fragment="js">
 
 		<script th:src="@{/js/mask.js}"></script>
@@ -206,6 +207,18 @@
 			$("#parecer-tecnico-acoes").show();
 			$("#parecer-relator-form").hide();
 			$("#parecer-relator-info").fadeIn(500);
+		});
+		
+		$("#pendencias-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#pendencias-parecer-form").fadeIn(500);
+		});
+		
+		$("#cancelar-pendencia-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#pendencias-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
 		});
 		
 		$("#pendencias-relato-button").on("click", function(){

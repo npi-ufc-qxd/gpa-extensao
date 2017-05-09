@@ -43,7 +43,8 @@ $(document).ready(function(){
 	});
 	
 	$("#pendencias-parecer-button").on("click", function(){
-		$("#parecer-tecnico-acoes, #parecer-tecnico-info, #emitir-parecer-form").hide();
+		$("#parecer-tecnico-acoes").hide();
+		$("#parecer-tecnico-info").hide();
 		$("#pendencias-parecer-form").fadeIn(500);
 	});
 	
