@@ -13,8 +13,8 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
+<div class="container-fluid" layout:fragment="conteudo">
 
-	<div class="container-fluid" layout:fragment="conteudo">
 
 		<br />
 		<!-- Linha do tempo -->
@@ -111,8 +111,6 @@
 				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
 		</div>
 	</div>
-
-
 
 	<section layout:fragment="js">
 		<script th:src="@{/js/mask.js}"></script>
@@ -256,6 +254,7 @@
 	</script>
 
 
+
 		<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -348,7 +347,8 @@
 								var a = document
 										.getElementById('btn_confirmacao_exclusao_parceria');
 								a.href = link;
-							});
+
+
 
 		$(".showtop").ready(function() {
 			$(".alerttop").fadeToggle(350);
@@ -366,6 +366,71 @@
 			  var link = $elementoQueInvocouModal.attr('link_exclusao');
 			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
 			  a.href = link;
+		});
+		
+		$('#modal_alterar_periodo_participante').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var participacao = $elementoQueInvocouModal.attr('participacao');
+			  var pessoa = $elementoQueInvocouModal.attr('pessoa');
+			  var linkAlteracaoParticipacao =  $elementoQueInvocouModal.attr('link_alteracao');
+			  var dataInicio = new Date($elementoQueInvocouModal.attr('dataInicio'));
+			  var dataTermino = new Date($elementoQueInvocouModal.attr('dataTermino'));
+			  var form = document.getElementById('alterar_periodo_participante');
+			  form.action = linkAlteracaoParticipacao;			  
+			  var token = $("meta[name='_csrf']").attr("content");
+			  var header = $("meta[name='_csrf_header']").attr("content");
+			  var action = $elementoQueInvocouModal.attr('action');
+			  var nomeParticipanteAlteracaoPeriodo = document.getElementById('nomeParticipanteAlteracaoPeriodo');
+			  var funcaoParticipanteAlteracaoPeriodo = document.getElementById('funcaoParticipanteAlteracaoPeriodo');
+			  var data_termino_participacao_alterar_periodo = document.getElementById('data_termino_participacao_alterar_periodo');
+			  var data_inicio_participacao_alterar_periodo = document.getElementById('data_inicio_participacao_alterar_periodo');
+			  var funcaoBolsista = 	$elementoQueInvocouModal.attr('funcaoBolsista');
+			  var funcaoParticipante = $elementoQueInvocouModal.attr('funcaoParticipante');
+			  
+			  if(action == "participacao"){
+			  	$.ajax({
+					type:"GET",
+					data: {participacao : participacao},
+					beforeSend: function (request){
+			                request.setRequestHeader(header, token);
+			        },
+					url: "/participacao/buscar",
+					contentType: 'application/json',
+					success : function(data) {
+						console.log(data);
+						form.object = data;
+						if(data.participante != null){
+							nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
+						}else{
+							nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
+						}
+						if(data.funcao != "OUTRA" ){
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoParticipante;	
+						}else{
+							funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
+						}
+						data_termino_participacao_alterar_periodo.value = data.dataTermino;
+						data_inicio_participacao_alterar_periodo.value = data.dataInicio;
+					}
+				});
+			  }else{
+				  $.ajax({
+						type:"GET",
+						data: {pessoa : pessoa},
+						beforeSend: function (request){
+				                request.setRequestHeader(header, token);
+				        },
+						url: "/buscar/pessoa",
+						contentType: 'application/json',
+						success : function(data) {
+							console.log(data);
+							nomeParticipanteAlteracaoPeriodo.value = data.nome;
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoBolsista;
+							data_termino_participacao_alterar_periodo.value = dataTermino.toLocaleDateString("pt-BR");
+							data_inicio_participacao_alterar_periodo.value = dataInicio.toLocaleDateString("pt-BR");
+						}
+					});  
+			  }
 		});	
 	</script>
 
