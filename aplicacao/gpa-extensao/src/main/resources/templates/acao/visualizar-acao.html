@@ -339,9 +339,7 @@
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
 
 			$('#modal_exclusao_parceria')
-					.on(
-							'show.bs.modal',
-							function(e) {
+					.on('show.bs.modal',function(e) {
 								var $elementoQueInvocouModal = $(e.relatedTarget);
 								var link = $elementoQueInvocouModal
 										.attr('link_exclusao');

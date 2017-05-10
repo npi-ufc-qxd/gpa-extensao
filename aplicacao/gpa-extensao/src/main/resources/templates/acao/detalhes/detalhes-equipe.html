@@ -22,9 +22,8 @@
 				<td th:text="__${membro.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
-					data-toggle="modal" data-target="#modal_exclusao_participacao"
-					data-dismiss="modal" class="btn btn-block btn-danger"
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}">
+				<a class= "sa-warning btn btn-block btn-danger"
 					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">EXCLUIR</a></td>
 
 			</tr>
