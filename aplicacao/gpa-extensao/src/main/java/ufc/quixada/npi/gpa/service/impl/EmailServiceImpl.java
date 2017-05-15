@@ -268,9 +268,9 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-
   @Override
 	public void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) throws GpaExtensaoException{
+
 		AcaoExtensao acao = acaoRepository.findOne(acaoExtensao.getId());
 		
 	    if (acao != null) {
@@ -315,7 +315,8 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) {
+	@Override
+	public void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) {
 		SimpleMailMessage emailParecerista = new SimpleMailMessage();
 
 		emailParecerista.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail());
@@ -435,7 +436,8 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarResolucaoPendenciasRelato(AcaoExtensao acaoExtensao) {
+	@Override
+	public void notificarResolucaoPendenciasRelato(AcaoExtensao acaoExtensao) {
 		SimpleMailMessage emailRelator = new SimpleMailMessage();
 
 		emailRelator.setTo(acaoExtensao.getParecerRelator().getResponsavel().getEmail());

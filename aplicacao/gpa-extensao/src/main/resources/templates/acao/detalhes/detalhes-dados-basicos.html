@@ -80,7 +80,13 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<div class="pull-right">
-				<a th:if="${acao.coordenador.cpf == #authentication.name}" href=""
+				<a
+					th:if="${(acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO' OR acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER') AND acao.coordenador.cpf == #authentication.name}"
+					href="" th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
+					alt="default"
+					class="btn btn-primary waves-effect waves-light m-t-10">Resolver
+					Pendências</a> <a
+					th:if="${acao.coordenador.cpf == #authentication.name}" href=""
 					alt="default" data-toggle="modal" data-target="#modalTransferir"
 					class="btn btn-primary waves-effect waves-light m-t-10">Transferir
 					Coordenação</a> <a sec:authorize="hasAuthority('DIRECAO')"
@@ -112,7 +118,7 @@
 				<a sec:authorize="hasAuthority('SERVIDOR')"
 					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/deletar/__${acao.id}__}"
-					class="btn btn-block btn-danger m-t-10"
+					class="btn waves-effect waves-light btn-danger m-t-10"
 					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão?');">Excluir</a>
 			</div>
 		</div>

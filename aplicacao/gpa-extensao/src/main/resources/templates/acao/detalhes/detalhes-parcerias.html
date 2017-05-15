@@ -33,10 +33,12 @@
 				<td><span th:unless="${parceria.outrasFormas}"
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center"><a
 					data-toggle="modal" data-target="#modal_exclusao_parceria"
-					data-dismiss="modal" class="btn btn-block btn-danger"
-					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">EXCLUIR</a></td>
+					data-dismiss="modal" class="btn btn-danger"
+					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">
+				<i class="fa fa-trash-o"></i> 
+				</a></td>
 
 
 			</tr>
@@ -47,9 +49,10 @@
 			class="btn btn-primary waves-effect waves-light m-t-10"
 			data-toggle="modal" data-target="#parceria-modal">Nova Parceria</a>
 	</div>
-	<div id="modal_exclusao_parceria" class="modal fade bs-example-modal-sm"
-		tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-		style="display: none;" aria-hidden="true">
+	<div id="modal_exclusao_parceria"
+		class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" style="display: none;"
+		aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -118,8 +121,8 @@
 													<div class="iradio_square-red checked">
 														<input class="check" id="parcitipanteExistente"
 															name="square-radio" data-radio="iradio_square-red"
-															type="radio" checked="checked" /> <label for="existente" class="">Parceiro
-															Existente</label>
+															type="radio" checked="checked" /> <label for="existente"
+															class="">Parceiro Existente</label>
 													</div>
 												</div>
 											</div>
@@ -129,8 +132,7 @@
 											<label>* Parceiros</label>
 											<div class="col-md-12">
 												<div class="form-group">
-													<select id="parceiro"
-														class="form-control" name="parceiro">
+													<select id="parceiro" class="form-control" name="parceiro">
 														<option th:each="p : ${parceiros}" th:text="${p.nome}"
 															th:value="${p.id}"></option>
 													</select>

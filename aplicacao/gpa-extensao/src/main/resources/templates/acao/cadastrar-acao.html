@@ -30,6 +30,8 @@
 					ação de extensão</h3>
 				<h3 th:if="${action == 'editar'}" class="box-title m-b-0">Editar
 					ação de extensão</h3>
+				<h3 th:if="${action == 'pendencia'}" class="box-title m-b-0">Resolução
+					de Pendências</h3>
 				<p class="text-muted m-b-30">Cadastra/edita uma ação de extensão
 					a ser aprovada</p>
 				<form id="cadastrarAcaoForm" th:action="@{/acoes/} + ${action}"
@@ -69,7 +71,8 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-3" th:if="${action != 'editar'}">
+							<div class="col-md-3"
+								th:if="${action != 'editar' AND action != 'pendencia'}">
 								<div class="form-group">
 									<label for="cargaHoraria">* Carga horária do
 										coordenador</label> <input id="cargaHoraria" type="number"
@@ -136,7 +139,9 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-md-3">
+							<div
+								th:if="${acao.status.name() != 'RESOLVENDO_PENDENCIAS_RELATO' AND acao.status.name() != 'RESOLVENDO_PENDENCIAS_PARECER'}"
+								class="col-md-3">
 								<div class="form-group">
 									<label for="retroativa">Ação Retroativa?</label> <select
 										id="retroativa" class="form-control">
@@ -214,8 +219,15 @@
 									</div>
 								</div>
 							</div>
-							<button id="submeterAcaoExtensao" type="submit"
+							<button th:if="${action != 'pendencia'}"
+								id="submeterAcaoExtensao" type="submit"
 								class="btn btn-primary btn-flat pull-right">Salvar</button>
+							<button th:if="${action == 'pendencia'}" alt="default"
+								type="submit"
+								class="btn btn-primary waves-effect waves-light m-t-10 pull-right">
+								Pendência Resolvida <i class="fa fa-check"></i>
+							</button>
+
 						</div>
 					</div>
 				</form>
