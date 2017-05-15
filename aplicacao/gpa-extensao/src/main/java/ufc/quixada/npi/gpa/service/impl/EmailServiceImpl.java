@@ -316,25 +316,25 @@ public class EmailServiceImpl implements NotificationService {
 	 */
 	@Override
 	public void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException{
-		if(acaoExtensao != null) {
+		AcaoExtensao acao = acaoRepository.findOne(acaoExtensao.getId());
+		
+		if(acao != null) {
 			SimpleMailMessage email = new SimpleMailMessage();
-			System.out.println(acaoExtensao.getParecerTecnico());
-			email.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail().trim());
+			email.setTo(acao.getParecerTecnico().getResponsavel().getEmail());
 			email.setFrom(EMAIL_REMETENTE);
 	
-			String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
+			String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo());
 			email.setSubject(assunto);
 	
 			String texto = EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS
-					.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
-					.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
+					.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo())
+					.replaceAll(EMAIL_NOME_PESSOA, acao.getCoordenador().getNome());
 			email.setText(texto);
 	
 			enviarEmail(email);
-		} 
-		
-		throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-		
+		} else {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		}
 	}
 
 	/**

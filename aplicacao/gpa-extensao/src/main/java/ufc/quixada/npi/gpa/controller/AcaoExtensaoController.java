@@ -276,7 +276,7 @@ public class AcaoExtensaoController {
 			model.addAttribute("action", "editar");
 		} else if(request.getRequestURI().contains("pendencia")) {
 			model.addAttribute("action", "pendencia");
-		}
+		} 
 		
 		model.addAttribute("acao", acaoExtensao);
 		model.addAttribute("modalidades", Modalidade.values());
