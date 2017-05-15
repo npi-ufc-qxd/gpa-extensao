@@ -295,20 +295,19 @@
 				</div>
 			</form>
 		</div>
-	</div>
-	
-	<div id="parecer-relator-acoes" class="box-footer">
-		<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}" 
-			id="alterar-relator-button" class="btn btn-primary btn-flat pull-right" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>
+		<div id="parecer-relator-acoes">
+			<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
+			id="emitir-relato-button" class="btn btn-primary btn-flat pull-right" href="#emitir-relato-form" title="Emitir parecer da ação">Emitir parecer</a>
 			
-		<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
-			th:id="pendencias-relato-button" class="btn btn-warning btn-flat  pull-right" href="#pendencias-relato-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
+			<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
+			th:id="pendencias-relato-button" class="btn btn-warning btn-flat pull-right" href="#pendencias-relato-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
 			
-		<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
-			id="emitir-relato-button" class="btn btn-primary btn-flat  pull-right" href="#emitir-relato-form" title="Emitir parecer da ação">Emitir parecer</a>
+			<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}" 
+			id="alterar-relator-button" class="btn btn-primary btn-flat pull-right" href="#parecer-relator-form" title="Alterar relator da ação">Alterar relator</a>	
+						
+		</div>
 	</div>
-	
-	
+
 </div><!-- Fragment Parecer Relator -->
 
 

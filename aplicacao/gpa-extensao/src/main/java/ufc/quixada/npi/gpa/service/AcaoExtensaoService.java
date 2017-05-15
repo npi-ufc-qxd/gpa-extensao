@@ -138,7 +138,7 @@ public interface AcaoExtensaoService {
 
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
-	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo, boolean pendencia) throws GpaExtensaoException;
 
 	void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException;
 	

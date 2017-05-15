@@ -399,4 +399,12 @@ public class AcaoExtensao {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
 	}
+	
+	public Pendencia ultimaPendenciaParecer() {
+		return this.parecerTecnico.getPendencias().get(this.parecerTecnico.getPendencias().size() - 1);
+	}
+	
+	public Pendencia ultimaPendenciaRelator() {
+		return this.parecerRelator.getPendencias().get(this.parecerRelator.getPendencias().size() - 1);
+	}
 }

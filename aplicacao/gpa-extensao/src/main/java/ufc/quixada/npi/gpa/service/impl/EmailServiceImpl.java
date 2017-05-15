@@ -22,6 +22,8 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PENDENCIAS;
 
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,6 +41,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pendencia;
@@ -266,6 +269,7 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
+	@Override
 	public void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) {
 		AcaoExtensao acao = acaoRepository.findOne(acaoExtensao.getId());
 		SimpleMailMessage emailCoordenador = new SimpleMailMessage();
@@ -276,7 +280,7 @@ public class EmailServiceImpl implements NotificationService {
 
 		switch (acao.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
-
+			destinatarios[1] = acao.getParecerTecnico().getResponsavel().getEmail().trim();
 			break;
 
 		case RESOLVENDO_PENDENCIAS_RELATO:
@@ -306,21 +310,27 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) {
-		SimpleMailMessage emailParecerista = new SimpleMailMessage();
-
-		emailParecerista.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail());
-		emailParecerista.setFrom(EMAIL_REMETENTE);
-
-		String assuntoParecerista = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
-		emailParecerista.setSubject(assuntoParecerista);
-
-		String textoParecerista = EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS
-				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
-		emailParecerista.setText(textoParecerista);
-
-		enviarEmail(emailParecerista);
+	@Override
+	public void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException{
+		if(acaoExtensao != null) {
+			SimpleMailMessage email = new SimpleMailMessage();
+			System.out.println(acaoExtensao.getParecerTecnico());
+			email.setTo(acaoExtensao.getParecerTecnico().getResponsavel().getEmail().trim());
+			email.setFrom(EMAIL_REMETENTE);
+	
+			String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
+			email.setSubject(assunto);
+	
+			String texto = EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS
+					.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
+					.replaceAll(EMAIL_NOME_PESSOA, acaoExtensao.getCoordenador().getNome());
+			email.setText(texto);
+	
+			enviarEmail(email);
+		} 
+		
+		throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		
 	}
 
 	/**
@@ -426,7 +436,8 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	private void notificarResolucaoPendenciasRelato(AcaoExtensao acaoExtensao) {
+	@Override
+	public void notificarResolucaoPendenciasRelato(AcaoExtensao acaoExtensao) {
 		SimpleMailMessage emailRelator = new SimpleMailMessage();
 
 		emailRelator.setTo(acaoExtensao.getParecerRelator().getResponsavel().getEmail());
