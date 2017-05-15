@@ -3,7 +3,6 @@ package ufc.quixada.npi.gpa.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -17,8 +16,6 @@ import ufc.quixada.npi.gpa.generation.pdf.PdfViewResolver;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter{
-	/*@Autowired
-	ContentNegotiatingViewResolver resolver;*/
 	
 	
 	@Override
@@ -45,6 +42,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		resolvers.add(pdfViewResolver());
 		
 		resolver.setViewResolvers(resolvers);
+		
 		return resolver;
 	}
 	

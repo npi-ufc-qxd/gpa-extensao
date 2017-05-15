@@ -27,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import ufc.quixada.npi.gpa.generation.pdf.PdfBuilder;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -135,20 +137,20 @@ public class ParticipacaoController {
 	}
 	
 	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
-	public String emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
+	public ModelAndView emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
 			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er){
-		try{
+	
 			Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
 			AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 			//Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
+			//Model mv = model.addAttribute("participante",pessoa);
 			
-			model.addAttribute("participante",pessoa);
-			model.addAttribute("acao", acao);
+			
 			//participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
-		} catch (Exception e) {
-			attr.addFlashAttribute(ERRO, e.getMessage());
-		}
+			
 		
-		return REDIRECT_PAGINA_DETALHES_ACAO;
+		
+		return new ModelAndView("pdfView","participante",pessoa);
+
 	}
 }

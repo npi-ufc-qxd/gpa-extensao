@@ -8,8 +8,9 @@ import org.springframework.web.servlet.ViewResolver;
 public class PdfViewResolver implements ViewResolver {
 
 	@Override
-	public View resolveViewName(String arg0, Locale arg1) throws Exception {
-		return null;
+	public View resolveViewName(String s, Locale locale) throws Exception {
+		PdfBuilder view = new PdfBuilder();
+		return view;
 	}
 	
 

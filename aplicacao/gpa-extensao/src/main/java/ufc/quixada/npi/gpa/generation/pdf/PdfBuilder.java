@@ -18,16 +18,15 @@ public class PdfBuilder extends AbstractPdfView{
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		//response.setHeader("Content-Disposition", "attachment; filename=\"my-pdf-file.pdf\"");
+		response.setHeader("Content-Disposition", "attachment; filename=\"declaracao.pdf\"");
 		
 		
 		Pessoa pessoa = (Pessoa) model.get("participante");
-		AcaoExtensao acao = (AcaoExtensao) model.get("acao");
 		
-		document.add(new Paragraph("Declaração de participação de participante da equipe de trabalho"));
-		document.add(new Paragraph("Pessoa:" + pessoa.getNome()));
-		document.add(new Paragraph("Coordenador:" + acao.getCoordenador().getNome()));
-		
+		document.add(new Paragraph("Emissão"));
+		document.add(new Paragraph("Pessoa:" + "julio"));
+		document.add(new Paragraph("Assinatura do Coordenador"));
+		document.add(new Paragraph("_______________________________"));
 		
 		
 		
