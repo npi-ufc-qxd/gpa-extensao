@@ -1,132 +1,173 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <div th:fragment="nenhum-parecer-tecnico" class="box box-primary">
 	<div class="box-header with-border">
- 		<h3 class="box-title">Parecer Técnico</h3>
-  	</div>
-  	<div class="box-body">
+		<h3 class="box-title">Parecer Técnico</h3>
+	</div>
+	<div class="box-body">
 		<div class="callout callout-warning">
 			<p>Não há parecer cadastrado.</p>
 		</div>
 	</div>
-</div><!-- Fragment Nenhum parecer -->
+</div>
+<!-- Fragment Nenhum parecer -->
 
 <div th:fragment="nenhum-parecer-relator" class="box box-primary">
 	<div class="box-header with-border">
- 		<h3 class="box-title">Parecer Relator</h3>
-  	</div>
-  	<div class="box-body">
+		<h3 class="box-title">Parecer Relator</h3>
+	</div>
+	<div class="box-body">
 		<div class="callout callout-warning">
 			<p>Não há parecer cadastrado.</p>
 		</div>
 	</div>
-</div><!-- Fragment Nenhum relator -->
+</div>
+<!-- Fragment Nenhum relator -->
 
 <!-- Parecer Técnico -->
 <div th:fragment="parecer-tecnico" class="box box-primary">
 	<div class="box-header with-border">
- 		<h3 class="box-title">Parecer Técnico</h3>
-  	</div>
-  	<div class="box-body">
-  		<div th:if="${alertaParecer}" class="callout callout-info">
+		<h3 class="box-title">Parecer Técnico</h3>
+	</div>
+	<div class="box-body">
+		<div th:if="${alertaParecer}" class="callout callout-info">
 			<p th:text="${alertaParecer}"></p>
 		</div>
-		<div id="parecer-tecnico-info" class="box-details" th:style="${acao.status.name() == 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
+		<div id="parecer-tecnico-info" class="box-details"
+			th:style="${acao.status.name() == 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
 			<div class="row">
 				<div class="col-sm-3">
 					<label>Parecerista</label>
-					<p th:text="${acao.parecerTecnico.responsavel} ? ${acao.parecerTecnico.responsavel.nome} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.responsavel} ? ${acao.parecerTecnico.responsavel.nome} : '-'" />
 				</div>
 				<div class="col-sm-3">
 					<label>Prazo estimado</label>
-					<p th:text="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : '-'" />
 				</div>
 				<div class="col-sm-3">
 					<label>Data de atribuição</label>
-					<p th:text="${acao.parecerTecnico.dataAtribuicao} ? ${#dates.format(acao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.dataAtribuicao} ? ${#dates.format(acao.parecerTecnico.dataAtribuicao, 'dd/MM/yyyy')} : '-'" />
 				</div>
 				<div class="col-sm-3">
 					<label>Data de realização</label>
-					<p th:text="${acao.parecerTecnico.dataRealizacao} ? ${#dates.format(acao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.dataRealizacao} ? ${#dates.format(acao.parecerTecnico.dataRealizacao, 'dd/MM/yyyy')} : '-'" />
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-sm-3">
 					<label>Posicionamento</label>
-					<p th:text="${acao.parecerTecnico.posicionamento} ? ${acao.parecerTecnico.posicionamento.descricao} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.posicionamento} ? ${acao.parecerTecnico.posicionamento.descricao} : '-'" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
 					<label>Parecer</label>
-					<p th:text="${acao.parecerTecnico.parecer} ? ${acao.parecerTecnico.parecer} : '-'"/>
+					<p
+						th:text="${acao.parecerTecnico.parecer} ? ${acao.parecerTecnico.parecer} : '-'" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12" th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerTecnico.responsavel != null} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf})">
+				<div class="col-sm-12"
+					th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerTecnico.responsavel != null} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf})">
 					<label>Observações</label>
-					<p th:text="${acao.parecerTecnico.observacoes} ?: '-'"/>
+					<p th:text="${acao.parecerTecnico.observacoes} ?: '-'" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="pull-right">
+						<a sec:authorize="hasAuthority('DIRECAO')"
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
+							id="alterar-parecerista-button"
+							class="btn btn-primary btn-flat"
+							href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar
+							parecerista</a> <a
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
+							th:id="pendencias-parecer-button"
+							class="btn btn-warning btn-flat"
+							href="#pendencias-parecer-form"
+							title="Solicitar resolução de pendências">Adicionar pendência</a>
+						<a
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
+							id="emitir-parecer-button"
+							class="btn btn-primary btn-flat"
+							href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir
+							parecer</a>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div id="parecer-tecnico-form"
-			sec:authorize="hasAuthority('DIRECAO')" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR ${acao.status.name() == 'AGUARDANDO_PARECERISTA'}"
+
+		<div id="parecer-tecnico-form" sec:authorize="hasAuthority('DIRECAO')"
+			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR ${acao.status.name() == 'AGUARDANDO_PARECERISTA'}"
 			th:style="${acao.status.name() != 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
-			<form id="parecerista-form" class="form-horizontal" th:object="${acao}" th:action="@{/parecerista}" method="post">
-				<input type="hidden" th:value="${acao.id}" th:field="*{id}"/>
-				<input th:if="${acao.parecerTecnico.id}" type="hidden" th:value="${acao.parecerTecnico.id}" th:field="*{parecerTecnico.id}"/>
-					<div class="col-lg-6 form-group">
-						<label class="control-label" for="select-pareceristas">Parecerista:</label>
-						<select class="select-parecer form-control" th:field="*{parecerTecnico.responsavel}" name="parecerista" required="required">
-							<option th:each="parecerista : ${pareceristas}" th:value="${parecerista.pessoa.id}" th:text="${parecerista.pessoa.nome}"/>
-						</select>
-					</div>
-					
-					<div class="col-lg-6 form-group pull-right">
-						<label for="prazo-parecer-tecnico" class="control-label">* Prazo para emissão do parecer:</label>
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input id="prazo-parecer-tecnico" class="prazo-parecer form-control" pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required" th:field="*{parecerTecnico.prazo}" autocomplete="off"/>
+			<form id="parecerista-form" class="form-horizontal"
+				th:object="${acao}" th:action="@{/parecerista}" method="post">
+				<input type="hidden" th:value="${acao.id}" th:field="*{id}" /> <input
+					th:if="${acao.parecerTecnico.id}" type="hidden"
+					th:value="${acao.parecerTecnico.id}"
+					th:field="*{parecerTecnico.id}" />
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="control-label" for="select-pareceristas">Parecerista:</label>
+							<select class="select-parecer form-control"
+								th:field="*{parecerTecnico.responsavel}" name="parecerista"
+								required="required">
+								<option th:each="parecerista : ${pareceristas}"
+									th:value="${parecerista.pessoa.id}"
+									th:text="${parecerista.pessoa.nome}" />
+							</select>
 						</div>
-						<div class="help-block with-errors"></div>
 					</div>
-				<div class="form-group col-lg-12 text-center">
-					<input value="Atribuir parecerista" class="btn btn-primary btn-flat" title="Atribuir parecerista técnico" type="submit"/>
-					<a id="cancelar-parecer-button" class="btn btn-default btn-flat" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}" title="Cancelar operação">Cancelar</a>
-				</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label for="prazo-parecer-tecnico" class="control-label">*
+								Prazo para emissão do parecer:</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input id="prazo-parecer-tecnico"
+									class="prazo-parecer form-control"
+									pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required"
+									th:field="*{parecerTecnico.prazo}" autocomplete="off" />
+							</div>
+							<div class="help-block with-errors"></div>
+						</div>
+					</div>
+					<div class="form-group text-center">
+						<input value="Atribuir parecerista"
+							class="btn btn-primary btn-flat"
+							title="Atribuir parecerista técnico" type="submit" /> <a
+							href="#parecer-tecnico-info"
+							id="cancelar-parecer-button" class="btn btn-default btn-flat"
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
+							title="Cancelar operação">Cancelar</a>
+					</div>
 			</form>
 		</div>
-		
-		<div id="pendencias-parecer-form" class="no-display"
-			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND 
-				${#authentication.name == acao.parecerTecnico.responsavel.cpf}">
-			<form th:action="@{/acoes/} + ${acao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="pendencias-form form-horizontal">
-				<div class="form-group row">
-					<div class="col-lg-12">
-						<label for="descricao-pendencias-parecer" class="control-label">* Descrição:</label>
-						<textarea id="descricao-pendencias-parecer" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências" style="resize: none;"></textarea>
-					</div>
-				</div>
-				<div class="box-footer">
-					<a id="cancelar-pendencia-parecer-button" class="btn btn-default btn-flat pull-right" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
-					<input type="submit" value="Enviar solicitação" class="btn btn-primary btn-flat pull-right" title="Solicitar resolução de pendências" />
-				</div>
-			</form>
-		</div>
-		
-		<div th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
+
+		<div
+			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 			id="emitir-parecer-form" class="no-display">
-			<form id="parecer-form" class="form-horizontal" th:object="${acao}" enctype="multipart/form-data" th:action="@{/emitirParecerTecnico}" method="post">
+			<form id="parecer-form" class="form-horizontal" th:object="${acao}"
+				enctype="multipart/form-data" th:action="@{/emitirParecerTecnico}"
+				method="post">
 				<input type="hidden" th:value="${acao.id}" th:field="*{id}" />
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label class="control-label" for="posicionamento-parecerista">Posicionamento:</label>
-						<select id="posicionamento-parecerista" class="select-posicionamento form-control" th:field="*{parecerTecnico.posicionamento}">
+						<select id="posicionamento-parecerista"
+							class="select-posicionamento form-control"
+							th:field="*{parecerTecnico.posicionamento}">
 							<option value="FAVORAVEL">Favorável</option>
 							<option value="NAO_FAVORAVEL">Não Favorável</option>
 						</select>
@@ -135,143 +176,222 @@
 				<div class="form-group row">
 					<div class="col-lg-12">
 						<label class="control-label" for="comentarios-parecerista">Parecer:</label>
-						<textarea rows="4" cols="40" id="comentarios-parecerista" class="form-control" th:field="*{parecerTecnico.parecer}" required="required" style="resize: none;"></textarea>
+						<textarea rows="4" cols="40" id="comentarios-parecerista"
+							class="form-control" th:field="*{parecerTecnico.parecer}"
+							required="required" style="resize: none;"></textarea>
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-12">
 						<label class="control-label" for="observacoes-parecerista">Observações:</label>
-						<textarea rows="4" cols="40" id="observacoes-parecerista" class="form-control" th:field="*{parecerTecnico.observacoes}" style="resize: none;"></textarea>
+						<textarea rows="4" cols="40" id="observacoes-parecerista"
+							class="form-control" th:field="*{parecerTecnico.observacoes}"
+							style="resize: none;"></textarea>
 					</div>
 				</div>
-				<div class="form-group col-lg-12 text-center">
-					<input type="submit" class="btn btn-primary btn-flat" value="Submeter" title="Submeter parecer"/>
-		        	<a id="cancelar-emitir-parecer-button" class="btn btn-default btn-flat" title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-primary btn-flat"
+						value="Submeter" title="Submeter parecer" /> <a
+						id="cancelar-emitir-parecer-button"
+						class="btn btn-default btn-flat" title="Cancelar operação"
+						href="#parecer-tecnico-info">Cancelar</a>
 				</div>
 			</form>
 		</div>
+		
+		<div id="pendencias-parecer-form" class="no-display"
+			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}">
+			<form th:action="@{/acoes/} + ${acao.id} + '/pendencias'"
+				method="post" th:object="${pendencia}"
+				class="pendencias-form form-horizontal">
+				<div class="form-group row">
+					<div class="col-lg-12">
+						<label for="descricao-pendencias-parecer" class="control-label">*
+							Descrição:</label>
+						<textarea id="descricao-pendencias-parecer" class="form-control"
+							required="required" rows="10" th:field="*{descricao}"
+							placeholder="Descreva as pendências" style="resize: none;"></textarea>
+					</div>
+				</div>
+				<div class="form-group text-center">
+					<a id="cancelar-pendencia-parecer-button"
+						class="btn btn-default btn-flat"
+						title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
+					<input type="submit" value="Enviar solicitação"
+						class="btn btn-primary btn-flat"
+						title="Solicitar resolução de pendências" />
+				</div>
+			</form>
+		</div>
+
 	</div>
-	
-	<div id="parecer-tecnico-acoes" class="box-footer">
-		<a 	sec:authorize="hasAuthority('DIRECAO')" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}" 
-			id="alterar-parecerista-button" class="btn btn-primary btn-flat pull-right" href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar parecerista</a>
-			
-		<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
-			th:id="pendencias-parecer-button" class="btn btn-warning btn-flat  pull-right" href="#pendencias-parecer-form" title="Solicitar resolução de pendências">Adicionar pendência</a>
-			
-		<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
-			id="emitir-parecer-button" class="btn btn-primary btn-flat  pull-right" href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir parecer</a>
-	</div>
-	
-	
-	
-	
-	
-</div><!-- Fragment parecer técnico -->
+
+</div>
+<!-- Fragment parecer técnico -->
 
 <!-- Parecer Relator -->
 <div th:fragment="parecer-relator" class="box box-primary">
 	<div class="box-header with-border">
- 		<h3 class="box-title">Parecer do Relator</h3>
-  	</div>
-  	<div class="box-body">
+		<h3 class="box-title">Parecer do Relator</h3>
+	</div>
+	<div class="box-body">
 		<div th:if="${alertaRelato}" class="callout callout-info">
 			<p th:text="${alertaRelato}"></p>
 		</div>
-		<div id="parecer-relator-info" class="box-details" th:style="${acao.status.name() == 'AGUARDANDO_RELATOR'} ? 'display: none'">
+		<div id="parecer-relator-info" class="box-details"
+			th:style="${acao.status.name() == 'AGUARDANDO_RELATOR'} ? 'display: none'">
 			<div class="row">
 				<div class="col-sm-3">
 					<label>Parecerista</label>
-					<p th:text="${acao.parecerRelator.responsavel} ? ${acao.parecerRelator.responsavel.nome} : '-'"></p>
+					<p
+						th:text="${acao.parecerRelator.responsavel} ? ${acao.parecerRelator.responsavel.nome} : '-'"></p>
 				</div>
 				<div class="col-sm-3">
 					<label>Prazo estimado</label>
-					<p th:text="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"></p>
+					<p
+						th:text="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : '-'"></p>
 				</div>
 				<div class="col-sm-3">
 					<label>Data de atribuição</label>
-					<p th:text="${acao.parecerRelator.dataAtribuicao} ? ${#dates.format(acao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></p>
+					<p
+						th:text="${acao.parecerRelator.dataAtribuicao} ? ${#dates.format(acao.parecerRelator.dataAtribuicao, 'dd/MM/yyyy')} : '-'"></p>
 				</div>
 				<div class="col-sm-3">
 					<label>Data de realização</label>
-					<p th:text="${acao.parecerRelator.dataRealizacao} ? ${#dates.format(acao.parecerRelator.dataRealizacao, 'dd/MM/yyyy')} : '-'"></p>
+					<p
+						th:text="${acao.parecerRelator.dataRealizacao} ? ${#dates.format(acao.parecerRelator.dataRealizacao, 'dd/MM/yyyy')} : '-'"></p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-3">
 					<label>Posicionamento</label>
-					<p th:text="${acao.parecerRelator.posicionamento} ? ${acao.parecerRelator.posicionamento.descricao} : '-'"/>
+					<p
+						th:text="${acao.parecerRelator.posicionamento} ? ${acao.parecerRelator.posicionamento.descricao} : '-'" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
 					<label>Parecer</label>
-					<p th:text="${acao.parecerRelator.parecer} ? ${acao.parecerRelator.parecer} : '-'"/>
+					<p
+						th:text="${acao.parecerRelator.parecer} ? ${acao.parecerRelator.parecer} : '-'" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6" th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerRelator.responsavel != null} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf})">
+				<div class="col-sm-6"
+					th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerRelator.responsavel != null} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf})">
 					<label>Observações</label>
-					<p th:text="${acao.parecerRelator.observacoes} ?: '-'"/>
+					<p th:text="${acao.parecerRelator.observacoes} ?: '-'" />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="pull-right">
+						<a sec:authorize="hasAuthority('DIRECAO')"
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
+							id="alterar-relator-button"
+							class="btn btn-primary btn-flat"
+							href="#parecer-relator-form" title="Alterar relator da ação">Alterar
+							relator</a> <a
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
+							th:id="pendencias-relato-button"
+							class="btn btn-warning btn-flat"
+							href="#pendencias-relato-form"
+							title="Solicitar resolução de pendências">Adicionar pendência</a>
+						<a
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
+							id="emitir-relato-button"
+							class="btn btn-primary btn-flat"
+							href="#emitir-relato-form" title="Emitir parecer da ação">Emitir
+							parecer</a>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div id="parecer-relator-form"
-			sec:authorize="hasAuthority('DIRECAO')" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} OR ${acao.status.name() == 'AGUARDANDO_RELATOR'}"
+
+		<div id="parecer-relator-form" sec:authorize="hasAuthority('DIRECAO')"
+			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} OR ${acao.status.name() == 'AGUARDANDO_RELATOR'}"
 			th:style="${acao.status.name() != 'AGUARDANDO_RELATOR'} ? 'display: none'">
 			<form id="relator-form" class="form-horizontal" th:object="${acao}"
 				th:action="@{/relator}" method="post">
 				<input type="hidden" th:value="${acao.id}" th:field="*{id}" />
-				<div class="form-group col-lg-6">
-					<input th:if="${acao.parecerRelator.id}" type="hidden" th:value="${acao.parecerRelator.id}" th:field="*{parecerRelator.id}"/>
-					<label class="control-label" for="select-relatores">Relator:</label>
-					<select class="select-parecer form-control" th:field="*{parecerRelator.responsavel}" required="required">
-						<option th:each="relator : ${pareceristas}" th:value="${relator.pessoa.id}" th:text="${relator.pessoa.nome}" />
-					</select>
-				</div>
-				<div class="form-group col-lg-6 pull-right">
-					<label class="control-label" for="prazo-relator">* Prazo para emissão do parecer:</label>
-					<div class="input-group date">
-						<div class="input-group-addon">
-							<i class="fa fa-calendar"></i>
-						</div>
-						<input class="prazo-parecer form-control" pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required" th:field="*{parecerRelator.prazo}" autocomplete="off"/>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<input th:if="${acao.parecerRelator.id}" type="hidden"
+							th:value="${acao.parecerRelator.id}"
+							th:field="*{parecerRelator.id}" /> <label class="control-label"
+							for="select-relatores">Relator:</label> <select
+							class="select-parecer form-control"
+							th:field="*{parecerRelator.responsavel}" required="required">
+							<option th:each="relator : ${pareceristas}"
+								th:value="${relator.pessoa.id}" th:text="${relator.pessoa.nome}" />
+						</select>
 					</div>
-					<div class="help-block with-errors"></div>
 				</div>
-				<div class="form-group col-lg-12 text-center">
-					<input type="submit" class="btn btn-primary btn-flat" value="Atribuir relator" title="Atribuir relator" />
-					<a id="cancelar-relato-button" class="btn btn-default btn-flat" th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}" title="Cancelar operação">Cancelar</a>
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label" for="prazo-relator">* Prazo
+							para emissão do parecer:</label>
+						<div class="input-group date">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input class="prazo-parecer form-control"
+								pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required"
+								th:field="*{parecerRelator.prazo}" autocomplete="off" />
+						</div>
+						<div class="help-block with-errors"></div>
+					</div>
+				</div>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-primary btn-flat"
+						value="Atribuir relator" title="Atribuir relator" /> <a
+						id="cancelar-relato-button" class="btn btn-default btn-flat"
+						th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
+						title="Cancelar operação">Cancelar</a>
 				</div>
 			</form>
 		</div>
-		
+
 		<div id="pendencias-relato-form" class="no-display"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND 
 				${#authentication.name == acao.parecerRelator.responsavel.cpf}">
-			<form th:action="@{/acoes/} + ${acao.id} + '/pendencias'" method="post" th:object="${pendencia}" class="pendencias-form form-horizontal">
+			<form th:action="@{/acoes/} + ${acao.id} + '/pendencias'"
+				method="post" th:object="${pendencia}"
+				class="pendencias-form form-horizontal">
 				<div class="form-group row">
 					<div class="col-lg-12">
-						<label for="descricao-pendencias-relato" class="control-label">* Descrição:</label>
-						<textarea id="descricao-pendencias-relato" class="form-control" required="required" rows="10" th:field="*{descricao}"  placeholder="Descreva as pendências" style="resize: none;"></textarea>
+						<label for="descricao-pendencias-relato" class="control-label">*
+							Descrição:</label>
+						<textarea id="descricao-pendencias-relato" class="form-control"
+							required="required" rows="10" th:field="*{descricao}"
+							placeholder="Descreva as pendências" style="resize: none;"></textarea>
 					</div>
 				</div>
 				<div class="box-footer">
-					<a id="cancelar-pendencia-relato-button" class="btn btn-default btn-flat pull-right" title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
-					<input type="submit" value="Enviar solicitação" class="btn btn-primary btn-flat pull-right" title="Solicitar resolução de pendências" />
+					<a id="cancelar-pendencia-relato-button"
+						class="btn btn-default btn-flat pull-right"
+						title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
+					<input type="submit" value="Enviar solicitação"
+						class="btn btn-primary btn-flat pull-right"
+						title="Solicitar resolução de pendências" />
 				</div>
 			</form>
 		</div>
-		
-		<div th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
-		id="emitir-relato-form" class="no-display">
-			<form id="relato-form" class="form-horizontal" th:object="${acao}" enctype="multipart/form-data" th:action="@{/emitirParecerRelator}" method="post">
+
+		<div
+			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
+			id="emitir-relato-form" class="no-display">
+			<form id="relato-form" class="form-horizontal" th:object="${acao}"
+				enctype="multipart/form-data" th:action="@{/emitirParecerRelator}"
+				method="post">
 				<input type="hidden" th:value="${acao.id}" th:field="*{id}" />
 				<div class="form-group row">
 					<div class="col-lg-4">
 						<label class="control-label" for="posicionamento-relator">Posicionamento:</label>
-						<select id="posicionamento-relator" class="select-posicionamento form-control" th:field="*{parecerRelator.posicionamento}">
+						<select id="posicionamento-relator"
+							class="select-posicionamento form-control"
+							th:field="*{parecerRelator.posicionamento}">
 							<option value="FAVORAVEL">Favorável</option>
 							<option value="NAO_FAVORAVEL">Não Favorável</option>
 						</select>
@@ -279,22 +399,31 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-12">
-						<label class="control-label" for="comentarios-relator">* Parecer:</label>
-						<textarea rows="4" cols="40" id="comentarios-relator" class="form-control" th:field="*{parecerRelator.parecer}" required="required" style="resize: none;"></textarea>
+						<label class="control-label" for="comentarios-relator">*
+							Parecer:</label>
+						<textarea rows="4" cols="40" id="comentarios-relator"
+							class="form-control" th:field="*{parecerRelator.parecer}"
+							required="required" style="resize: none;"></textarea>
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-12">
 						<label class="control-label" for="observacoes-relator">Observações:</label>
-						<textarea rows="4" cols="40" id="observacoes-relator" class="form-control" th:field="*{parecerRelator.observacoes}" style="resize: none;"></textarea>
+						<textarea rows="4" cols="40" id="observacoes-relator"
+							class="form-control" th:field="*{parecerRelator.observacoes}"
+							style="resize: none;"></textarea>
 					</div>
 				</div>
-				<div class="form-group col-lg-12 text-center">
-					<input type="submit" class="btn btn-primary btn-flat" value="Submeter" title="Submeter parecer"/>
-		        	<a id="cancelar-emitir-relato-button" class="btn btn-default btn-flat" title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-primary btn-flat"
+						value="Submeter" title="Submeter parecer" /> <a
+						id="cancelar-emitir-relato-button"
+						class="btn btn-default btn-flat" title="Cancelar operação"
+						href="#parecer-relator-info">Cancelar</a>
 				</div>
 			</form>
 		</div>
+<<<<<<< HEAD
 		<div id="parecer-relator-acoes">
 			<a 	th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
 			id="emitir-relato-button" class="btn btn-primary btn-flat pull-right" href="#emitir-relato-form" title="Emitir parecer da ação">Emitir parecer</a>
@@ -309,6 +438,12 @@
 	</div>
 
 </div><!-- Fragment Parecer Relator -->
+=======
+	</div>
+
+</div>
+<!-- Fragment Parecer Relator -->
+>>>>>>> refs/remotes/origin/master
 
 
 </html>
