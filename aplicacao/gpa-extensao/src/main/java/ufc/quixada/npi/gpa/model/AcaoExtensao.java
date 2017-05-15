@@ -324,15 +324,14 @@ public class AcaoExtensao {
 	public void setBolsistas(List<Bolsa> bolsistas) {
 		this.bolsistas = bolsistas;
 	}
-	
-	public boolean temParecerTecnico(){
-		return getParecerTecnico()!= null;
-	}
-	
-	public boolean temParecerRelator(){
-		return getParecerRelator()!= null;
+
+	public boolean temParecerTecnico() {
+		return getParecerTecnico() != null;
 	}
 
+	public boolean temParecerRelator() {
+		return getParecerRelator() != null;
+	}
 
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(
@@ -394,9 +393,17 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-	
+
 	public String parseData(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
+	}
+
+	public Pendencia ultimaPendenciaRelator() {
+		return this.parecerRelator.getPendencias().get(this.parecerRelator.getPendencias().size() - 1);
+	}
+
+	public Pendencia ultimaPendenciaParecer() {
+		return this.parecerTecnico.getPendencias().get(this.parecerTecnico.getPendencias().size() - 1);
 	}
 }

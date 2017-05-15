@@ -11,8 +11,6 @@ import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_CO
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
 
-
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -128,38 +126,38 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		acaoExtensaoRepository.save(acaoExtensao);
 	}
-	
+
 	@Override
 	public void homologarAcaoExtensao(AcaoExtensao acao, String resultado, String dataHomologacao, String observacao)
 			throws GpaExtensaoException, ParseException {
-		
+
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date dataH = df.parse(dataHomologacao);
-		
-		if(acao == null) {
+
+		if (acao == null) {
 			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
-		
-		if(dataH.before(acao.getInicio())) {
+
+		if (dataH.before(acao.getInicio())) {
 			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MENOR);
 		}
-		
-		if(dataH.after(acao.getTermino())) {
+
+		if (dataH.after(acao.getTermino())) {
 			throw new GpaExtensaoException(MENSAGEM_DATA_HOMOLOGACAO_MAIOR);
 		}
-		
+
 		acao.setDataDeHomologacao(dataH);
 		acao.setObservacaoHomologacao(observacao);
-		
-		if("APROVADO".equals(resultado)) {
+
+		if ("APROVADO".equals(resultado)) {
 			acao.setStatus(Status.APROVADO);
-		}else {
+		} else {
 			acao.setStatus(Status.REPROVADO);
 		}
-		
+
 		acaoExtensaoRepository.save(acao);
 	}
-	
+
 	@Override
 	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
 		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
@@ -274,7 +272,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo, boolean pendencia) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 
 		Documento documento = documentoService.save(arquivo, acaoExtensao);
@@ -282,10 +280,44 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		if (documento != null) {
 			acaoExtensao.setAnexo(documento);
 		}
-
+		
 		old = checkAcaoExtensao(old, acaoExtensao);
+		
+		switch(old.getStatus()) {
+			case RESOLVENDO_PENDENCIAS_PARECER:
+				old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+				old.ultimaPendenciaParecer().setResolvida(true);
+				break;
+	
+			case RESOLVENDO_PENDENCIAS_RELATO:
+				old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+				old.ultimaPendenciaRelator().setResolvida(true);
+				break;
+	
+			default:
+				break; 
+		}
+		
+		if(pendencia) {
+			switch(old.getStatus()) {
+				case RESOLVENDO_PENDENCIAS_PARECER:
+					old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+					notificationService.notificarResolucaoPendenciasParecer(acaoExtensao);
+					break;
+		
+				case RESOLVENDO_PENDENCIAS_RELATO:
+					old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+					notificationService.notificarResolucaoPendenciasRelato(acaoExtensao);
+					break;
+		
+				default:
+					break; 
+			}
+		}
+		
 		acaoExtensaoRepository.save(old);
 	}
+
 
 	@Override
 	public void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException {

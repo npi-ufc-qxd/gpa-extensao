@@ -12,4 +12,8 @@ public interface NotificationService {
 	void notificarPareceristaRelatorPrazo(Date agora);
 	
 	void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia);
+	
+	void notificarResolucaoPendenciasParecer(AcaoExtensao acaoExtensao);
+	
+	void notificarResolucaoPendenciasRelato(AcaoExtensao acaoExtensao);
 }

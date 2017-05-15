@@ -54,7 +54,7 @@ public class DocumentoController {
 		AcaoExtensao novaAcao = null;
 		try {
 			novaAcao = documentoService.deletarDocumento(acaoExtensao);
-			acaoExtensaoService.editarAcaoExtensao(novaAcao, null);
+			acaoExtensaoService.editarAcaoExtensao(novaAcao, null, false);
 			model.addAttribute("acao", novaAcao);
 			model.addAttribute("modalidades", Modalidade.values());
 			model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
