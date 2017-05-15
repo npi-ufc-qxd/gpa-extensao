@@ -8,6 +8,7 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,10 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +35,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itextpdf.text.DocumentException;
+
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
-import ufc.quixada.npi.gpa.generation.pdf.PdfBuilder;
+import ufc.quixada.npi.gpa.generation.pdf.BuilderPDFReport;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -137,20 +144,35 @@ public class ParticipacaoController {
 	}
 	
 	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
-	public ModelAndView emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
-			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er){
+	public ResponseEntity<InputStreamResource> emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
+			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er) throws DocumentException{
 	
-			Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
-			AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-			//Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
-			//Model mv = model.addAttribute("participante",pessoa);
-			
-			
-			//participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
-			
-		
-		
-		return new ModelAndView("pdfView","participante",pessoa);
+		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
+	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+	    Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
 
-	}
+			
+			
+			 ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao,participacao);
+
+		        HttpHeaders headers = new HttpHeaders();
+		        headers.add("Content-Disposition", "inline; filename=declaracao.pdf");
+
+		        return ResponseEntity
+		                .ok()
+		                .headers(headers)
+		                .contentType(MediaType.APPLICATION_PDF)
+		                .body(new InputStreamResource(bis));
+		        
+				//Model mv = model.addAttribute("participante",pessoa);
+				
+				
+				//participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
+				
+		    }
+			
+			
+	
+
 }
+
