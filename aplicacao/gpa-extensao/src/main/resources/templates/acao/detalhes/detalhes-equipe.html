@@ -22,11 +22,12 @@
 				<td th:text="${membro.funcao()}"></td>
 				<td th:text="${membro.instituicao()}"></td>
 				<td th:text="__${membro.cargaHoraria}__h"></td>
+
 				<td
 					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
 
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center">
-					<a data-toggle="modal"
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="text-center"><a data-toggle="modal"
 					data-target="#modal_alterar_periodo_participante"
 					data-dismiss="modal" class="btn btn-info"
 					th:attr="participacao=${membro.id},
@@ -36,15 +37,13 @@
 							action = participacao,	
 							link_alteracao=@{/participacao/alterar/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">
 						<i class="fa fa-edit"></i>
-				</a>
-				</td>
-
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center"><a
-					data-toggle="modal" data-target="#modal_exclusao_participacao"
-					data-dismiss="modal" class="btn btn-danger"
-					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}">
-						<i class="fa fa-trash-o"></i>
 				</a></td>
+
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center">
+					<a class="sa-warning btn btn-danger"
+					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}"><i
+						class="fa fa-trash-o"></i></a>
+				</td>
 
 			</tr>
 			<tr th:each="bolsa: ${acao.bolsistas}">
@@ -57,8 +56,9 @@
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
 
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center">
-					<a data-toggle="modal"
+
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="text-center"><a data-toggle="modal"
 					data-target="#modal_alterar_periodo_participante"
 					data-dismiss="modal" class="btn btn-info"
 					th:attr="pessoa=${bolsa.bolsista.pessoa.id},
@@ -67,14 +67,12 @@
 							funcaoBolsista = Bolsista +' '+${bolsa.tipo.descricao},
 							action = bolsa,	
 							link_alteracao=@{/bolsa/alterar/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}"><i
-						class="fa fa-edit"></i></a>
-				</td>
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center"><a
-					data-toggle="modal" data-target="#modal_exclusao_bolsa"
-					data-dismiss="modal" class="btn btn-danger"
+						class="fa fa-edit"></i></a></td>
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
+					class="text-center"><a
+					class="sa-warning btn btn-danger"
 					th:attr="link_exclusao=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}"><i
 						class="fa fa-trash-o"></i></a></td>
-
 			</tr>
 		</tbody>
 	</table>

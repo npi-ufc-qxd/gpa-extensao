@@ -33,14 +33,12 @@
 				<td><span th:unless="${parceria.outrasFormas}"
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
-				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center"><a
-					data-toggle="modal" data-target="#modal_exclusao_parceria"
-					data-dismiss="modal" class="btn btn-danger"
-					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">
-				<i class="fa fa-trash-o"></i> 
-				</a></td>
-
-
+				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" 
+					class="text-center"
+					><a
+					class="sa-warning btn btn-danger"
+					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}"><i
+						class="fa fa-trash-o"></i> </a></td>
 			</tr>
 		</tbody>
 	</table>

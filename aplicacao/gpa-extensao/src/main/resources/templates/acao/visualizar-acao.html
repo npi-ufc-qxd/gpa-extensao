@@ -306,28 +306,6 @@
 						});
 	</script>
 		<script type="text/javascript">
-		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-			$('#modal_exclusao_parceria').on('show.bs.modal', function(e) {
-				var $elementoQueInvocouModal = $(e.relatedTarget);
-				var link = $elementoQueInvocouModal.attr('link_exclusao');
-				var a = document.getElementById('btn_confirmacao_exclusao_parceria');
-				a.href = link;
-			});
-	</script>
-		<script type="text/javascript">
-		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
-		  var $elementoQueInvocouModal = $(e.relatedTarget);
-		  var link = $elementoQueInvocouModal.attr('link_exclusao');
-		  var a = document.getElementById('btn_confirmacao_exclusao_bolsista');
-		  a.href = link;
-		});
-		$('#modal_exclusao_participacao').on('show.bs.modal', function (e) {
-			  var $elementoQueInvocouModal = $(e.relatedTarget);
-			  var link = $elementoQueInvocouModal.attr('link_exclusao');
-			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
-			  a.href = link;
-		});
-		
 		$('#modal_alterar_periodo_participante').on('show.bs.modal', function (e) {
 			  var $elementoQueInvocouModal = $(e.relatedTarget);
 			  var participacao = $elementoQueInvocouModal.attr('participacao');
@@ -393,16 +371,18 @@
 			  }
 		});	
 	</script>
-		<script>
-		$(".column-step").each(function(index,element) { 
-			$( element ).toggleClass( "upcoming" );
-			$( element ).find("i").removeClass( "fa-times" );
-			$( element ).find("i").toggleClass( "fa-check" );
-			if($( this ).is( ".active" ) ){
-				return false;
-			}
-		});
-	</script>
-	</section>
+
+	<script>
+	$(".column-step").each(function(index,element) { 
+		$( element ).toggleClass( "upcoming" );
+		$( element ).find("i").removeClass( "fa-times" );
+		$( element ).find("i").toggleClass( "fa-check" );
+		if($( this ).is( ".active" ) ){
+			return false;
+		}
+	});
+   </script>
+
+</section>
 </body>
 </html>
