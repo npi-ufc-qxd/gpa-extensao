@@ -216,9 +216,9 @@
 								</div>
 							</div>
 							<div class="pull-right">
-								<button th:if="${action != 'pendencia' AND (action == 'editar' OR action == 'cadastrar')}" id="submeterAcaoExtensao" type="submit"
+								<button th:if="${action != 'pendencia'}" id="submeterAcaoExtensao" type="submit"
 									class="btn btn-primary waves-effect waves-light m-t-10">Salvar</button>
-									<button th:if="${action == 'pendencia' OR (action != 'editar' OR action != 'cadastrar')}"
+									<button th:if="${action == 'pendencia'}"
 						alt="default" type="submit" class="btn btn-primary waves-effect waves-light m-t-10">Pendência Resolvida <i class="fa fa-check"></i></button>
 									<a th:href="@{/acoes/} + ${acao.id}" class="btn btn-primary waves-effect waves-light m-t-10">Cancelar</a>
 							</div>
