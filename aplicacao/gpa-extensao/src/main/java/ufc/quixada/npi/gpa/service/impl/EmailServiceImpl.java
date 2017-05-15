@@ -14,13 +14,14 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_NOME_PESSOA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_ATRIBUICAO_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PARECERISTA_RESOLUCAO_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PRAZO;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_ATRIBUICAO_RELATOR;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_RESOLUCAO_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
-import static ufc.quixada.npi.gpa.util.Constants.EMAIL_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,6 +40,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Pendencia;
@@ -266,38 +268,45 @@ public class EmailServiceImpl implements NotificationService {
 	 * 
 	 * @param acaoExtensao
 	 */
-	public void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) {
+
+  @Override
+	public void notificarSolicitacaoResolucaoPendenciasParecer(AcaoExtensao acaoExtensao, Pendencia pendencia) throws GpaExtensaoException{
 		AcaoExtensao acao = acaoRepository.findOne(acaoExtensao.getId());
-		SimpleMailMessage emailCoordenador = new SimpleMailMessage();
-		emailCoordenador.setFrom(EMAIL_REMETENTE);
-
-		String[] destinatarios = new String[2];
-		destinatarios[0] = acaoExtensao.getCoordenador().getEmail().trim();
-
-		switch (acao.getStatus()) {
-		case RESOLVENDO_PENDENCIAS_PARECER:
-
-			break;
-
-		case RESOLVENDO_PENDENCIAS_RELATO:
-			destinatarios[1] = acao.getParecerRelator().getResponsavel().getEmail().trim();
-			break;
-
-		default:
-			break;
+		
+	    if (acao != null) {
+	      SimpleMailMessage email = new SimpleMailMessage();
+			  email.setFrom(EMAIL_REMETENTE);
+	
+	      String[] destinatarios = new String[2];
+	      destinatarios[0] = acaoExtensao.getCoordenador().getEmail().trim();
+	
+	      switch (acao.getStatus()) {
+	      case RESOLVENDO_PENDENCIAS_PARECER:
+	        destinatarios[1] = acao.getParecerTecnico().getResponsavel().getEmail().trim();  
+	        break;
+	
+	      case RESOLVENDO_PENDENCIAS_RELATO:
+	        destinatarios[1] = acao.getParecerRelator().getResponsavel().getEmail().trim();
+	        break;
+	
+	      default:
+	        break;
+	      }
+	
+			  email.setTo(destinatarios);
+	
+	      String assunto = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo());
+	      email.setSubject(assunto);
+	
+	      String texto = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS
+	          .replaceAll(EMAIL_TITULO_ACAO, acao.getTitulo())
+	          .replaceAll(EMAIL_PENDENCIAS, pendencia.getDescricao().toUpperCase());
+	      email.setText(texto);
+	
+	      enviarEmail(email);
+	    } else {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
-
-		emailCoordenador.setTo(destinatarios);
-
-		String assuntoCoordenador = ASSUNTO_EMAIL.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo());
-		emailCoordenador.setSubject(assuntoCoordenador);
-
-		String textoCoordenador = EMAIL_COORDENACAO_SOLICITACAO_RESOLUCAO_PENDENCIAS
-				.replaceAll(EMAIL_TITULO_ACAO, acaoExtensao.getTitulo())
-				.replaceAll(EMAIL_PENDENCIAS, pendencia.getDescricao().toUpperCase());
-		emailCoordenador.setText(textoCoordenador);
-
-		enviarEmail(emailCoordenador);
 	}
 
 	/**
