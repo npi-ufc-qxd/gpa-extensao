@@ -1,7 +1,8 @@
 
 !function($) {
     "use strict";
-
+    var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
     var SweetAlert = function() {};
 
     //examples 
@@ -38,16 +39,34 @@
     });
     
     $('.sa-warning').click(function(){
-        swal({   
-            title: "Are you sure?",   
-            text: "You will not be able to recover this imaginary file!",   
+		var x = document.querySelector(".confirm");
+		var link = this.getAttribute("link_exclusao");
+    	swal({   
+            title: "Você tem certeza?",   
+            text: "Esta ação é irrevesível!",   
             type: "warning",   
             showCancelButton: true,   
             confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Yes, delete it!",   
+            confirmButtonText: "Sim, apagar!", 
+            cancelButtonText:"Cancelar",
             closeOnConfirm: false 
-        }, function(){   
-            swal("Deleted!", "Your imaginary file has been deleted.", "success"); 
+        }, 
+        function(isConfirm){
+            $.ajax({
+     			url : link,
+     			beforeSend: function (request)
+     		    {
+     				 request.setRequestHeader(header, token);
+     		    },
+     			type : 'POST',
+     			error: function(){
+     		        return false;
+     		    },
+     			success : function(result) {
+     				location.reload(); 
+     				 
+     			}
+     		});
         });
     });
     

@@ -34,8 +34,7 @@
 					class="fa fa-times"></span> <span th:if="${parceria.outrasFormas}"
 					th:text="${parceria.descricaoOutrasFormas}"></span></td>
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"><a
-					data-toggle="modal" data-target="#modal_exclusao_parceria"
-					data-dismiss="modal" class="btn btn-block btn-danger"
+				    class="sa-warning btn btn-block btn-danger"
 					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}">EXCLUIR</a></td>
 
 
