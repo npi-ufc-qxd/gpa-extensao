@@ -24,7 +24,9 @@ import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -311,19 +313,18 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO;
 	}
 
-	@GetMapping("/encerrar/{acao}")
-	public String encerrar(@PathVariable("acao") AcaoExtensao acaoExtensao, Authentication authentication,
-			RedirectAttributes redirect) {
+	@PostMapping(value = "/encerrar/{acao}")
+	public @ResponseBody Map<String, Object> encerrar(@PathVariable("acao") AcaoExtensao acaoExtensao,
+			Authentication authentication) {
 
 		Pessoa pessoa = pessoaService.buscarPorCpf(authentication.getName());
-
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			acaoExtensaoService.encerrarAcao(acaoExtensao, pessoa);
 		} catch (GpaExtensaoException e) {
-			redirect.addAttribute(ERRO, e.getMessage());
+			map.put(ERRO, e.getMessage());
 		}
-
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+		return map;
 	}
 
 	@Transactional(readOnly = true)
@@ -447,20 +448,20 @@ public class AcaoExtensaoController {
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
-	
+
 	@PostMapping("/homologarAcao/{idAcao}")
-	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado, 
+	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado,
 			@RequestParam("dataHomologacao") String dataHomologacao, @RequestParam("observacao") String observacao,
 			RedirectAttributes redirectAttribute, Model model) throws GpaExtensaoException, ParseException {
-		
+
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		
+
 		try {
 			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
-		
+
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 }

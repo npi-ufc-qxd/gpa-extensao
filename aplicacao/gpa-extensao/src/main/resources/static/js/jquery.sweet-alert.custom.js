@@ -40,44 +40,87 @@
     
     $('.sa-warning').click(function(){
 		var x = document.querySelector(".confirm");
-		var link = this.getAttribute("link_exclusao");
-    	swal({   
-            title: "Você tem certeza?",   
-            text: "Esta ação é irrevesível!",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Sim, apagar!", 
-            cancelButtonText:"Cancelar",
-            closeOnConfirm: false
-        });
+		var link = this.getAttribute("link");
+		var action = this.getAttribute("action");
+		console.log(link);
+		if(action === "excluir"){
+		
+			swal({   
+				title: "Você tem certeza?",   
+				text: "Esta ação é irrevesível!",   
+				type: "warning",   
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Sim, apagar!", 
+				cancelButtonText:"Cancelar",
+				closeOnConfirm: false
+			});
     	
-    	var list = document.getElementsByClassName("confirm");
+			var list = document.getElementsByClassName("confirm");
         
-    	list[0].onclick = function(){
-    		$.ajax({
-     			url : link,
-     			beforeSend: function (request)
-     		    {
-     				 request.setRequestHeader(header, token);
-     		    },
-     			type : 'POST',
-     			error: function(){
+			list[0].onclick = function(){
+				$.ajax({
+					url : link,
+					beforeSend: function (request)
+					{
+						request.setRequestHeader(header, token);
+					},
+					type : 'POST',
+					error: function(){
      		        return false;
-     		    },
-     			success : function(result) {
-     				if(result.erro != null){
-     					swal("Erro!", result.erro, "error");
-     				}else{
-     					swal("Apagado!", "O item selecionado foi removido com sucesso.", "success"); 	
-     					var list = document.getElementsByClassName("confirm");
-     					list[0].onclick = function(){
-     						location.reload(); 	
-     					};
-     				}
-     			}
-     		});
-    	};
+					},
+					success : function(result) {
+						if(result.erro != null){
+							swal("Erro!", result.erro, "error");
+						}else{
+							swal("Apagado!", "O item selecionado foi removido com sucesso.", "success"); 	
+							var list = document.getElementsByClassName("confirm");
+							list[0].onclick = function(){
+								location.reload(); 	
+							};
+						}
+					}
+				});
+			};
+		}else if(action === "encerrar"){
+			swal({   
+				title: "Você tem certeza?",   
+				text: "Esta ação é irrevesível!",   
+				type: "warning",   
+				showCancelButton: true,   
+				confirmButtonColor: "#DD6B55",   
+				confirmButtonText: "Sim, encerrar!", 
+				cancelButtonText:"Cancelar",
+				closeOnConfirm: false
+			});
+    	
+			var list = document.getElementsByClassName("confirm");
+        
+			list[0].onclick = function(){
+				$.ajax({
+					url : link,
+					beforeSend: function (request)
+					{
+						request.setRequestHeader(header, token);
+					},
+					type : 'POST',
+					error: function(){
+     		        return false;
+					},
+					success : function(result) {
+						if(result.erro != null){
+							swal("Erro!", result.erro, "error");
+						}else{
+							swal("Encerrada!", "A ação foi encerrada com sucesso.", "success"); 	
+							var list = document.getElementsByClassName("confirm");
+							list[0].onclick = function(){
+								location.reload(); 	
+							};
+						}
+					}
+				});
+			};
+		}
     });
     
     

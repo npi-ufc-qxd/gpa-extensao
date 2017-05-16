@@ -41,7 +41,7 @@
 
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}" class="text-center">
 					<a class="sa-warning btn btn-danger"
-					th:attr="link_exclusao=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}"><i
+					th:attr="link=@{/participacao/excluir/{participacao}/{acao}(participacao=${membro.id},acao=${acao.id})}, action = excluir"><i
 						class="fa fa-trash-o"></i></a>
 				</td>
 
@@ -71,7 +71,7 @@
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 					class="text-center"><a
 					class="sa-warning btn btn-danger"
-					th:attr="link_exclusao=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}"><i
+					th:attr="link=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}, action = excluir"><i
 						class="fa fa-trash-o"></i></a></td>
 			</tr>
 		</tbody>
