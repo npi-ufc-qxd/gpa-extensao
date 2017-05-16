@@ -1,5 +1,9 @@
 package ufc.quixada.npi.gpa.service;
 
+import java.io.ByteArrayInputStream;
+
+import com.itextpdf.text.DocumentException;
+
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
@@ -12,7 +16,6 @@ public interface ParticipacaoService {
 	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 	
-	void emitirDeclaracaoParticipanteEquipeTrabalho(Integer participante, Integer acaoExtensao,
-			String cpfCoordenador);
+	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao) throws DocumentException;
 
 }

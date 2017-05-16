@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.DocumentException;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.generation.pdf.BuilderPDFReport;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -143,6 +144,8 @@ public class ParticipacaoController {
 		return servirdorRepository.findByFuncao(funcao);
 	}
 	
+	/* Método para emissão de declaração da participação de um participante na equipe de trabalho */ 
+	
 	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
 	public ResponseEntity<InputStreamResource> emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
 			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er) throws DocumentException{
@@ -150,10 +153,9 @@ public class ParticipacaoController {
 		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
 	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
 	    Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
-
-			
-			
-			 ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao,participacao);
+	    
+	   
+			 ByteArrayInputStream pdf = participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(acaoExtensao, participacao);
 
 		        HttpHeaders headers = new HttpHeaders();
 		        headers.add("Content-Disposition", "inline; filename=declaracao.pdf");
@@ -162,12 +164,8 @@ public class ParticipacaoController {
 		                .ok()
 		                .headers(headers)
 		                .contentType(MediaType.APPLICATION_PDF)
-		                .body(new InputStreamResource(bis));
+		                .body(new InputStreamResource(pdf));
 		        
-				//Model mv = model.addAttribute("participante",pessoa);
-				
-				
-				//participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(idParticipante,idAcaoExtensao,auth.getName());
 				
 		    }
 			

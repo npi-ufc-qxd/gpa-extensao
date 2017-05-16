@@ -5,12 +5,18 @@ import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+
+import java.io.ByteArrayInputStream;
+
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itextpdf.text.DocumentException;
+
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
+import ufc.quixada.npi.gpa.generation.pdf.BuilderPDFReport;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Participacao;
@@ -126,14 +132,10 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public void emitirDeclaracaoParticipanteEquipeTrabalho(Integer participante, Integer idAcaoExtensao,
-			String cpfCoordenador) {
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-		System.out.println("Teste service");
+	public ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao) throws DocumentException {
 		
-		if (acaoExtensao.getCoordenador().getCpf().equals(cpfCoordenador)) {
-			// manda emitir
-		}
+		ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao, participacao);
+		return bis;
 		
 	}
 

@@ -20,7 +20,7 @@
 				<td th:text="${membro.instituicao()}"></td>
 				<td th:text="__${membro.cargaHoraria}__h"></td>
 				<td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
-				<td> <a sec:authorize="hasAuthority('SERVIDOR')"
+				<td> <a th:if="${membro.participante.cpf == #authentication.name}"
 					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${membro.participante.id}__}"
 					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
 			</tr>
@@ -33,6 +33,9 @@
 				<td th:text="__${bolsa.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+					<td> <a th:if="${bolsa.bolsista.pessoa.cpf == #authentication.name}"
+					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${bolsa.bolsista.pessoa.id}__}"
+					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
 			</tr>
 		</tbody>
 	</table>
