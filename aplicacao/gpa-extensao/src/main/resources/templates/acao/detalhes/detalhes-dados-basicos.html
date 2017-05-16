@@ -109,9 +109,9 @@
 					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
 				<a sec:authorize="hasAuthority('SERVIDOR')"
 					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
-					th:href="@{/acoes/deletar/__${acao.id}__}"
-					class="btn waves-effect waves-light btn-danger m-t-10"
-					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão?');">Excluir</a>
+					th:attr="link=@{/acoes/deletar/__${acao.id}__}, action=excluir, redirect = true"
+					class="sa-warning btn waves-effect waves-light btn-danger m-t-10"
+					>Excluir</a>
 			</div>
 		</div>
 	</div>

@@ -42,6 +42,7 @@
 		var x = document.querySelector(".confirm");
 		var link = this.getAttribute("link");
 		var action = this.getAttribute("action");
+		var redirect = this.getAttribute("redirect");
 		console.log(link);
 		if(action === "excluir"){
 		
@@ -76,7 +77,11 @@
 							swal("Apagado!", "O item selecionado foi removido com sucesso.", "success"); 	
 							var list = document.getElementsByClassName("confirm");
 							list[0].onclick = function(){
-								location.reload(); 	
+								if(redirect != null){
+									window.location.replace("/");
+								}else{
+									location.reload();
+								}
 							};
 						}
 					}

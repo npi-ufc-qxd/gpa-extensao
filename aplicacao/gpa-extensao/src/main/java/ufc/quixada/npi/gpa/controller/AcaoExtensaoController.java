@@ -302,15 +302,16 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 
-	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
-	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
+	@PostMapping(value = "/deletar/{id}")
+	public @ResponseBody Map<String, Object> deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
 		} catch (GpaExtensaoException e) {
-			attr.addFlashAttribute(ERRO, e.getMessage());
+			map.put(ERRO, e.getMessage());
 		}
 
-		return REDIRECT_PAGINA_DETALHES_ACAO;
+		return map;
 	}
 
 	@PostMapping(value = "/encerrar/{acao}")
