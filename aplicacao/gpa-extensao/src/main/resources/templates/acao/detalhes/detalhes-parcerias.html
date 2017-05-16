@@ -118,7 +118,7 @@
 													<div class="iradio_square-red checked">
 														<input class="check" id="parcitipanteExistente"
 															name="square-radio" data-radio="iradio_square-red"
-															type="radio" /> <label for="existente" class="">Parceiro
+															type="radio" checked="checked" /> <label for="existente" class="">Parceiro
 															Existente</label>
 													</div>
 												</div>
@@ -129,7 +129,7 @@
 											<label>* Parceiros</label>
 											<div class="col-md-12">
 												<div class="form-group">
-													<select disabled="disabled" id="parceiro"
+													<select id="parceiro"
 														class="form-control" name="parceiro">
 														<option th:each="p : ${parceiros}" th:text="${p.nome}"
 															th:value="${p.id}"></option>
