@@ -1,12 +1,16 @@
 package ufc.quixada.npi.gpa.service.impl;
 
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_JA_ENCERRADA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ENCERRAMENTO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR;
+
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
+
 
 
 import java.text.DateFormat;
@@ -37,7 +41,6 @@ import ufc.quixada.npi.gpa.service.DocumentoService;
 import ufc.quixada.npi.gpa.service.NotificationService;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 
-
 @Service
 public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
@@ -61,10 +64,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 	@Autowired
 	private ParticipacaoRepository participacaoRepository;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Override
 	public List<AcaoExtensao> findAcoesByPessoa(Pessoa pessoa) {
 		return acaoExtensaoRepository.findByParticipacao(pessoa);
@@ -167,46 +170,46 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		return false;
 	}
-	
+
 	@Override
-	public void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException{
+	public void salvarCodigoAcao(AcaoExtensao acao, String codigo) throws GpaExtensaoException {
 		String codigoUpper = codigo.toUpperCase();
-		
-		if(acao == null || codigoUpper.isEmpty()){
+
+		if (acao == null || codigoUpper.isEmpty()) {
 			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
 		}
-		
+
 		acao.setCodigo(codigoUpper);
 		acaoExtensaoRepository.save(acao);
 	}
 
 	@Override
 	public void transeferirCoordenacao(AcaoExtensao acao, Integer idNovoCoordenador, String dataInicio,
-			Integer cargaHoraria) throws ParseException, GpaExtensaoException{
-		
-		if(acao == null) {
+			Integer cargaHoraria) throws ParseException, GpaExtensaoException {
+
+		if (acao == null) {
 			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
-		
+
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date dataI = df.parse(dataInicio);
-		
-		if(dataI.equals(acao.getTermino()) || dataI.after(acao.getTermino())) {
+
+		if (dataI.equals(acao.getTermino()) || dataI.after(acao.getTermino())) {
 			throw new GpaExtensaoException(MENSAGEM_DATA_IGUAL_MAIOR);
 		}
-		
-		if(dataI.before(acao.getInicio())) {
+
+		if (dataI.before(acao.getInicio())) {
 			throw new GpaExtensaoException(MENSAGEM_DATA_MENOR);
 		}
-		
+
 		Pessoa antigoCoordenador = acao.getCoordenador();
 		Pessoa novoCoordenador = pessoaRepository.findOne(idNovoCoordenador);
-		
-		if(!antigoCoordenador.equals(novoCoordenador)) { 
-		
-			List<Participacao> participacoesAntigoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao,
-					antigoCoordenador);
-			
+
+		if (!antigoCoordenador.equals(novoCoordenador)) {
+
+			List<Participacao> participacoesAntigoCoordenador = participacaoRepository
+					.findByAcaoExtensaoAndParticipante(acao, antigoCoordenador);
+
 			for (Participacao p : participacoesAntigoCoordenador) {
 				if (p.isCoordenador()) {
 					p.setDataTermino(dataI);
@@ -215,27 +218,29 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 				}
 			}
 
-			List<Participacao> participacoesNovoCoordenador = participacaoRepository.findByAcaoExtensaoAndParticipante(acao, novoCoordenador);
-			
+			List<Participacao> participacoesNovoCoordenador = participacaoRepository
+					.findByAcaoExtensaoAndParticipante(acao, novoCoordenador);
+
 			for (Participacao p : participacoesNovoCoordenador) {
-				if(p.equals(novoCoordenador)) {
+				if (p.equals(novoCoordenador)) {
 					p.setDataTermino(acao.getTermino());
 					participacaoRepository.save(p);
 				}
 			}
-			
+
 			acao.setCoordenador(novoCoordenador);
-			Participacao novaParticipacaoNovoCoordenador = participacaoService.participacaoCoordenador(acao, cargaHoraria);
+			Participacao novaParticipacaoNovoCoordenador = participacaoService.participacaoCoordenador(acao,
+					cargaHoraria);
 			novaParticipacaoNovoCoordenador.setDataInicio(dataI);
-			
+
 			participacaoRepository.save(novaParticipacaoNovoCoordenador);
 			acaoExtensaoRepository.save(acao);
 		}
-		
+
 		throw new GpaExtensaoException(MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR);
-		
+
 	}
-	
+
 	@Override
 	public void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException {
 
@@ -317,15 +322,6 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		return old;
 	}
 
-	@Override
-	public void encerrarAcao(Integer idAcao) throws GpaExtensaoException {
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(idAcao);
-		acao.setAtivo(false);
-		bolsaRepository.inativarBolsas(idAcao);
-		acaoExtensaoRepository.save(acao);
-	}
-	
-	
 	private void notificar(AcaoExtensao acaoExtensao) {
 		this.notificationService.notificar(acaoExtensao);
 	}
@@ -460,6 +456,27 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 				Arrays.asList(Status.AGUARDANDO_HOMOLOGACAO, Status.APROVADO, Status.REPROVADO));
 		return acoesParecerista + acoesRelator;
 
+	}
+
+	@Override
+	public void encerrarAcao(AcaoExtensao acaoExtensao, Pessoa pessoa) throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+
+		if (old != null) {
+			if (!old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ENCERRAMENTO);
+			}
+			if (!pessoa.isDirecao()) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (old.isAtivo()) {
+				old.setAtivo(false);
+			} else {
+				throw new GpaExtensaoException(EXCEPTION_ACAO_JA_ENCERRADA);
+			}
+			bolsaRepository.inativarBolsas(acaoExtensao.getId());
+			acaoExtensaoRepository.save(old);
+		}
 	}
 
 }

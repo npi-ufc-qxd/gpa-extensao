@@ -13,11 +13,8 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
-
 	<div class="container-fluid" layout:fragment="conteudo">
-
 		<br />
-		<!-- Linha do tempo -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="panel panel-default">
@@ -79,41 +76,14 @@
 			</div>
 		</div>
 
-
-
 	</div>
-
-
-	<!-- Parcerias -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div th:replace="acao/detalhes/detalhes-parcerias :: parcerias"></div>
-		</div>
-	</div>
-
-
-	<br />
-	<!-- Pareceres -->
-	<div class="row">
-		<!-- Parecer Técnico -->
-		<div class="col-xs-6">
-
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-tecnico :: parecer-tecnico"></div>
-		</div>
-		<!-- Parecer do Relator -->
-		<div class="col-xs-6">
-			<div
-				th:replace="acao/detalhes/detalhes-parecer-relator :: parecer-relator"></div>
-		</div>
-	</div>
-
 
 
 	<section layout:fragment="js">
-		<script th:src="@{/js/mask.js}"></script>
-		<script>
 
+		<script th:src="@{/js/mask.js}"></script>
+
+		<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
 				.dataTable(
@@ -149,7 +119,6 @@
 									document.getElementById("nomeParticipante").disabled = false;
 									document.getElementById("cpfParticipante").disabled = false;
 									document.getElementById("descricaoFuncao").disabled = false;
-
 								} else {
 									document
 											.getElementById("participanteServidor").disabled = false;
@@ -161,7 +130,6 @@
 		</script>
 		<script type="text/javascript">
 			var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
 			checkboxes.click(function() {
 				btnAdicionar.attr("disabled", !checkboxes.is(":checked"));
 			});
@@ -190,7 +158,6 @@
 					});
 			</script>
 		<script>
-
 		$("#alterar-parecerista-button").on("click", function(){
 			$("#parecer-tecnico-acoes").hide();
 			$("#parecer-tecnico-info").hide();
@@ -238,6 +205,29 @@
 			$("#parecer-relator-info").fadeIn(500);
 		});
 		
+		$("#pendencias-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").hide();
+			$("#parecer-tecnico-info").hide();
+			$("#pendencias-parecer-form").fadeIn(500);
+		});
+		
+		$("#cancelar-pendencia-parecer-button").on("click", function(){
+			$("#parecer-tecnico-acoes").show();
+			$("#pendencias-parecer-form").hide();
+			$("#parecer-tecnico-info").fadeIn(500);
+		});
+		
+		$("#pendencias-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").hide();
+			$("#parecer-relator-info").hide();
+			$("#pendencias-relato-form").fadeIn(500);			
+		});
+		
+		$("#cancelar-pendencia-relato-button").on("click", function(){
+			$("#parecer-relator-acoes").show();
+			$("#parecer-relator-info").show();
+			$("#pendencias-relato-form").hide();			
+		});
 		
 	</script>
 
@@ -250,6 +240,7 @@
 			}
 		});
 	</script>
+
 
 
 		<script type="text/javascript">
@@ -274,7 +265,6 @@
 						});
 					}
 				});
-
 		$('#funcao').change(function() {
 			$.ajax({
 				type:"GET",
@@ -295,22 +285,17 @@
 				}
 			});
 		
-
 		});
 	</script>
 
 		<script>
-
 		$(".myadmin-alert .closed").click(function(event) {
 			$(this).parents(".myadmin-alert").fadeToggle(350);
-
 			return false;
-
 		$('#novoParcitipante').click(function() {
 			document.getElementById("nomeParceiro").disabled = false;
 			document.getElementById("tipoParceiro").disabled = false;
 			document.getElementById("parceiro").disabled = true;
-
 		});
 		$('#parcitipanteExistente').click(function() {
 			document.getElementById("parceiro").disabled = false;
@@ -327,28 +312,16 @@
 								document
 										.getElementById("descricaoOutrasFormas").disabled = true;
 							}
-
 						});
 	</script>
-
 		<script type="text/javascript">
 		var checkboxes = $("input[type='checkbox']"), btnAdicionar = $('#adcParceria');
-
-			$('#modal_exclusao_parceria')
-					.on(
-							'show.bs.modal',
-							function(e) {
-								var $elementoQueInvocouModal = $(e.relatedTarget);
-								var link = $elementoQueInvocouModal
-										.attr('link_exclusao');
-								var a = document
-										.getElementById('btn_confirmacao_exclusao_parceria');
-								a.href = link;
-							});
-
-		$(".showtop").ready(function() {
-			$(".alerttop").fadeToggle(350);
-		});
+			$('#modal_exclusao_parceria').on('show.bs.modal', function(e) {
+				var $elementoQueInvocouModal = $(e.relatedTarget);
+				var link = $elementoQueInvocouModal.attr('link_exclusao');
+				var a = document.getElementById('btn_confirmacao_exclusao_parceria');
+				a.href = link;
+			});
 	</script>
 		<script type="text/javascript">
 		$('#modal_exclusao_bolsa').on('show.bs.modal', function (e) {
@@ -362,10 +335,79 @@
 			  var link = $elementoQueInvocouModal.attr('link_exclusao');
 			  var a = document.getElementById('btn_confirmacao_exclusao_participacao');
 			  a.href = link;
+		});
+		
+		$('#modal_alterar_periodo_participante').on('show.bs.modal', function (e) {
+			  var $elementoQueInvocouModal = $(e.relatedTarget);
+			  var participacao = $elementoQueInvocouModal.attr('participacao');
+			  var pessoa = $elementoQueInvocouModal.attr('pessoa');
+			  var linkAlteracaoParticipacao =  $elementoQueInvocouModal.attr('link_alteracao');
+			  var dataInicio = new Date($elementoQueInvocouModal.attr('dataInicio'));
+			  var dataTermino = new Date($elementoQueInvocouModal.attr('dataTermino'));
+			  var form = document.getElementById('alterar_periodo_participante');
+			  form.action = linkAlteracaoParticipacao;			  
+			  var token = $("meta[name='_csrf']").attr("content");
+			  var header = $("meta[name='_csrf_header']").attr("content");
+			  var action = $elementoQueInvocouModal.attr('action');
+			  var nomeParticipanteAlteracaoPeriodo = document.getElementById('nomeParticipanteAlteracaoPeriodo');
+			  var funcaoParticipanteAlteracaoPeriodo = document.getElementById('funcaoParticipanteAlteracaoPeriodo');
+			  var data_termino_participacao_alterar_periodo = document.getElementById('data_termino_participacao_alterar_periodo');
+			  var data_inicio_participacao_alterar_periodo = document.getElementById('data_inicio_participacao_alterar_periodo');
+			  var funcaoBolsista = 	$elementoQueInvocouModal.attr('funcaoBolsista');
+			  var funcaoParticipante = $elementoQueInvocouModal.attr('funcaoParticipante');
+			  
+			  if(action == "participacao"){
+			  	$.ajax({
+					type:"GET",
+					data: {participacao : participacao},
+					beforeSend: function (request){
+			                request.setRequestHeader(header, token);
+			        },
+					url: "/participacao/buscar",
+					contentType: 'application/json',
+					success : function(data) {
+						console.log(data);
+						form.object = data;
+						if(data.participante != null){
+							nomeParticipanteAlteracaoPeriodo.value = data.participante.nome;
+						}else{
+							nomeParticipanteAlteracaoPeriodo.value = data.nomeParticipante;
+						}
+						if(data.funcao != "OUTRA" ){
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoParticipante;	
+						}else{
+							funcaoParticipanteAlteracaoPeriodo.value = data.descricaoFuncao;
+						}
+						data_termino_participacao_alterar_periodo.value = data.dataTermino;
+						data_inicio_participacao_alterar_periodo.value = data.dataInicio;
+					}
+				});
+			  }else{
+				  $.ajax({
+						type:"GET",
+						data: {pessoa : pessoa},
+						beforeSend: function (request){
+				                request.setRequestHeader(header, token);
+				        },
+						url: "/buscar/pessoa",
+						contentType: 'application/json',
+						success : function(data) {
+							console.log(data);
+							nomeParticipanteAlteracaoPeriodo.value = data.nome;
+							funcaoParticipanteAlteracaoPeriodo.value = funcaoBolsista;
+							data_termino_participacao_alterar_periodo.value = dataTermino.toLocaleDateString("pt-BR");
+							data_inicio_participacao_alterar_periodo.value = dataInicio.toLocaleDateString("pt-BR");
+						}
+					});  
+			  }
 		});	
 	</script>
+<<<<<<< HEAD
 
 	<script>
+=======
+		<script>
+>>>>>>> refs/remotes/origin/master
 		$(".column-step").each(function(index,element) { 
 			$( element ).toggleClass( "upcoming" );
 			$( element ).find("i").removeClass( "fa-times" );

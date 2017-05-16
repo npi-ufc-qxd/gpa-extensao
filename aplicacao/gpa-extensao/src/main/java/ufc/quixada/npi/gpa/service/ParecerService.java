@@ -9,7 +9,7 @@ public interface ParecerService {
 
 	void atribuirRelator(AcaoExtensao acaoExtensao) throws GpaExtensaoException;
 
-	void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia);
+	void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia) throws GpaExtensaoException;
 
 	void emitirParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException;
 }
