@@ -37,7 +37,7 @@
 					class="text-center"
 					><a
 					class="sa-warning btn btn-danger"
-					th:attr="link_exclusao= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}"><i
+					th:attr="link= @{/parceria/excluir/{id}/{acao}(id=${parceria.id},acao=${acao.id})}, action = excluir "><i
 						class="fa fa-trash-o"></i> </a></td>
 			</tr>
 		</tbody>
