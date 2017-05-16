@@ -60,14 +60,14 @@
 <div class="navbar-default sidebar" role="navigation" th:fragment="menu">
 	<div class="sidebar-nav navbar-collapse slimscrollsidebar">
 		<ul class="nav" id="side-menu">
-			<li id="menu-minhas-acoes"> <a th:href="@{/acoes/minhas}" class="waves-effect"><span class="hide-menu"> Minhas ações</span></a>
+			<li id="menu-minhas-acoes" class=""> <a href="" class="waves-effect"><span class="hide-menu"> Minhas ações</span></a>
 	          <ul class="nav nav-second-level collapse">
 	            <li> <a th:href="@{/acoes/minhas/minhas-acoes}">Minhas Ações</a> </li>
 	            <li> <a th:href="@{/acoes/minhas/aguardando-parecer}">Aguardando Parecer</a> </li>
 	            <li> <a th:href="@{/acoes/minhas/pareceres-emitidos}">Pareceres Emitidos</a> </li>
 	          </ul>
 	        </li>
-	        <li id="menu-acoes"> <a th:href="@{/acoes/}" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
+	        <li id="menu-acoes" class=""> <a href="" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
 	         <ul class="nav nav-second-level collapse">
 	            <li> <a th:href="@{/acoes/tramitacao}">Em Tramitação</a> </li>
 	            <li> <a th:href="@{/acoes/andamento}">Em Andamento</a> </li>
