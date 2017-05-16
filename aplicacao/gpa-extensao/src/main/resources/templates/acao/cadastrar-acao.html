@@ -137,7 +137,7 @@
 									</select>
 								</div>
 							</div>
-							<div th:if="${acao.status.name() != 'RESOLVENDO_PENDENCIAS_RELATO' AND acao.status.name() != 'RESOLVENDO_PENDENCIAS_PARECER'}" class="col-md-3">
+							<div class="col-md-3">
 								<div class="form-group">
 									<label for="retroativa">Ação Retroativa?</label> <select
 										id="retroativa" class="form-control">
@@ -245,18 +245,13 @@
 						$('#curso-evento').addClass('no-display');
 					}
 				});
-		$('#retroativa').change(function() {
-			if ($('#retroativa').val() === 'SIM') {
-				$('#coordenador-acao').removeClass('no-display');
-			} else {
-				$('#coordenador-acao').addClass('no-display');
-
-			$('#menu-cadastrar-acao a').addClass("active");
-			if ($('#modalidade').val() === 'CURSO'
-					|| $('#modalidade').val() === 'EVENTO') {
-				$('#curso-evento').removeClass('no-display');
-			}
-		});
+		 $('#retroativa').change(function(){
+	        	if($('#retroativa').val() === 'SIM') {
+	        		$('#coordenador-acao').removeClass('no-display');
+	        	}else {
+	        		$('#coordenador-acao').addClass('no-display');
+	        	}
+	        });
 
 		$(document).ready(function($) {
 			$("#inicio").mask("99/99/9999");
