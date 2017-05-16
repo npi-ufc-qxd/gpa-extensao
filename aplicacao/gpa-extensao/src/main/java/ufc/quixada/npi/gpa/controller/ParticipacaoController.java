@@ -118,19 +118,19 @@ public class ParticipacaoController {
 		return map;
 	}
 
-	@RequestMapping(value = "/excluir/{participacao}/{acao}")
-	public String deleteParticipacao(@PathVariable("participacao") Participacao participacao,
-			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+	@PostMapping(value = "/excluir/{participacao}/{acao}")
+	public @ResponseBody Map<String, Object> deleteParticipacao(@PathVariable("participacao") Participacao participacao,
+			@PathVariable("acao") AcaoExtensao acaoExtensao,
 			Authentication authentication) {
 
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
-
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			participacaoService.excluirParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
-		}
-		return R_ACAO + acaoExtensao.getId();
+			map.put(ERRO, e.getMessage());
+		}	
+		return map;
 	}
 
 	@PostMapping("/alterar/{participacao}/{acao}")
