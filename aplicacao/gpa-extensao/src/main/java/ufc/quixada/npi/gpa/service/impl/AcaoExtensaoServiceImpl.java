@@ -277,15 +277,33 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 
 	@Override
-	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException {
+	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo, boolean pendencia) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
 		Documento documento = documentoService.save(arquivo, acaoExtensao);
-
+		
 		if (documento != null) {
 			acaoExtensao.setAnexo(documento);
 		}
-
+		
+		if(pendencia) {
+			switch(old.getStatus()) {
+				case RESOLVENDO_PENDENCIAS_PARECER:
+					old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+					old.ultimaPendenciaParecer().setResolvida(true);
+					notificationService.notificarResolucaoPendenciasParecer(old);
+					break;
+		
+				case RESOLVENDO_PENDENCIAS_RELATO:
+					old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+					old.ultimaPendenciaRelator().setResolvida(true);
+					notificationService.notificarResolucaoPendenciasRelato(old);
+					break;
+		
+				default:
+					break; 
+			}
+		}
+		
 		old = checkAcaoExtensao(old, acaoExtensao);
 		acaoExtensaoRepository.save(old);
 	}
@@ -322,6 +340,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		old.setProgramacao(nova.getProgramacao());
 		old.setAnexo(nova.getAnexo());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
+		old.setVinculo(nova.getVinculo());
 		return old;
 	}
 

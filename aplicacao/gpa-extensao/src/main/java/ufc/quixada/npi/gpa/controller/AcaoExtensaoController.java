@@ -24,8 +24,11 @@ import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,8 +259,8 @@ public class AcaoExtensaoController {
 	 * Formulário para editar uma ação de extensão
 	 */
 	@PreAuthorize(PERMISSAO_SERVIDOR)
-	@GetMapping("/editar/{id}")
-	public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication) {
+	@GetMapping({"/editar/{id}", "/resolver-pendencia/{id}"})
+	public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication, HttpServletRequest request) {
 		// Verifica se é possível editar a ação
 		// Só é possível editar quando o usuário for o coordenador e o status
 		// for NOVO ou estiver resolvendo alguma pendência
@@ -268,20 +271,26 @@ public class AcaoExtensaoController {
 				|| !acaoExtensao.getCoordenador().getCpf().equals(authentication.getName())) {
 			return R_INDEX;
 		}
-
+		
+		if(request.getRequestURI().contains("editar")) {
+			model.addAttribute("action", "editar");
+		} else if(request.getRequestURI().contains("pendencia")) {
+			model.addAttribute("action", "pendencia");
+		} 
+		
 		model.addAttribute("acao", acaoExtensao);
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-		model.addAttribute("action", "editar");
 		model.addAttribute("cargaHoraria", 4);
+		model.addAttribute("pendencia", new Pendencia());
 
 		return CADASTRAR_ACAO;
 	}
 
-	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	@PostMapping({"/editar", "/pendencia"})
 	public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Model model,
-			RedirectAttributes redirect) {
+			RedirectAttributes redirect, HttpServletRequest request) {
 
 		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
 				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
@@ -289,9 +298,15 @@ public class AcaoExtensaoController {
 			acaoExtensao.setHorasTeoricas(null);
 			acaoExtensao.setProgramacao("");
 		}
-
+		
+		boolean pendencia = false;
+		
+		if(request.getRequestURI().contains("pendencia")) {
+			pendencia = true;
+		}
+		
 		try {
-			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo, pendencia);
 			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
@@ -300,30 +315,30 @@ public class AcaoExtensaoController {
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 
-	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.GET)
-	public String deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
+	@PostMapping(value = "/deletar/{id}")
+	public @ResponseBody Map<String, Object> deletar(@PathVariable("id") Integer id, RedirectAttributes attr, Authentication auth) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			acaoExtensaoService.deletarAcaoExtensao(id, auth.getName());
 		} catch (GpaExtensaoException e) {
-			attr.addFlashAttribute(ERRO, e.getMessage());
+			map.put(ERRO, e.getMessage());
 		}
 
-		return REDIRECT_PAGINA_DETALHES_ACAO;
+		return map;
 	}
 
-	@GetMapping("/encerrar/{acao}")
-	public String encerrar(@PathVariable("acao") AcaoExtensao acaoExtensao, Authentication authentication,
-			RedirectAttributes redirect) {
+	@PostMapping(value = "/encerrar/{acao}")
+	public @ResponseBody Map<String, Object> encerrar(@PathVariable("acao") AcaoExtensao acaoExtensao,
+			Authentication authentication) {
 
 		Pessoa pessoa = pessoaService.buscarPorCpf(authentication.getName());
-
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			acaoExtensaoService.encerrarAcao(acaoExtensao, pessoa);
 		} catch (GpaExtensaoException e) {
-			redirect.addAttribute(ERRO, e.getMessage());
+			map.put(ERRO, e.getMessage());
 		}
-
-		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
+		return map;
 	}
 
 	@Transactional(readOnly = true)
@@ -447,20 +462,21 @@ public class AcaoExtensaoController {
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
-	
+
 	@PostMapping("/homologarAcao/{idAcao}")
-	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado, 
+	public String homologarAcao(@PathVariable("idAcao") Integer idAcao, @RequestParam("resultado") String resultado,
 			@RequestParam("dataHomologacao") String dataHomologacao, @RequestParam("observacao") String observacao,
 			RedirectAttributes redirectAttribute, Model model) throws GpaExtensaoException, ParseException {
-		
+
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		
+
 		try {
 			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
-		
+
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
+
 }

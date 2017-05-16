@@ -5,8 +5,8 @@ import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
@@ -71,7 +71,7 @@ public class BolsaController {
 		model.addAttribute("message", message);
 		model.addAttribute("acao", acao);
 
-		return VISUALIZAR_ACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
 
 	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)

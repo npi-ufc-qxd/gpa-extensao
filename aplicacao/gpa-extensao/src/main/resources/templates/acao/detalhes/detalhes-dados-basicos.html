@@ -89,12 +89,12 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="pull-right">
-				<a th:if="${acao.coordenador.cpf == #authentication.name}" href=""
-					alt="default" data-toggle="modal" data-target="#modalTransferir"
-					class="btn btn-primary waves-effect waves-light m-t-10">Transferir
-					Coordenação</a>
-				 <a sec:authorize="hasAuthority('DIRECAO')"
+
+			<div class="pull-right"> 
+				<a th:if="${(acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO' OR acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER') AND acao.coordenador.cpf == #authentication.name}" href=""
+					th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
+					alt="default" class="btn btn-primary waves-effect waves-light m-t-10">Resolver Pendências</a> 
+				<a sec:authorize="hasAuthority('DIRECAO')"
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-primary waves-effect waves-light m-t-10">Homologar
@@ -117,20 +117,18 @@
 					th:href="@{/acoes/submeter/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
 
-				<a data-toggle="modal" data-target="#modal_encerramento_acao"
-					data-dismiss="modal"
-					th:attr="link = @{/acoes/encerrar/{acao}(acao=${acao.id})}"
+				<a 	th:attr="link= @{/acoes/encerrar/{acao}(acao=${acao.id})}, action = encerrar"
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
-					class="btn btn-primary waves-effect waves-light m-t-10">
-					Encerrar </a> 
-			    <a th:if="${acao.status.name() == 'NOVO'}"
+
+					class="sa-warning btn btn-primary waves-effect waves-light m-t-10">
+					Encerrar </a> <a th:if="${acao.status.name() == 'NOVO'}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
 				<a sec:authorize="hasAuthority('SERVIDOR')"
 					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
-					th:href="@{/acoes/deletar/__${acao.id}__}"
-					class="btn btn-block btn-danger m-t-10"
-					onclick="return confirm('Deseja realmente excluir essa Ação de Extensão?');">Excluir</a>
+					th:attr="link=@{/acoes/deletar/__${acao.id}__}, action=excluir, redirect = true"
+					class="sa-warning btn waves-effect waves-light btn-danger m-t-10"
+					>Excluir</a>
 			</div>
 		</div>
 	</div>
@@ -170,40 +168,6 @@
 							</div>
 						</form>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="modal_encerramento_acao"
-		class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
-		aria-labelledby="mySmallModalLabel" style="display: none;"
-		aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h4 class="modal-title">Deseja realmente encerrar essa ação?</h4>
-				</div>
-				<div class="modal-body">
-					<div class="panel panel-info">
-						<div class="panel-wrapper collapse in" aria-expanded="true">
-							<div class="panel-body">
-								<div class="col-md-12">
-									<div class="col-md-6">
-										<button type="button" class="btn btn-default"
-											style="color: black;" data-dismiss="modal">Fechar</button>
-									</div>
-									<div class="col-md-6">
-										<a id="btn_confirmacao_encerramento_acao"
-											class="btn btn-block btn-danger" style="color: black;">Encerrar</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 			</div>
 		</div>
