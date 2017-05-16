@@ -48,5 +48,10 @@ public interface BolsaService {
 	 * Retorna as bolsas de um aluno que é bolsista
 	 */
 	List<Bolsa> listarBolsasAluno(Integer alunoId);
+	
+	void alterarDataParticipacao(AcaoExtensao acaoExtensao, Bolsa bolsa, Pessoa pessoa, Date dataInicio,
+			Date dataTermino) throws GpaExtensaoException;
+	
+	Bolsa buscarBolsa(Bolsa bolsa);
 
 }
