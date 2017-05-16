@@ -276,38 +276,24 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo, boolean pendencia) throws GpaExtensaoException {
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
 		Documento documento = documentoService.save(arquivo, acaoExtensao);
-
+		
 		if (documento != null) {
 			acaoExtensao.setAnexo(documento);
 		}
 		
-		old = checkAcaoExtensao(old, acaoExtensao);
-		
-		switch(old.getStatus()) {
-			case RESOLVENDO_PENDENCIAS_PARECER:
-				old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
-				old.ultimaPendenciaParecer().setResolvida(true);
-				break;
-	
-			case RESOLVENDO_PENDENCIAS_RELATO:
-				old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
-				old.ultimaPendenciaRelator().setResolvida(true);
-				break;
-	
-			default:
-				break; 
-		}
-		
 		if(pendencia) {
 			switch(old.getStatus()) {
-				case AGUARDANDO_PARECER_TECNICO:
-					notificationService.notificarResolucaoPendenciasParecer(acaoExtensao);
+				case RESOLVENDO_PENDENCIAS_PARECER:
+					old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
+					old.ultimaPendenciaParecer().setResolvida(true);
+					notificationService.notificarResolucaoPendenciasParecer(old);
 					break;
 		
 				case RESOLVENDO_PENDENCIAS_RELATO:
-					notificationService.notificarResolucaoPendenciasRelato(acaoExtensao);
+					old.setStatus(Status.AGUARDANDO_PARECER_RELATOR);
+					old.ultimaPendenciaRelator().setResolvida(true);
+					notificationService.notificarResolucaoPendenciasRelato(old);
 					break;
 		
 				default:
@@ -315,6 +301,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 			}
 		}
 		
+		old = checkAcaoExtensao(old, acaoExtensao);
 		acaoExtensaoRepository.save(old);
 	}
 

@@ -58,8 +58,15 @@ public class DocumentoController {
 			model.addAttribute("acao", novaAcao);
 			model.addAttribute("modalidades", Modalidade.values());
 			model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-			model.addAttribute("action", "editar");
 			model.addAttribute("cargaHoraria", 4);
+			
+			
+			if(!acaoExtensao.ultimaPendenciaParecer().getResolvida()) {
+				model.addAttribute("action", "pendencia");
+			}else {
+				model.addAttribute("action", "editar");
+			}
+			
 			return CADASTRAR_ACAO;
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());

@@ -37,7 +37,7 @@
 					enctype="multipart/form-data" method="POST" th:object="${acao}">
 					<input id="acaoId" name="id" type="hidden" th:value="${acao.id}" />
 					<div class="form-body">
-						<div class="row" th:if="${action == 'editar'}">
+						<div class="row" th:if="${action == 'editar' || action == 'pendencia'}">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="identificador"
