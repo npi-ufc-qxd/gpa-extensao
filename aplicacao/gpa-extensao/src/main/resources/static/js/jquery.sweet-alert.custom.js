@@ -66,11 +66,15 @@
      		        return false;
      		    },
      			success : function(result) {
-     				swal("Apagado!", "O item selecionado foi removido com sucesso.", "success"); 	
-     				var list = document.getElementsByClassName("confirm");
-     				list[0].onclick = function(){
-     					location.reload(); 	
-     		    	};	 
+     				if(result.erro != null){
+     					swal("Erro!", result.erro, "error");
+     				}else{
+     					swal("Apagado!", "O item selecionado foi removido com sucesso.", "success"); 	
+     					var list = document.getElementsByClassName("confirm");
+     					list[0].onclick = function(){
+     						location.reload(); 	
+     					};
+     				}
      			}
      		});
     	};
