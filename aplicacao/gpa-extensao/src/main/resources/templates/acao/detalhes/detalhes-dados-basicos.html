@@ -79,11 +79,11 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="pull-right">
-				<a th:if="${acao.coordenador.cpf == #authentication.name}" href=""
-					alt="default" data-toggle="modal" data-target="#modalTransferir"
-					class="btn btn-primary waves-effect waves-light m-t-10">Transferir
-					Coordenação</a> <a sec:authorize="hasAuthority('DIRECAO')"
+			<div class="pull-right"> 
+				<a th:if="${(acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO' OR acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER') AND acao.coordenador.cpf == #authentication.name}" href=""
+					th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
+					alt="default" class="btn btn-primary waves-effect waves-light m-t-10">Resolver Pendências</a> 
+				<a sec:authorize="hasAuthority('DIRECAO')"
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-primary waves-effect waves-light m-t-10">Homologar

@@ -197,7 +197,7 @@ public class AdministracaoController {
 		}
 
 		try {
-			acaoExtensaoService.editarAcaoExtensao(oldAcao, arquivo);
+			acaoExtensaoService.editarAcaoExtensao(oldAcao, arquivo, false);
 		} catch (GpaExtensaoException e) {
 			model.addAttribute(ERRO, e.getMessage());
 			return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
