@@ -16,6 +16,6 @@ public interface ParticipacaoService {
 	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 	
-	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao) throws DocumentException;
+	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer acaoExtensao, Integer pessoa) throws DocumentException;
 
 }

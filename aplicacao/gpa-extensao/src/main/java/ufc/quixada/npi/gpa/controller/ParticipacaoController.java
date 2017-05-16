@@ -148,14 +148,11 @@ public class ParticipacaoController {
 	
 	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
 	public ResponseEntity<InputStreamResource> emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
-			@PathVariable("acao") Integer idAcaoExtensao, RedirectAttributes attr, Authentication auth, Model model, Exception er) throws DocumentException{
+			@PathVariable("acao") Integer idAcaoExtensao, Exception er) throws DocumentException{
 	
-		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
-	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-	    Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
-	    
-	   
-			 ByteArrayInputStream pdf = participacaoService.emitirDeclaracaoParticipanteEquipeTrabalho(acaoExtensao, participacao);
+		
+	    ByteArrayInputStream pdf = participacaoService
+	    		.emitirDeclaracaoParticipanteEquipeTrabalho(idAcaoExtensao, idParticipante);
 
 		        HttpHeaders headers = new HttpHeaders();
 		        headers.add("Content-Disposition", "inline; filename=declaracao.pdf");

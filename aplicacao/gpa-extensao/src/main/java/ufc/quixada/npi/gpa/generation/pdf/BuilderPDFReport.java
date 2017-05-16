@@ -53,9 +53,5 @@ public class BuilderPDFReport {
         return new ByteArrayInputStream(out.toByteArray());
 	}
 	
-	//refatorar os service participacao OK
-	//ajeitar a data OK
-	// ajeitar a questao de aparecer o botao de emitir declaracao la no front OK
-	// refatorar o código OK
 }
 

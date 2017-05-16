@@ -29,6 +29,7 @@ import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
+import ufc.quixada.npi.gpa.service.PessoaService;
 
 @Service
 public class ParticipacaoServiceImpl implements ParticipacaoService {
@@ -41,6 +42,9 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 
 	@Autowired
 	private AcaoExtensaoRepository acaoExtensaoRepository;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
 	@Override
 	public Participacao participacaoCoordenador(AcaoExtensao acaoExtensao, Integer cargaHoraria) {
@@ -132,7 +136,12 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	}
 
 	@Override
-	public ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao) throws DocumentException {
+	public ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer idAcaoExtensao
+			, Integer idParticipante) throws DocumentException {
+		
+		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
+	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
+	    Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
 		
 		ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao, participacao);
 		return bis;
