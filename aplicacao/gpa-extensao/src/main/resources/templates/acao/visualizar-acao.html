@@ -13,8 +13,11 @@
 <title>Extensão - Detalhes</title>
 </head>
 <body>
+
 	<div class="container-fluid" layout:fragment="conteudo">
+
 		<br />
+		<!-- Linha do tempo -->
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="panel panel-default">
@@ -75,14 +78,11 @@
 				</div>
 			</div>
 		</div>
-
-	</div>
-
-
+</div>
+	
+	
 	<section layout:fragment="js">
-
 		<script th:src="@{/js/mask.js}"></script>
-
 		<script>
 		$('#menu-acoes a').addClass("active");
 		$('#equipe,#parcerias')
@@ -402,12 +402,7 @@
 			  }
 		});	
 	</script>
-<<<<<<< HEAD
-
 	<script>
-=======
-		<script>
->>>>>>> refs/remotes/origin/master
 		$(".column-step").each(function(index,element) { 
 			$( element ).toggleClass( "upcoming" );
 			$( element ).find("i").removeClass( "fa-times" );
