@@ -26,6 +26,7 @@ import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,8 +257,8 @@ public class AcaoExtensaoController {
 	 * Formulário para editar uma ação de extensão
 	 */
 	@PreAuthorize(PERMISSAO_SERVIDOR)
-	@GetMapping("/editar/{id}")
-	public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication) {
+	@GetMapping({"/editar/{id}", "/resolver-pendencia/{id}"})
+	public String editar(@PathVariable("id") AcaoExtensao acaoExtensao, Model model, Authentication authentication, HttpServletRequest request) {
 		// Verifica se é possível editar a ação
 		// Só é possível editar quando o usuário for o coordenador e o status
 		// for NOVO ou estiver resolvendo alguma pendência
@@ -268,20 +269,26 @@ public class AcaoExtensaoController {
 				|| !acaoExtensao.getCoordenador().getCpf().equals(authentication.getName())) {
 			return R_INDEX;
 		}
-
+		
+		if(request.getRequestURI().contains("editar")) {
+			model.addAttribute("action", "editar");
+		} else if(request.getRequestURI().contains("pendencia")) {
+			model.addAttribute("action", "pendencia");
+		} 
+		
 		model.addAttribute("acao", acaoExtensao);
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-		model.addAttribute("action", "editar");
 		model.addAttribute("cargaHoraria", 4);
+		model.addAttribute("pendencia", new Pendencia());
 
 		return CADASTRAR_ACAO;
 	}
 
-	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	@PostMapping({"/editar", "/pendencia"})
 	public String editarAcao(@Valid @ModelAttribute("acaoExtensao") AcaoExtensao acaoExtensao,
 			@RequestParam(value = "anexoAcao", required = false) MultipartFile arquivo, Model model,
-			RedirectAttributes redirect) {
+			RedirectAttributes redirect, HttpServletRequest request) {
 
 		if (!acaoExtensao.getModalidade().equals(Modalidade.CURSO)
 				&& !acaoExtensao.getModalidade().equals(Modalidade.EVENTO)) {
@@ -289,9 +296,15 @@ public class AcaoExtensaoController {
 			acaoExtensao.setHorasTeoricas(null);
 			acaoExtensao.setProgramacao("");
 		}
-
+		
+		boolean pendencia = false;
+		
+		if(request.getRequestURI().contains("pendencia")) {
+			pendencia = true;
+		}
+		
 		try {
-			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo);
+			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo, pendencia);
 			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
 		} catch (GpaExtensaoException e) {
 			redirect.addFlashAttribute(ERRO, e.getMessage());
@@ -463,4 +476,5 @@ public class AcaoExtensaoController {
 		
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
+
 }

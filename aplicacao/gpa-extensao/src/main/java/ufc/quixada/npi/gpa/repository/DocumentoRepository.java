@@ -7,5 +7,5 @@ import ufc.quixada.npi.gpa.model.Documento;
 
 @Repository
 public interface DocumentoRepository extends CrudRepository<Documento, Integer> {
-
+	
 }
