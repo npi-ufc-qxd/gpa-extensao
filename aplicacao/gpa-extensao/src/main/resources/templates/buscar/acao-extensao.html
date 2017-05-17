@@ -9,11 +9,12 @@
 </head>
 <div class="container-fluid" layout:fragment="conteudo">
 	<br />
-	
+
 	<div class="white-box">
 		<div class="box-header with-border">
 			<h3 class="box-title">Buscar Ações de Extensão</h3>
-			<p class="text-muted m-b-30 font-13">* Selecione um ou mais filtros </p>
+			<p class="text-muted m-b-30 font-13">* Selecione um ou mais
+				filtros</p>
 		</div>
 		<form th:action="@{/buscar/acao-extensao}" role="form" method="GET">
 			<div class="form-group col-sm-5">
@@ -46,9 +47,11 @@
 				<label class="control-label">Ano</label> <input id="anoAcao"
 					name="ano" class="form-control" type="number" min="2010" max="2050" />
 			</div>
-			<div class="col-sm-12">
-				<button disabled="disabled" id="btn-relatorio-busca" type="submit"
-					class="btn btn-success btn-flat pull-right">Buscar</button>
+			<div class="row">
+				<div class="col-sm-12">
+					<button disabled="disabled" id="btn-relatorio-busca" type="submit"
+						class="btn btn-success btn-flat pull-right">Buscar</button>
+				</div>
 			</div>
 		</form>
 		<div class="row" th:if="${busca}">
