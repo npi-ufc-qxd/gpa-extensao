@@ -13,4 +13,5 @@ public interface ParceriaExternaService {
 
 	void excluirParceriaExterna(Pessoa coordenador, ParceriaExterna parceria) throws GpaExtensaoException;
 
+
 }

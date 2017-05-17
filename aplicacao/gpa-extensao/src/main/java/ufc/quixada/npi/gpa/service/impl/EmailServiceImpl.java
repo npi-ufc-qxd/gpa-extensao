@@ -21,7 +21,9 @@ import static ufc.quixada.npi.gpa.util.Constants.EMAIL_RELATOR_RESOLUCAO_PENDENC
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_REMETENTE;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_STATUS;
 import static ufc.quixada.npi.gpa.util.Constants.EMAIL_TITULO_ACAO;
+
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+
 
 import java.text.DateFormat;
 import java.text.ParseException;

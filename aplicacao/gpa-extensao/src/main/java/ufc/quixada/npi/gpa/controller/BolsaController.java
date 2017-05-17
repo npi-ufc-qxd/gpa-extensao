@@ -41,6 +41,7 @@ import ufc.quixada.npi.gpa.service.AlunoService;
 import ufc.quixada.npi.gpa.service.BolsaService;
 import ufc.quixada.npi.gpa.service.PessoaService;
 
+
 @Controller
 @Transactional
 @RequestMapping("/bolsa")
@@ -55,8 +56,10 @@ public class BolsaController {
 	@Autowired
 	private BolsaService bolsaService;
 
+
 	@Autowired
 	private PessoaService pessoaService;
+
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,

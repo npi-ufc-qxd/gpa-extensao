@@ -49,6 +49,7 @@
 							</div>
 						</div>
 
+
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -244,14 +245,14 @@
 					} else {
 						$('#curso-evento').addClass('no-display');
 					}
-				});
-		 $('#retroativa').change(function(){
+		});
+		$('#retroativa').change(function(){
 	        	if($('#retroativa').val() === 'SIM') {
 	        		$('#coordenador-acao').removeClass('no-display');
 	        	}else {
 	        		$('#coordenador-acao').addClass('no-display');
 	        	}
-	        });
+	     });
 
 		$(document).ready(function($) {
 			$("#inicio").mask("99/99/9999");
