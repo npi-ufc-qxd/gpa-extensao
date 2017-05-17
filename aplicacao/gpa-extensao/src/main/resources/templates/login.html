@@ -11,14 +11,17 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}"></link>
 	<link rel="stylesheet" th:href="@{/css/megna.css}"></link>
 	<link rel="stylesheet" th:href="@{/css/extensao.css}"></link>
-
 <body>
 	<!-- Preloader -->
 	<section id="wrapper" class="login-register">
-		<div class="login-box">
+		
+		<div class="login-box sweet">
 			<div class="white-box">
 				<form class="form-horizontal" id="loginform" th:action="@{/login}" method="post">
 					<h3 class="box-title m-b-20">Sistema de Ações de Extensão</h3>
+					<div th:if="${param.error}" class="alert alert-danger"  role="alert">
+						<span>Usuário e/ou senha inválidos</span>
+					</div>
 					<div class="form-group ">
 						<div class="col-xs-12">
 							<input class="form-control" type="text" name="username" required="required" placeholder="CPF"/>
@@ -38,6 +41,7 @@
 			</div>
 		</div>
 	</section>
+	<div class="jq-toast-single jq-has-icon jq-icon-error" style="text-align: left; display: none;"><span class="jq-toast-loader jq-toast-loaded" style="-webkit-transition: width 3.1s ease-in;-o-transition: width 3.1s ease-in; transition: width 3.1s ease-in; background-color: #ff6849;"></span><span class="close-jq-toast-single">×</span><h2 class="jq-toast-heading">Welcome to my Elite admin</h2>Use the predefined ones, or specify a custom position object.</div>
 	<!-- jQuery -->
 	<script th:src="@{/js/jquery.min.js}"></script>
 	<!-- Bootstrap Core JavaScript -->

@@ -42,6 +42,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			}
+
 			if (!acaoOld.getStatus().equals(Status.NOVO)
 					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
@@ -51,11 +52,15 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
 				throw new GpaExtensaoException(CAMPO_OBRIGATORIO_VAZIO);
 			}
+					
 			if (parceiro != null) {
 				parceiroExistente = parceiroRepository.findOne(parceiro.getId());
+
 				for (int i = 0; i < acaoOld.getParceriasExternas().size(); i++) {
+
 					if (acaoOld.getParceriasExternas().get(i).getParceiro().getNome().trim()
 							.equalsIgnoreCase(parceiroExistente.getNome().trim())) {
+
 						throw new GpaExtensaoException(ERROR_PARCEIRO_JA_PARTICIPANTE);
 					}
 				}
@@ -68,12 +73,14 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 					}
 				}
 			}
+
+
 			acaoOld.getParceriasExternas().add(parceriaExterna);
 			parceriaExterna.setAcaoExtensao(acaoOld);
 			parceriaExternaRepository.save(parceriaExterna);
 			acaoExtensaoRepository.save(acaoOld);
+		
 		}
-
 	}
 
 	@Override

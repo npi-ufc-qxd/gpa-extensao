@@ -4,7 +4,9 @@ import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,9 +46,10 @@ public class ParceriaExternaController {
 	private AcaoExtensaoRepository acaoExtensaoRepository;
 	@Autowired
 	private ParceiroRepository parceiroRepository;
-	
+
 	@Autowired
 	private PessoaService pessoaService;
+
 	@Autowired
 	private ParceriaExternaService parceriaExternaService;
 
@@ -57,23 +61,26 @@ public class ParceriaExternaController {
 		return FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
 	}
 
-	@RequestMapping(value = "/excluir/{id}/{acao}")
-	public String deletarParceriaExterna(@PathVariable("id") ParceriaExterna parceria,
+	@PostMapping(value = "/excluir/{id}/{acao}")
+	public  @ResponseBody Map<String, Object> deletarParceriaExterna(@PathVariable("id") ParceriaExterna parceria,
 			@PathVariable("acao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
 			Authentication authentication) {
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			parceriaExternaService.excluirParceriaExterna(coordenador, parceria);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			map.put(ERRO, e.getMessage());
 		}
-		return R_ACAO + acao.getId();
+		return map;
 	}
 
 	@RequestMapping(value = "/salvar/{idAcao}", method = RequestMethod.POST)
 	public String novaParceriaExterna(@PathVariable("idAcao") AcaoExtensao idAcao,
+
 			@ModelAttribute @Valid ParceriaExterna parceria,
 			@RequestParam(required = false) Parceiro parceiro, RedirectAttributes redirectAttribute, Authentication authentication) {
+
 
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
