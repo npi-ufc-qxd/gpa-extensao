@@ -106,7 +106,7 @@
 					th:attr="link = @{/acoes/encerrar/{acao}(acao=${acao.id})}"
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
 					class="btn btn-primary waves-effect waves-light m-t-10">
-					Encerrar </a> <a th:if="${acao.status.name() == 'NOVO'}"
+					Encerrar </a> <a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
 				<a sec:authorize="hasAuthority('SERVIDOR')"
