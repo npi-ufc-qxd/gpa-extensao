@@ -28,4 +28,6 @@ public interface ServidorRepository extends CrudRepository<Servidor, Integer>{
 	@Query("SELECT CASE WHEN COUNT(s) > 0 THEN 'true' ELSE 'false' END FROM Servidor s WHERE s.siape = :siape")
 	boolean existsBySiape(@Param("siape") String siape);
 	
+	
+	
 }
