@@ -213,8 +213,8 @@
 										<div class="form-group">
 											<label for="codigoAcao">Código PREX</label> <input
 												id="codigoAcao" class="form-control" name="codigoAcao"
-												type="text" required="required" maxlength="17"
-												pattern="[a-z0-9]+$" />
+												type="text" th:value="${acao.codigo}" required="required" maxlength="17"
+												pattern="[a-zA-Z0-9]+$" />
 										</div>
 									</div>
 									<div class="col-md-12">

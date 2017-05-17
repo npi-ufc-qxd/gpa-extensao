@@ -396,13 +396,14 @@ public class AcaoExtensaoController {
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
+			
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 		}
-
+		
 		model.addAttribute("acao", acao);
 
-		return VISUALIZAR_ACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
@@ -418,7 +419,7 @@ public class AcaoExtensaoController {
 		} catch (GpaExtensaoException e) {
 			redirectAttributes.addAttribute(ERRO, e.getMessage());
 		}
-
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + id;
 	}
 
