@@ -47,7 +47,7 @@
 		</div>
 		<div class="col-sm-2">
 			<label>Bolsas recebidas</label>
-			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '0'" />
+			<p th:text="${acao.bolsasRecebidas} ? ${acao.bolsasRecebidas} : '-'" />
 		</div>
 	</div>
 
@@ -77,8 +77,19 @@
 		</div>
 	</div>
 
+	<div class="row" th:if="${acao.coordenador.cpf == #authentication.name}">
+		<div class="col-sm-12">
+			<label>Download do Documento</label> <a
+				th:href="@{/documento/download/} + ${acao.anexo.id}"
+				download="acao.anexo.nome">
+				<p th:text="${acao.anexo.nome} ? ${acao.anexo.nome} : '-'"></p>
+			</a>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-sm-12">
+
 			<div class="pull-right"> 
 				<a th:if="${(acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO' OR acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER') AND acao.coordenador.cpf == #authentication.name}" href=""
 					th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
@@ -87,22 +98,28 @@
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-primary waves-effect waves-light m-t-10">Homologar
-					Ação</a> <a
+					Ação</a> 
+					
+				 <a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal" data-target="#myModal"
 					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
-					Recebidas</a> <a
+					Recebidas</a> 
+					
+				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal"
 					data-target="#modalCodigo"
 					class="btn btn-primary waves-effect waves-light m-t-10">Cadastrar
-					Código</a> <a
+					Código</a>
+				 <a
 					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/submeter/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
 
 				<a 	th:attr="link= @{/acoes/encerrar/{acao}(acao=${acao.id})}, action = encerrar"
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
+
 					class="sa-warning btn btn-primary waves-effect waves-light m-t-10">
 					Encerrar </a> <a th:if="${acao.status.name() == 'NOVO'}"
 					th:href="@{/acoes/editar/__${acao.id}__}"

@@ -399,6 +399,7 @@ public class AcaoExtensao {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
 	}
+
 	
 	public Pendencia ultimaPendenciaParecer() {
 		return this.parecerTecnico.getPendencias().get(0);
