@@ -89,53 +89,56 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-
-			<div class="pull-right"> 
+			<div class="pull-right">
+				<a
+					th:if="${acao.coordenador.cpf == #authentication.name}"
+					href="" alt="default" data-toggle="modal" data-target="#modalTransferir"
+					class="btn btn-primary waves-effect waves-light m-t-10">Transferir Coordenação</a> 
+				
 				<a th:if="${(acao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO' OR acao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER') AND acao.coordenador.cpf == #authentication.name}" href=""
 					th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
 					alt="default" class="btn btn-primary waves-effect waves-light m-t-10">Resolver Pendências</a> 
+				
 				<a sec:authorize="hasAuthority('DIRECAO')"
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-primary waves-effect waves-light m-t-10">Homologar
 					Ação</a> 
-					
-				 <a
+				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
-					href="" alt="default" data-toggle="modal" data-target="#myModal"
+					href="" alt="default" data-toggle="modal" data-target="#modalBolsasRecebidas"
 					class="btn btn-primary waves-effect waves-light m-t-10">Bolsas
 					Recebidas</a> 
-					
 				<a
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
 					href="" alt="default" data-toggle="modal"
 					data-target="#modalCodigo"
-					class="btn btn-primary waves-effect waves-light m-t-10">Cadastrar
-					Código</a>
-				 <a
+					class="btn btn-primary waves-effect waves-light m-t-10">Cadastrar Código</a> 
+				
+				<a
 					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/submeter/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Submeter</a>
 
 				<a 	th:attr="link= @{/acoes/encerrar/{acao}(acao=${acao.id})}, action = encerrar"
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
-
-					class="sa-warning btn btn-primary waves-effect waves-light m-t-10">
-					Encerrar </a> <a th:if="${acao.status.name() == 'NOVO'}"
+					class="sa-warning btn btn-primary waves-effect waves-light m-t-10">Encerrar </a>
+				
+				<a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-primary waves-effect waves-light m-t-10">Editar</a>
+				
 				<a sec:authorize="hasAuthority('SERVIDOR')"
 					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:attr="link=@{/acoes/deletar/__${acao.id}__}, action=excluir, redirect = true"
-					class="sa-warning btn waves-effect waves-light btn-danger m-t-10"
-					>Excluir</a>
+					class="sa-warning btn waves-effect waves-light btn-danger m-t-10">Excluir</a>
 			</div>
 		</div>
 	</div>
 
 	<div class="col-md-4">
 		<!-- sample modal content -->
-		<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+		<div id="modalBolsasRecebidas" class="modal fade" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -153,7 +156,7 @@
 										<div class="form-group">
 											<label for="bolsasRecebidas">Quantidade de Bolsas
 												Recebidas</label> <input id="bolsasRecebidas" class="form-control"
-												name="bolsasRecebidas" type="text" required="required"
+												name="bolsasRecebidas" type="number" min="0" required="required"
 												pattern="[0-9]+$" />
 										</div>
 									</div>
@@ -194,8 +197,8 @@
 										<div class="form-group">
 											<label for="codigoAcao">Código PREX</label> <input
 												id="codigoAcao" class="form-control" name="codigoAcao"
-												type="text" required="required" maxlength="17"
-												pattern="[a-z0-9]+$" />
+												type="text" th:value="${acao.codigo}" required="required" maxlength="17"
+												pattern="[a-zA-Z0-9]+$" />
 										</div>
 									</div>
 									<div class="col-md-12">

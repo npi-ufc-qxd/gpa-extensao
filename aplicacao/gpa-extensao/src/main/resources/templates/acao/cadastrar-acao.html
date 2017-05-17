@@ -71,7 +71,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-3" th:if="${action != 'editar' AND action != 'pendencia'}">
+							<div class="col-md-3" th:if="${action == 'cadastrar'}">
 								<div class="form-group">
 									<label for="cargaHoraria">* Carga horária do
 										coordenador</label> <input id="cargaHoraria" type="number"
@@ -110,7 +110,7 @@
 
 
 						<div class="row">
-							<div class="col-md-3">
+							<div th:classappend="${action == 'cadastrar'} ? col-md-3 : col-md-4">
 								<label for="vinculo">Vínculo com programa de extensão:</label> <select
 									id="vinculo" class="form-control" th:field="${acao.vinculo}">
 									<option value="">NENHUM</option>
@@ -120,7 +120,7 @@
 									</option>
 								</select>
 							</div>
-							<div class="col-md-3">
+							<div th:classappend="${action == 'cadastrar'} ? col-md-3 : col-md-4">
 								<label for="prorrogavel">Prorrogável?</label><br /> <select
 									id="prorrogavel" class="form-control"
 									th:field="${acao.prorrogavel}">
@@ -128,7 +128,7 @@
 									<option th:value="false">NÃO</option>
 								</select>
 							</div>
-							<div class="col-md-3">
+							<div th:classappend="${action == 'cadastrar'} ? col-md-3 : col-md-4">
 								<div class="form-group">
 									<label for="modalidade">Modalidade</label> <select
 										id="modalidade" class="form-control"
@@ -138,7 +138,7 @@
 									</select>
 								</div>
 							</div>
-							<div th:if="${acao.status.name() != 'RESOLVENDO_PENDENCIAS_RELATO' AND acao.status.name() != 'RESOLVENDO_PENDENCIAS_PARECER'}" class="col-md-3">
+							<div class="col-md-3" th:if="${action == 'cadastrar'}">
 								<div class="form-group">
 									<label for="retroativa">Ação Retroativa?</label> <select
 										id="retroativa" class="form-control">
@@ -221,7 +221,7 @@
 									class="btn btn-primary waves-effect waves-light m-t-10">Salvar</button>
 									<button th:if="${action == 'pendencia'}"
 						alt="default" type="submit" class="btn btn-primary waves-effect waves-light m-t-10">Pendência Resolvida <i class="fa fa-check"></i></button>
-									<a th:href="@{/acoes/} + ${acao.id}" class="btn btn-primary waves-effect waves-light m-t-10">Cancelar</a>
+									<a th:if="${action == 'pendencia'}" th:href="@{/acoes/} + ${acao.id}" class="btn btn-primary waves-effect waves-light m-t-10">Cancelar</a>
 							</div>
 						</div>
 					</div>
@@ -245,20 +245,14 @@
 					} else {
 						$('#curso-evento').addClass('no-display');
 					}
-				});
-		$('#retroativa').change(function() {
-			if ($('#retroativa').val() === 'SIM') {
-				$('#coordenador-acao').removeClass('no-display');
-			} else {
-				$('#coordenador-acao').addClass('no-display');
-
-
-			$('#menu-cadastrar-acao a').addClass("active");
-			if ($('#modalidade').val() === 'CURSO'
-					|| $('#modalidade').val() === 'EVENTO') {
-				$('#curso-evento').removeClass('no-display');
-			}
 		});
+		$('#retroativa').change(function(){
+	        	if($('#retroativa').val() === 'SIM') {
+	        		$('#coordenador-acao').removeClass('no-display');
+	        	}else {
+	        		$('#coordenador-acao').addClass('no-display');
+	        	}
+	     });
 
 		$(document).ready(function($) {
 			$("#inicio").mask("99/99/9999");
