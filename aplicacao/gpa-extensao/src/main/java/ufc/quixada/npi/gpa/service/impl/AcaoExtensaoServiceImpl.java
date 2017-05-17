@@ -235,10 +235,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 			participacaoRepository.save(novaParticipacaoNovoCoordenador);
 			acaoExtensaoRepository.save(acao);
+		}else {
+			throw new GpaExtensaoException(MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR);
 		}
-
-		throw new GpaExtensaoException(MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR);
-
 	}
 
 	@Override
