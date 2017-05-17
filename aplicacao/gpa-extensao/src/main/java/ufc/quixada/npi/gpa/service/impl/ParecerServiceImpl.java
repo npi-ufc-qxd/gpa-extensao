@@ -82,7 +82,8 @@ public class ParecerServiceImpl implements ParecerService {
 			AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 
 			pendencia.setDataDeSolicitacao(new Date());
-
+			pendencia.setResolvida(false);
+			
 			switch (acaoExtensao.getStatus()) {
 			case AGUARDANDO_PARECER_TECNICO:
 				acaoExtensao.getParecerTecnico().addPendencia(pendencia);
