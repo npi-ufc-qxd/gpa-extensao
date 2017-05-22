@@ -9,61 +9,7 @@
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
-	<div class="row bg-title">
-		<!-- .page title -->
-		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-			<h4 class="page-title"></h4>
-		</div>
-		<!-- /.page title -->
-		<!-- .breadcrumb -->
-		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-			<ol class="breadcrumb">
-				<li><a href="#">Dashboard</a></li>
-				<li class="active">Starter Page</li>
-			</ol>
-		</div>
-		<!-- /.breadcrumb -->
-	</div>
-	<div class="row">
-		<div class="col-lg-4 col-sm-4 col-xs-12">
-			<a th:href="@{/acoes/minhas/minhas-acoes}">
-				<div class="white-box">
-					<h3 class="box-title text-info">Minhas ações</h3>
-					<ul class="list-inline two-part">
-						<li><i class="ti-loop text-info"></i></li>
-						<li class="text-right text-info"><span class="counter"
-							th:text="${countmeusTudo}"></span></li>
-					</ul>
-				</div>
-			</a>
-		</div>
-		<div class="col-lg-4 col-sm-4 col-xs-12">
-			<a th:href="@{/acoes/minhas/aguardando-parecer}">
-				<div class="white-box">
-					<h3 class="box-title text-success">Aguardando parecer</h3>
-					<ul class="list-inline two-part">
-						<li><i class="icon-clock text-success"></i></li>
-						<li class="text-right text-success"><span class="counter"
-							th:text="${countmeusPareceres}"></span></li>
-					</ul>
-				</div>
-			</a>
-		</div>
-		<div class="col-lg-4 col-sm-4 col-xs-12">
-			<a th:href="@{/acoes/minhas/pareceres-emitidos}">
-				<div class="white-box">
-					<h3 class="box-title text-danger">Pareceres emitidos</h3>
-					<ul class="list-inline two-part">
-						<li><i class="ti-check-box text-danger"></i></li>
-						<li class="text-right text-danger"><span class="counter"
-							th:text="${countmeusPareceresEmitidos}"></span></li>
-					</ul>
-				</div>
-			</a>
-		</div>
-	</div>
-
-
+	<br/>
 	<div class="row">
 		<div class="white-box">
 

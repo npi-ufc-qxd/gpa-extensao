@@ -58,13 +58,21 @@
 </nav>
 
 <div class="navbar-default sidebar" role="navigation" th:fragment="menu">
-	<div class="sidebar-nav navbar-collapse slimscrollsidebar active">
-		<ul class="nav in" id="side-menu">
-			<li id="menu-minhas-acoes">
-				<a th:href="@{/acoes/minhas}" class="waves-effect"><span class="hide-menu">Minhas ações</span></a>
-			</li>
-			<li id="menu-acoes">
-				<a th:href="@{/acoes/}" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
+	<div class="sidebar-nav navbar-collapse slimscrollsidebar">
+		<ul class="nav" id="side-menu">
+			<li id="menu-minhas-acoes" class=""> <a href="" class="waves-effect"><span class="hide-menu"> Minhas ações</span></a>
+	          <ul class="nav nav-second-level collapse">
+	            <li> <a th:href="@{/acoes/minhas/minhas-acoes}">Minhas Ações</a> </li>
+	            <li> <a th:href="@{/acoes/minhas/aguardando-parecer}">Aguardando Parecer</a> </li>
+	            <li> <a th:href="@{/acoes/minhas/pareceres-emitidos}">Pareceres Emitidos</a> </li>
+	          </ul>
+	        </li>
+	        <li id="menu-acoes" class=""> <a href="" class="waves-effect"><span class="hide-menu">Ações de Extensão</span></a>
+	         <ul class="nav nav-second-level collapse">
+	            <li> <a th:href="@{/acoes/tramitacao}">Em Tramitação</a> </li>
+	            <li> <a th:href="@{/acoes/andamento}">Em Andamento</a> </li>
+	            <li> <a th:href="@{/acoes/encerrada}">Encerradas</a> </li>
+	          </ul>
 			</li>
 			<li id="menu-cadastrar-acao" sec:authorize="hasAuthority('SERVIDOR')">
 				<a th:href="@{/acoes/cadastrar}" class="waves-effect"><span class="hide-menu">Cadastrar Ação</span></a>
@@ -74,6 +82,9 @@
 			</li>
 			<li id="menu-alunos" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')">
 				<a th:href="@{/alunos}" class="waves-effect"><span class="hide-menu">Alunos</span></a>
+			</li>
+			<li id="menu-relatorio" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')">
+				<a th:href="@{/buscar/acao-extensao}" class="waves-effect"><span class="hide-menu">Relatório</span></a>
 			</li>
 		</ul>
 	</div>

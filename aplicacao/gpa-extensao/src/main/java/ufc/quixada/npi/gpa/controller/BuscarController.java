@@ -4,7 +4,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,17 +54,17 @@ public class BuscarController {
 	@Autowired
 	private PessoaService pessoaService;
 
-	@RequestMapping("/acao-extensao")
+	@GetMapping("/acao-extensao")
 	public String buscarAcaoForm(Model model) {
 		model.addAttribute("coordenadores", servidorRespository.findAll());
-		model.addAttribute("acoes", acaoExtensaoRepository.findByStatusInOrderByInicioDesc(Arrays.asList(Status.APROVADO)));
+		model.addAttribute("acoes", new ArrayList<>());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("cursos", Curso.values());
-
+		model.addAttribute("busca", false);
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 
-	@RequestMapping(value = "/acao-extensao", params = {"servidor", "modalidade", "estado", "ano"}, method = RequestMethod.GET)
+	@GetMapping(value = "/acao-extensao", params = {"servidor", "modalidade", "estado", "ano"})
 	public String buscarAcao(@RequestParam("servidor") Integer idServidor,
 			@RequestParam("modalidade") Modalidade modalidade, @RequestParam("estado") String estado,
 			@RequestParam("ano") Integer ano, Model model, RedirectAttributes attr) {
@@ -94,7 +94,7 @@ public class BuscarController {
 		model.addAttribute("coordenadores", servidorRespository.findAll());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("cursos", Curso.values());
-
+		model.addAttribute("busca", true);
 		model.addAttribute("servidor", servidor);
 		model.addAttribute("modalidade", modalidade);
 		model.addAttribute("ano", ano);
