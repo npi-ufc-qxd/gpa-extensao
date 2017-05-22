@@ -75,6 +75,9 @@
 			<li id="menu-alunos" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')">
 				<a th:href="@{/alunos}" class="waves-effect"><span class="hide-menu">Alunos</span></a>
 			</li>
+			<li id="menu-relatorio" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')">
+				<a th:href="@{/buscar/acao-extensao}" class="waves-effect"><span class="hide-menu">Relatório</span></a>
+			</li>
 		</ul>
 	</div>
 </div>
