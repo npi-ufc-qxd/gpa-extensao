@@ -30,6 +30,7 @@ public class BuilderPDFReport {
         String tituloAcao = acao.getTitulo();
         String coordenador = acao.getCoordenador().getNome();
         String dataHoje = data.format(new Date());
+        String assinatura;
 
         PdfWriter.getInstance(document, out);
             document.open();
@@ -70,38 +71,41 @@ public class BuilderPDFReport {
             
             Paragraph dataEmissaoDocumento = new Paragraph("Quixadá, " + dataHoje);
             dataEmissaoDocumento.setAlignment(Element.ALIGN_RIGHT);
-            dataEmissaoDocumento.setSpacingAfter(55f);
+            dataEmissaoDocumento.setSpacingAfter(100f);
             document.add(dataEmissaoDocumento);
             
+            if(participante.isCoordenador() == true){
+            	assinatura = "Assinatura do Diretor";
+            }
             
+            else{
+            	assinatura = "Assinatura Coordenador";
             
-            Paragraph nomeResponsavel = new Paragraph("Profa. Andréia Andréia Libório Sampaio");
-            Paragraph nomeDoCargo = new Paragraph("Vice-Diretora e Coordenadora de Programas Acadêmicos");
-            Paragraph stringUFCQuixada = new Paragraph("Campus da UFC em Quixadá");
-            nomeResponsavel.setAlignment(Element.ALIGN_CENTER);
-            nomeDoCargo.setAlignment(Element.ALIGN_CENTER);
-            stringUFCQuixada.setAlignment(Element.ALIGN_CENTER);
-            stringUFCQuixada.setSpacingAfter(260f);
-            document.add(nomeResponsavel);
-            document.add(nomeDoCargo);
-            document.add(stringUFCQuixada);
-            		
+            }		
+            
+            Paragraph campoAssinatura = new Paragraph("______________________________________________________________________________");
+            Paragraph donoAssinatura = new Paragraph(assinatura);
+            campoAssinatura.setAlignment(Element.ALIGN_CENTER);
+            donoAssinatura.setAlignment(Element.ALIGN_CENTER);
+            donoAssinatura.setSpacingAfter(260f);
+            document.add(campoAssinatura);
+            document.add(donoAssinatura);
             
             Font rodape = new Font();
             rodape.setStyle(Font.NORMAL);
             rodape.setSize(10);
             
             
-    		Paragraph campoAssinatura = new Paragraph("______________________________________________________________________________");
+    		Paragraph linhaRodape = new Paragraph("______________________________________________________________________________");
     		Paragraph endereco = new Paragraph("Av. José de Freitas Queiroz, 5003 - Cedro – CEP: 63.902-580 – "
     			+ "Quixadá-Ceará", rodape);
     		Paragraph contato =  new Paragraph("Fone/Fax: (88) 34120919 / E-mail: secretaria@quixada.ufc.br", rodape);
-    		campoAssinatura.setAlignment(Element.ALIGN_CENTER);
+    		linhaRodape.setAlignment(Element.ALIGN_CENTER);
     		endereco.setAlignment(Element.ALIGN_RIGHT);
     		contato.setAlignment(Element.ALIGN_RIGHT);
     		
     		
-    		document.add(campoAssinatura);
+    		document.add(linhaRodape);
     		document.add(endereco);
     		document.add(contato);
     		
