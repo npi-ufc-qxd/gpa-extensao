@@ -3,12 +3,13 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 
 import java.io.ByteArrayInputStream;
-
-import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -137,13 +138,13 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 
 	@Override
 	public ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer idAcaoExtensao
-			, Integer idParticipante) throws DocumentException {
+			, Integer idParticipante) throws DocumentException, MalformedURLException, IOException {
 		
 		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
 	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-	    Participacao participacao = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
+	    Participacao participante = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
 		
-		ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao, participacao);
+		ByteArrayInputStream bis = BuilderPDFReport.gerarPdf(acaoExtensao, participante);
 		return bis;
 		
 	}

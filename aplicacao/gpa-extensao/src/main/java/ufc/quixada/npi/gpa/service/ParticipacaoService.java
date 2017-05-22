@@ -1,6 +1,8 @@
 package ufc.quixada.npi.gpa.service;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 import com.itextpdf.text.DocumentException;
 
@@ -16,6 +18,6 @@ public interface ParticipacaoService {
 	void adicionarParticipanteEquipeTrabalho(AcaoExtensao acaoExtensao, Participacao participacao, Pessoa pessoa)
 			throws GpaExtensaoException;
 	
-	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer acaoExtensao, Integer pessoa) throws DocumentException;
+	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer acaoExtensao, Integer pessoa) throws DocumentException, MalformedURLException, IOException;
 
 }

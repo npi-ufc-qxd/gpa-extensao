@@ -4,11 +4,12 @@ import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
-import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,14 +33,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itextpdf.text.DocumentException;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
-import ufc.quixada.npi.gpa.generation.pdf.BuilderPDFReport;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.Participacao;
 import ufc.quixada.npi.gpa.model.Pessoa;
@@ -148,7 +146,7 @@ public class ParticipacaoController {
 	
 	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
 	public ResponseEntity<InputStreamResource> emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
-			@PathVariable("acao") Integer idAcaoExtensao, Exception er) throws DocumentException{
+			@PathVariable("acao") Integer idAcaoExtensao, Exception er) throws DocumentException, MalformedURLException, IOException{
 	
 		
 	    ByteArrayInputStream pdf = participacaoService
