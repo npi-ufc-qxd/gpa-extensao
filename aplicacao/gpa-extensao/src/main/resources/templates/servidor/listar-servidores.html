@@ -30,7 +30,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="servidor : ${servidores}" id="tr_table_servidor">
+							<tr th:each="servidor : ${servidores}">
 								<td><a th:href="@{/servidores/__${servidor.id}__}"
 									th:text="${servidor.pessoa.nome}"></a></td>
 								<td th:text="${servidor.funcao.descricao}"></td>
@@ -42,7 +42,6 @@
 			</div>
 		</div>
 	</div>
-	<!--  <div id="footer-margin" class="margin-footer"></div>-->
 </div>
 <section layout:fragment="js">
 	<script>
@@ -55,20 +54,6 @@
 							},
 							order : [ [ 0, "asc" ] ]
 						});
-			
-		/*$("#servidores").bind("DOMSubtreeModified", function() {
-			$('#servidores').find("tr").each(function() {
-				
-				//Pega o tamanho da lista dos filhos
-				var linhas = ($(this).children()).children().length;
-
-				if(linhas > 0) {
-					$('#footer-margin').removeClass("margin-footer");
-				} else {
-					$('#footer-margin').addClass("margin-footer");
-				}
-			});
-		});*/
 
 	</script>
 </section>
