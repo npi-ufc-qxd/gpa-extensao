@@ -7,31 +7,6 @@
 <head>
 <title>Extensão - Cadastrar Ação</title>
 </head>
-<<<<<<< HEAD
-	<div class="container-fluid" layout:fragment="conteudo">
-		<br/>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="white-box">
-					<h3 th:if="${action == 'cadastrar'}" class="box-title m-b-0">Cadastrar
-						ação de extensão</h3>
-					<h3 th:if="${action == 'editar'}" class="box-title m-b-0">Editar
-						ação de extensão</h3>
-					<p class="text-muted m-b-30">Cadastra/edita uma ação de
-						extensão a ser aprovada</p>
-					<form id="cadastrarAcaoForm" th:action="@{/acoes/} + ${action}"
-						enctype="multipart/form-data" method="POST" th:object="${acao}">
-						<input id="acaoId" name="id" type="hidden" th:value="${acao.id}" />
-						<div class="form-body">
-							<div class="row" th:if="${action == 'editar'}">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="identificador" th:text="'Identificador - ' + ${acao.identificador}"></label>
-										<input id="identificador"
-											class="form-control" th:field="${acao.identificador}" type="hidden"
-											required="required" />
-									</div>
-=======
 <div class="container-fluid" layout:fragment="conteudo">
 	<div class="row bg-title">
 		<!-- .page title -->
@@ -70,7 +45,6 @@
 									<input id="identificador" class="form-control"
 										th:field="${acao.identificador}" type="hidden"
 										required="required" />
->>>>>>> refs/remotes/origin/master
 								</div>
 							</div>
 						</div>
