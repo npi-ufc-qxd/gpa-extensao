@@ -11,41 +11,6 @@
 <div class="container-fluid" layout:fragment="conteudo">
 	<br/>
     <div class="row">
-        <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/tramitacao}">
-                <div class="white-box">
-                    <h3 class="box-title text-info">Em tramitação</h3>
-                    <ul class="list-inline two-part">
-                        <li><i class="ti-loop text-info"></i></li>
-                        <li class="text-right text-info"><span class="counter" th:text="${tramitacao}"></span></li>
-                    </ul>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/andamento}">
-                <div class="white-box">
-                    <h3 class="box-title text-success">Em andamento</h3>
-                    <ul class="list-inline two-part">
-                        <li><i class="icon-clock text-success"></i></li>
-                        <li class="text-right text-success"><span class="counter" th:text="${andamento}"></span></li>
-                    </ul>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-sm-4 col-xs-12">
-            <a th:href="@{/acoes/encerrada}">
-                <div class="white-box">
-                    <h3 class="box-title text-danger">Encerradas</h3>
-                    <ul class="list-inline two-part">
-                        <li><i class="ti-check-box text-danger"></i></li>
-                        <li class="text-right text-danger"><span class="counter" th:text="${encerrada}"></span></li>
-                    </ul>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
                 <h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">Em tramitação <span class="label label-info m-l-5" th:text="${tramitacao}"></span></h3>
