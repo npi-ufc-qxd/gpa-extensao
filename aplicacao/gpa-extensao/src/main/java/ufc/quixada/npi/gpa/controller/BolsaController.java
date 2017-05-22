@@ -5,8 +5,8 @@ import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
-import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
@@ -18,11 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,8 +56,10 @@ public class BolsaController {
 	@Autowired
 	private BolsaService bolsaService;
 
+
 	@Autowired
 	private PessoaService pessoaService;
+
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
 	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
@@ -67,7 +71,7 @@ public class BolsaController {
 		model.addAttribute("message", message);
 		model.addAttribute("acao", acao);
 
-		return VISUALIZAR_ACAO;
+		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
 
 	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
@@ -136,4 +140,24 @@ public class BolsaController {
 		model.addAttribute("bolsas", bolsaService.listarBolsasAluno(idAluno));
 		return PAGINA_DETALHES_BOLSISTA;
 	}
+
+	@PostMapping("/alterar/{bolsa}/{acao}")
+	public String alterarTempoBolsa(@PathVariable("bolsa") Integer bolsa,
+			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+			Authentication authentication,
+			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
+
+		Bolsa old = bolsaService.buscarBolsa(bolsa);
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+
+		try {
+			bolsaService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acaoExtensao.getId();
+	}
+
+	
 }

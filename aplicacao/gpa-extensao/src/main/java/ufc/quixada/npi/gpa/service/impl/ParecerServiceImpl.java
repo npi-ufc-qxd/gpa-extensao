@@ -25,9 +25,6 @@ public class ParecerServiceImpl implements ParecerService {
 
 	@Autowired
 	private NotificationService notificationService;
-	
-	
-	
 
 	@Override
 	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
@@ -81,31 +78,32 @@ public class ParecerServiceImpl implements ParecerService {
 	}
 
 	@Override
-	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia) {
-		AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
+	public void solicitarResolucaoPendencias(Integer idAcao, Pendencia pendencia) throws GpaExtensaoException {
+			AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcao);
 
-		pendencia.setDataDeSolicitacao(new Date());
+			pendencia.setDataDeSolicitacao(new Date());
+			pendencia.setResolvida(false);
+			
+			switch (acaoExtensao.getStatus()) {
+			case AGUARDANDO_PARECER_TECNICO:
+				acaoExtensao.getParecerTecnico().addPendencia(pendencia);
+				acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
+				
+				break;
 
-		switch (acaoExtensao.getStatus()) {
-		case AGUARDANDO_PARECER_TECNICO:
-			acaoExtensao.getParecerTecnico().addPendencia(pendencia);
-			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_PARECER);
-			break;
+			case AGUARDANDO_PARECER_RELATOR:
+				acaoExtensao.getParecerRelator().addPendencia(pendencia);
+				acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_RELATO);
+				break;
 
-		case AGUARDANDO_PARECER_RELATOR:
-			acaoExtensao.getParecerRelator().addPendencia(pendencia);
-			acaoExtensao.setStatus(Status.RESOLVENDO_PENDENCIAS_RELATO);
-			break;
+			default:
+				break;
+			}
 
-		default:
-			break;
-		}
-
-		acaoExtensaoRepository.save(acaoExtensao);
-
-		notificar(acaoExtensao);
+			acaoExtensaoRepository.save(acaoExtensao);
+			notificationService.notificarSolicitacaoResolucaoPendenciasParecer(acaoExtensao, pendencia);
 	}
-
+	
 	@Override
 	public void emitirParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
@@ -123,7 +121,6 @@ public class ParecerServiceImpl implements ParecerService {
 				break;
 
 			case AGUARDANDO_PARECER_RELATOR:
-
 				acao.getParecerRelator().setDataRealizacao(new Date());
 				acao.getParecerRelator().setPosicionamento(acaoExtensao.getParecerRelator().getPosicionamento());
 				acao.getParecerRelator().setParecer(acaoExtensao.getParecerRelator().getParecer());

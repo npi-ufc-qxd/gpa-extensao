@@ -21,52 +21,42 @@
 			
 			<h3 th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="box-title m-b-0"> Pareceres emitidos <span class="label label-info m-l-5" th:text="${countmeusPareceresEmitidos}"></span></h3>
 			<p th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="text-muted m-b-30">Ações de extensão que você já emitiu</p>
-
-			<table id="minhas-acoes" class="table table-hover">
-				<thead>
-					<br/>
-
-					<div class="row">
-						<div class="table-responsive">
-							<table id="minhas-acoes" class="table table-hover">
-								<thead>
-									<tr>
-										<th th:if="${minhaLista == 'countmeusTudo'}">Vínculo</th>
-										<th>Título</th>
-										<th th:if="${minhaLista != 'countmeusPareceresEmitidos'}">Coordenador</th>
-										<th>Status</th>
-										<th>Período</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<tr th:each="acao : ${minhaListaAtual}">
-										<td th:if="${minhaLista == 'countmeusTudo'}"><span
-											th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}"
-											th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}"
-											th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}"></span></td>
-										
-										<td><a th:href="@{/acoes/__${acao.id}__}"
-											title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-										
-										<td th:if="${minhaLista != 'countmeusPareceresEmitidos'}"
-											th:text="${acao.coordenador.nome}"></td>
-										
-										<td><span
-											th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
-											th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADO'}"></span></td>
-										
-										<td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
-                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
-										</td>
-
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</thead>
-			</table>
+				<table id="minhas-acoes_" class="table table-hover">
+					<thead>
+						<tr>
+							<th th:if="${minhaLista == 'countmeusTudo'}">Vínculo</th>
+							<th>Título</th>
+							<th th:if="${minhaLista != 'countmeusPareceresEmitidos'}">Coordenador</th>
+							<th>Status</th>
+							<th>Período</th>
+						</tr>
+					</thead>
+	
+					<tbody>
+						<tr th:each="acao : ${minhaListaAtual}">
+							<td th:if="${minhaLista == 'countmeusTudo'}"><span
+								th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}"
+								th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}"
+								th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}"></span></td>
+	
+							<td><a th:href="@{/acoes/__${acao.id}__}"
+								title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+	
+							<td th:if="${minhaLista != 'countmeusPareceresEmitidos'}"
+								th:text="${acao.coordenador.nome}"></td>
+	
+							<td><span
+								th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
+								th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADO'}"></span></td>
+	
+							<td
+								th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
+	                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
+							</td>
+	
+						</tr>
+					</tbody>
+				</table>
 		</div>
     </div>
    </div> 	
@@ -74,10 +64,18 @@
 		<script>
 			$(document).ready(function() {
 				$('#menu-minhas-acoes a').addClass("active");
-				$('#minhas-acoes').DataTable();
 				$('#meus-pareceres').DataTable();
 				$('#meus-pareceres-emitidos').DataTable();
 			});
+
+			$('#minhas-acoes_')
+					.dataTable(
+							{
+								language : {
+									"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+								},
+								order : [ [ 2, "asc" ], [ 0, "asc" ] ]
+							});
 		</script>
 	</section>
 </html>

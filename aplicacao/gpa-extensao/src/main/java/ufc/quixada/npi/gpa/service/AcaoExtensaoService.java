@@ -125,11 +125,13 @@ public interface AcaoExtensaoService {
 	 */
 	void salvarAcaoRetroativa(AcaoExtensao acaoExtensao, MultipartFile arquivo, Integer cargaHorariaCoordenador)
 			throws GpaExtensaoException;
+
 	
 	/**
 	 * Transfere a coordenação de uma ação para outro coordenador
 	 */
 	void transeferirCoordenacao(AcaoExtensao acao, Integer idNovoCoordenador, String dataInicio, Integer cargaHoraria) throws ParseException, GpaExtensaoException;
+
 
 	/**
 	 * Homologa uma ação de extensão para dizer se a ação foi aprovada ou reprovada.
@@ -138,11 +140,9 @@ public interface AcaoExtensaoService {
 
 	void submeterAcaoExtensao(AcaoExtensao acaoExtensao, Pessoa pessoaLogada) throws GpaExtensaoException;
 
-	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo) throws GpaExtensaoException;
+	void editarAcaoExtensao(AcaoExtensao acaoExtensao, MultipartFile arquivo, boolean pendencia) throws GpaExtensaoException;
 
 	void deletarAcaoExtensao(Integer idAcao, String cpfCoordenador) throws GpaExtensaoException;
-	
-	void encerrarAcao(Integer idAcao) throws GpaExtensaoException;
 	
 	void salvarRelatorioFinal(Integer acaoId, MultipartFile arquivo) throws GpaExtensaoException;
 
@@ -157,5 +157,7 @@ public interface AcaoExtensaoService {
 	int countMinhasAcoesAguardandoParecer(Pessoa pessoa);
 
 	int countMinhasAcoesPareceresEmitidos(Pessoa pessoa);
+	
+	void encerrarAcao(AcaoExtensao acaoExtensao, Pessoa pessoa)throws GpaExtensaoException;
 }
 
