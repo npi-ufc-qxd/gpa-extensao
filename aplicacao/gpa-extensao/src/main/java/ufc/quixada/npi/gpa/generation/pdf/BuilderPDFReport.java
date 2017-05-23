@@ -75,11 +75,11 @@ public class BuilderPDFReport {
             document.add(dataEmissaoDocumento);
             
             if(participante.isCoordenador() == true){
-            	assinatura = "Assinatura do Diretor";
+            	assinatura = "Assinatura do Diretor da UFC Campus - Quixadá";
             }
             
             else{
-            	assinatura = "Assinatura Coordenador";
+            	assinatura = "Assinatura Coordenador da Atividade";
             
             }		
             
