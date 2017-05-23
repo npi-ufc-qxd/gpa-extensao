@@ -381,6 +381,7 @@
 					});  
 			  }
 		});	
+		
 	</script>
 
 
@@ -393,6 +394,14 @@
 			return false;
 		}
 	});
+   </script>
+   
+   <script th:inline="javascript">
+	   $(window).load(function() {
+			if([[${status}]] === "success") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);	
+			}
+	  });
    </script>
 
 </section>

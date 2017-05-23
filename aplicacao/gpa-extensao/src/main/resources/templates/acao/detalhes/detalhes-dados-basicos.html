@@ -1,6 +1,7 @@
 <div class="white-box" th:fragment="dados-basicos">
 
 	<h3 class="box-title" th:text="${acao.titulo}"></h3>
+	<h3 th:text="${mensagem}"></h3>
 	<div class="row">
 		<div class="col-sm-4">
 			<label>Coordenador(a)</label>
@@ -164,7 +165,7 @@
 										<div class="form-group pull-right">
 											<input type="submit"
 												class="btn btn-success waves-effect waves-light m-t-10"
-												value="Salvar" />
+												value="Salvar" id="sa-success"/>
 										</div>
 									</div>
 								</div>

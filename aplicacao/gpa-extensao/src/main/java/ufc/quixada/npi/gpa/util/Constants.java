@@ -139,7 +139,33 @@ public class Constants {
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
-
+	
+	public static final String STATUS_MESSAGE_SUCCESS = "success";
+	public static final String STATUS_MESSAGE_ERROR = "error";
+	public static final String TITULO_MESSAGE_ACAO_CADASTRADA = "Ação Cadastrada!";
+	public static final String TITULO_MESSAGE_ACAO_EDITADA = "Ação Editada!";
+	public static final String TITULO_MESSAGE_ACAO_EXCLUIDA = "Ação Excluída!";
+	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA = "Ação Submetida!";
+	public static final String TITULO_MESSAGE_ACAO_HOMOLOGADA = "Ação Homologada!";
+	public static final String TITULO_MESSAGE_ACAO_ENCERRADA = "Ação Encerrada!";
+	public static final String TITULO_MESSAGE_CADASTRAR_CODIGO = "Código Cadastrado!";
+	public static final String TITULO_MESSAGE_RESOLVER_PENDENCIAS = "Pendências Resolvidas!";
+	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO = "Coordenação Transferida!";
+	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA = "Bolsas Inseridas!";
+	
+	
+	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso";
+	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso";
+	public static final String CONTEUDO_MESSAGE_ACAO_EXCLUIDA = "A ação foi excluída com sucesso";
+	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA = "A ação foi submetida com sucesso";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA = "A ação foi homologada com sucesso";
+	public static final String CONTEUDO_MESSAGE_ACAO_ENCERRADA = "A ação foi encerrada com sucesso";
+	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO = "O código da bolsa foi inserido com sucesso";
+	public static final String CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS = "As pendências foram resolvidas com sucesso";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENAÇÃO = "A coordenação da ação foi transferida com sucesso";
+	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA = "As bolsas foram inseridas com sucesso";
+	
+	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
 	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";

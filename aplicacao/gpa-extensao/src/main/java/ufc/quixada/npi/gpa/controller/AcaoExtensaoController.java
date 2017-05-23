@@ -16,12 +16,17 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
+
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
+
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -46,6 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -392,20 +398,22 @@ public class AcaoExtensaoController {
 	}
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
+	public ModelAndView salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
 			Model model, RedirectAttributes redirectAttribute) {
 
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
-			
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
 		}
 		
 		model.addAttribute("acao", acao);
-
-		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + acao.getId());
 	}
 
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
