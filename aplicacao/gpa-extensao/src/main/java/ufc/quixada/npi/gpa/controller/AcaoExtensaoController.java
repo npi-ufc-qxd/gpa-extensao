@@ -17,8 +17,13 @@ import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR;
 
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
@@ -405,10 +410,12 @@ public class AcaoExtensaoController {
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
 			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
-			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA);
-			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_CADASTRAR_CODIGO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR);
 		}
 		
 		model.addAttribute("acao", acao);

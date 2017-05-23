@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
@@ -7,6 +9,10 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
@@ -29,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -62,16 +69,24 @@ public class BolsaController {
 
 
 	@RequestMapping(value = "/salvarBolsas/{idAcao}", method = RequestMethod.POST)
-	public String salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
-			@PathVariable("idAcao") Integer idAcao, Model model) {
+	public ModelAndView salvarBolsas(@RequestParam("bolsasRecebidas") Integer numeroBolsas,
+			@PathVariable("idAcao") Integer idAcao, Model model, RedirectAttributes redirectAttribute) {
 
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
-		acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
-
-		model.addAttribute("message", "sucesso");
+		try {
+			acaoExtensaoService.salvarAcaoBolsasRecebidas(acao, numeroBolsas);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR);
+		}
+		
 		model.addAttribute("acao", acao);
 
-		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + idAcao);
 	}
 
 	@RequestMapping(value = "/cadastrar/{acao}", method = RequestMethod.POST)
