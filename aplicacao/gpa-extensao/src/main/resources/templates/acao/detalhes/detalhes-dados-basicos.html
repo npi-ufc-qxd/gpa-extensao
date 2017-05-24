@@ -104,8 +104,9 @@
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-info waves-effect waves-light m-t-10">Homologar
 					Ação</a> 
-				<a
-					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo AND acao.coordenador.cpf == #authentication.name}"
+				
+				<a  sec:authorize="hasAuthority('DIRECAO') || hasAuthority('ADMINISTRACAO')"
+					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo}"
 					href="" alt="default" data-toggle="modal" data-target="#modalBolsasRecebidas"
 					class="btn btn-info waves-effect waves-light m-t-10">Bolsas
 					Recebidas</a> 
