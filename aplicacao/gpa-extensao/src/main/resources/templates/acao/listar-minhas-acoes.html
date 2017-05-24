@@ -64,18 +64,39 @@
 		<script>
 			$(document).ready(function() {
 				$('#menu-minhas-acoes a').addClass("active");
-				$('#meus-pareceres').DataTable();
-				$('#meus-pareceres-emitidos').DataTable();
+				
 			});
-
-			$('#minhas-acoes_')
-					.dataTable(
-							{
-								language : {
-									"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-								},
-								order : [ [ 2, "asc" ], [ 0, "asc" ] ]
-							});
+			var colunas = $('#minhas-acoes_').find('thead').find('tr').children().length;
+			if(colunas == 5){
+				$('#minhas-acoes_')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 3, "asc" ], [ 1, "asc" ] ]
+						});
+			}
+			if(colunas == 4){
+				$('#minhas-acoes_')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 2, "asc" ], [ 0, "asc" ] ]
+						});
+			}
+			if(colunas == 3){
+				$('#minhas-acoes_')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 1, "asc" ], [ 0, "asc" ] ]
+						});
+			}
 		</script>
 	</section>
 </html>
