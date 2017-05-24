@@ -87,18 +87,18 @@
 						<a sec:authorize="hasAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
 							id="alterar-parecerista-button"
-							class="btn btn-primary btn-flat"
+							class="btn btn-info btn-flat"
 							href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar
 							parecerista</a> <a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 							th:id="pendencias-parecer-button"
-							class="btn btn-warning btn-flat"
+							class="btn btn-info btn-flat"
 							href="#pendencias-parecer-form"
 							title="Solicitar resolução de pendências">Adicionar pendência</a>
 						<a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 							id="emitir-parecer-button"
-							class="btn btn-primary btn-flat"
+							class="btn btn-info btn-flat"
 							href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir
 							parecer</a>
 					</div>
@@ -145,7 +145,7 @@
 					</div>
 					<div class="form-group text-center">
 						<input value="Atribuir parecerista"
-							class="btn btn-primary btn-flat"
+							class="btn btn-info btn-flat"
 							title="Atribuir parecerista técnico" type="submit" /> <a
 							href="#parecer-tecnico-info"
 							id="cancelar-parecer-button" class="btn btn-default btn-flat"
@@ -190,7 +190,7 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-primary btn-flat"
+					<input type="submit" class="btn btn-info btn-flat"
 						value="Submeter" title="Submeter parecer" /> <a
 						id="cancelar-emitir-parecer-button"
 						class="btn btn-default btn-flat" title="Cancelar operação"
@@ -218,7 +218,7 @@
 						class="btn btn-default btn-flat"
 						title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
 					<input type="submit" value="Enviar solicitação"
-						class="btn btn-primary btn-flat"
+						class="btn btn-info btn-flat"
 						title="Solicitar resolução de pendências" />
 				</div>
 			</form>
@@ -290,18 +290,18 @@
 						<a sec:authorize="hasAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
 							id="alterar-relator-button"
-							class="btn btn-primary btn-flat"
+							class="btn btn-info btn-flat"
 							href="#parecer-relator-form" title="Alterar relator da ação">Alterar
 							relator</a> <a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
 							th:id="pendencias-relato-button"
-							class="btn btn-warning btn-flat"
+							class="btn btn-info btn-flat"
 							href="#pendencias-relato-form"
 							title="Solicitar resolução de pendências">Adicionar pendência</a>
 						<a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
 							id="emitir-relato-button"
-							class="btn btn-primary btn-flat"
+							class="btn btn-info btn-flat"
 							href="#emitir-relato-form" title="Emitir parecer da ação">Emitir
 							parecer</a>
 					</div>
@@ -344,7 +344,7 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-primary btn-flat"
+					<input type="submit" class="btn btn-info btn-flat"
 						value="Atribuir relator" title="Atribuir relator" /> <a
 						id="cancelar-relato-button" class="btn btn-default btn-flat"
 						th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
@@ -373,7 +373,7 @@
 						class="btn btn-default btn-flat pull-right"
 						title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
 					<input type="submit" value="Enviar solicitação"
-						class="btn btn-primary btn-flat pull-right"
+						class="btn btn-info btn-flat pull-right"
 						title="Solicitar resolução de pendências" />
 				</div>
 			</form>
@@ -415,7 +415,7 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-primary btn-flat"
+					<input type="submit" class="btn btn-info btn-flat"
 						value="Submeter" title="Submeter parecer" /> <a
 						id="cancelar-emitir-relato-button"
 						class="btn btn-default btn-flat" title="Cancelar operação"
