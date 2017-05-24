@@ -19,11 +19,11 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDEN
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENAÇÃO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR;
 
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
@@ -414,8 +414,6 @@ public class AcaoExtensaoController {
 			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
-			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR);
-			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR);
 		}
 		
 		model.addAttribute("acao", acao);
@@ -424,37 +422,42 @@ public class AcaoExtensaoController {
 	}
 
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
-	public String salvarNovoCoordenador(@PathVariable("id") Integer id,
+	public ModelAndView salvarNovoCoordenador(@PathVariable("id") Integer id,
 			@RequestParam("idNovoCoordenador") Integer idNovoCoordenador, @RequestParam("dataInicio") String dataInicio,
-			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttributes,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttribute,
 			Authentication authentication) throws ParseException {
 
 		AcaoExtensao acao = acaoExtensaoService.findById(id);
 
 		try {
 			acaoExtensaoService.transeferirCoordenacao(acao, idNovoCoordenador, dataInicio, cargaHoraria);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_TRANSFERIR_COORDENACAO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_TRANSFERIR_COORDENAÇÃO);
 		} catch (GpaExtensaoException e) {
-			redirectAttributes.addAttribute(ERRO, e.getMessage());
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
 		}
 		
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + id);
 	}
 
 	@GetMapping("/submeter/{idAcao}")
-	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+	public ModelAndView submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
 			Authentication auth) {
 
 		Pessoa pessoaLogada = (Pessoa) auth.getPrincipal();
 
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, pessoaLogada);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_SUBMETIDA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_SUBMETIDA);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
-			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 		}
 
 		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
-		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + acao.getId());
 	}
 
 	@RequestMapping("/buscarCoordenadores/{id}")
