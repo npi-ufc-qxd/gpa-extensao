@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -16,12 +17,13 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
+import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.Participacao;
 
 public class BuilderPDFReport {
-	public static ByteArrayInputStream gerarPdf(AcaoExtensao acao, Participacao participante) throws DocumentException, MalformedURLException, IOException{
-		Document document = new Document();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+	public ByteArrayInputStream gerarPdfParticipante(AcaoExtensao acao, Participacao participante) throws DocumentException, MalformedURLException, IOException{
+        ByteArrayOutputStream writer = new ByteArrayOutputStream();
+        boolean isCoordenador = false;
         
         SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyy");
         String dataInicio = data.format(participante.getDataInicio());
@@ -30,8 +32,44 @@ public class BuilderPDFReport {
         String tituloAcao = acao.getTitulo();
         String coordenador = acao.getCoordenador().getNome();
         String dataHoje = data.format(new Date());
-        String assinatura;
+        
+        if(participante.isCoordenador() == true){
+        	isCoordenador = true;
+        }
+        
+        writer = desenharTemplatePdf(dataInicio, dataFim, participanteDaAcao,isCoordenador,tituloAcao,coordenador,dataHoje);
+        
+        ByteArrayInputStream in = new ByteArrayInputStream(writer.toByteArray());
+        return in;
+	}
+	
+	
+	public ByteArrayInputStream gerarPdfBolsista(AcaoExtensao acao, Bolsa bolsista) throws DocumentException, MalformedURLException, IOException{
+        ByteArrayOutputStream writer = new ByteArrayOutputStream();
+        
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyy");
+        String dataInicio = data.format(bolsista.getInicio());
+        String dataFim = data.format(bolsista.getTermino());
+        String participanteDaAcao = bolsista.getBolsista().getPessoa().getNome();
+        String tituloAcao = acao.getTitulo();
+        String coordenador = acao.getCoordenador().getNome();
+        String dataHoje = data.format(new Date());
 
+        writer = desenharTemplatePdf(dataInicio, dataFim, participanteDaAcao,false,tituloAcao,coordenador,dataHoje);
+
+        ByteArrayInputStream in = new ByteArrayInputStream(writer.toByteArray());
+        return in;
+
+	}
+	
+	private ByteArrayOutputStream desenharTemplatePdf(String dataInicio,String dataFim,String nomePessoa, boolean isCoordenador,String tituloAcao,
+			String coordenador, String dataHoje) throws DocumentException, MalformedURLException, IOException{
+		
+		String assinatura;
+		
+		Document document = new Document();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
         PdfWriter.getInstance(document, out);
             document.open();
                
@@ -59,7 +97,7 @@ public class BuilderPDFReport {
             document.add(declaracao);
             
             Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, "
-            		+ "que o(a) participante " + participanteDaAcao 
+            		+ "que o(a) participante " + nomePessoa 
             		+ " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
             		+ " de autoria de " + coordenador
             		+ " nos períodos de " + dataInicio + " até " + dataFim + ".");
@@ -74,7 +112,7 @@ public class BuilderPDFReport {
             dataEmissaoDocumento.setSpacingAfter(100f);
             document.add(dataEmissaoDocumento);
             
-            if(participante.isCoordenador() == true){
+            if(isCoordenador == true){
             	assinatura = "Assinatura do Diretor da UFC Campus - Quixadá";
             }
             
@@ -115,7 +153,7 @@ public class BuilderPDFReport {
             
         
 
-        return new ByteArrayInputStream(out.toByteArray());
+       return out;
 	}
 	
 }

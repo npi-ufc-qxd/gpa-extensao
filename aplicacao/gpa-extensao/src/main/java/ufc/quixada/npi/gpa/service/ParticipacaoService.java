@@ -19,5 +19,7 @@ public interface ParticipacaoService {
 			throws GpaExtensaoException;
 	
 	ByteArrayInputStream emitirDeclaracaoParticipanteEquipeTrabalho(Integer acaoExtensao, Integer pessoa) throws DocumentException, MalformedURLException, IOException;
+	
 
+	
 }

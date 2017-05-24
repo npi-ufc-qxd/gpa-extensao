@@ -18,6 +18,7 @@ public interface AlunoRepository extends CrudRepository<Aluno, Integer> {
 
 	@Query("SELECT CASE WHEN COUNT(a) > 0 THEN 'true' ELSE 'false' END FROM Aluno a WHERE a.matricula = :matricula")
 	boolean existsByMatricula(@Param("matricula") String matricula);
+	
 
 
 }
