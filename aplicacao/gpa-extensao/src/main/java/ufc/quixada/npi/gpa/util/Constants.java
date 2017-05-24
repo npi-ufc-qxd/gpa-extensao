@@ -176,14 +176,23 @@ public class Constants {
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
 		
 	public static final String STATUS_MESSAGE_ERROR = "error";
+	public static final String TITULO_MESSAGE_ACAO_CADASTRADA_ERROR = "Erro ao cadastrar Ação!";
 	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Erro ao submeter Ação!";
+	public static final String TITULO_MESSAGE_ACAO_EDITADA_ERROR = "Erro ao editar Ação!";
+	public static final String TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR = "Erro ao homologar Ação!";
+	public static final String TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Erro ao cadastrar o Código!";
 	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Erro ao adicionar as Bolsas!";
 	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR = "Erro ao transferir a Coordenação!";
 	
-	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação";
+	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR = "Houve um erro ao tentar editar a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR = "A data de homologação não pode ser menor que a data de inicio da ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR = "A data de homologação não pode ser menor que a data de inicio da ação.";
+	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Houve um erro ao tentar cadastrar o código da Ação.";
 	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Houve um erro ao tentar adicionar as bolsas.";
 	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR = "A data de inicio não pode ser igual ou maior que a data de termino da ação.";
-	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR = "A data de inicio não pode ser menor que a data de inicio da ação.";
 	
 	
 	// Tipos de arquivos

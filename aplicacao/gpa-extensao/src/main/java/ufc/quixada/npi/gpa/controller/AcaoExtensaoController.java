@@ -2,9 +2,18 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR;
@@ -12,9 +21,8 @@ import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
@@ -25,9 +33,17 @@ import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLVER_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR;
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
@@ -260,13 +276,18 @@ public class AcaoExtensaoController {
 				acaoExtensaoService.cadastrar(acaoExtensao, arquivo, coordenador);
 				participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 			}
+			
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA);
 
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA_ERROR);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR);
 			return R_ACOES;
 		}
 
-		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 
@@ -322,9 +343,19 @@ public class AcaoExtensaoController {
 		
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo, pendencia);
-			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
+			if(pendencia) {
+				redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+				redirect.addFlashAttribute("titulo", TITULO_MESSAGE_RESOLVER_PENDENCIAS);
+				redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS);
+			} else {
+				redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+				redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA);
+				redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA);
+			}
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA_ERROR);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR);
 		}
 
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
@@ -418,6 +449,8 @@ public class AcaoExtensaoController {
 			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO);
 		} catch (GpaExtensaoException e) {
 			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR);
 		}
 		
 		model.addAttribute("acao", acao);
@@ -504,10 +537,21 @@ public class AcaoExtensaoController {
 
 		try {
 			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(e.getMessage().equals(MENSAGEM_DATA_HOMOLOGACAO_MAIOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR);
+			} else if(e.getMessage().equals(MENSAGEM_DATA_HOMOLOGACAO_MENOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR);
+			}
 		}
-
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 

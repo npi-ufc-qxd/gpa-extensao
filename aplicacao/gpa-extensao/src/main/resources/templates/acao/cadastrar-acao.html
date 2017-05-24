@@ -245,6 +245,15 @@
 			$("#termino").mask("99/99/9999");
 		});
 	</script>
+	 <script th:inline="javascript">
+	   $(window).load(function() {
+			if([[${status}]] === "success") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);	
+			} else if([[${status}]] === "error") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);
+			}
+	  });
+   </script>
 </section>
 
 </html>
