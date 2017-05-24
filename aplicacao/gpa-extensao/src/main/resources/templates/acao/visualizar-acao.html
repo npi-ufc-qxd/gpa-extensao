@@ -400,6 +400,8 @@
 	   $(window).load(function() {
 			if([[${status}]] === "success") {
 				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);	
+			} else if([[${status}]] === "error") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);
 			}
 	  });
    </script>

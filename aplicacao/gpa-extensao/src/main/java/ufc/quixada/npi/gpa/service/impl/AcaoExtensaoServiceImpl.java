@@ -166,7 +166,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	@Override
 	public void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) throws GpaExtensaoException{
 		if(acao == null) {
-			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		} else {
 			if (acao.getBolsasSolicitadas() >= numeroBolsas) {
 				acao.setBolsasRecebidas(numeroBolsas);
@@ -180,7 +180,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		String codigoUpper = codigo.toUpperCase();
 
 		if (acao == null || codigoUpper.isEmpty()) {
-			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
 
 		acao.setCodigo(codigoUpper);

@@ -139,7 +139,7 @@ public class Constants {
 	public static final String A_DEFINIR = "a definir";
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
-	
+
 	public static final String STATUS_MESSAGE_SUCCESS = "success";
 	public static final String TITULO_MESSAGE_ACAO_CADASTRADA = "Ação Cadastrada!";
 	public static final String TITULO_MESSAGE_ACAO_EDITADA = "Ação Editada!";
@@ -151,6 +151,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_RESOLVER_PENDENCIAS = "Pendências Resolvidas!";
 	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO = "Coordenação Transferida!";
 	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA = "Bolsas Inseridas!";
+	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso";
 	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso";
 	public static final String CONTEUDO_MESSAGE_ACAO_EXCLUIDA = "A ação foi excluída com sucesso";
@@ -159,9 +160,8 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_ACAO_ENCERRADA = "A ação foi encerrada com sucesso";
 	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO = "O código da ação foi inserido com sucesso";
 	public static final String CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS = "As pendências foram resolvidas com sucesso";
-	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENAÇÃO = "A coordenação da ação foi transferida com sucesso";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO = "A coordenação da ação foi transferida com sucesso";
 	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA = "As bolsas foram inseridas com sucesso";
-	
 	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
@@ -171,33 +171,20 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-	
 	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
-
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
-	
+		
 	public static final String STATUS_MESSAGE_ERROR = "error";
-	public static final String TITULO_MESSAGE_ACAO_CADASTRADA_ERROR = "Erro no Cadastro!";
-	public static final String TITULO_MESSAGE_ACAO_EDITADA_ERROR = "Erro na Edição!";
-	public static final String TITULO_MESSAGE_ACAO_EXCLUIDA_ERROR = "Erro na Exclusão!";
-	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Erro a Submeter!";
-	public static final String TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR = "Erro ao Homologar!";
-	public static final String TITULO_MESSAGE_ACAO_ENCERRADA_ERROR = "Erro ao Encerrar!";
-	public static final String TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Erro no Cadastro!";
-	public static final String TITULO_MESSAGE_RESOLVER_PENDENCIAS_ERROR = "Erro ao Resolver Pendências!";
-	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR = "Erro ao Transferir Coordenação";
-	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Erro ao inserir as Bolsas";
-	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao cadastrar a Ação";
-	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR = "Houve um erro ao editar a Ação";
-	public static final String CONTEUDO_MESSAGE_ACAO_EXCLUIDA_ERROR = "Houve um erro ao excluir a Ação";
-	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao submeter a Ação";
-	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_ERROR = "Houve um erro ao homologar a Ação";
-	public static final String CONTEUDO_MESSAGE_ACAO_ENCERRADA_ERROR = "Houve um erro ao encerrar a Ação";
-	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Houve um erro ao cadastrar o código da Ação";
-	public static final String CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS_ERROR = "Houve um erro ao resolver as pendências";
-	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENAÇÃO_ERROR = "Houve um erro ao transferir a Coordenação";
-	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Houve um erro ao inserir as Bolsas";
+	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Erro ao submeter Ação!";
+	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Erro ao adicionar as Bolsas!";
+	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR = "Erro ao transferir a Coordenação!";
+	
+	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação";
+	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Houve um erro ao tentar adicionar as bolsas.";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR = "A data de inicio não pode ser igual ou maior que a data de termino da ação.";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	
 	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
