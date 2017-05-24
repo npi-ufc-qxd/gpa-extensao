@@ -87,7 +87,7 @@ data-page="detalhe-acao">
                                 <div id="div-codigo-acao-extensao" class="input-group input-group-sm" style="display: none;">
                                     <input type="text" id="input-codigo-acao-extensao" class="form-control" required="required" placeholder="Código" />
                                     <span class="input-group-btn">
-                                        <button id="submeter-codigo-acao-extensao" type="button" class="btn btn-primary btn-flat" title="Salvar novo código">Salvar</button>
+                                        <button id="submeter-codigo-acao-extensao" type="button" class="btn btn-info btn-flat" title="Salvar novo código">Salvar</button>
                                         <button id="cancelar-salvar-codigo-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
                                     </span>
                                 </div>
@@ -133,7 +133,7 @@ data-page="detalhe-acao">
                                 <div id="editar-bolsas-recebidas-form" class="input-group input-group-sm" style="display: none;">
                                     <input type="number" id="input-bolsas-recebidas-acao-extensao" class="form-control" required="required" min="0" pattern="[0-9]+" placeholder="Nº de bolsas" />
                                     <span class="input-group-btn">
-                                        <button id="salvar-numero-bolsas-button" type="button" class="btn btn-primary btn-flat" title="Setar o número de bolsas recebidas">Salvar</button>
+                                        <button id="salvar-numero-bolsas-button" type="button" class="btn btn-info btn-flat" title="Setar o número de bolsas recebidas">Salvar</button>
                                         <button id="cancelar-salvar-bolsas-button" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
                                     </span>
                                 </div>
@@ -181,7 +181,7 @@ data-page="detalhe-acao">
 							<div id="div-numero-processo" class="input-group input-group-sm" style="display: none;">
                             	<input type="text" id="input-numero-processo" class="form-control" required="required" placeholder="Número do Processo" />
                             	<span class="input-group-btn">
-                               		<button id="submeter-numero-processo" type="button" class="btn btn-primary btn-flat" title="Salvar número do processo">Salvar</button>
+                               		<button id="submeter-numero-processo" type="button" class="btn btn-info btn-flat" title="Salvar número do processo">Salvar</button>
                                 	<button id="cancelar-numero-processo" type="button" class="btn btn-default btn-flat" title="Cancelar operação"><i class="glyphicon glyphicon-remove"></i></button>
                             	</span>
                         	</div>
@@ -204,7 +204,7 @@ data-page="detalhe-acao">
                         	<div id="info-relatorio" th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'APROVADO'}">
                         		<a th:if="${acaoExtensao.relatorioFinal} != null" th:href="@{/documento/download/} + ${acaoExtensao.relatorioFinal.id}" th:text="${acaoExtensao.relatorioFinal.nome}"></a>
                             	<div id="info-relatorio-final" th:if="${acaoExtensao.relatorioFinal} == null">
-                            		<a id="salvarRelatorioFinal" class="btn btn-primary btn-ok btn-flat" title="Adicionar" data-toggle="modal" data-target="#salvar-rel-final">Adicionar</a>
+                            		<a id="salvarRelatorioFinal" class="btn btn-info btn-ok btn-flat" title="Adicionar" data-toggle="modal" data-target="#salvar-rel-final">Adicionar</a>
                             	</div>
                         	</div>
                         	<div th:if="${#authentication.name != acaoExtensao.coordenador.cpf} OR ${acaoExtensao.status.name() != 'APROVADO'}">
@@ -219,15 +219,15 @@ data-page="detalhe-acao">
 						<button th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
 							 class="btn btn-danger btn-flat pull-right" data-toggle="modal" data-target="#modalexcluir">Excluir</button>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_RELATO'})"
-							class="btn btn-primary btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
+							class="btn btn-info btn-flat pull-right" th:href="@{/editar/} + ${acaoExtensao.id}">Editar</a>
 						<a th:if="${#authentication.name == acaoExtensao.coordenador.cpf} AND ${acaoExtensao.status.name() == 'NOVO'}"
-							 class="btn btn-primary btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
+							 class="btn btn-info btn-flat pull-right" th:href="@{/submeter/} + ${acaoExtensao.id}">Submeter para avaliação</a>
 						<a th:if="${acaoExtensao.ativo} AND ${acaoExtensao.status.name() == 'APROVADO'}" sec:authorize="hasAuthority('ADMINISTRACAO')"
 							class="btn btn-danger btn-flat pull-right" th:href="@{/admin/encerrarAcao/} + ${acaoExtensao.id}">Encerrar</a>
 						<a id="homologar-button" sec:authorize="hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}"
-							title="Homologar Ação" href="#homologar-form" class="btn btn-primary btn-flat pull-right">Homologar</a>
+							title="Homologar Ação" href="#homologar-form" class="btn btn-info btn-flat pull-right">Homologar</a>
 						<a th:if="${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')} AND ${acaoExtensao.status.name() == 'APROVADO'} AND ${acaoExtensao.ativo}"
-							class="btn btn-primary btn-flat pull-right" th:href="@{/admin/editar/} + ${acaoExtensao.id}">Editar</a>
+							class="btn btn-info btn-flat pull-right" th:href="@{/admin/editar/} + ${acaoExtensao.id}">Editar</a>
 					</div>
 				</div> <!-- Box detalhes  -->
       			
@@ -275,7 +275,7 @@ data-page="detalhe-acao">
               	<input type="hidden" id="deleteParceriaHiddenId" name="deleteParceriaHiddenId" value="" />
               	<input type="hidden" id="deleteParceriaTableIndex" name="deleteParceriaTableIndex" value="" />
                 <button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary btn-ok btn-flat" id="deleteParceriaHiddenBtn">Confirmar</a>
+                <a class="btn btn-info btn-ok btn-flat" id="deleteParceriaHiddenBtn">Confirmar</a>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -298,7 +298,7 @@ data-page="detalhe-acao">
               		<div class="modal-footer">
               			<input type="hidden" id="deleteParticipacaoHiddenId" name="deleteParticipacaoHiddenId" value="" />
                 		<button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok pull-right btn-flat" id="deleteParticipacaoHiddenBtn">Confirmar</a>
+                		<a class="btn btn-info btn-ok pull-right btn-flat" id="deleteParticipacaoHiddenBtn">Confirmar</a>
               		</div>
             	</div>
             <!-- /.modal-content -->
@@ -321,7 +321,7 @@ data-page="detalhe-acao">
               		<div class="modal-footer">
               			<input type="hidden" id="deleteBolsaHiddenId" name="deleteBolsaHiddenId" value="" />
                 		<button type="button" class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="deleteBolsaHiddenBtn">Confirmar</a>
+                		<a class="btn btn-info btn-ok btn-pull-right btn-flat" id="deleteBolsaHiddenBtn">Confirmar</a>
               		</div>
             	</div>
             <!-- /.modal-content -->
@@ -346,7 +346,7 @@ data-page="detalhe-acao">
 						<input type="date" class="col-sm-3" required="required" id="dataTerminoBolsa" autocomplete="off"/>
               			<input type="hidden" id="encerrarBolsaHiddenId" name="encerrarBolsaHiddenId" value="" />
                 		<button type="button" class="btn btn-default pull-right btn-flat" data-dismiss="modal">Cancelar</button>
-                		<a class="btn btn-primary btn-ok btn-pull-right btn-flat" id="encerrarBolsaHiddenBtn">Confirmar</a>
+                		<a class="btn btn-info btn-ok btn-pull-right btn-flat" id="encerrarBolsaHiddenBtn">Confirmar</a>
               		</div>
             	</div>
             <!-- /.modal-content -->
@@ -408,7 +408,7 @@ data-page="detalhe-acao">
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary btn-ok btn-pull-right btn-flat" >Confirmar</button>
+							<button type="submit" class="btn btn-info btn-ok btn-pull-right btn-flat" >Confirmar</button>
 							<a class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</a>
 						</div>
 					</form>
@@ -434,7 +434,7 @@ data-page="detalhe-acao">
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary btn-ok btn-pull-right btn-flat" >Confirmar</button>
+							<button type="submit" class="btn btn-info btn-ok btn-pull-right btn-flat" >Confirmar</button>
 							<a class="btn btn-default btn- pull-right btn-flat" data-dismiss="modal">Cancelar</a>
 						</div>
 					</form>
