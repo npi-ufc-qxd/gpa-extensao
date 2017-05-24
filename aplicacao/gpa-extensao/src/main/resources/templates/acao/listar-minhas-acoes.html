@@ -13,14 +13,30 @@
 	<div class="row">
 		<div class="white-box">
 
-			<h3 th:if="${minhaLista == 'countmeusTudo'}" class="box-title m-b-0"> Minhas ações <span class="label label-info m-l-5" th:text="${countmeusTudo}"></span></h3>
-			<p th:if="${minhaLista == 'countmeusTudo'}" class="text-muted m-b-30"> Ações de extensão que você coordena ou participa</p>
-			
-			<h3 th:if="${minhaLista == 'countmeusPareceres'}" class="box-title m-b-0"> Aguardando parecer <span class="label label-info m-l-5" th:text="${countmeusPareceres}"></span></h3>
-			<p th:if="${minhaLista == 'countmeusPareceres'}" class="text-muted m-b-30">Ações de extensão que estão aguardando seu parecer</p>
-			
-			<h3 th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="box-title m-b-0"> Pareceres emitidos <span class="label label-info m-l-5" th:text="${countmeusPareceresEmitidos}"></span></h3>
-			<p th:if="${minhaLista == 'countmeusPareceresEmitidos'}" class="text-muted m-b-30">Ações de extensão que você já emitiu</p>
+			<h3 th:if="${minhaLista == 'countmeusTudo'}" class="box-title m-b-0">
+				Minhas ações <span class="label label-info m-l-5"
+					th:text="${countmeusTudo}"></span>
+			</h3>
+			<p th:if="${minhaLista == 'countmeusTudo'}" class="text-muted m-b-30">
+				Ações de extensão que você coordena ou participa</p>
+
+			<h3 th:if="${minhaLista == 'countmeusPareceres'}"
+				class="box-title m-b-0">
+				Aguardando parecer <span class="label label-info m-l-5"
+					th:text="${countmeusPareceres}"></span>
+			</h3>
+			<p th:if="${minhaLista == 'countmeusPareceres'}"
+				class="text-muted m-b-30">Ações de extensão que estão aguardando
+				seu parecer</p>
+
+			<h3 th:if="${minhaLista == 'countmeusPareceresEmitidos'}"
+				class="box-title m-b-0">
+				Pareceres emitidos <span class="label label-info m-l-5"
+					th:text="${countmeusPareceresEmitidos}"></span>
+			</h3>
+			<p th:if="${minhaLista == 'countmeusPareceresEmitidos'}"
+				class="text-muted m-b-30">Ações de extensão que você já emitiu</p>
+			<div class="table-responsive">
 				<table id="minhas-acoes_" class="table table-hover">
 					<thead>
 						<tr>
@@ -31,51 +47,53 @@
 							<th>Período</th>
 						</tr>
 					</thead>
-	
+
 					<tbody>
 						<tr th:each="acao : ${minhaListaAtual}">
 							<td th:if="${minhaLista == 'countmeusTudo'}"><span
 								th:title="${pessoaLogada eq acao.coordenador ? 'Coordenador(a)' : 'Participante'}"
 								th:class="${pessoaLogada eq acao.coordenador ? 'label label-primary' : 'label label-success'}"
 								th:text="${pessoaLogada eq acao.coordenador ? 'C' : 'P'}"></span></td>
-	
+
 							<td><a th:href="@{/acoes/__${acao.id}__}"
 								title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-	
+
 							<td th:if="${minhaLista != 'countmeusPareceresEmitidos'}"
 								th:text="${acao.coordenador.nome}"></td>
-	
+
 							<td><span
 								th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-danger'}"
 								th:text="${acao.ativo ? acao.status.descricao : 'ENCERRADO'}"></span></td>
-	
+
 							<td
 								th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
 	                                ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
 							</td>
-	
+
 						</tr>
 					</tbody>
 				</table>
+			</div>
 		</div>
-    </div>
-   </div> 	
-	<section layout:fragment="js">
-		<script>
-			$(document).ready(function() {
-				$('#menu-minhas-acoes a').addClass("active");
-				$('#meus-pareceres').DataTable();
-				$('#meus-pareceres-emitidos').DataTable();
-			});
+	</div>
+</div>
+<section layout:fragment="js">
+	<script>
+		$(document).ready(function() {
+			$('#menu-minhas-acoes a').addClass("active");
+			$('#meus-pareceres').DataTable();
+			$('#meus-pareceres-emitidos').DataTable();
+		});
 
-			$('#minhas-acoes_')
-					.dataTable(
-							{
-								language : {
-									"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-								},
-								order : [ [ 2, "asc" ], [ 0, "asc" ] ]
-							});
-		</script>
-	</section>
+		$('#minhas-acoes_')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 2, "asc" ], [ 0, "asc" ] ]
+						});
+		
+	</script>
+</section>
 </html>

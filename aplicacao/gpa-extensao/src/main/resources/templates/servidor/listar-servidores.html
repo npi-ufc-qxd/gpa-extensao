@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base/base">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="base/base">
 
 <head>
-	<title>Extensão - Servidores</title>
+<title>Extensão - Servidores</title>
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
@@ -39,14 +39,17 @@
     </div>
 </div>
 <section layout:fragment="js">
-    <script>
-        $('#menu-servidores a').addClass("active");
-        $('#servidores').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            order: [[ 0, "asc" ]]
-        });
-    </script>
+	<script>
+		$('#menu-servidores a').addClass("active");
+		$('#servidores')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 0, "asc" ] ]
+						});
+
+	</script>
 </section>
 </html>
