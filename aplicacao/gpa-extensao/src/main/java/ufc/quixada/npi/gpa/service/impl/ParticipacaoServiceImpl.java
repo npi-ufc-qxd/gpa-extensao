@@ -153,7 +153,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 		
 		Pessoa pessoa = pessoaService.buscarPorId(idParticipante);
 	    AcaoExtensao acaoExtensao = acaoExtensaoRepository.findOne(idAcaoExtensao);
-	    Aluno aluno = alunoService.buscarAluno(idParticipante);
+	    Aluno aluno = alunoService.findByPessoa(pessoa);
 	    Bolsa bolsista = bolsaRepository.findByAcaoExtensaoAndBolsista(acaoExtensao, aluno);
 	    
 	    Participacao participante = participacaoRepository.findByParticipanteAndAcaoExtensao(pessoa, acaoExtensao);
@@ -161,7 +161,6 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 	    if(participante == null){
 			ByteArrayInputStream bis = builderPDF.gerarPdfBolsista(acaoExtensao, bolsista);
 			return bis;
-
 	    }
 	    		
 		ByteArrayInputStream bis = builderPDF.gerarPdfParticipante(acaoExtensao, participante);

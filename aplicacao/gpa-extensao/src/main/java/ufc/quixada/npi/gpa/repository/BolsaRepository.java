@@ -31,7 +31,7 @@ public interface BolsaRepository extends CrudRepository<Bolsa, Integer>{
 
 	List<Bolsa> findByBolsista_id(Integer idAluno);
 	
-	Bolsa findByAcaoExtensaoAndBolsista(AcaoExtensao acao, Aluno bolsista);
+	Bolsa findByAcaoExtensaoAndBolsista(AcaoExtensao acao,Aluno bolsista);
 	
 	@Query("SELECT b.acaoExtensao FROM Bolsa b WHERE b.bolsista IN(:alunos)")
 	List<AcaoExtensao> findByBolsistaIn (@Param("alunos") Collection<Aluno> alunos);

@@ -74,7 +74,7 @@ public class BuilderPDFReport {
             document.open();
                
             Image imagemBrasao = Image.getInstance("src/main/resources/static/img/brasaoufc.png");
-            imagemBrasao.scalePercent(20f);
+            imagemBrasao.scalePercent(15f);
             imagemBrasao.setAlignment(Image.ALIGN_CENTER);
             document.add(imagemBrasao);
             
@@ -84,7 +84,7 @@ public class BuilderPDFReport {
             
             Paragraph titulo = new Paragraph("Diretoria do Campus de Quixadá",f);
             titulo.setAlignment(Element.ALIGN_CENTER);
-            titulo.setSpacingAfter(55f);
+            titulo.setSpacingAfter(50f);
             document.add(titulo);
             
             Font fonteSublinhada = new Font();
@@ -93,7 +93,7 @@ public class BuilderPDFReport {
             
             Paragraph declaracao = new Paragraph("DECLARAÇÃO",fonteSublinhada);
             declaracao.setAlignment(Element.ALIGN_CENTER);
-            declaracao.setSpacingAfter(65f);
+            declaracao.setSpacingAfter(60f);
             document.add(declaracao);
             
             Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, "
@@ -103,13 +103,13 @@ public class BuilderPDFReport {
             		+ " nos períodos de " + dataInicio + " até " + dataFim + ".");
             
             textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
-            textoDaDeclaracao.setSpacingAfter(20f);
+            textoDaDeclaracao.setSpacingAfter(15f);
           
             document.add(textoDaDeclaracao);
             
             Paragraph dataEmissaoDocumento = new Paragraph("Quixadá, " + dataHoje);
             dataEmissaoDocumento.setAlignment(Element.ALIGN_RIGHT);
-            dataEmissaoDocumento.setSpacingAfter(100f);
+            dataEmissaoDocumento.setSpacingAfter(90f);
             document.add(dataEmissaoDocumento);
             
             if(isCoordenador == true){
@@ -125,7 +125,7 @@ public class BuilderPDFReport {
             Paragraph donoAssinatura = new Paragraph(assinatura);
             campoAssinatura.setAlignment(Element.ALIGN_CENTER);
             donoAssinatura.setAlignment(Element.ALIGN_CENTER);
-            donoAssinatura.setSpacingAfter(260f);
+            donoAssinatura.setSpacingAfter(240f);
             document.add(campoAssinatura);
             document.add(donoAssinatura);
             

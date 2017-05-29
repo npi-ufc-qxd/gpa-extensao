@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.Aluno;
+import ufc.quixada.npi.gpa.model.Pessoa;
 
 public interface AlunoService {
 
@@ -32,5 +33,11 @@ public interface AlunoService {
      * Busca um aluno cadastrado
      */
 	Aluno buscarAluno(Integer idAluno);
+	
+	/**
+	 * 
+	 * Buscar Aluno a partir do idPessoa
+	 */
+	Aluno findByPessoa(Pessoa pessoa);
 
 }
