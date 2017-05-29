@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -170,7 +171,12 @@ public class Parecer {
 			return this.descricao;
 		}
 	}
-
+	
+	public String parseData(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(date);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

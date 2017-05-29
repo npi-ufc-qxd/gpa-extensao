@@ -151,6 +151,12 @@ public class Constants {
 	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO = "Bolsista Adicionado!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO ="Bolsista Alterado!";
 	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO = "A Parceria foi adicionada!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ADICIONADO = "O Parecerista foi adicionado!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ALTERADO ="O Parecerista foi alterado!";
+	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO ="O Relator foi adicionado!";
+	public static final String TITULO_MESSAGE_RELATOR_ALTERADO ="O Relator foi alterado!";
+	public static final String TITULO_MESSAGE_PARECER_EMITIDO = "O Parecer foi emitido!";
+	public static final String TITULO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A Solicitação foi encaminhada!";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso.";
 	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso.";
@@ -167,6 +173,12 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO = "O bolsista foi adicionado com sucesso.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALTERADO = "O bolsista foi alterado com sucesso.";
 	public static final String CONTEUDO_MESSAGE_PARCERIA_ADICIONADO = "A parceria foi adicionada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_ADICIONADO = "O parecerista foi adicionado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_ALTERADO = "O parecerista foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_RELATOR_ADICIONADO = "O relator foi adicionado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_RELATOR_ALTERADO = "O relator foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO = "O parecer foi emitido com sucesso!";
+	public static final String CONTEUDO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A solicitação para resolver as pendências foi encaminhada com sucesso.";
 	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
@@ -193,6 +205,11 @@ public class Constants {
 	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR = "Erro ao adicionar o Bolsista!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR = "Erro ao alterar Bolsista";
 	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR = "Erro ao adicionar Parceria!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ADICIONADO_ERROR = "Erro ao adicionar Parecerista!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ALTERADO_ERROR = "Erro ao altera Parecerista!";
+	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO_ERROR = "Erro ao adicionar Relator!";
+	public static final String TITULO_MESSAGE_RELATOR_ALTERADO_ERROR = "Erro ao alterar Relator!";
+	public static final String TITULO_MESSAGE_PARECER_EMITIDO_ERROR = "Erro ao emitir Parecer";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
 	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
@@ -218,6 +235,9 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR = "Você não possui permissão para adicionar participação.";
 	public static final String CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR = "Não é permitido adicionar parcerias externas para ação com este status.";
 	public static final String CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR = "O parceiro escolhido já participa dessa ação!";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_EQUIPE_ERROR = "Não foi possível atribuir! O parecerista faz parte da equipe!";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_AGUARDANDO_ERROR = "Não foi possível atribuir! A ação não está aguardando um parecerista!"; 
+	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO_ERROR = "Não foi possível emitir o relatório! Tente novamente.";
 	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
