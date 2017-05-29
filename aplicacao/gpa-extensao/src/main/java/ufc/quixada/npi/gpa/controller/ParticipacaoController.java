@@ -5,6 +5,28 @@ import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARTICIPACOES;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARTICIPACAO_ADICIONADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_ADICIONADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARTICIPACAO_ALTERADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_ALTERADA;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_STATUS_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.util.ArrayList;
@@ -78,8 +100,35 @@ public class ParticipacaoController {
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
 			participacaoService.adicionarParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_ADICIONADA);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_STATUS_ERROR);
+			} else if(EXCEPTION_DATA_INVALIDA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR);
+			} else if(MENSAGEM_PERMISSAO_NEGADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR);
+			} else if(VALOR_INVALIDO.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR);
+			} else if(ERROR_QTD_HORAS_NAO_PERMITIDA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR);
+			} else if(ERROR_PESSOA_JA_PARTICIPANTE.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR);
+			}
 		}
 
 		return R_ACAO + acaoExtensao.getId();
@@ -145,8 +194,24 @@ public class ParticipacaoController {
 
 		try {
 			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_ALTERADA);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(MENSAGEM_PERMISSAO_NEGADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR);
+			} else if(EXCEPTION_DATA_INVALIDA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR);
+			} else if(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR);
+			} 
+			
 		}
 		return R_ACAO + acaoExtensao.getId();
 	}

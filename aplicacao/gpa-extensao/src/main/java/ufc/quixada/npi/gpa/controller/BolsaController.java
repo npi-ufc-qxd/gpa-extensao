@@ -2,8 +2,25 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALTERADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_MAXIMO_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_BOLSAS;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_DATA_ANTERIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_BOLSISTA;
@@ -13,6 +30,10 @@ import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSISTA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSISTA_ALTERADO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.text.DateFormat;
@@ -95,8 +116,31 @@ public class BolsaController {
 
 		try {
 			bolsaService.adicionarBolsista(acao, bolsa);
+			redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO);
+			redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO);
 		} catch (GpaExtensaoException e) {
-			redirectAttributes.addAttribute(ERRO, e.getMessage());
+			if(EXCEPTION_DATA_INVALIDA.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR);
+			} else if(EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR);
+			} else if(EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR);
+			} else if(EXCEPTION_ACAO_MAXIMO_BOLSISTAS.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR);
+			} else if(ERROR_ALUNO_JA_BOLSISTA.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR);
+			}
 		}
 
 		return R_ACAO + acao.getId();
@@ -168,8 +212,23 @@ public class BolsaController {
 
 		try {
 			bolsaService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ALTERADO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ALTERADO);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(MENSAGEM_PERMISSAO_NEGADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR);
+			} else if(EXCEPTION_DATA_INVALIDA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR);
+			} else if(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR);
+			} 
 		}
 		return R_ACAO + acaoExtensao.getId();
 	}
