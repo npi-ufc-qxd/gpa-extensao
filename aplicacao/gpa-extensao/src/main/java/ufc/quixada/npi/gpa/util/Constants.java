@@ -150,6 +150,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_PARTICIPACAO_ALTERADA = "Participação Alterada!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO = "Bolsista Adicionado!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO ="Bolsista Alterado!";
+	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO = "A Parceria foi adicionada!";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso.";
 	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso.";
@@ -165,6 +166,7 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_ALTERADA = "A participação foi alterado com sucesso.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO = "O bolsista foi adicionado com sucesso.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALTERADO = "O bolsista foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ADICIONADO = "A parceria foi adicionada com sucesso.";
 	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
@@ -190,6 +192,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR = "Erro ao alterar a Participação!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR = "Erro ao adicionar o Bolsista!";
 	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR = "Erro ao alterar Bolsista";
+	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR = "Erro ao adicionar Parceria!";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
 	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
@@ -212,7 +215,9 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR = "Essa ação ainda não recebeu bolsas.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR = "Essa ação já possui o número máximo de bolsistas";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR = "Esse aluno já é bolsista desse projeto";
-	
+	public static final String CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR = "Você não possui permissão para adicionar participação.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR = "Não é permitido adicionar parcerias externas para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR = "O parceiro escolhido já participa dessa ação!";
 	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";

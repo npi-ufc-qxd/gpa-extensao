@@ -1,7 +1,18 @@
 package ufc.quixada.npi.gpa.controller;
 
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARCEIRO_JA_PARTICIPANTE;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.FRAGMENTS_TABLE_PARCERIAS_EXTERNAS;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARCERIA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 import java.util.HashMap;
@@ -85,8 +96,23 @@ public class ParceriaExternaController {
 		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
 		try {
 			parceriaExternaService.adicionarParceriaExterna(coordenador, parceria, idAcao, parceiro);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_ADICIONADO);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(MENSAGEM_PERMISSAO_NEGADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR);
+			} else if(EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR);
+			} else if(ERROR_PARCEIRO_JA_PARTICIPANTE.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR);
+			}
 		}
 
 		return R_ACAO + idAcao.getId();
