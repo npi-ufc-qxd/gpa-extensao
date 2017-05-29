@@ -72,7 +72,7 @@
 					</div>
 				</div>
 				<div class="box-footer text-center">
-				    <button id="submitBtnParceriaExternaForm" class="btn btn-primary btn-flat" type="submit">Salvar</button>
+				    <button id="submitBtnParceriaExternaForm" class="btn btn-info btn-flat" type="submit">Salvar</button>
 					<button id="cancelarAdicaoParceriaExterna" class="btn btn-default btn-flat">Cancelar</button>
 				</div>
 			</form>
@@ -107,7 +107,7 @@
 					</div>
 				</div>
 				<div class="box-footer text-center">
-					<button id="submitBtnParceiroForm" class="btn btn-primary btn-flat">Salvar</button>
+					<button id="submitBtnParceiroForm" class="btn btn-info btn-flat">Salvar</button>
 					<button id="cancelarAdicaoParceiro" class="btn btn-default btn-flat">Cancelar</button>
 				</div>
 			</form>
@@ -120,9 +120,9 @@
 			<button th:if="((${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
 				AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
 				'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})) AND ${acaoExtensao.ativo}"  
-				class="btn btn-primary btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
+				class="btn btn-info btn-flat pull-right" id="adicionarNovaParceriaExterna">Adicionar
 			</button>
-			<button class="btn btn-flat btn-primary pull-right no-display" id="criarNovoParceiro">Criar parceiro</button>
+			<button class="btn btn-flat btn-info pull-right no-display" id="criarNovoParceiro">Criar parceiro</button>
 		</div>
 		</div>
 </html>
