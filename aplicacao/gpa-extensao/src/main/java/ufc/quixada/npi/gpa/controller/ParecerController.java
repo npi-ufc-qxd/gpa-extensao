@@ -21,8 +21,6 @@ public class ParecerController {
 
 	@Autowired
 	private ParecerService parecerService;
-	
-	
 
 	@RequestMapping(value = "/parecerista", method = RequestMethod.POST)
 	public String atribuirParecerista(AcaoExtensao acaoExtensao, Model model) {
@@ -46,9 +44,10 @@ public class ParecerController {
 	
 
 	@RequestMapping(value = "/acoes/{idAcao}/pendencias", method = RequestMethod.POST)
-	public String solicitarResolucaoPendenciasParecer(@PathVariable Integer idAcao, Pendencia pendencia) {
+	public String solicitarResolucaoPendenciasParecer(@PathVariable Integer idAcao, Pendencia pendencia, 
+			RedirectAttributes redirect) throws GpaExtensaoException {
 		parecerService.solicitarResolucaoPendencias(idAcao, pendencia);
-
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + idAcao;
 	}
 
@@ -71,6 +70,7 @@ public class ParecerController {
 		}
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
+	
 	
 
 }

@@ -6,7 +6,10 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_MAXIMO_BOLSISTAS
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
 import ufc.quixada.npi.gpa.model.Bolsa;
 import ufc.quixada.npi.gpa.model.FrequenciaBolsista;
 import ufc.quixada.npi.gpa.model.FrequenciaView;
+import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.BolsaRepository;
 import ufc.quixada.npi.gpa.service.BolsaService;
@@ -38,43 +42,43 @@ public class BolsaServiceImpl implements BolsaService {
 
 	@Override
 	public void salvarBolsa(Bolsa bolsa, AcaoExtensao acao) {
-		if(acao != null && bolsa != null) {
+		if (acao != null && bolsa != null) {
 			bolsa.setAcaoExtensao(acao);
 			bolsa.setAtivo(true);
-				
+
 			bolsaRepository.save(bolsa);
 		}
 	}
-	
+
 	@Override
 	public void encerrarBolsa(Bolsa bolsa, Date data) {
-		if(bolsa != null) {
+		if (bolsa != null) {
 			bolsa.setAtivo(false);
 			bolsa.setTermino(data);
 			bolsaRepository.save(bolsa);
 		}
 	}
-	
+
 	@Override
 	public List<Bolsa> listarBolsasAcao(Integer acaoId) {
 		return bolsaRepository.findByAcaoExtensao_id(acaoId);
 	}
-	
+
 	@Override
 	public void deletarBolsa(Integer bolsaId) {
 		bolsaRepository.delete(bolsaId);
 	}
-	
+
 	@Override
 	public Bolsa buscarBolsa(Integer bolsaId) {
 		return bolsaRepository.findOne(bolsaId);
 	}
-	
+
 	@Override
 	public List<Bolsa> listarBolsasAluno(Integer idAluno) {
 		return bolsaRepository.findByBolsista_id(idAluno);
 	}
-	
+
 	@Override
 	public List<FrequenciaView> getBolsas(Integer ano) {
 		List<Bolsa> bolsas = bolsaRepository.findByYear(ano);
@@ -137,12 +141,11 @@ public class BolsaServiceImpl implements BolsaService {
 		} else {
 			throw new GpaExtensaoException(EXCEPTION_FALHA_ATRIBUIR_FREQUENCIA);
 		}
-
 	}
 
 	@Override
 	public void adicionarBolsista(AcaoExtensao acao, Bolsa bolsa) throws GpaExtensaoException {
-		
+
 		if (acao != null) {
 
 			if (bolsa.getInicio() == null || bolsa.getTermino() == null || bolsa.getInicio().before(acao.getInicio())
@@ -175,8 +178,62 @@ public class BolsaServiceImpl implements BolsaService {
 			bolsa.setCargaHoraria(12);
 			bolsaRepository.save(bolsa);
 			acaoExtensaoRepository.save(acao);
-
 		}
+	}
+
+	@Override
+	public void removerBolsista(AcaoExtensao acao, Bolsa bolsista, Pessoa coordenador) throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acao.getId());
+		if (old != null) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
+			}
+			if(!old.isAtivo()){
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS);
+			}
+			old.getBolsistas().remove(bolsista);
+			acaoExtensaoRepository.save(old);
+			bolsaRepository.delete(bolsista);
+		}
+	}
+
+	@Override
+	public void alterarDataParticipacao(AcaoExtensao acaoExtensao, Bolsa bolsa, Pessoa pessoa, Date dataInicio,
+			Date dataTermino) throws GpaExtensaoException {
+		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		if (old != null) {
+			if (!old.getCoordenador().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
+				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
+			}
+			if (dataInicio == null || dataTermino == null || dataInicio.before(old.getInicio())
+					|| dataTermino.after(old.getTermino()) || dataInicio.after(old.getTermino())
+					|| dataTermino.before(old.getInicio()) || dataTermino.before(dataInicio)) {
+				throw new GpaExtensaoException(EXCEPTION_DATA_INVALIDA);
+
+			}
+			if (!old.getStatus().equals(Status.NOVO) && !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
+					&& !old.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
+					&& !old.getStatus().equals(Status.APROVADO)) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+			if (!old.isAtivo()) {
+				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+			}
+
+			bolsa.setInicio(dataInicio);
+			bolsa.setTermino(dataTermino);
+			bolsaRepository.save(bolsa);
+		}
+	}
+
+	@Override
+	public Bolsa buscarBolsa(Bolsa bolsa) {
+		return bolsaRepository.findOne(bolsa.getId());
 	}
 
 }

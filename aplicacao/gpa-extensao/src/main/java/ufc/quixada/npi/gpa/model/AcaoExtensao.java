@@ -394,10 +394,18 @@ public class AcaoExtensao {
 			return false;
 		return true;
 	}
-
+	
 	public String parseData(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.format(date);
 	}
 
+	
+	public Pendencia ultimaPendenciaParecer() {
+		return this.parecerTecnico.getPendencias().get(0);
+	}
+	
+	public Pendencia ultimaPendenciaRelator() {
+		return this.parecerRelator.getPendencias().get(0);
+	}
 }

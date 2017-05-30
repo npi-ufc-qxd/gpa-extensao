@@ -7,9 +7,13 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +21,14 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,9 +53,9 @@ import ufc.quixada.npi.gpa.model.Servidor;
 import ufc.quixada.npi.gpa.model.Servidor.Funcao;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
-import ufc.quixada.npi.gpa.repository.ServidorRepository;
 import ufc.quixada.npi.gpa.service.ParticipacaoService;
 import ufc.quixada.npi.gpa.service.PessoaService;
+import ufc.quixada.npi.gpa.service.ServidorService;
 import ufc.quixada.npi.gpa.validator.ParticipacaoValidator;
 
 @Controller
@@ -65,7 +73,7 @@ public class ParticipacaoController {
 	private ParticipacaoValidator participacaoValidator;
 
 	@Autowired
-	private ServidorRepository servirdorRepository;
+	private ServidorService servidorService;
 
 	@Autowired
 	private PessoaService pessoaService;
@@ -124,9 +132,37 @@ public class ParticipacaoController {
 		return map;
 	}
 
-	@RequestMapping(value = "/excluir/{id}")
-	public @ResponseBody void deleteParticipacao(@PathVariable("id") Integer id) {
-		participacaoRepository.delete(id);
+	@PostMapping(value = "/excluir/{participacao}/{acao}")
+	public @ResponseBody Map<String, Object> deleteParticipacao(@PathVariable("participacao") Participacao participacao,
+			@PathVariable("acao") AcaoExtensao acaoExtensao,
+			Authentication authentication) {
+
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			participacaoService.excluirParticipanteEquipeTrabalho(acaoExtensao, participacao, coordenador);
+		} catch (GpaExtensaoException e) {
+			map.put(ERRO, e.getMessage());
+		}	
+		return map;
+	}
+
+	@PostMapping("/alterar/{participacao}/{acao}")
+	public String alterarParticipacao(@PathVariable("participacao") Integer participacao,
+			@PathVariable("acao") AcaoExtensao acaoExtensao, RedirectAttributes redirectAttribute,
+			Authentication authentication,
+			@RequestParam("inicio") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataInicio,
+			@RequestParam("termino") @DateTimeFormat(pattern = "dd/MM/yyyy") Date dataTermino) {
+
+		Participacao old = participacaoRepository.findOne(participacao);
+		Pessoa coordenador = pessoaService.buscarPorCpf(authentication.getName());
+
+		try {
+			participacaoService.alterarDataParticipacao(acaoExtensao, old, coordenador, dataInicio, dataTermino);
+		} catch (GpaExtensaoException e) {
+			redirectAttribute.addAttribute(ERRO, e.getMessage());
+		}
+		return R_ACAO + acaoExtensao.getId();
 	}
 
 	@RequestMapping(value = "/buscarParticipacoes/{idAcao}", method = RequestMethod.GET)
@@ -139,7 +175,14 @@ public class ParticipacaoController {
 
 	@RequestMapping("/buscarServidores")
 	public @ResponseBody List<Servidor> buscarServidores(@RequestParam("funcao") Funcao funcao) {
-		return servirdorRepository.findByFuncao(funcao);
+		List<Funcao> funcoes = new ArrayList<>();
+		funcoes.add(funcao);
+		return servidorService.findByFuncao(funcoes);
+	}
+
+	@RequestMapping("/buscar")
+	public @ResponseBody Participacao buscarParticipacao(@RequestParam("participacao") Participacao participacao) {
+		return participacaoService.buscarParticipante(participacao);
 	}
 	
 	/* Método para emissão de declaração da participação de um participante na equipe de trabalho */ 

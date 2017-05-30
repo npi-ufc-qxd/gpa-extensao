@@ -4,17 +4,21 @@ import static ufc.quixada.npi.gpa.util.Constants.PAGINA_BUSCAR_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_BUSCAR_ACAO_EXTENSAO;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -27,6 +31,7 @@ import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParticipacaoRepository;
 import ufc.quixada.npi.gpa.repository.PessoaRepository;
 import ufc.quixada.npi.gpa.repository.ServidorRepository;
+import ufc.quixada.npi.gpa.service.PessoaService;
 import ufc.quixada.npi.gpa.specification.AcaoExtensaoEspecification;
 
 @Controller
@@ -45,18 +50,21 @@ public class BuscarController {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private PessoaService pessoaService;
 
-	@RequestMapping("/acao-extensao")
+	@GetMapping("/acao-extensao")
 	public String buscarAcaoForm(Model model) {
 		model.addAttribute("coordenadores", servidorRespository.findAll());
-		model.addAttribute("acoes", acaoExtensaoRepository.findByStatusInOrderByInicioDesc(Arrays.asList(Status.APROVADO)));
+		model.addAttribute("acoes", new ArrayList<>());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("cursos", Curso.values());
-
+		model.addAttribute("busca", false);
 		return PAGINA_BUSCAR_ACAO_EXTENSAO;
 	}
 
-	@RequestMapping(value = "/acao-extensao", params = {"servidor", "modalidade", "estado", "ano"}, method = RequestMethod.GET)
+	@GetMapping(value = "/acao-extensao", params = {"servidor", "modalidade", "estado", "ano"})
 	public String buscarAcao(@RequestParam("servidor") Integer idServidor,
 			@RequestParam("modalidade") Modalidade modalidade, @RequestParam("estado") String estado,
 			@RequestParam("ano") Integer ano, Model model, RedirectAttributes attr) {
@@ -86,7 +94,7 @@ public class BuscarController {
 		model.addAttribute("coordenadores", servidorRespository.findAll());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("cursos", Curso.values());
-
+		model.addAttribute("busca", true);
 		model.addAttribute("servidor", servidor);
 		model.addAttribute("modalidade", modalidade);
 		model.addAttribute("ano", ano);
@@ -131,6 +139,11 @@ public class BuscarController {
 				participacaoRepository.findByParticipanteAndAcaoExtensao_status(servidor.getPessoa(), Status.APROVADO));
 
 		return PAGINA_DETALHES_SERVIDOR;
+	}
+	
+	@GetMapping("/pessoa")
+	public @ResponseBody ResponseEntity<Pessoa> buscarBolsa(@RequestParam("pessoa") Pessoa pessoa) {
+		return new ResponseEntity<Pessoa>(pessoaService.buscarPorId(pessoa.getId()), HttpStatus.OK);
 	}
 
 	@RequestMapping("/servidor/{id}")
