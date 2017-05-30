@@ -3,9 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="base/base">
+	
 
 <head>
 <title>Extensão - Cadastrar Ação</title>
+
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
@@ -80,7 +82,7 @@
 									<label for="inicio">* Data de início</label> <input id="inicio"
 										th:field="${acao.inicio}" type="text"
 										 class="form-control date"
-										required="required" autocomplete="off" />
+										required="required" autocomplete="off" data-mask="99/99/9999" />
 
 								</div>
 							</div>
@@ -90,7 +92,7 @@
 									<label for="termino">* Data de término</label> <input
 										id="termino" th:field="${acao.termino}" type="text"
 										 class="form-control date"
-										required="required" autocomplete="off" />
+										required="required" autocomplete="off" data-mask="99/99/9999" />
 								</div>
 							</div>
 						</div>
@@ -242,17 +244,12 @@
 	        	}
 	     });
 
-		/* $(document).ready(function($) {
-			$("#inicio").mask("99/99/9999");
-			$("#termino").mask("99/99/9999");
-		}); */
 		
-		jQuery(function($){
-			$("#inicio").mask("99/99/9999");
-			$("#termino").mask("99/99/9999");
-		});
-		
+	
 	</script>
+	
+	        
+	
 	
 </section>
 
