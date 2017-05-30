@@ -82,32 +82,30 @@
 			$(document).ready(function() {
 				$('#menu-minhas-acoes a').addClass("active");
 				
-			});
+			});		
 			
-			var urlData = "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json";
-
-			var colunas = $('#minhas-acoes_').find('thead').find('tr')
+			var countColunas = $('#minhas-acoes_').find('thead').find('tr')
 					.children().length;
-			if (colunas == 5) {
+			if (countColunas == 5) {
 				$('#minhas-acoes_').dataTable({
 					language : {
-						"url" : urlData
+						url : '/js/traducao-table.json'
 					},
 					order : [ [ 3, "asc" ], [ 1, "asc" ] ]
 				});
 			}
-			if (colunas == 4) {
+			if (countColunas == 4) {
 				$('#minhas-acoes_').dataTable({
 					language : {
-						"url" : urlData
+						url : '/js/traducao-table.json'
 					},
 					order : [ [ 2, "asc" ], [ 0, "asc" ] ]
 				});
 			}
-			if (colunas == 3) {
+			if (countColunas == 3) {
 				$('#minhas-acoes_').dataTable({
 					language : {
-						"url" : urlData
+						url : '/js/traducao-table.json'
 					},
 					order : [ [ 1, "asc" ], [ 0, "asc" ] ]
 				});
