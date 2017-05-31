@@ -75,25 +75,41 @@
 				</table>
 			</div>
 		</div>
-	</div>
-</div>
-<section layout:fragment="js">
-	<script>
-		$(document).ready(function() {
-			$('#menu-minhas-acoes a').addClass("active");
-			$('#meus-pareceres').DataTable();
-			$('#meus-pareceres-emitidos').DataTable();
-		});
-
-		$('#minhas-acoes_')
-				.dataTable(
-						{
-							language : {
-								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-							},
-							order : [ [ 2, "asc" ], [ 0, "asc" ] ]
-						});
-		
-	</script>
-</section>
+    </div>
+   </div> 	
+	<section layout:fragment="js">
+		<script>
+			$(document).ready(function() {
+				$('#menu-minhas-acoes a').addClass("active");
+				
+			});		
+			
+			var countColunas = $('#minhas-acoes_').find('thead').find('tr')
+					.children().length;
+			if (countColunas == 5) {
+				$('#minhas-acoes_').dataTable({
+					language : {
+						url : '/js/traducao-table.json'
+					},
+					order : [ [ 3, "asc" ], [ 1, "asc" ] ]
+				});
+			}
+			if (countColunas == 4) {
+				$('#minhas-acoes_').dataTable({
+					language : {
+						url : '/js/traducao-table.json'
+					},
+					order : [ [ 2, "asc" ], [ 0, "asc" ] ]
+				});
+			}
+			if (countColunas == 3) {
+				$('#minhas-acoes_').dataTable({
+					language : {
+						url : '/js/traducao-table.json'
+					},
+					order : [ [ 1, "asc" ], [ 0, "asc" ] ]
+				});
+			}
+		</script>
+	</section>
 </html>
