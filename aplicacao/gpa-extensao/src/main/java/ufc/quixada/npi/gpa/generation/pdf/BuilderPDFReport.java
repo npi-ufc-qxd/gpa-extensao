@@ -64,6 +64,7 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		return in;
 
 	}
+	
 
 	private ByteArrayOutputStream desenharTemplatePdf(String dataInicio, String dataFim, String nomePessoa,
 			boolean isCoordenador, String tituloAcao, String coordenador, String dataHoje)
@@ -99,32 +100,47 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		declaracao.setAlignment(Element.ALIGN_CENTER);
 		declaracao.setSpacingAfter(60f);
 		document.add(declaracao);
+		
+		if (isCoordenador == true) {
+			assinatura = "Assinatura do Diretor - UFC Campus de Quixadá";
+			
+			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que o(a) participante "
+					+ nomePessoa + " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
+					+ " como coordenador " +  "nos períodos de " + dataInicio + " a " + dataFim + ".");
+			
+			textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
+			textoDaDeclaracao.setSpacingAfter(15f);
 
-		Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que o(a) participante "
-				+ nomePessoa + " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
-				+ " de autoria de " + coordenador + " nos períodos de " + dataInicio + " até " + dataFim + ".");
+			document.add(textoDaDeclaracao);
+		}
 
-		textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
-		textoDaDeclaracao.setSpacingAfter(15f);
+		else {
+			assinatura = "Assinatura do Coordenador da Ação";
+			
+			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que o(a) participante "
+					+ nomePessoa + " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
+					+ " de autoria de " + coordenador + " nos períodos de " + dataInicio + " a " + dataFim + ".");
+			
+			textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
+			textoDaDeclaracao.setSpacingAfter(15f);
 
-		document.add(textoDaDeclaracao);
+			document.add(textoDaDeclaracao);
+
+		}
+		
+		
+
+		
 
 		Paragraph dataEmissaoDocumento = new Paragraph("Quixadá, " + dataHoje);
 		dataEmissaoDocumento.setAlignment(Element.ALIGN_RIGHT);
 		dataEmissaoDocumento.setSpacingAfter(90f);
 		document.add(dataEmissaoDocumento);
 
-		if (isCoordenador == true) {
-			assinatura = "Assinatura do Diretor da UFC Campus - Quixadá";
-		}
-
-		else {
-			assinatura = "Assinatura Coordenador da Atividade";
-
-		}
+		
 
 		Paragraph campoAssinatura = new Paragraph(
-				"______________________________________________________________________________");
+				"_________________________________________________________");
 		Paragraph donoAssinatura = new Paragraph(assinatura);
 		campoAssinatura.setAlignment(Element.ALIGN_CENTER);
 		donoAssinatura.setAlignment(Element.ALIGN_CENTER);
