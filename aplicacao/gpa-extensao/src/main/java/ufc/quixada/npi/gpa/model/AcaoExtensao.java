@@ -332,7 +332,18 @@ public class AcaoExtensao {
 	public boolean temParecerRelator(){
 		return getParecerRelator()!= null;
 	}
-
+	
+	public void atribuirParecerTecnico(Parecer parecer, AcaoExtensao acao) {
+		Date date = new Date();
+		parecer.setDataAtribuicao(date);
+		acao.setParecerTecnico(parecer);
+	}
+	
+	public void atribuirParecerRelator(Parecer parecer, AcaoExtensao acao) {
+		Date date = new Date();
+		parecer.setDataAtribuicao(date);
+		acao.setParecerRelator(parecer);
+	}
 
 	public enum Modalidade {
 		PROGRAMA("Programa"), PROJETO("Projeto"), CURSO("Curso"), EVENTO("Evento"), PRESTACAO_DE_SERVICO(

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -107,7 +108,7 @@ public class ParecerServiceImpl implements ParecerService {
 	@Override
 	public void emitirParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
+		
 		if (acao != null) {
 
 			switch (acao.getStatus()) {
@@ -117,6 +118,7 @@ public class ParecerServiceImpl implements ParecerService {
 				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
 				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
 				acao.getParecerTecnico().setObservacoes(acaoExtensao.getParecerTecnico().getObservacoes());
+				acao.atribuirParecerRelator(new Parecer(), acao);
 				acao.setStatus(Status.AGUARDANDO_RELATOR);
 				break;
 
