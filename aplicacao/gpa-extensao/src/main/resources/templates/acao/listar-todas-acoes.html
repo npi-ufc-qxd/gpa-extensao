@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="base/base">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="base/base">
 
 <head>
-	<title>Extensão - Ações</title>
+<title>Extensão - Ações</title>
 </head>
 
 <div class="container-fluid" layout:fragment="conteudo">
-	<br/>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="white-box">
-                <h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">Em tramitação <span class="label label-info m-l-5" th:text="${tramitacao}"></span></h3>
-                <p th:if="${listaAtual == 'tramitacao'}" class="text-muted m-b-30">Ações de extensão que estão em processo de aprovação</p>
-                <h3 th:if="${listaAtual == 'andamento'}" class="box-title m-b-0">Em andamento <span class="label label-info m-l-5" th:text="${andamento}"></span></h3>
-                <p th:if="${listaAtual == 'andamento'}" class="text-muted m-b-30">Ações de extensão aprovadas que estão em andamento</p>
-                <h3 th:if="${listaAtual == 'encerrada'}" class="box-title m-b-0">Encerradas <span class="label label-info m-l-5" th:text="${encerrada}"></span></h3>
-                <p th:if="${listaAtual == 'encerrada'}" class="text-muted m-b-30">Ações de extensão aprovadas que já foram encerradas</p>
-                <table id="acoes" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Título</th>
-                            <th>Coordenador(a)</th>
-                            <th>Status</th>
-                            <th>Período</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="acao : ${acoes}">
-                            <td><a th:href="@{/acoes/__${acao.id}__}" title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
-                            <td th:text="${acao.coordenador.nome}"></td>
-                            <td>
-                                <span th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-primary'}"
-                                      th:text="${acao.status.descricao}">
-                                </span>
-                            </td>
-                            <td th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
+	<br />
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="white-box">
+				<h3 th:if="${listaAtual == 'tramitacao'}" class="box-title m-b-0">
+					Em tramitação <span class="label label-info m-l-5"
+						th:text="${tramitacao}"></span>
+				</h3>
+				<p th:if="${listaAtual == 'tramitacao'}" class="text-muted m-b-30">Ações
+					de extensão que estão em processo de aprovação</p>
+				<h3 th:if="${listaAtual == 'andamento'}" class="box-title m-b-0">
+					Em andamento <span class="label label-info m-l-5"
+						th:text="${andamento}"></span>
+				</h3>
+				<p th:if="${listaAtual == 'andamento'}" class="text-muted m-b-30">Ações
+					de extensão aprovadas que estão em andamento</p>
+				<h3 th:if="${listaAtual == 'encerrada'}" class="box-title m-b-0">
+					Encerradas <span class="label label-info m-l-5"
+						th:text="${encerrada}"></span>
+				</h3>
+				<p th:if="${listaAtual == 'encerrada'}" class="text-muted m-b-30">Ações
+					de extensão aprovadas que já foram encerradas</p>
+				<div class="table-responsive">
+					<table id="acoes" class="table table-hover">
+						<thead>
+							<tr>
+								<th>Título</th>
+								<th>Coordenador(a)</th>
+								<th>Status</th>
+								<th>Período</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="acao : ${acoes}">
+								<td><a th:href="@{/acoes/__${acao.id}__}"
+									title="Detalhes da ação" th:text="${acao.titulo}"></a></td>
+								<td th:text="${acao.coordenador.nome}"></td>
+								<td><span
+									th:class="${acao.ativo ? acao.status.name() == 'APROVADO' ? 'label label-primary' : 'label label-warning' : 'label label-primary'}"
+									th:text="${acao.status.descricao}"> </span></td>
+								<td
+									th:text="${acao.inicio} ? ${#dates.format(acao.inicio, 'dd/MM/yyyy')} + ' a ' +
                                 ${#dates.format(acao.termino, 'dd/MM/yyyy')} : '-'">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <section layout:fragment="js">
 
-    <script>
-        $('#menu-acoes a').addClass("active");
-        $('#acoes').dataTable({
-            language: {
-                "url": "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
-            },
-            order: [[ 2, "asc" ], [0, "asc"]]
-        });
-    </script>
+	<script>
+		$('#menu-acoes a').addClass("active");
+		$('#acoes')
+				.dataTable(
+						{
+							language : {
+								"url" : "//cdn.datatables.net/plug-ins/1.10.13/i18n/Portuguese-Brasil.json"
+							},
+							order : [ [ 2, "asc" ], [ 0, "asc" ] ]
+						});
+	</script>
 </section>
 </html>

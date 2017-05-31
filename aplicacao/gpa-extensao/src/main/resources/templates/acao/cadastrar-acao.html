@@ -3,10 +3,13 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="base/base">
+	
 
 <head>
 <title>Extensão - Cadastrar Ação</title>
+
 </head>
+
 <div class="container-fluid" layout:fragment="conteudo">
 	<br/>
 	<div class="row">
@@ -78,8 +81,8 @@
 								<div class="form-group">
 									<label for="inicio">* Data de início</label> <input id="inicio"
 										th:field="${acao.inicio}" type="text"
-										placeholder="Ex.: 01/01/2014" class="form-control date"
-										required="required" autocomplete="off" />
+										 class="form-control date"
+										required="required" autocomplete="off" data-mask="99/99/9999" />
 
 								</div>
 							</div>
@@ -88,8 +91,8 @@
 								<div class="form-group">
 									<label for="termino">* Data de término</label> <input
 										id="termino" th:field="${acao.termino}" type="text"
-										placeholder="Ex.: 01/01/2014" class="form-control date"
-										required="required" autocomplete="off" />
+										 class="form-control date"
+										required="required" autocomplete="off" data-mask="99/99/9999" />
 								</div>
 							</div>
 						</div>
@@ -124,7 +127,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-md-3" th:if="${action == 'cadastrar'}">
+							<div sec:authorize="hasAuthority('ADMINISTRACAO')" class="col-md-3" th:if="${action == 'cadastrar'}">
 								<div class="form-group">
 									<label for="retroativa">Ação Retroativa?</label> <select
 										id="retroativa" class="form-control">
@@ -204,7 +207,7 @@
 							</div>
 							<div class="pull-right">
 								<button th:if="${action != 'pendencia'}" id="submeterAcaoExtensao" type="submit"
-									class="btn btn-primary waves-effect waves-light m-t-10">Salvar</button>
+									class="btn btn-info waves-effect waves-light m-t-10">Salvar</button>
 									<button th:if="${action == 'pendencia'}"
 						alt="default" type="submit" class="btn btn-primary waves-effect waves-light m-t-10">Pendência Resolvida <i class="fa fa-check"></i></button>
 									<a th:if="${action == 'pendencia'}" th:href="@{/acoes/} + ${acao.id}" class="btn btn-primary waves-effect waves-light m-t-10">Cancelar</a>
@@ -217,6 +220,7 @@
 	</div>
 </div>
 <section layout:fragment="js">
+
 	<script>
 		$('#menu-cadastrar-acao a').addClass("active");
 		if ($('#modalidade').val() === 'CURSO'
@@ -240,12 +244,11 @@
 	        	}
 	     });
 
-		$(document).ready(function($) {
-			$("#inicio").mask("99/99/9999");
-			$("#termino").mask("99/99/9999");
-		});
+		
+	
 	</script>
-
+	
 </section>
+
 
 </html>

@@ -1,65 +1,70 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <head>
-	<title>GPA - Extensão</title>
+<title>GPA - Extensão</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
 
 <!--     CONFIGURACAO DO CSRF -->
-    <meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf" th:content="${_csrf.token}" />
 <!--     default header name is X-CSRF-TOKEN -->
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <!-- CONFIGURACAO DO CONTEXTO -->
-    <meta name="_context" th:content="${#httpServletRequest.getContextPath()}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<!-- CONFIGURACAO DO CONTEXTO -->
+<meta name="_context"
+	th:content="${#httpServletRequest.getContextPath()}" />
 
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/horizontal-timeline.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/sidebar-nav.min.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/animate.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/style.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/megna.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/jquery.dataTables.min.css}"></link>
-    <link rel="stylesheet" th:href="@{/css/extensao.css}"></link>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"></link>
+<link rel="stylesheet" th:href="@{/css/horizontal-timeline.css}"></link>
+<link rel="stylesheet" th:href="@{/css/sidebar-nav.min.css}"></link>
+<link rel="stylesheet" th:href="@{/css/animate.css}"></link>
+<link rel="stylesheet" th:href="@{/css/style.css}"></link>
+<link rel="stylesheet" th:href="@{/css/megna.css}"></link>
+<link rel="stylesheet" th:href="@{/css/jquery.dataTables.min.css}"></link>
+<link rel="stylesheet" th:href="@{/css/extensao.css}"></link>
 
-	<link rel="stylesheet" th:href="@{/css/sweetalert.css}"></link>
+<link rel="stylesheet" th:href="@{/css/sweetalert.css}"></link>
 </head>
 
 <body>
-    <div id="wrapper" class="">
-        <!-- Top Navigation -->
-        <nav class="navbar navbar-default navbar-static-top m-b-0" th:replace="base/menu :: navbar"></nav>
-        <div class="navbar-default sidebar" role="navigation" th:replace="base/menu :: menu"></div>
+	<div id="wrapper" class="">
+		<!-- Top Navigation -->
+		<nav class="navbar navbar-default navbar-static-top m-b-0"
+			th:replace="base/menu :: navbar"></nav>
+		<div class="navbar-default sidebar" role="navigation"
+			th:replace="base/menu :: menu"></div>
 
-        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid" layout:fragment="conteudo">
-            </div>
+		<!-- Page Content -->
+		<div id="page-wrapper">
+			<div class="container-fluid" layout:fragment="conteudo"></div>
 
-            <!-- Footer -->
-            <footer class="footer text-center"> 2017 &copy; Núcleo de Práticas em Informática </footer>
-        </div>
+			<!-- Footer -->
+			<footer class="footer text-center"> 2017 &copy; Núcleo de
+				Práticas em Informática </footer>
+		</div>
 
-        <!-- jQuery 2.2.0 -->
-        <script th:src="@{/js/jquery.min.js}"></script>
-        <!-- Bootstrap 3.3.6 -->
-        <script th:src="@{/js/bootstrap.min.js}"></script>
-        <script th:src="@{/js/sidebar-nav.min.js}"></script>
-        <script th:src="@{/js/jquery.dataTables.min.js}"></script>
+		<!-- jQuery 2.2.0 -->
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<!-- Bootstrap 3.3.6 -->
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/sidebar-nav.min.js}"></script>
+		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
 
         <script th:src="@{/js/jquery.sweet-alert.custom.js}"></script>
         <script th:src="@{/js/sweetalert.min.js}"></script> 
         <script th:src="@{/js/custom.min.js}"></script>
+        <script th:src="@{/js/mask.js}"></script>
         <section layout:fragment="js"></section>
 
-    </div>
+	</div>
 </body>
 </html>
