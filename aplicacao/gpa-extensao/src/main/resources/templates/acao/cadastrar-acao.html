@@ -82,7 +82,8 @@
 									<label for="inicio">* Data de início</label> <input id="inicio"
 										th:field="${acao.inicio}" type="text"
 										 class="form-control date"
-										required="required" autocomplete="off" data-mask="99/99/9999" />
+										required="required" autocomplete="off" data-mask="99/99/9999"/>
+										<h6 class="error-datas no-display" id="error-data-inicio"></h6>
 
 								</div>
 							</div>
@@ -93,6 +94,7 @@
 										id="termino" th:field="${acao.termino}" type="text"
 										 class="form-control date"
 										required="required" autocomplete="off" data-mask="99/99/9999" />
+										<h6 class="error-datas no-display" id="error-data-termino"></h6>
 								</div>
 							</div>
 						</div>
@@ -243,7 +245,15 @@
 	        		$('#coordenador-acao').addClass('no-display');
 	        	}
 	     });
-	
+		
+		$('#inicio').focusout(function() {
+			validar($('#inicio'), $('#error-data-inicio'));	
+		});
+		
+		$('#termino').focusout(function() {
+			validar($('#termino'), $('#error-data-termino'));	
+		});
+		
 	</script>
 	
 </section>

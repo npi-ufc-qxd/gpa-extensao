@@ -2,7 +2,6 @@
     display: none;
 }
 
-.margin-footer {
-	margin-top: 20%;
+.error-datas {
+	color: #FF0000;
 }
-
