@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -26,10 +28,15 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 			throws DocumentException, MalformedURLException, IOException {
 		ByteArrayOutputStream writer = new ByteArrayOutputStream();
 		boolean isCoordenador = false;
-
+		
+		Locale local = new Locale("pt","BR");
+		DateFormat formato = new SimpleDateFormat("dd 'de' MMMM",local);
+		DateFormat formatoAno = new SimpleDateFormat(" 'de' yyyy",local);
+		
 		SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyy");
-		String dataInicio = data.format(participante.getDataInicio());
-		String dataFim = data.format(participante.getDataTermino());
+		String dataInicio = formato.format(participante.getDataInicio());   
+		String dataFim = formato.format(participante.getDataTermino());
+		String ano = formatoAno.format(participante.getDataTermino());
 		String participanteDaAcao = participante.participante();
 		String tituloAcao = acao.getTitulo();
 		String coordenador = acao.getCoordenador().getNome();
@@ -40,7 +47,7 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		}
 
 		writer = desenharTemplatePdf(dataInicio, dataFim, participanteDaAcao, isCoordenador, tituloAcao, coordenador,
-				dataHoje);
+				dataHoje, ano);
 
 		ByteArrayInputStream in = new ByteArrayInputStream(writer.toByteArray());
 		return in;
@@ -49,16 +56,21 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 	public ByteArrayInputStream gerarPdfBolsista(AcaoExtensao acao, Bolsa bolsista)
 			throws DocumentException, MalformedURLException, IOException {
 		ByteArrayOutputStream writer = new ByteArrayOutputStream();
-
+		
+		Locale local = new Locale("pt","BR");
+		DateFormat formato = new SimpleDateFormat("dd 'de' MMMM",local);
+		DateFormat formatoAno = new SimpleDateFormat(" 'de' yyyy",local);
+		
 		SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyy");
-		String dataInicio = data.format(bolsista.getInicio());
-		String dataFim = data.format(bolsista.getTermino());
+		String dataInicio = formato.format(bolsista.getInicio());   
+		String dataFim = formato.format(bolsista.getTermino());
+		String ano = formatoAno.format(bolsista.getTermino());
 		String participanteDaAcao = bolsista.getBolsista().getPessoa().getNome();
 		String tituloAcao = acao.getTitulo();
 		String coordenador = acao.getCoordenador().getNome();
 		String dataHoje = data.format(new Date());
 
-		writer = desenharTemplatePdf(dataInicio, dataFim, participanteDaAcao, false, tituloAcao, coordenador, dataHoje);
+		writer = desenharTemplatePdf(dataInicio, dataFim, participanteDaAcao, false, tituloAcao, coordenador, dataHoje, ano);
 
 		ByteArrayInputStream in = new ByteArrayInputStream(writer.toByteArray());
 		return in;
@@ -67,9 +79,15 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 	
 
 	private ByteArrayOutputStream desenharTemplatePdf(String dataInicio, String dataFim, String nomePessoa,
-			boolean isCoordenador, String tituloAcao, String coordenador, String dataHoje)
+			boolean isCoordenador, String tituloAcao, String coordenador, String dataHoje, String ano)
 			throws DocumentException, MalformedURLException, IOException {
 
+		
+		
+		
+		
+		
+		
 		String assinatura;
 
 		Document document = new Document();
@@ -104,9 +122,9 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		if (isCoordenador == true) {
 			assinatura = "Assinatura do Diretor - UFC Campus de Quixadá";
 			
-			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que o(a) participante "
+			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que "
 					+ nomePessoa + " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
-					+ " como coordenador " +  "nos períodos de " + dataInicio + " a " + dataFim + ".");
+					+ " na qualidade de coordenador " +  "no período de " + dataInicio + " a " + dataFim + ano + ".");
 			
 			textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
 			textoDaDeclaracao.setSpacingAfter(15f);
@@ -117,9 +135,9 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		else {
 			assinatura = "Assinatura do Coordenador da Ação";
 			
-			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que o(a) participante "
+			Paragraph textoDaDeclaracao = new Paragraph("Declaro, para os devidos fins, " + "que "
 					+ nomePessoa + " participou da Ação de Extensão intitulada " + tituloAcao.toUpperCase()
-					+ " de autoria de " + coordenador + " nos períodos de " + dataInicio + " a " + dataFim + ".");
+					+ " de autoria de " + coordenador + " no período de " + dataInicio + " a " + dataFim + ano + ".");
 			
 			textoDaDeclaracao.setAlignment(Element.ALIGN_JUSTIFIED);
 			textoDaDeclaracao.setSpacingAfter(15f);
