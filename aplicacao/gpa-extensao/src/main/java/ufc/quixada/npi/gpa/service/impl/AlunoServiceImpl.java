@@ -81,4 +81,9 @@ public class AlunoServiceImpl implements AlunoService {
 		return alunoRepository.findAll();
 	}
 
+	@Override
+	public Aluno findByPessoa(Pessoa pessoa) {
+		return alunoRepository.findByPessoa(pessoa);
+	}
+
 }

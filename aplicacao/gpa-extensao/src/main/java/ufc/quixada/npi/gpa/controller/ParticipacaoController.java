@@ -7,6 +7,11 @@ import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_STATUS_RESPONSE;
 import static ufc.quixada.npi.gpa.util.Constants.RESPONSE_DATA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +21,14 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.itextpdf.text.DocumentException;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
@@ -170,4 +184,31 @@ public class ParticipacaoController {
 	public @ResponseBody Participacao buscarParticipacao(@RequestParam("participacao") Participacao participacao) {
 		return participacaoService.buscarParticipante(participacao);
 	}
+	
+	/* Método para emissão de declaração da participação de um participante na equipe de trabalho */ 
+	
+	@RequestMapping(value = "/emitirDeclaracao/{acao}/{idParticipante}", method = RequestMethod.GET) //*
+	public ResponseEntity<InputStreamResource> emitirDeclaracao(@PathVariable("idParticipante") Integer idParticipante,
+			@PathVariable("acao") Integer idAcaoExtensao, Exception er) throws DocumentException, MalformedURLException, IOException{
+	
+		
+	    ByteArrayInputStream pdf = participacaoService
+	    		.emitirDeclaracaoParticipanteEquipeTrabalho(idAcaoExtensao, idParticipante);
+
+		        HttpHeaders headers = new HttpHeaders();
+		        headers.add("Content-Disposition", "inline; filename=declaracao.pdf");
+
+		        return ResponseEntity
+		                .ok()
+		                .headers(headers)
+		                .contentType(MediaType.APPLICATION_PDF)
+		                .body(new InputStreamResource(pdf));
+		        
+				
+		    }
+			
+			
+	
+
 }
+

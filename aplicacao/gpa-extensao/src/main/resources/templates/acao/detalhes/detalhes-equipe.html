@@ -9,10 +9,14 @@
 				<th>Instituição</th>
 				<th>CH</th>
 				<th>Período</th>
+
+				<th>Declaração de Participação</th>
+
 				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 					data-toogle="tooltip" title="Alterar">Alterar</th>
 				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 					data-toogle="tooltip" title="Exclui r">Excluir</th>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -22,6 +26,12 @@
 				<td th:text="${membro.funcao()}"></td>
 				<td th:text="${membro.instituicao()}"></td>
 				<td th:text="__${membro.cargaHoraria}__h"></td>
+
+				<td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
+				<td> <a th:if="${membro.participante.cpf == #authentication.name AND acao.status.name() == 'APROVADO'}"
+					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${membro.participante.id}__}"
+					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
+
 
 				<td
 					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
@@ -45,6 +55,7 @@
 						class="fa fa-trash-o"></i></a>
 				</td>
 
+
 			</tr>
 			<tr th:each="bolsa: ${acao.bolsistas}">
 				<td th:text="${bolsa.bolsista.pessoa.nome}"></td>
@@ -55,6 +66,11 @@
 				<td th:text="__${bolsa.cargaHoraria}__h"></td>
 				<td
 					th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
+
+					<td> <a th:if="${bolsa.bolsista.pessoa.cpf == #authentication.name AND acao.status.name() == 'APROVADO'}"
+					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${bolsa.bolsista.pessoa.id}__}"
+					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
+
 
 
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
@@ -73,6 +89,7 @@
 					class="sa-warning btn btn-danger"
 					th:attr="link=@{/bolsa/excluir/{bolsa}/{acao}(bolsa=${bolsa.id},acao=${acao.id})}, action = excluir"><i
 						class="fa fa-trash-o"></i></a></td>
+
 			</tr>
 		</tbody>
 	</table>

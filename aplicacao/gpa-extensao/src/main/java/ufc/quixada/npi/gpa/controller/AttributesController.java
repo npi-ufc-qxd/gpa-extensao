@@ -23,7 +23,7 @@ public class AttributesController {
 	@ModelAttribute("pessoaLogada")
 	public Pessoa pessoaLogada(Authentication authentication) {
 		return this.pessoaLogada = 
-				pessoaService.findServidor(authentication.getName()).getPessoa();
+				pessoaService.buscarPorCpf(authentication.getName());
 	}
 	
 	@ModelAttribute("qtdPendenciasParecerTecnico")

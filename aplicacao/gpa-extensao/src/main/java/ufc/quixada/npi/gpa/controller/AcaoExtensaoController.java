@@ -341,6 +341,7 @@ public class AcaoExtensaoController {
 		return map;
 	}
 
+
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
