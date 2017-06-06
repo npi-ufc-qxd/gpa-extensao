@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gpa.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -170,11 +172,6 @@ public class Parecer {
 		public String getDescricao() {
 			return this.descricao;
 		}
-	}
-	
-	public String parseData(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return sdf.format(date);
 	}
 	
 	@Override

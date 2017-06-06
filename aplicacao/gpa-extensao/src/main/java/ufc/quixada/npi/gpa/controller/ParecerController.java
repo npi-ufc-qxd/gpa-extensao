@@ -20,11 +20,14 @@ import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARECER_EMITIDO_
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RELATOR_ADICIONADO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RELATOR_ADICIONADO_ERROR;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -39,9 +42,9 @@ public class ParecerController {
 	private ParecerService parecerService;
 
 	@RequestMapping(value = "/parecerista", method = RequestMethod.POST)
-	public String atribuirParecerista(AcaoExtensao acaoExtensao, RedirectAttributes redirect) {
+	public String atribuirParecerista(AcaoExtensao acaoExtensao, @RequestParam("prazo") String prazo, RedirectAttributes redirect) throws ParseException {
 		try {
-			parecerService.atribuirParecerista(acaoExtensao);
+			parecerService.atribuirParecerista(acaoExtensao, prazo);
 			redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
 			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_PARECERISTA_ADICIONADO);
 			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARECERISTA_ADICIONADO);
@@ -60,9 +63,9 @@ public class ParecerController {
 	}
 
 	@RequestMapping(value = "/relator", method = RequestMethod.POST)
-	public String atribuirRelator(AcaoExtensao acaoExtensao, RedirectAttributes redirect) {
+	public String atribuirRelator(AcaoExtensao acaoExtensao, @RequestParam("prazo") String prazo, RedirectAttributes redirect) throws ParseException {
 		try {
-			parecerService.atribuirRelator(acaoExtensao);
+			parecerService.atribuirRelator(acaoExtensao, prazo);
 			redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
 			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_RELATOR_ADICIONADO);
 			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_RELATOR_ADICIONADO);

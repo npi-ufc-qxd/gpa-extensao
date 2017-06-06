@@ -135,45 +135,48 @@
 					th:if="${acao.parecerTecnico.id}" type="hidden"
 					th:value="${acao.parecerTecnico.id}"
 					th:field="*{parecerTecnico.id}" />
-				<div class="col-lg-6">
-					<div class="form-group">
-						<label class="control-label" for="select-pareceristas">Parecerista:</label>
-						<select class="select-parecer form-control"
-							th:field="*{parecerTecnico.responsavel}" name="parecerista"
-							required="required">
-							<option th:each="parecerista : ${pareceristas}"
-								th:value="${parecerista.pessoa.id}"
-								th:text="${parecerista.pessoa.nome}" />
-						</select>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="form-group">
-						<label for="prazo-parecer-tecnico" class="control-label">*
-							Prazo para emissão do parecer:</label>
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input id="prazo-parecer-tecnico"
-								class="prazo-parecer form-control" name="prazo"
-								required="required" th:field="*{parecerTecnico.prazo}"
-								data-mask="99/99/9999" autocomplete="off" />
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="control-label" for="select-pareceristas">Parecerista:</label>
+							<select class="select-parecer form-control"
+								th:field="*{parecerTecnico.responsavel}" name="parecerista"
+								required="required">
+								<option th:each="parecerista : ${pareceristas}"
+									th:value="${parecerista.pessoa.id}"
+									th:text="${parecerista.pessoa.nome}" />
+							</select>
 						</div>
-						<div class="help-block with-errors"></div>
 					</div>
-				</div>
-				<div class="form-group text-center">
-					<input value="Atribuir parecerista" class="btn btn-info btn-flat"
-						title="Atribuir parecerista técnico" type="submit" /> <a
-						href="#parecer-tecnico-info" id="cancelar-parecer-button"
-						class="btn btn-default btn-flat"
-						th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
-						title="Cancelar operação">Cancelar</a>
-				</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label for="prazo-parecer-tecnico" class="control-label">*
+								Prazo para emissão do parecer:</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input id="prazo-parecer-tecnico"
+									class="prazo-parecer form-control"
+									name="prazo" required="required"
+									data-mask="99/99/9999"
+									th:value="${acao.parecerTecnico} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
+							</div>
+							<div class="help-block with-errors"></div>
+							<h6 class="error-datas no-display" id="error-data-prazo-tecnico"></h6>
+						</div>
+					</div>
+					<div class="form-group text-center">
+						<input value="Atribuir parecerista"
+							class="btn btn-info btn-flat"
+							title="Atribuir parecerista técnico" type="submit" /> <a
+							href="#parecer-tecnico-info"
+							id="cancelar-parecer-button" class="btn btn-default btn-flat"
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
+							title="Cancelar operação">Cancelar</a>
+					</div>
 			</form>
 		</div>
-
+		
 		<div
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 			id="emitir-parecer-form" class="no-display">
@@ -348,11 +351,14 @@
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="prazo-parecer form-control" name="prazo"
-								required="required" th:field="*{parecerRelator.prazo}"
-								data-mask="99/99/9999" autocomplete="off" />
+							<input class="prazo-parecer form-control"
+								data-mask="99/99/9999" 
+								name="prazo" required="required"
+								id="prazo-parecer-relator"
+								th:value="${acao.parecerRelator} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
 						</div>
 						<div class="help-block with-errors"></div>
+						<h6 class="error-datas no-display" id="error-data-prazo-relator"></h6>
 					</div>
 				</div>
 				<div class="form-group text-center">
@@ -364,6 +370,7 @@
 				</div>
 			</form>
 		</div>
+
 
 		<div id="pendencias-relato-form" class="no-display"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND 
