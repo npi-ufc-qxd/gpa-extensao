@@ -60,10 +60,11 @@ public class DocumentoController {
 			model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
 			model.addAttribute("cargaHoraria", 4);
 			
-			
-			if(!acaoExtensao.ultimaPendenciaParecer().getResolvida()) {
-				model.addAttribute("action", "pendencia");
-			}else {
+			if(acaoExtensao.ultimaPendenciaParecer() != null) {
+				if(!acaoExtensao.ultimaPendenciaParecer().getResolvida()) {
+					model.addAttribute("action", "pendencia");
+				}
+			} else {
 				model.addAttribute("action", "editar");
 			}
 			

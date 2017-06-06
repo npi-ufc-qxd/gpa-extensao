@@ -159,7 +159,7 @@
 									class="prazo-parecer form-control"
 									name="prazo" required="required"
 									data-mask="99/99/9999"
-									th:value="${acao.parecerTecnico} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
+									th:value="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
 							</div>
 							<div class="help-block with-errors"></div>
 							<h6 class="error-datas no-display" id="error-data-prazo-tecnico"></h6>
@@ -355,7 +355,7 @@
 								data-mask="99/99/9999" 
 								name="prazo" required="required"
 								id="prazo-parecer-relator"
-								th:value="${acao.parecerRelator} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
+								th:value="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
 						</div>
 						<div class="help-block with-errors"></div>
 						<h6 class="error-datas no-display" id="error-data-prazo-relator"></h6>

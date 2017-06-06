@@ -211,8 +211,8 @@
 								<button th:if="${action != 'pendencia'}" id="submeterAcaoExtensao" type="submit"
 									class="btn btn-info waves-effect waves-light m-t-10">Salvar</button>
 									<button th:if="${action == 'pendencia'}"
-						alt="default" type="submit" class="btn btn-primary waves-effect waves-light m-t-10">Pendência Resolvida <i class="fa fa-check"></i></button>
-									<a th:if="${action == 'pendencia'}" th:href="@{/acoes/} + ${acao.id}" class="btn btn-primary waves-effect waves-light m-t-10">Cancelar</a>
+						alt="default" type="submit" class="btn btn-info waves-effect waves-light m-t-10">Pendência Resolvida <i class="fa fa-check"></i></button>
+									<a th:if="${action == 'pendencia'}" th:href="@{/acoes/} + ${acao.id}" class="btn btn-info waves-effect waves-light m-t-10">Cancelar</a>
 							</div>
 						</div>
 					</div>

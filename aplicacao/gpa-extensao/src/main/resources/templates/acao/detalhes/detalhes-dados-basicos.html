@@ -250,8 +250,9 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="dataInicio">Data de Início</label> <input
-												type="text" data-mask="99/99/9999" name="dataInicio"
+												type="text" id="data-inicio-coordenador" data-mask="99/99/9999" name="dataInicio"
 												class="form-control" required="required" />
+												<h6 class="error-datas no-display" id="error-data-inicio-coordenador"></h6>
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -311,7 +312,9 @@
 												th:value="${#calendars.format(#calendars.createNow(), 'dd/MM/yyyy')}"
 												class="form-control date" required="required"
 												autocomplete="off" data-mask="99/99/9999" />
+												<h6 class="error-datas no-display" id="error-data-homologacao"></h6>
 										</div>
+										
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
