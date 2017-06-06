@@ -4,6 +4,9 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ATRIBUIR_PARECERISTA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_PARECERISTA_DA_EQUIPE;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_RELATORIO;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 import ufc.quixada.npi.gpa.model.AcaoExtensao;
 import ufc.quixada.npi.gpa.model.AcaoExtensao.Status;
+import ufc.quixada.npi.gpa.model.Parecer;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.service.NotificationService;
@@ -27,8 +31,13 @@ public class ParecerServiceImpl implements ParecerService {
 	private NotificationService notificationService;
 
 	@Override
-	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm) throws GpaExtensaoException {
+	public void atribuirParecerista(AcaoExtensao acaoExtensaoForm, String prazo) throws GpaExtensaoException, ParseException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensaoForm.getId());
+		
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = (Date)formatter.parse(prazo);
+		
+		acaoExtensaoForm.getParecerTecnico().setPrazo(date);
 		
 		acao.setParecerTecnico(acaoExtensaoForm.getParecerTecnico());
 		
@@ -56,8 +65,14 @@ public class ParecerServiceImpl implements ParecerService {
 	}
 
 	@Override
-	public void atribuirRelator(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
+	public void atribuirRelator(AcaoExtensao acaoExtensao, String prazo) throws GpaExtensaoException, ParseException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = (Date)formatter.parse(prazo);
+		
+		acaoExtensao.getParecerRelator().setPrazo(date);
+		
 		acao.setParecerRelator(acaoExtensao.getParecerRelator());
 
 		if (acao.getEquipeDeTrabalho().contains(acaoExtensao.getParecerRelator().getResponsavel())) {
@@ -107,7 +122,7 @@ public class ParecerServiceImpl implements ParecerService {
 	@Override
 	public void emitirParecer(AcaoExtensao acaoExtensao) throws GpaExtensaoException {
 		AcaoExtensao acao = acaoExtensaoRepository.findOne(acaoExtensao.getId());
-
+		
 		if (acao != null) {
 
 			switch (acao.getStatus()) {
@@ -117,6 +132,7 @@ public class ParecerServiceImpl implements ParecerService {
 				acao.getParecerTecnico().setPosicionamento(acaoExtensao.getParecerTecnico().getPosicionamento());
 				acao.getParecerTecnico().setParecer(acaoExtensao.getParecerTecnico().getParecer());
 				acao.getParecerTecnico().setObservacoes(acaoExtensao.getParecerTecnico().getObservacoes());
+				acao.atribuirParecerRelator(new Parecer(), acao);
 				acao.setStatus(Status.AGUARDANDO_RELATOR);
 				break;
 

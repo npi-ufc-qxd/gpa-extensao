@@ -3,18 +3,12 @@ package ufc.quixada.npi.gpa.service.impl;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_JA_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ENCERRAMENTO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
-
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
-
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR;
-
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
-
-
-
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -164,14 +158,15 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 	}
 	
 	@Override
-	public boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) {
-		if (acao.getBolsasSolicitadas() >= numeroBolsas) {
-			acao.setBolsasRecebidas(numeroBolsas);
-			acaoExtensaoRepository.save(acao);
-			return true;
+	public void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) throws GpaExtensaoException{
+		if(acao == null) {
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
+		} else {
+			if (acao.getBolsasSolicitadas() >= numeroBolsas) {
+				acao.setBolsasRecebidas(numeroBolsas);
+				acaoExtensaoRepository.save(acao);
+			}
 		}
-
-		return false;
 	}
 
 	@Override
@@ -179,7 +174,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		String codigoUpper = codigo.toUpperCase();
 
 		if (acao == null || codigoUpper.isEmpty()) {
-			throw new GpaExtensaoException("A ação não existe ou o código informado está vazio ");
+			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		}
 
 		acao.setCodigo(codigoUpper);
@@ -253,7 +248,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
 		old = checkAcaoExtensao(old, acaoExtensao);
-
+		
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
 			old.setStatus(Status.AGUARDANDO_PARECER_TECNICO);
@@ -340,6 +335,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		old.setAnexo(nova.getAnexo());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
 		old.setVinculo(nova.getVinculo());
+		old.atribuirParecerTecnico(new Parecer(), nova);
 		return old;
 	}
 

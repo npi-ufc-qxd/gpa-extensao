@@ -381,6 +381,7 @@
 					});  
 			  }
 		});	
+		
 	</script>
 
 
@@ -393,6 +394,59 @@
 			return false;
 		}
 	});
+   </script>
+   
+   <script th:inline="javascript">
+	   $(window).load(function() {
+			if([[${status}]] === "success") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);	
+			} else if([[${status}]] === "error") {
+				swal([[${titulo}]], [[${conteudo}]], [[${status}]]);
+			}
+	  });
+   </script>
+   
+   <script>
+	   $('#data_inicio_participacao').focusout(function() {
+			validar($('#data_inicio_participacao'), $('#error-data-inicio'));	
+		});
+	   
+	   $('#data_termino_participacao').focusout(function() {
+			validar($('#data_termino_participacao'), $('#error-data-termino'));	
+		});
+	   
+	   $('#data_inicio_participacao_alterar_periodo').focusout(function() {
+			validar($('#data_inicio_participacao_alterar_periodo'), $('#error-data-inicio-alteracao'));	
+		});
+		
+		$('#data_termino_participacao_alterar_periodo').focusout(function() {
+			validar($('#data_termino_participacao_alterar_periodo'), $('#error-data-termino-alteracao'));	
+		});
+		
+		$('#inicio').focusout(function() {
+			validar($('#inicio'), $('#error-data-inicio-bolsista'));	
+		});
+		
+		$('#termino').focusout(function() {
+			validar($('#termino'), $('#error-data-termino-bolsista'));	
+		});
+		
+		$('#prazo-parecer-tecnico').focusout(function() {
+			validar($('#prazo-parecer-tecnico'), $('#error-data-prazo-tecnico'));	
+		});
+		
+		$('#prazo-parecer-relator').focusout(function() {
+			validar($('#prazo-parecer-relator'), $('#error-data-prazo-relator'));	
+		});
+		
+		$('#dataHomologacao').focusout(function() {
+			validar($('#dataHomologacao'), $('#error-data-homologacao'));	
+		});
+		
+		$('#data-inicio-coordenador').focusout(function() {
+			validar($('#data-inicio-coordenador'), $('#error-data-inicio-coordenador'));	
+		});
+	
    </script>
 
 </section>

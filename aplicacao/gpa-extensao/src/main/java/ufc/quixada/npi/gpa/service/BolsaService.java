@@ -22,7 +22,7 @@ public interface BolsaService {
 	/*
 	 * Salva uma bolsa na ação
 	 */
-	void salvarBolsa(Bolsa bolsa, AcaoExtensao acao);
+	void salvarBolsa(Bolsa bolsa, AcaoExtensao acao) throws GpaExtensaoException;
 	
 	/*
 	 * Encerra uma bolsa

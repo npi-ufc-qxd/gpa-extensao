@@ -2,20 +2,51 @@ package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_CADASTRO_SUCESSO;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_EDITADO_SUCESSO;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SUBMISSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_MINHAS_ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLVER_PENDENCIAS;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR;
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
@@ -46,6 +77,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
@@ -245,13 +277,18 @@ public class AcaoExtensaoController {
 				acaoExtensaoService.cadastrar(acaoExtensao, arquivo, coordenador);
 				participacaoService.participacaoCoordenador(acaoExtensao, cargaHoraria);
 			}
+			
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA);
 
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA_ERROR);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR);
 			return R_ACOES;
 		}
 
-		redirect.addFlashAttribute(MESSAGE, MESSAGE_CADASTRO_SUCESSO);
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
 	}
 
@@ -307,9 +344,19 @@ public class AcaoExtensaoController {
 		
 		try {
 			acaoExtensaoService.editarAcaoExtensao(acaoExtensao, arquivo, pendencia);
-			redirect.addFlashAttribute(MESSAGE, MESSAGE_EDITADO_SUCESSO);
+			if(pendencia) {
+				redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+				redirect.addFlashAttribute("titulo", TITULO_MESSAGE_RESOLVER_PENDENCIAS);
+				redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS);
+			} else {
+				redirect.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+				redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA);
+				redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA);
+			}
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute(ERRO, e.getMessage());
+			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA_ERROR);
+			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR);
 		}
 
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
@@ -350,7 +397,7 @@ public class AcaoExtensaoController {
 
 		if (acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+			return REDIRECT_PAGINA_MINHAS_ACOES;
 		}
 
 		model.addAttribute("parceiro", new Parceiro());
@@ -393,54 +440,72 @@ public class AcaoExtensaoController {
 	}
 
 	@RequestMapping(value = "/salvarCodigo/{idAcao}", method = RequestMethod.POST)
-	public String salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
+	public ModelAndView salvarCodigo(@RequestParam("codigoAcao") String codigo, @PathVariable("idAcao") Integer idAcao,
 			Model model, RedirectAttributes redirectAttribute) {
 
 		AcaoExtensao acao = acaoExtensaoService.findById(idAcao);
 		try {
 			acaoExtensaoService.salvarCodigoAcao(acao, codigo);
-			
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_CADASTRAR_CODIGO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR);
 		}
 		
 		model.addAttribute("acao", acao);
-
-		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + acao.getId());
 	}
 
 	@RequestMapping(value = "/salvarNovoCoordenador/{id}", method = RequestMethod.POST)
-	public String salvarNovoCoordenador(@PathVariable("id") Integer id,
+	public ModelAndView salvarNovoCoordenador(@PathVariable("id") Integer id,
 			@RequestParam("idNovoCoordenador") Integer idNovoCoordenador, @RequestParam("dataInicio") String dataInicio,
-			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttributes,
+			@RequestParam("cargaHoraria") Integer cargaHoraria, RedirectAttributes redirectAttribute,
 			Authentication authentication) throws ParseException {
 
 		AcaoExtensao acao = acaoExtensaoService.findById(id);
 
 		try {
 			acaoExtensaoService.transeferirCoordenacao(acao, idNovoCoordenador, dataInicio, cargaHoraria);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_TRANSFERIR_COORDENACAO);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO);
 		} catch (GpaExtensaoException e) {
-			redirectAttributes.addAttribute(ERRO, e.getMessage());
+			if(e.getMessage().equals(MENSAGEM_DATA_IGUAL_MAIOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR);
+			} else if(e.getMessage().equals(MENSAGEM_DATA_MENOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR);
+			}
 		}
 		
-		return REDIRECT_PAGINA_DETALHES_ACAO + id;
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + id);
 	}
 
 	@GetMapping("/submeter/{idAcao}")
-	public String submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
+	public ModelAndView submeterAcaoExtensao(@PathVariable("idAcao") AcaoExtensao acao, RedirectAttributes redirectAttribute,
 			Authentication auth) {
 
 		Pessoa pessoaLogada = (Pessoa) auth.getPrincipal();
 
 		try {
 			acaoExtensaoService.submeterAcaoExtensao(acao, pessoaLogada);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_SUBMETIDA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_SUBMETIDA);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addFlashAttribute(ERRO, e.getMessage());
-			return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR);
 		}
 
-		redirectAttribute.addFlashAttribute(MESSAGE, MESSAGE_SUBMISSAO);
-		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
+		return new ModelAndView(REDIRECT_PAGINA_DETALHES_ACAO + acao.getId());
 	}
 
 	@RequestMapping("/buscarCoordenadores/{id}")
@@ -474,10 +539,21 @@ public class AcaoExtensaoController {
 
 		try {
 			acaoExtensaoService.homologarAcaoExtensao(acao, resultado, dataHomologacao, observacao);
+			redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_SUCCESS);
+			redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA);
+			redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA);
 		} catch (GpaExtensaoException e) {
-			redirectAttribute.addAttribute(ERRO, e.getMessage());
+			if(e.getMessage().equals(MENSAGEM_DATA_HOMOLOGACAO_MAIOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR);
+			} else if(e.getMessage().equals(MENSAGEM_DATA_HOMOLOGACAO_MENOR)) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR);
+			}
 		}
-
+		
 		return REDIRECT_PAGINA_DETALHES_ACAO + acao.getId();
 	}
 

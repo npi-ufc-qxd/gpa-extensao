@@ -113,7 +113,7 @@ public interface AcaoExtensaoService {
 	/**
 	 * Adiciona um número de bolsas que foram recebidas na ação
 	 */
-	boolean salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas);
+	void salvarAcaoBolsasRecebidas(AcaoExtensao acao, Integer numeroBolsas) throws GpaExtensaoException;
 	
 	/**
 	 * Cadastra o código PREX de uma ação aprovada que não foi encerrada

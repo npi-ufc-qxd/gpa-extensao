@@ -2,10 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-<div th:fragment="nenhum-parecer-tecnico" class="box box-primary">
+<div th:fragment="header-parecer-tecnico" class="box box-primary">
 	<div class="box-header with-border">
 		<h3 class="box-title">Parecer Técnico</h3>
 	</div>
+</div>
+
+<div th:fragment="header-parecer-relator" class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Parecer Relator</h3>
+	</div>
+</div>
+
+<div th:fragment="nenhum-parecer-tecnico" class="box box-primary">
 	<div class="box-body">
 		<div class="callout callout-warning">
 			<p>Não há parecer cadastrado.</p>
@@ -14,10 +23,17 @@
 </div>
 <!-- Fragment Nenhum parecer -->
 
-<div th:fragment="nenhum-parecer-relator" class="box box-primary">
-	<div class="box-header with-border">
-		<h3 class="box-title">Parecer Relator</h3>
+<!-- Fragment Aguardando relator -->
+<div th:fragment="aguardando-parecer-tecnico" class="box box-primary">
+	<div class="box-body">
+		<div class="callout callout-warning">
+			<p>Aguardando Parecerista.</p>
+		</div>
 	</div>
+</div>
+<!-- Fragment Aguardando relator -->
+
+<div th:fragment="nenhum-parecer-relator" class="box box-primary">
 	<div class="box-body">
 		<div class="callout callout-warning">
 			<p>Não há parecer cadastrado.</p>
@@ -26,11 +42,18 @@
 </div>
 <!-- Fragment Nenhum relator -->
 
+<!-- Fragment Aguardando relator -->
+<div th:fragment="aguardando-parecer-relator" class="box box-primary">
+	<div class="box-body">
+		<div class="callout callout-warning">
+			<p>Aguardando Relator.</p>
+		</div>
+	</div>
+</div>
+<!-- Fragment Aguardando relator -->
+
 <!-- Parecer Técnico -->
 <div th:fragment="parecer-tecnico" class="box box-primary">
-	<div class="box-header with-border">
-		<h3 class="box-title">Parecer Técnico</h3>
-	</div>
 	<div class="box-body">
 		<div th:if="${alertaParecer}" class="callout callout-info">
 			<p th:text="${alertaParecer}"></p>
@@ -86,19 +109,16 @@
 					<div class="pull-right">
 						<a sec:authorize="hasAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
-							id="alterar-parecerista-button"
-							class="btn btn-info btn-flat"
+							id="alterar-parecerista-button" class="btn btn-info btn-flat"
 							href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar
 							parecerista</a> <a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
-							th:id="pendencias-parecer-button"
-							class="btn btn-info btn-flat"
+							th:id="pendencias-parecer-button" class="btn btn-info btn-flat"
 							href="#pendencias-parecer-form"
 							title="Solicitar resolução de pendências">Adicionar pendência</a>
 						<a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
-							id="emitir-parecer-button"
-							class="btn btn-info btn-flat"
+							id="emitir-parecer-button" class="btn btn-info btn-flat"
 							href="#emitir-parecer-form" title="Emitir parecer da ação">Emitir
 							parecer</a>
 					</div>
@@ -137,10 +157,12 @@
 								</div>
 								<input id="prazo-parecer-tecnico"
 									class="prazo-parecer form-control"
-									pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required"
-									th:field="*{parecerTecnico.prazo}" autocomplete="off" />
+									name="prazo" required="required"
+									data-mask="99/99/9999"
+									th:value="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
 							</div>
 							<div class="help-block with-errors"></div>
+							<h6 class="error-datas no-display" id="error-data-prazo-tecnico"></h6>
 						</div>
 					</div>
 					<div class="form-group text-center">
@@ -154,7 +176,7 @@
 					</div>
 			</form>
 		</div>
-
+		
 		<div
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 			id="emitir-parecer-form" class="no-display">
@@ -190,15 +212,15 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-info btn-flat"
-						value="Submeter" title="Submeter parecer" /> <a
+					<input type="submit" class="btn btn-info btn-flat" value="Submeter"
+						title="Submeter parecer" /> <a
 						id="cancelar-emitir-parecer-button"
 						class="btn btn-default btn-flat" title="Cancelar operação"
 						href="#parecer-tecnico-info">Cancelar</a>
 				</div>
 			</form>
 		</div>
-		
+
 		<div id="pendencias-parecer-form" class="no-display"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}">
 			<form th:action="@{/acoes/} + ${acao.id} + '/pendencias'"
@@ -215,10 +237,9 @@
 				</div>
 				<div class="form-group text-center">
 					<a id="cancelar-pendencia-parecer-button"
-						class="btn btn-default btn-flat"
-						title="Cancelar operação" href="#parecer-tecnico-info">Cancelar</a>
-					<input type="submit" value="Enviar solicitação"
-						class="btn btn-info btn-flat"
+						class="btn btn-default btn-flat" title="Cancelar operação"
+						href="#parecer-tecnico-info">Cancelar</a> <input type="submit"
+						value="Enviar solicitação" class="btn btn-info btn-flat"
 						title="Solicitar resolução de pendências" />
 				</div>
 			</form>
@@ -231,9 +252,6 @@
 
 <!-- Parecer Relator -->
 <div th:fragment="parecer-relator" class="box box-primary">
-	<div class="box-header with-border">
-		<h3 class="box-title">Parecer do Relator</h3>
-	</div>
 	<div class="box-body">
 		<div th:if="${alertaRelato}" class="callout callout-info">
 			<p th:text="${alertaRelato}"></p>
@@ -289,19 +307,16 @@
 					<div class="pull-right">
 						<a sec:authorize="hasAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
-							id="alterar-relator-button"
-							class="btn btn-info btn-flat"
+							id="alterar-relator-button" class="btn btn-info btn-flat"
 							href="#parecer-relator-form" title="Alterar relator da ação">Alterar
 							relator</a> <a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
-							th:id="pendencias-relato-button"
-							class="btn btn-info btn-flat"
+							th:id="pendencias-relato-button" class="btn btn-info btn-flat"
 							href="#pendencias-relato-form"
 							title="Solicitar resolução de pendências">Adicionar pendência</a>
 						<a
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf}"
-							id="emitir-relato-button"
-							class="btn btn-info btn-flat"
+							id="emitir-relato-button" class="btn btn-info btn-flat"
 							href="#emitir-relato-form" title="Emitir parecer da ação">Emitir
 							parecer</a>
 					</div>
@@ -337,10 +352,13 @@
 								<i class="fa fa-calendar"></i>
 							</div>
 							<input class="prazo-parecer form-control"
-								pattern="\d{1,2}/\d{1,2}/\d{4}" name="prazo" required="required"
-								th:field="*{parecerRelator.prazo}" autocomplete="off" />
+								data-mask="99/99/9999" 
+								name="prazo" required="required"
+								id="prazo-parecer-relator"
+								th:value="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
 						</div>
 						<div class="help-block with-errors"></div>
+						<h6 class="error-datas no-display" id="error-data-prazo-relator"></h6>
 					</div>
 				</div>
 				<div class="form-group text-center">
@@ -352,6 +370,7 @@
 				</div>
 			</form>
 		</div>
+
 
 		<div id="pendencias-relato-form" class="no-display"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} AND 
@@ -368,12 +387,11 @@
 							placeholder="Descreva as pendências" style="resize: none;"></textarea>
 					</div>
 				</div>
-				<div class="box-footer">
+				<div class="form-group text-center">
 					<a id="cancelar-pendencia-relato-button"
-						class="btn btn-default btn-flat pull-right"
-						title="Cancelar operação" href="#parecer-relator-info">Cancelar</a>
-					<input type="submit" value="Enviar solicitação"
-						class="btn btn-info btn-flat pull-right"
+						class="btn btn-default btn-flat" title="Cancelar operação"
+						href="#parecer-relator-info">Cancelar</a> <input type="submit"
+						value="Enviar solicitação" class="btn btn-info btn-flat"
 						title="Solicitar resolução de pendências" />
 				</div>
 			</form>
@@ -415,9 +433,8 @@
 					</div>
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-info btn-flat"
-						value="Submeter" title="Submeter parecer" /> <a
-						id="cancelar-emitir-relato-button"
+					<input type="submit" class="btn btn-info btn-flat" value="Submeter"
+						title="Submeter parecer" /> <a id="cancelar-emitir-relato-button"
 						class="btn btn-default btn-flat" title="Cancelar operação"
 						href="#parecer-relator-info">Cancelar</a>
 				</div>
@@ -425,6 +442,7 @@
 		</div>
 	</div>
 
-</div><!-- Fragment Parecer Relator -->
+</div>
+<!-- Fragment Parecer Relator -->
 
 </html>

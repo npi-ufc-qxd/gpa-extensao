@@ -76,7 +76,8 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
-
+	public static final String REDIRECT_PAGINA_MINHAS_ACOES = "redirect:/acoes/minhas/minhas-acoes";
+	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
@@ -102,16 +103,11 @@ public class Constants {
 
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 
-
-
-
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO = "Para o status atual da ação, não é permitida a alteração no tempo de participação";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ENCERRAMENTO = "Para o status atual da ação, não é permitido encerrá-la!";
 	public static final String EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO = "O coordenador da ação não pode ser excluído da participação.";
-
-
 
 	// Mensagens
 	public static final String ERRO = "erro";
@@ -140,6 +136,51 @@ public class Constants {
 	public static final String MESSAGE_SALVAR_ARQUIVO_ERROR = "Erro ao salvar o arquivo!";
 	public static final String MESSAGE_DATA_ANTERIOR = "A data de inicio deve anteceder a data de termino";
 
+	public static final String STATUS_MESSAGE_SUCCESS = "success";
+	public static final String TITULO_MESSAGE_ACAO_CADASTRADA = "Ação Cadastrada!";
+	public static final String TITULO_MESSAGE_ACAO_EDITADA = "Ação Editada!";
+	public static final String TITULO_MESSAGE_ACAO_EXCLUIDA = "Ação Excluída!";
+	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA = "Ação Submetida!";
+	public static final String TITULO_MESSAGE_ACAO_HOMOLOGADA = "Ação Homologada!";
+	public static final String TITULO_MESSAGE_ACAO_ENCERRADA = "Ação Encerrada!";
+	public static final String TITULO_MESSAGE_CADASTRAR_CODIGO = "Código Cadastrado!";
+	public static final String TITULO_MESSAGE_RESOLVER_PENDENCIAS = "Pendências Resolvidas!";
+	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO = "Coordenação Transferida!";
+	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA = "Bolsas Inseridas!";
+	public static final String TITULO_MESSAGE_PARTICIPACAO_ADICIONADA = "Participação Adicionada!";
+	public static final String TITULO_MESSAGE_PARTICIPACAO_ALTERADA = "Participação Alterada!";
+	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO = "Bolsista Adicionado!";
+	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO ="Bolsista Alterado!";
+	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO = "A Parceria foi adicionada!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ADICIONADO = "O Parecerista foi adicionado!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ALTERADO ="O Parecerista foi alterado!";
+	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO ="O Relator foi adicionado!";
+	public static final String TITULO_MESSAGE_RELATOR_ALTERADO ="O Relator foi alterado!";
+	public static final String TITULO_MESSAGE_PARECER_EMITIDO = "O Parecer foi emitido!";
+	public static final String TITULO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A Solicitação foi encaminhada!";
+	
+	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_ACAO_EXCLUIDA = "A ação foi excluída com sucesso.";
+	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA = "A ação foi submetida com sucesso.";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA = "A ação foi homologada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_ACAO_ENCERRADA = "A ação foi encerrada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO = "O código da ação foi inserido com sucesso.";
+	public static final String CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS = "As pendências foram resolvidas com sucesso.";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO = "A coordenação da ação foi transferida com sucesso.";
+	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA = "As bolsas foram inseridas com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_ADICIONADA = "A participação foi adicionada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_ALTERADA = "A participação foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO = "O bolsista foi adicionado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALTERADO = "O bolsista foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ADICIONADO = "A parceria foi adicionada com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_ADICIONADO = "O parecerista foi adicionado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_ALTERADO = "O parecerista foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_RELATOR_ADICIONADO = "O relator foi adicionado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_RELATOR_ALTERADO = "O relator foi alterado com sucesso.";
+	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO = "O parecer foi emitido com sucesso!";
+	public static final String CONTEUDO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A solicitação para resolver as pendências foi encaminhada com sucesso.";
+	
 	// Errors
 	public static final String ERROR_PARTICIPANTE_NAO_INFORMADO = "O participante não foi informado!";
 	public static final String ERROR_QTD_HORAS_NAO_PERMITIDA = "A quantidade de horas informadas não é permitida!";
@@ -148,12 +189,57 @@ public class Constants {
 	public static final String ERROR_ALUNO_JA_BOLSISTA_OUTRO_PROJETO = "Esse aluno já é bolsista remunerado de outro projeto";
 	public static final String ERROR_QUANTIDADE_BOLSAS_EXEDIDAS = "Esse projeto já alcançou o máximo de bolsas recebidas";
 	public static final String ERROR_INFORMAR_BOLSAS_RECEBIDAS = "É necessário informar a quantidade de bolsas recebidas";
-	
 	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
-
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
 		
+	public static final String STATUS_MESSAGE_ERROR = "error";
+	public static final String TITULO_MESSAGE_ACAO_CADASTRADA_ERROR = "Erro ao cadastrar Ação!";
+	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Erro ao submeter Ação!";
+	public static final String TITULO_MESSAGE_ACAO_EDITADA_ERROR = "Erro ao editar Ação!";
+	public static final String TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR = "Erro ao homologar Ação!";
+	public static final String TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Erro ao cadastrar o Código!";
+	public static final String TITULO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Erro ao adicionar as Bolsas!";
+	public static final String TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR = "Erro ao transferir a Coordenação!";
+	public static final String TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR = "Erro ao adicionar a Participação!";
+	public static final String TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR = "Erro ao alterar a Participação!";
+	public static final String TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR = "Erro ao adicionar o Bolsista!";
+	public static final String TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR = "Erro ao alterar Bolsista";
+	public static final String TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR = "Erro ao adicionar Parceria!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ADICIONADO_ERROR = "Erro ao adicionar Parecerista!";
+	public static final String TITULO_MESSAGE_PARECERISTA_ALTERADO_ERROR = "Erro ao altera Parecerista!";
+	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO_ERROR = "Erro ao adicionar Relator!";
+	public static final String TITULO_MESSAGE_RELATOR_ALTERADO_ERROR = "Erro ao alterar Relator!";
+	public static final String TITULO_MESSAGE_PARECER_EMITIDO_ERROR = "Erro ao emitir Parecer";
+	
+	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR = "Houve um erro ao tentar editar a ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR = "A data de homologação não pode ser menor que a data de inicio da ação.";
+	public static final String CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR = "A data de homologação não pode ser menor que a data de inicio da ação.";
+	public static final String CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR = "Houve um erro ao tentar cadastrar o código da Ação.";
+	public static final String CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR = "Houve um erro ao tentar adicionar as bolsas.";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MAIOR_IGUAL_ERROR = "A data de inicio não pode ser igual ou maior que a data de termino da ação.";
+	public static final String CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR = "A data de inicio não pode ser menor que a data de inicio da ação.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_STATUS_ERROR = "Não é permitido adicionar participantes para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR = "A data informada é inválida.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR = "Você não possui permissão para adicionar participação.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR = "Valor inserirdo no campo função ou Instituição é Inválido.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR = "A quantidade de horas informadas não é permitida.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR = "Essa pessoa já participa desse projeto.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Para o status atual da ação, não é permitida a alteração no tempo da participação.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR = "A data informada é inválida.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR = "Não é permitido adicionar bolsistas para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR = "Essa ação ainda não recebeu bolsas.";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR = "Essa ação já possui o número máximo de bolsistas";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR = "Esse aluno já é bolsista desse projeto";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR = "Você não possui permissão para adicionar participação.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR = "Não é permitido adicionar parcerias externas para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR = "O parceiro escolhido já participa dessa ação!";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_EQUIPE_ERROR = "Não foi possível atribuir! O parecerista faz parte da equipe!";
+	public static final String CONTEUDO_MESSAGE_PARECERISTA_AGUARDANDO_ERROR = "Não foi possível atribuir! A ação não está aguardando um parecerista!"; 
+	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO_ERROR = "Não foi possível emitir o relatório! Tente novamente.";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
@@ -192,5 +278,4 @@ public class Constants {
 	// Homologação
 
 	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
-
 }

@@ -1,25 +1,21 @@
 <div class="white-box" th:fragment="parecer-relator">
 	
 	
+	<div th:replace="detalhes/acao/fragments-detalhes-parecer :: header-parecer-relator"></div>
+	
 	<p th:if="${acaoExtensao.temParecerRelator() == false}">
 		<div th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer-relator"></div>
 	</p>
 	
-	
-		
-
-
-
-
-
-
 	 <div th:if="${acaoExtensao.temParecerRelator() == true}">
 		 <div
 			th:replace="detalhes/acao/fragments-detalhes-parecer :: parecer-relator">
 
 		 </div>
-
 	</div> 
 	
+	<p sec:authorize="!hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'}">
+		<div th:replace="detalhes/acao/fragments-detalhes-parecer :: aguardando-parecer-relator"></div>
+	</p>
 	
 </div>

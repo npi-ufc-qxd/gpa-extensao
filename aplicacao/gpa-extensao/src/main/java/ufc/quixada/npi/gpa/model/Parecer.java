@@ -170,7 +170,7 @@ public class Parecer {
 			return this.descricao;
 		}
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,15 +1,13 @@
 <div class="white-box" th:fragment="parecer-tecnico">
 
-
+	<div th:replace="detalhes/acao/fragments-detalhes-parecer :: header-parecer-tecnico"></div>
+	
 	<p th:if="${acaoExtensao.temParecerTecnico() == false}">
 	<div
 		th:replace="detalhes/acao/fragments-detalhes-parecer :: nenhum-parecer-tecnico">
 	</div>
 
 	</p>
-
-
-
 
 	 <div th:if="${acaoExtensao.temParecerTecnico() == true}">
 		 <div
@@ -18,7 +16,10 @@
 		 </div>
 
 	</div> 
-
+	
+	<p sec:authorize="!hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_PARECERISTA'}">
+		<div th:replace="detalhes/acao/fragments-detalhes-parecer :: aguardando-parecer-tecnico"></div>
+	</p>
 
 	
 			

@@ -191,7 +191,7 @@
 													<label class="control-label">* CPF</label> <input
 														id="cpfParticipante" th:field="*{cpfParticipante}"
 														class="form-control" type="text" required="required"
-														disabled="disabled" />
+														disabled="disabled" data-mask="999.999.999-99"/>
 
 												</div>
 												<div class="col-md-6">
@@ -215,10 +215,11 @@
 														id="data_inicio_participacao" required="required"
 														data-mask="99/99/9999"
 														th:value="${acao.parseData(acao.inicio)}"
-														name="dataInicio" class="form-control date" /> <span
+														name="dataInicio" class="form-control date"/> <span
 														class="font-13 text-muted">Data limite para início:
 														<small th:text="${acao.parseData(acao.inicio)}"></small>
 													</span>
+													<h6 class="error-datas no-display" id="error-data-inicio"></h6>
 												</div>
 											</div>
 											<div class="col-md-6">
@@ -227,10 +228,11 @@
 														id="data_termino_participacao" name="dataTermino"
 														data-mask="99/99/9999"
 														th:value="${acao.parseData(acao.termino)}"
-														class="form-control date" /> <span
+														class="form-control date"/> <span
 														class="font-13 text-muted">Data limite para
 														término: <small th:text="${acao.parseData(acao.termino)}"></small>
 													</span>
+													<h6 class="error-datas no-display" id="error-data-termino"></h6>
 												</div>
 											</div>
 										</div>
@@ -350,10 +352,11 @@
 												<label>* Data de início</label> <input
 													id="data_inicio_participacao_alterar_periodo"
 													required="required" data-mask="99/99/9999" name="inicio"
-													class="form-control date" /> <span
+													class="form-control"/> <span
 													class="font-13 text-muted">Data limite para início:
 													<small th:text="${acao.parseData(acao.inicio)}"></small>
 												</span>
+												<h6 class="error-datas no-display" id="error-data-inicio-alteracao"></h6>
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -361,10 +364,11 @@
 												<label>* Data de término</label><input required="required"
 													id="data_termino_participacao_alterar_periodo"
 													data-mask="99/99/9999" name="termino"
-													class="form-control date" /> <span
+													class="form-control date"/> <span
 													class="font-13 text-muted">Data limite para término:
 													<small th:text="${acao.parseData(acao.termino)}"></small>
 												</span>
+												<h6 class="error-datas no-display" id="error-data-termino-alteracao"></h6>
 											</div>
 										</div>
 									</div>
@@ -472,10 +476,11 @@
 														<label>* Data de início</label> <input required="required"
 															data-mask="99/99/9999"
 															th:value="${acao.parseData(acao.inicio)}" name="inicio"
-															class="form-control date" /> <span
+															class="form-control date" id="inicio"/> <span
 															class="font-13 text-muted">Data limite para
 															início: <small th:text="${acao.parseData(acao.inicio)}"></small>
 														</span>
+														<h6 class="error-datas no-display" id="error-data-inicio-bolsista"></h6>
 													</div>
 												</div>
 												<div class="col-md-6">
@@ -483,10 +488,11 @@
 														<label>* Data de término</label><input required="required"
 															name="termino" data-mask="99/99/9999"
 															th:value="${acao.parseData(acao.termino)}"
-															class="form-control date" /> <span
+															class="form-control date" id="termino"/> <span
 															class="font-13 text-muted">Data limite para
 															término: <small th:text="${acao.parseData(acao.termino)}"></small>
 														</span>
+														<h6 class="error-datas no-display" id="error-data-termino-bolsista"></h6>
 													</div>
 												</div>
 											</div>
