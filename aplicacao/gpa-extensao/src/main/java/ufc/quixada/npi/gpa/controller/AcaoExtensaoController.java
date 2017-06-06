@@ -31,6 +31,7 @@ import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_MINHAS_ACOES;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA;
@@ -395,7 +396,7 @@ public class AcaoExtensaoController {
 
 		if (acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
-			return REDIRECT_PAGINA_INICIAL_COORDENACAO;
+			return REDIRECT_PAGINA_MINHAS_ACOES;
 		}
 
 		model.addAttribute("parceiro", new Parceiro());

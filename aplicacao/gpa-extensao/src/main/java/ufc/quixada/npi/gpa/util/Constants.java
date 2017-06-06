@@ -76,7 +76,8 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_CADASTRO_SERVIDORES = "redirect:/admin/servidores";
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
-
+	public static final String REDIRECT_PAGINA_MINHAS_ACOES = "redirect:/acoes/minhas/minhas-acoes";
+	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
 	public static final String EXCEPTION_RELATORIO = "Não foi possível emitir o relatório! Tente novamente.";
