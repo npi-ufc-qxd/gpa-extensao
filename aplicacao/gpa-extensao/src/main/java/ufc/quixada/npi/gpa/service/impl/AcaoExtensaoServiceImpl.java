@@ -251,7 +251,9 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		}
 
 		AcaoExtensao old = acaoExtensaoRepository.findOne(acaoExtensao.getId());
+		
 		old = checkAcaoExtensao(old, acaoExtensao);
+		old.atribuirParecerTecnico(new Parecer(), acaoExtensao);
 		
 		switch (old.getStatus()) {
 		case RESOLVENDO_PENDENCIAS_PARECER:
@@ -343,7 +345,7 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		old.setAnexo(nova.getAnexo());
 		old.setBolsasSolicitadas(nova.getBolsasSolicitadas());
 		old.setVinculo(nova.getVinculo());
-		old.atribuirParecerTecnico(new Parecer(), nova);
+		
 		return old;
 	}
 

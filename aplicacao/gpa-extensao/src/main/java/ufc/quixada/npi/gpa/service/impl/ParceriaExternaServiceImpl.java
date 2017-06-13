@@ -4,7 +4,9 @@ import static ufc.quixada.npi.gpa.util.Constants.CAMPO_OBRIGATORIO_VAZIO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARCEIRO_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,11 +44,16 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			if (!acaoOld.getCoordenador().getCpf().equalsIgnoreCase(coordenador.getCpf())) {
 				throw new GpaExtensaoException(MENSAGEM_PERMISSAO_NEGADA);
 			}
-
+			
+			if(!acaoOld.isAtivo()) {
+				throw new GpaExtensaoException(TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
+			}
+			
 			if (!acaoOld.getStatus().equals(Status.NOVO)
 					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_PARECER)
 					&& !acaoOld.getStatus().equals(Status.RESOLVENDO_PENDENCIAS_RELATO)
 					&& !acaoOld.getStatus().equals(Status.APROVADO)) {
+				
 				throw new GpaExtensaoException(EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA);
 			}
 			if (parceriaExterna.getParceiro().getNome().replaceAll(" ", "").trim().isEmpty()) {
@@ -94,7 +101,7 @@ public class ParceriaExternaServiceImpl implements ParceriaExternaService {
 			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
 		}
 		if (!parceria.getAcaoExtensao().isAtivo()) {
-			throw new GpaExtensaoException(EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA);
+			throw new GpaExtensaoException(CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR);
 		}
 		parceriaExternaRepository.delete(parceria);
 	}

@@ -103,7 +103,7 @@ public class Constants {
 
 	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
-
+	
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
 
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
@@ -161,6 +161,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_RELATOR_ALTERADO ="O Relator foi alterado!";
 	public static final String TITULO_MESSAGE_PARECER_EMITIDO = "O Parecer foi emitido!";
 	public static final String TITULO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A Solicitação foi encaminhada!";
+	
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso.";
 	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso.";
@@ -243,7 +244,9 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_EQUIPE_ERROR = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_AGUARDANDO_ERROR = "Não foi possível atribuir! A ação não está aguardando um parecerista!"; 
 	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO_ERROR = "Não foi possível emitir o relatório! Tente novamente.";
-	
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR = "Não é permitida a adição da parceria pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR = "Não é permitida a exclusao da parceria pois a ação está encerrada";
+
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 
