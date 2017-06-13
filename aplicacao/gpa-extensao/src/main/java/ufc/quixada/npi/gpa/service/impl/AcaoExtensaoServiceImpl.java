@@ -115,7 +115,11 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		String idAcao = acaoExtensao.getId().toString();
 		idAcao = completeToLeft(idAcao, '0', 4);
 		acaoExtensao.setIdentificador("EXT-".concat(idAcao));
-
+		
+		if(acaoExtensao.getInicio().equals(acaoExtensao.getTermino()) || acaoExtensao.getInicio().after(acaoExtensao.getTermino())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_IGUAL_MAIOR);
+		}
+		
 		if (!(arquivo.getOriginalFilename().toString().equals(""))) {
 			Documento documento = documentoService.save(arquivo, acaoExtensao);
 			if (documento != null) {
@@ -277,6 +281,10 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		
 		if (documento != null) {
 			acaoExtensao.setAnexo(documento);
+		}
+		
+		if(acaoExtensao.getInicio().equals(acaoExtensao.getTermino()) || acaoExtensao.getInicio().after(acaoExtensao.getTermino())) {
+			throw new GpaExtensaoException(MENSAGEM_DATA_IGUAL_MAIOR);
 		}
 		
 		if(pendencia) {

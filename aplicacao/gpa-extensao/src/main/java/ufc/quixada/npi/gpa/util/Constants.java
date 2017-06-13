@@ -28,8 +28,8 @@ public class Constants {
 
 	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
 
-	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior que a data de termino da ação";
-	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou posterior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";	
 	public static final String MENSAGEM_DATA_HOMOLOGACAO_MAIOR = "A data de homologação não pode maior que a data de termino da ação";
 	public static final String MENSAGEM_DATA_HOMOLOGACAO_MENOR = "A data de homologação não pode ser menor que a data de inicio da ação";
 	
@@ -77,6 +77,9 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
 	public static final String REDIRECT_PAGINA_MINHAS_ACOES = "redirect:/acoes/minhas/minhas-acoes";
+	public static final String REDIRECT_PAGINA_CADASTAR_ACAO = "redirect:/acoes/cadastrar";
+	public static final String REDIRECT_PAGINA_EDITAR_ACAO = "redirect:/acoes/editar/";
+	public static final String REDIRECT_PAGINA_RESOLVER_PENDENCIAS = "redirect:/acoes/resolver-pendencia/";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -211,6 +214,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO_ERROR = "Erro ao adicionar Relator!";
 	public static final String TITULO_MESSAGE_RELATOR_ALTERADO_ERROR = "Erro ao alterar Relator!";
 	public static final String TITULO_MESSAGE_PARECER_EMITIDO_ERROR = "Erro ao emitir Parecer";
+	public static final String TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR = "Erro ao resolver as Pendências";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
 	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
@@ -277,5 +281,6 @@ public class Constants {
 
 	// Homologação
 
-	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
+	//public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/lucas.santos/gpa";
 }
