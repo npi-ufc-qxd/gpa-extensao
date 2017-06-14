@@ -76,18 +76,11 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		return in;
 
 	}
-	
 
 	private ByteArrayOutputStream desenharTemplatePdf(String dataInicio, String dataFim, String nomePessoa,
 			boolean isCoordenador, String tituloAcao, String coordenador, String dataHoje, String ano)
 			throws DocumentException, MalformedURLException, IOException {
 
-		
-		
-		
-		
-		
-		
 		String assinatura;
 
 		Document document = new Document();
@@ -147,9 +140,6 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		}
 		
 		
-
-		
-
 		Paragraph dataEmissaoDocumento = new Paragraph("Quixadá, " + dataHoje);
 		dataEmissaoDocumento.setAlignment(Element.ALIGN_RIGHT);
 		dataEmissaoDocumento.setSpacingAfter(90f);
@@ -162,7 +152,7 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		Paragraph donoAssinatura = new Paragraph(assinatura);
 		campoAssinatura.setAlignment(Element.ALIGN_CENTER);
 		donoAssinatura.setAlignment(Element.ALIGN_CENTER);
-		donoAssinatura.setSpacingAfter(240f);
+		donoAssinatura.setSpacingAfter(180f);
 		document.add(campoAssinatura);
 		document.add(donoAssinatura);
 
@@ -178,8 +168,8 @@ public class BuilderPDFReport extends PdfPageEventHelper {
 		linhaRodape.setAlignment(Element.ALIGN_CENTER);
 		rodape.setAlignment(Element.ALIGN_RIGHT);
 		
-		linhaRodape.setSpacingBefore(30f);
-		rodape.setSpacingBefore(40f);
+		linhaRodape.setSpacingBefore(90f);
+		rodape.setSpacingBefore(20f);
 
 		document.add(linhaRodape);
 		document.add(rodape);

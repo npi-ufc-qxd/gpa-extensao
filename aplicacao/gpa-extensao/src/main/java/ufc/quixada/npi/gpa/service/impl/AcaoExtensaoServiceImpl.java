@@ -166,10 +166,8 @@ public class AcaoExtensaoServiceImpl implements AcaoExtensaoService {
 		if(acao == null) {
 			throw new GpaExtensaoException(MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
 		} else {
-			if (acao.getBolsasSolicitadas() >= numeroBolsas) {
-				acao.setBolsasRecebidas(numeroBolsas);
-				acaoExtensaoRepository.save(acao);
-			}
+			acao.setBolsasRecebidas(numeroBolsas);
+			acaoExtensaoRepository.save(acao);
 		}
 	}
 
