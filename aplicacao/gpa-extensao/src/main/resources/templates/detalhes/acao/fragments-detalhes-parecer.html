@@ -288,14 +288,14 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<label>Parecer</label>
 					<p
 						th:text="${acao.parecerRelator.parecer} ? ${acao.parecerRelator.parecer} : '-'" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6"
+				<div class="col-sm-12"
 					th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerRelator.responsavel != null} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf})">
 					<label>Observações</label>
 					<p th:text="${acao.parecerRelator.observacoes} ?: '-'" />
