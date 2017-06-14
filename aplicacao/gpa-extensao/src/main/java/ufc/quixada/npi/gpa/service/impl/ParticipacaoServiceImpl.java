@@ -10,7 +10,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMI
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR;
 
 
 import java.io.ByteArrayInputStream;
@@ -199,7 +199,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
 			}
 			if (!acaoOld.isAtivo()) {
-				throw new GpaExtensaoException(CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR);
+				throw new GpaExtensaoException(CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR);
 			}
 			if (participacao.getParticipante() != null
 					&& participacao.getParticipante().getCpf().equalsIgnoreCase(pessoa.getCpf())) {

@@ -105,7 +105,7 @@ public class Constants {
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
 	
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
-
+	public static final String EXCEPTION_ACAO_ENCERRADA = "A ação está encerrada";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO = "Para o status atual da ação, não é permitida a alteração no tempo de participação";
@@ -233,8 +233,9 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR = "Valor inserirdo no campo função ou Instituição é Inválido.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR = "A quantidade de horas informadas não é permitida.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR = "Essa pessoa já participa desse projeto.";
-	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Para o status atual da ação, não é permitida a alteração no tempo da participação.";
-	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR = "Não é permitido adicionar a participação pois a ação já está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Não é permitida a alteração no tempo da participação pois a ação está encerrada.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR = "Não é permitido incluir a participação pois a ação já está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR = "Não é permitido excluir a participação pois a ação já está encerrada";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR = "A data informada é inválida.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR = "Não é permitido adicionar bolsistas para ação com este status.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR = "Essa ação ainda não recebeu bolsas.";
@@ -246,9 +247,11 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_EQUIPE_ERROR = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_AGUARDANDO_ERROR = "Não foi possível atribuir! A ação não está aguardando um parecerista!"; 
 	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO_ERROR = "Não foi possível emitir o relatório! Tente novamente.";
-	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR = "Não é permitida a adição da parceria pois a ação está encerrada";
-	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR = "Não é permitida a exclusao da parceria pois a ação está encerrada";
-
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR = "Não é permitido incluir a parceria pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR = "Não é permitido excluir a parceria pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ADICIONAR_ENCERRADA = "Não é permitido incluir bolsista pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALTERAR_ENCERRADA = "Não é permitido alterar bolsista pois a ação está encerrada";
+	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
 

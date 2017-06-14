@@ -3,17 +3,19 @@ package ufc.quixada.npi.gpa.controller;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSA_RECEBIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ADICIONAR_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALTERADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALTERAR_ENCERRADA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_DATA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_PERMISSAO_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_MAX_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ALUNO_JA_BOLSISTA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_MAXIMO_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
@@ -140,6 +142,10 @@ public class BolsaController {
 				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
 				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
 				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ALUNO_ERROR);
+			} else if(EXCEPTION_ACAO_ENCERRADA.equals(e.getMessage())) {
+				redirectAttributes.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttributes.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ADICIONADO_ERROR);
+				redirectAttributes.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ADICIONAR_ENCERRADA);
 			}
 		}
 
@@ -227,7 +233,7 @@ public class BolsaController {
 			} else if(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO.equals(e.getMessage())) {
 				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
 				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_BOLSISTA_ALTERADO_ERROR);
-				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_BOLSISTA_ALTERAR_ENCERRADA);
 			} 
 		}
 		return R_ACAO + acaoExtensao.getId();
