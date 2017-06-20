@@ -126,7 +126,8 @@
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
 					class="sa-warning btn btn-info waves-effect waves-light m-t-10">Encerrar </a>
 				
-				<a th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
+				<a sec:authorize="hasAuthority('SERVIDOR')"
+					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-info waves-effect waves-light m-t-10">Editar</a>
 				
@@ -165,7 +166,7 @@
 									<div class="col-md-12">
 										<div class="form-group pull-right">
 											<input type="submit"
-												class="btn btn-success waves-effect waves-light m-t-10"
+												class="btn btn-info waves-effect waves-light m-t-10"
 												value="Salvar" id="sa-success"/>
 										</div>
 									</div>
@@ -206,7 +207,7 @@
 									<div class="col-md-12">
 										<div class="form-group pull-right">
 											<input type="submit"
-												class="btn btn-success waves-effect waves-light m-t-10"
+												class="btn btn-info waves-effect waves-light m-t-10"
 												value="Salvar" />
 										</div>
 									</div>
@@ -266,7 +267,7 @@
 									<div class="col-md-12">
 										<div class="form-group pull-right">
 											<input type="submit"
-												class="btn btn-success waves-effect waves-light m-t-10"
+												class="btn btn-info waves-effect waves-light m-t-10"
 												value="Salvar" />
 										</div>
 									</div>
@@ -326,7 +327,7 @@
 									<div class="col-md-12">
 										<div class="form-group pull-right">
 											<input type="submit"
-												class="btn btn-success waves-effect waves-light m-t-10"
+												class="btn btn-info waves-effect waves-light m-t-10"
 												value="Homologar" />
 										</div>
 									</div>

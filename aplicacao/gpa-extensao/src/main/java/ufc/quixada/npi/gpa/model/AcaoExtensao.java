@@ -413,18 +413,20 @@ public class AcaoExtensao {
 
 	
 	public Pendencia ultimaPendenciaParecer() {
-		if(parecerTecnico.getPendencias() != null) {
+		if(parecerTecnico == null || parecerTecnico.getPendencias() == null) {
+			return null;
+		} else {
 			return this.parecerTecnico.getPendencias().get(0);
 		}
 		
-		return null;
 	}
 	
 	public Pendencia ultimaPendenciaRelator() {
-		if(parecerTecnico.getPendencias() != null) {
+		if(parecerRelator == null || parecerRelator.getPendencias() == null) {
+			return null;
+		} else {
 			return this.parecerRelator.getPendencias().get(0);
 		}
 		
-		return null;
 	}
 }

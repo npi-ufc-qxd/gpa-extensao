@@ -135,7 +135,8 @@
 					th:if="${acao.parecerTecnico.id}" type="hidden"
 					th:value="${acao.parecerTecnico.id}"
 					th:field="*{parecerTecnico.id}" />
-					<div class="col-lg-6">
+				<div class="row">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="control-label" for="select-pareceristas">Parecerista:</label>
 							<select class="select-parecer form-control"
@@ -147,7 +148,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-md-5 pull-right">
 						<div class="form-group">
 							<label for="prazo-parecer-tecnico" class="control-label">*
 								Prazo para emissão do parecer:</label>
@@ -156,27 +157,29 @@
 									<i class="fa fa-calendar"></i>
 								</div>
 								<input id="prazo-parecer-tecnico"
-									class="prazo-parecer form-control"
-									name="prazo" required="required"
-									data-mask="99/99/9999"
-									th:value="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
+									class="prazo-parecer form-control" name="prazo"
+									required="required" data-mask="99/99/9999"
+									th:value="${acao.parecerTecnico.prazo} ? ${#dates.format(acao.parecerTecnico.prazo, 'dd/MM/yyyy')} : ''"
+									autocomplete="off" />
 							</div>
 							<div class="help-block with-errors"></div>
 							<h6 class="error-datas no-display" id="error-data-prazo-tecnico"></h6>
 						</div>
 					</div>
-					<div class="form-group text-center">
-						<input value="Atribuir parecerista"
-							class="btn btn-info btn-flat"
+				</div>
+				<div class="row text-center">
+					<div class="form-group">
+						<input value="Atribuir parecerista" class="btn btn-info btn-flat"
 							title="Atribuir parecerista técnico" type="submit" /> <a
-							href="#parecer-tecnico-info"
-							id="cancelar-parecer-button" class="btn btn-default btn-flat"
+							href="#parecer-tecnico-info" id="cancelar-parecer-button"
+							class="btn btn-default btn-flat"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
 							title="Cancelar operação">Cancelar</a>
 					</div>
+				</div>
 			</form>
 		</div>
-		
+
 		<div
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf}"
 			id="emitir-parecer-form" class="no-display">
@@ -330,43 +333,47 @@
 			<form id="relator-form" class="form-horizontal" th:object="${acao}"
 				th:action="@{/relator}" method="post">
 				<input type="hidden" th:value="${acao.id}" th:field="*{id}" />
-				<div class="col-lg-6">
-					<div class="form-group">
-						<input th:if="${acao.parecerRelator.id}" type="hidden"
-							th:value="${acao.parecerRelator.id}"
-							th:field="*{parecerRelator.id}" /> <label class="control-label"
-							for="select-relatores">Relator:</label> <select
-							class="select-parecer form-control"
-							th:field="*{parecerRelator.responsavel}" required="required">
-							<option th:each="relator : ${pareceristas}"
-								th:value="${relator.pessoa.id}" th:text="${relator.pessoa.nome}" />
-						</select>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="form-group">
-						<label class="control-label" for="prazo-relator">* Prazo
-							para emissão do parecer:</label>
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input class="prazo-parecer form-control"
-								data-mask="99/99/9999" 
-								name="prazo" required="required"
-								id="prazo-parecer-relator"
-								th:value="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''" autocomplete="off" />
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<input th:if="${acao.parecerRelator.id}" type="hidden"
+								th:value="${acao.parecerRelator.id}"
+								th:field="*{parecerRelator.id}" /> <label class="control-label"
+								for="select-relatores">Relator:</label> <select
+								class="select-parecer form-control"
+								th:field="*{parecerRelator.responsavel}" required="required">
+								<option th:each="relator : ${pareceristas}"
+									th:value="${relator.pessoa.id}"
+									th:text="${relator.pessoa.nome}" />
+							</select>
 						</div>
-						<div class="help-block with-errors"></div>
-						<h6 class="error-datas no-display" id="error-data-prazo-relator"></h6>
+					</div>
+					<div class="col-sm-5 pull-right">
+						<div class="form-group">
+							<label class="control-label" for="prazo-relator">* Prazo
+								para emissão do parecer:</label>
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input class="prazo-parecer form-control" data-mask="99/99/9999"
+									name="prazo" required="required" id="prazo-parecer-relator"
+									th:value="${acao.parecerRelator.prazo} ? ${#dates.format(acao.parecerRelator.prazo, 'dd/MM/yyyy')} : ''"
+									autocomplete="off" />
+							</div>
+							<div class="help-block with-errors"></div>
+							<h6 class="error-datas no-display" id="error-data-prazo-relator"></h6>
+						</div>
 					</div>
 				</div>
-				<div class="form-group text-center">
-					<input type="submit" class="btn btn-info btn-flat"
-						value="Atribuir relator" title="Atribuir relator" /> <a
-						id="cancelar-relato-button" class="btn btn-default btn-flat"
-						th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
-						title="Cancelar operação">Cancelar</a>
+				<div class="row text-center">
+					<div class="form-group">
+						<input type="submit" class="btn btn-info btn-flat"
+							value="Atribuir relator" title="Atribuir relator" /> <a
+							id="cancelar-relato-button" class="btn btn-default btn-flat"
+							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
+							title="Cancelar operação">Cancelar</a>
+					</div>
 				</div>
 			</form>
 		</div>

@@ -232,8 +232,9 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR = "Valor inserirdo no campo função ou Instituição é Inválido.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR = "A quantidade de horas informadas não é permitida.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR = "Essa pessoa já participa desse projeto.";
-	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Não é permitida a alteração no tempo da participação pois a ação está encerrada.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Não é permitida a alteração no tempo da participação para ação com este status.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR = "Não é permitido incluir a participação pois a ação já está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ALTERACAO_ENCERRADA_ERROR = "Não é permitida a alteração no tempo da participação para ação com este status.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR = "Não é permitido excluir a participação pois a ação já está encerrada";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR = "A data informada é inválida.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR = "Não é permitido adicionar bolsistas para ação com este status.";
