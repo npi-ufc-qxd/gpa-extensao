@@ -15,7 +15,7 @@
 				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 					data-toogle="tooltip" title="Alterar">Alterar</th>
 				<th th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
-					data-toogle="tooltip" title="Exclui r">Excluir</th>
+					data-toogle="tooltip" title="Excluir">Excluir</th>
 
 			</tr>
 		</thead>
@@ -28,13 +28,10 @@
 				<td th:text="__${membro.cargaHoraria}__h"></td>
 
 				<td th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
-				<td> <a th:if="${membro.participante.cpf == #authentication.name AND acao.status.name() == 'APROVADO'}"
+				<td> 
+				<a th:if="${membro.participante != null AND membro.participante.cpf == #authentication.name AND acao.status.name() == 'APROVADO'}"
 					th:href="@{/participacao/emitirDeclaracao/__${acao.id}__/__${membro.participante.id}__}"
 					class="btn btn-block btn-danger m-t-8">Emitir Declaração</a></td>
-
-
-				<td
-					th:text="${#dates.format(membro.dataInicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(membro.dataTermino, 'dd/MM/yyyy')}"></td>
 
 				<td th:if="${acao.coordenador.nome == pessoaLogada.getNome()}"
 					class="text-center"><a data-toggle="modal"

@@ -11,6 +11,7 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMI
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.REMOVER_FREQUENCIA;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_ENCERRADA;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -157,7 +158,11 @@ public class BolsaServiceImpl implements BolsaService {
 			if (!acao.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS);
 			}
-
+			
+			if(!acao.isAtivo()) {
+				throw new GpaExtensaoException(EXCEPTION_ACAO_ENCERRADA);
+			}
+			
 			if (acao.getBolsasRecebidas() == null) {
 				throw new GpaExtensaoException(EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS);
 			}
@@ -221,6 +226,7 @@ public class BolsaServiceImpl implements BolsaService {
 					&& !old.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
 			}
+			
 			if (!old.isAtivo()) {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
 			}

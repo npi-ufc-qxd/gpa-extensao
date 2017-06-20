@@ -21,12 +21,16 @@ import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_S
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARTICIPACAO_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_ALTERACAO_ENCERRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACAO;
 
 
@@ -142,6 +146,10 @@ public class ParticipacaoController {
 				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
 				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
 				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR);
+			} else if(ERROR_PARTICIPACAO_ACAO_ENCERRADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ADICIONADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR);
 			}
 		}
 
@@ -224,6 +232,10 @@ public class ParticipacaoController {
 				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
 				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR);
 				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR);
+			} else if(EXCEPTION_ACAO_ENCERRADA.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARTICIPACAO_ALTERADA_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARTICIPAÇÃO_ALTERACAO_ENCERRADA_ERROR);
 			} 
 			
 		}

@@ -2,6 +2,7 @@ package ufc.quixada.npi.gpa.service.impl;
 
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_PESSOA_JA_PARTICIPANTE;
+import static ufc.quixada.npi.gpa.util.Constants.ERROR_PARTICIPACAO_ACAO_ENCERRADA;
 import static ufc.quixada.npi.gpa.util.Constants.ERROR_QTD_HORAS_NAO_PERMITIDA;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_COORDENADOR_ACAO_NAO_PODE_SER_EXCLUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_DATA_INVALIDA;
@@ -9,6 +10,8 @@ import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMI
 import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_PERMISSAO_NEGADA;
 import static ufc.quixada.npi.gpa.util.Constants.VALOR_INVALIDO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.EXCEPTION_ACAO_ENCERRADA;
 
 
 import java.io.ByteArrayInputStream;
@@ -106,7 +109,11 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 					&& !old.getStatus().equals(Status.APROVADO)) {
 				throw new GpaExtensaoException(ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO);
 			}
-
+			
+			if(!old.isAtivo()) {
+				throw new GpaExtensaoException(ERROR_PARTICIPACAO_ACAO_ENCERRADA);
+			}
+			
 			if (participacao.getDataInicio() == null || participacao.getDataTermino() == null
 					|| participacao.getDataInicio().before(old.getInicio())
 					|| participacao.getDataTermino().after(old.getTermino())
@@ -193,7 +200,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
 			}
 			if (!acaoOld.isAtivo()) {
-				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO);
+				throw new GpaExtensaoException(CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR);
 			}
 			if (participacao.getParticipante() != null
 					&& participacao.getParticipante().getCpf().equalsIgnoreCase(pessoa.getCpf())) {
@@ -234,7 +241,7 @@ public class ParticipacaoServiceImpl implements ParticipacaoService {
 				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
 			}
 			if (!old.isAtivo()) {
-				throw new GpaExtensaoException(EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO);
+				throw new GpaExtensaoException(EXCEPTION_ACAO_ENCERRADA);
 			}
 			
 			participacao.setDataInicio(dataInicio);

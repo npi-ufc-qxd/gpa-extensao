@@ -9,7 +9,7 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right pull-right">
 			<li class="dropdown">
-                <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                <a sec:authorize="hasAuthority('SERVIDOR')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
                     <i class="icon-note"></i>
                     <span>Coordenador/Parecerista</span>
                     <div 

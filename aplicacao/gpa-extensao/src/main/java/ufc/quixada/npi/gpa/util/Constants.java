@@ -28,8 +28,8 @@ public class Constants {
 
 	public static final String MENSAGEM_TRANSFERENCIA_MESMO_COORDENADOR = "Não é possivel transferir coordenação para o mesmo coordenador";
 
-	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou maior que a data de termino da ação";
-	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";
+	public static final String MENSAGEM_DATA_IGUAL_MAIOR = "A data de inicio não pode ser igual ou posterior que a data de termino da ação";
+	public static final String MENSAGEM_DATA_MENOR = "A data de inicio não pode ser menor que a data de inicio da ação";	
 	public static final String MENSAGEM_DATA_HOMOLOGACAO_MAIOR = "A data de homologação não pode maior que a data de termino da ação";
 	public static final String MENSAGEM_DATA_HOMOLOGACAO_MENOR = "A data de homologação não pode ser menor que a data de inicio da ação";
 	
@@ -77,6 +77,9 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_DETALHES_SERVIDOR = "redirect:/buscar/servidor/";
 	public static final String REDIRECT_PAGINA_DETALHES_BOLSISTA = "redirect:/bolsa/detalhes/";
 	public static final String REDIRECT_PAGINA_MINHAS_ACOES = "redirect:/acoes/minhas/minhas-acoes";
+	public static final String REDIRECT_PAGINA_CADASTAR_ACAO = "redirect:/acoes/cadastrar";
+	public static final String REDIRECT_PAGINA_EDITAR_ACAO = "redirect:/acoes/editar/";
+	public static final String REDIRECT_PAGINA_RESOLVER_PENDENCIAS = "redirect:/acoes/resolver-pendencia/";
 	
 	// Exception Messages
 	public static final String EXCEPTION_ATRIBUIR_PARECERISTA = "Não foi possível atribuir! A ação não está aguardando um parecerista!";
@@ -96,13 +99,12 @@ public class Constants {
 	public static final String EXCEPTION_ACAO_NAO_ENCONTRADA = "A ação não foi encontrada";
 	public static final String EXCEPTION_ACAO_SEM_BOLSAS_RECEBIDAS = "Essa ação ainda não recebeu bolsas!";
 	public static final String EXCEPTION_ACAO_MAXIMO_BOLSISTAS = "Essa ação já possui o número máximo de bolsistas";
-
-
+	
 	public static final String EXCEPTION_ADICAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a adição de parceria externa";
 	public static final String EXCEPTION_EXCLUSAO_PARCERIA_NAO_PERMITIDA = "Para o status atual da ação, não é permitida a exclusão de parceria externa";
-
+	
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_BOLSISTAS = "Para o status atual da ação, não é permitida a inclusão de bolsistas";
-
+	public static final String EXCEPTION_ACAO_ENCERRADA = "A ação está encerrada";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_BOLSISTAS = "Para o status atual da ação, não é permitida a exclusão de bolsistas";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_EXCLUSAO_PARCEIRO = "Para o status atual da ação, não é permitida a exclusão de participantes";
 	public static final String EXCEPTION_STATUS_ACAO_NAO_PERMITE_ALTERACAO_TEMPO_PARTICIPACAO = "Para o status atual da ação, não é permitida a alteração no tempo de participação";
@@ -159,6 +161,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_PARECER_EMITIDO = "O Parecer foi emitido!";
 	public static final String TITULO_MESSAGE_EMITIR_SOLICITACAO_PENDENCIAS = "A Solicitação foi encaminhada!";
 	
+	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA = "A ação foi cadastrada com sucesso.";
 	public static final String CONTEUDO_MESSAGE_ACAO_EDITADA = "A ação foi editada com sucesso.";
 	public static final String CONTEUDO_MESSAGE_ACAO_EXCLUIDA = "A ação foi excluída com sucesso.";
@@ -192,7 +195,8 @@ public class Constants {
 	public static final String ERROR_DATA_INVALIDA = "A data informada é inválida!";
 	public static final String ERROR_ADICIONAR_PARTICIPANTE_NAO_PERMITIDO = "Para o status atual da ação, não é permitido adicionar participantes.";
 	public static final String ERROR_PARCEIRO_JA_PARTICIPANTE = "O parceiro escolhido já participa dessa ação!";
-		
+	public static final String ERROR_PARTICIPACAO_ACAO_ENCERRADA = "A ação está encerrada";	
+	
 	public static final String STATUS_MESSAGE_ERROR = "error";
 	public static final String TITULO_MESSAGE_ACAO_CADASTRADA_ERROR = "Erro ao cadastrar Ação!";
 	public static final String TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Erro ao submeter Ação!";
@@ -211,6 +215,7 @@ public class Constants {
 	public static final String TITULO_MESSAGE_RELATOR_ADICIONADO_ERROR = "Erro ao adicionar Relator!";
 	public static final String TITULO_MESSAGE_RELATOR_ALTERADO_ERROR = "Erro ao alterar Relator!";
 	public static final String TITULO_MESSAGE_PARECER_EMITIDO_ERROR = "Erro ao emitir Parecer";
+	public static final String TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR = "Erro ao resolver as Pendências";
 	
 	public static final String CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR = "Houve um erro ao tentar cadastrar a ação.";
 	public static final String CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR = "Houve um erro ao tentar submeter a ação.";
@@ -227,7 +232,10 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_VALOR_ERROR = "Valor inserirdo no campo função ou Instituição é Inválido.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_QTD_HORAS_ERROR = "A quantidade de horas informadas não é permitida.";
 	public static final String CONTEUDO_MESSAGE_PARTICIPACAO_PESSOA_ERROR = "Essa pessoa já participa desse projeto.";
-	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Para o status atual da ação, não é permitida a alteração no tempo da participação.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_TEMPO_ERROR = "Não é permitida a alteração no tempo da participação para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ACAO_ENCERRADA_ERROR = "Não é permitido incluir a participação pois a ação já está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_ALTERACAO_ENCERRADA_ERROR = "Não é permitida a alteração no tempo da participação para ação com este status.";
+	public static final String CONTEUDO_MESSAGE_PARTICIPAÇÃO_EXCLUSAO_ENCERRADA_ERROR = "Não é permitido excluir a participação pois a ação já está encerrada";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_DATA_ERROR = "A data informada é inválida.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_STATUS_ERROR = "Não é permitido adicionar bolsistas para ação com este status.";
 	public static final String CONTEUDO_MESSAGE_BOLSISTA_BOLSAS_ERROR = "Essa ação ainda não recebeu bolsas.";
@@ -239,6 +247,10 @@ public class Constants {
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_EQUIPE_ERROR = "Não foi possível atribuir! O parecerista faz parte da equipe!";
 	public static final String CONTEUDO_MESSAGE_PARECERISTA_AGUARDANDO_ERROR = "Não foi possível atribuir! A ação não está aguardando um parecerista!"; 
 	public static final String CONTEUDO_MESSAGE_PARECER_EMITIDO_ERROR = "Não foi possível emitir o relatório! Tente novamente.";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR = "Não é permitido incluir a parceria pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_EXCLUSAO_ERROR = "Não é permitido excluir a parceria pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ADICIONAR_ENCERRADA = "Não é permitido incluir bolsista pois a ação está encerrada";
+	public static final String CONTEUDO_MESSAGE_BOLSISTA_ALTERAR_ENCERRADA = "Não é permitido alterar bolsista pois a ação está encerrada";
 	
 	// Tipos de arquivos
 	public static final String PDF = "application/pdf";
@@ -277,5 +289,6 @@ public class Constants {
 
 	// Homologação
 
-	public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
+	//public static final String PASTA_DOCUMENTOS_GPA = "/mnt/gpa-extensao-uploads";
+	public static final String PASTA_DOCUMENTOS_GPA = "/home/lucas.santos/gpa";
 }

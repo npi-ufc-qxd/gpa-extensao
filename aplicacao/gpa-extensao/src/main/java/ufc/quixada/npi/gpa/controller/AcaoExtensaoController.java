@@ -3,14 +3,12 @@ package ufc.quixada.npi.gpa.controller;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_PARECER;
 import static ufc.quixada.npi.gpa.util.Constants.ALERTA_RELATO;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA;
-import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MAIOR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_HOMOLOGADA_DATA_MENOR_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_ACAO_SUBMETIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_CADASTRAR_CODIGO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_RESOLVER_PENDENCIAS;
@@ -19,39 +17,42 @@ import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COO
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_TRANSFERIR_COORDENACAO_DATA_MENOR_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.ERRO;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_ACAO_EXTENSAO_INEXISTENTE;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
+import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_IGUAL_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_MENOR;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MENOR;
-import static ufc.quixada.npi.gpa.util.Constants.MENSAGEM_DATA_HOMOLOGACAO_MAIOR;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_PARECERISTA_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_RELATOR_NAO_ATRIBUIDO;
 import static ufc.quixada.npi.gpa.util.Constants.MESSAGE_SALVAR_ARQUIVO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.PAGINA_DETALHES_ACAO_EXTENSAO;
 import static ufc.quixada.npi.gpa.util.Constants.PARCEIROS;
 import static ufc.quixada.npi.gpa.util.Constants.PERMISSAO_SERVIDOR;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_CADASTAR_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_DETALHES_ACAO;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_EDITAR_ACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_INICIAL_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_MINHAS_ACOES;
+import static ufc.quixada.npi.gpa.util.Constants.REDIRECT_PAGINA_RESOLVER_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.STATUS_MESSAGE_SUCCESS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_CADASTRADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_EDITADA_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_HOMOLOGADA_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLVER_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR;
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.VISUALIZAR_ACAO;
-import static ufc.quixada.npi.gpa.util.RedirectConstants.R_ACOES;
 import static ufc.quixada.npi.gpa.util.RedirectConstants.R_INDEX;
 
 import java.text.ParseException;
@@ -283,10 +284,12 @@ public class AcaoExtensaoController {
 			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA);
 
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
-			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA_ERROR);
-			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_CADASTRADA_ERROR);
-			return R_ACOES;
+			if(e.getMessage().equals(MENSAGEM_DATA_IGUAL_MAIOR)) {
+				redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_CADASTRADA_ERROR);
+				redirect.addFlashAttribute("conteudo", MENSAGEM_DATA_IGUAL_MAIOR);
+			} 
+			return REDIRECT_PAGINA_CADASTAR_ACAO;
 		}
 
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();
@@ -354,9 +357,24 @@ public class AcaoExtensaoController {
 				redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA);
 			}
 		} catch (GpaExtensaoException e) {
-			redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
-			redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA_ERROR);
-			redirect.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_ACAO_EDITADA_ERROR);
+			if(pendencia) {
+				if(e.getMessage().equals(MENSAGEM_DATA_IGUAL_MAIOR)) {
+					redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+					redirect.addFlashAttribute("titulo", TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR);
+					redirect.addFlashAttribute("conteudo", MENSAGEM_DATA_IGUAL_MAIOR);
+				}
+				
+				return REDIRECT_PAGINA_RESOLVER_PENDENCIAS + acaoExtensao.getId();
+			
+			} else {
+				if(e.getMessage().equals(MENSAGEM_DATA_IGUAL_MAIOR)) {
+					redirect.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+					redirect.addFlashAttribute("titulo", TITULO_MESSAGE_ACAO_EDITADA_ERROR);
+					redirect.addFlashAttribute("conteudo", MENSAGEM_DATA_IGUAL_MAIOR);
+				}
+				
+				return REDIRECT_PAGINA_EDITAR_ACAO + acaoExtensao.getId();
+			}
 		}
 
 		return REDIRECT_PAGINA_DETALHES_ACAO + acaoExtensao.getId();

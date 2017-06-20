@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gpa.controller;
 
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_ADICIONADO;
+import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_PERMISSAO_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.CONTEUDO_MESSAGE_PARCERIA_STATUS_ERROR;
@@ -112,6 +113,10 @@ public class ParceriaExternaController {
 				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
 				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
 				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_PARCEIRO_ERROR);
+			} else if(TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR.equals(e.getMessage())) {
+				redirectAttribute.addFlashAttribute("status", STATUS_MESSAGE_ERROR);
+				redirectAttribute.addFlashAttribute("titulo", TITULO_MESSAGE_PARCERIA_ADICIONADO_ERROR);
+				redirectAttribute.addFlashAttribute("conteudo", CONTEUDO_MESSAGE_PARCERIA_ACAO_ENCERRADA_ERROR);
 			}
 		}
 
