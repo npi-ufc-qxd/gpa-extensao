@@ -225,9 +225,7 @@ public class AcaoExtensaoController {
 	@GetMapping("/{acao}")
 	public String visualizarAcao(@PathVariable AcaoExtensao acao, Model model) {
 
-		model.addAttribute("pendencia", new Pendencia()); // Se tirar essa
-															// linha, gera erro.
-		model.addAttribute("pareceristas", servidorService.findAllServidores());
+		model.addAttribute("pendencia", new Pendencia());
 		model.addAttribute("acaoExtensao", acao);
 		model.addAttribute("participacao", new Participacao());
 		model.addAttribute("funcoes", Funcao.values());
@@ -252,7 +250,7 @@ public class AcaoExtensaoController {
 		model.addAttribute("acao", new AcaoExtensao());
 		model.addAttribute("modalidades", Modalidade.values());
 		model.addAttribute("acoesParaVinculo", acaoExtensaoService.findProgramasAprovados());
-		model.addAttribute("servidores", servidorService.findAllServidores());
+		//model.addAttribute("servidores", servidorService.findAllServidores());
 		model.addAttribute("action", "cadastrar");
 
 		return CADASTRAR_ACAO;

@@ -88,7 +88,7 @@
 	</div>
 	<div class="box-footer">
 		<button id="buttonAdicionarParticipacao" 
-			th:if="((${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')})
+			th:if="((${#authentication.name == acaoExtensao.coordenador.cpf} OR ${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')})
 				AND (${acaoExtensao.status.name() == 'NOVO' OR acaoExtensao.status.name() == 'RESOLVENDO_PENDENCIAS_PARECER' OR acaoExtensao.status.name() == 
     		'RESOLVENDO_PENDENCIAS_RELATO' OR acaoExtensao.status.name() == 'APROVADO'})) AND ${acaoExtensao.ativo}" 
     		type="button" class="btn btn-info btn-flat pull-right">Adicionar</button>

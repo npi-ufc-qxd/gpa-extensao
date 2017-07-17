@@ -9,7 +9,7 @@
 		</div>
 		<ul class="nav navbar-top-links navbar-right pull-right">
 			<li class="dropdown">
-                <a sec:authorize="hasAuthority('SERVIDOR')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                <a sec:authorize="hasAnyAuthority('SERVIDOR')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
                     <i class="icon-note"></i>
                     <span>Coordenador/Parecerista</span>
                     <div 
@@ -30,7 +30,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a sec:authorize="hasAuthority('DIRECAO')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
+                <a sec:authorize="hasAnyAuthority('DIRECAO')" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#">
                     <i class="icon-note"></i>
                     <span>Direção</span>
                     <div
@@ -43,8 +43,8 @@
                 	<li th:if="${qtdAcoesPareceristaRelator == 0 AND qtdAcoesHomologacao == 0}">
                     	<a>Não hã notificações!</a>
                    	</li>
-                    <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando parecerista/relator (' + ${qtdAcoesPareceristaRelator} + ')'"></a> </li>
-                    <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAuthority('DIRECAO')"> <a th:text="'Aguardando homologação (' + ${qtdAcoesHomologacao} + ')'"></a> </li>
+                    <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAnyAuthority('DIRECAO')"> <a th:text="'Aguardando parecerista/relator (' + ${qtdAcoesPareceristaRelator} + ')'"></a> </li>
+                    <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAnyAuthority('DIRECAO')"> <a th:text="'Aguardando homologação (' + ${qtdAcoesHomologacao} + ')'"></a> </li>
                 </ul>
             </li>
 			<li class="dropdown">
@@ -74,7 +74,7 @@
           <li> <a th:href="@{/acoes/encerrada}">Encerradas</a> </li>
         </ul>
 			</li>
-			<li id="menu-cadastrar-acao" sec:authorize="hasAuthority('SERVIDOR')">
+			<li id="menu-cadastrar-acao" sec:authorize="hasAnyAuthority('SERVIDOR')">
 				<a th:href="@{/acoes/cadastrar}" class="waves-effect"><span class="hide-menu">Cadastrar Ação</span></a>
 			</li>
 			<li id="menu-servidores">

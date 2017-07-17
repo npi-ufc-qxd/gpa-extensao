@@ -45,8 +45,8 @@
 					</td>
 					<td th:if="${parceria.descricaoOutrasFormas} != ''" th:text="${parceria.descricaoOutrasFormas}"></td>
 					<td th:if="${parceria.descricaoOutrasFormas} == ''"><span class="glyphicon glyphicon-minus"></span></td>
-					<td data-toogle="tooltip" th:if="((${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) or !${parceria.acaoExtensao.ativo}"></td>
-					<td data-toogle="tooltip" title="Excluir" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) and ${parceria.acaoExtensao.ativo}">
+					<td data-toogle="tooltip" th:if="((${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')}) or !${parceria.acaoExtensao.ativo}"></td>
+					<td data-toogle="tooltip" title="Excluir" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')}) and ${parceria.acaoExtensao.ativo}">
 						<a class="btn btn-danger btn-flat btn-xs" 
 							id="excluir-parceria-externa"
 							data-toggle="modal"

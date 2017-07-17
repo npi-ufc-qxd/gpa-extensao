@@ -14,7 +14,7 @@
 		 </div>
 	</div> 
 	
-	<p sec:authorize="!hasAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'}">
+	<p sec:authorize="!hasAnyAuthority('DIRECAO')" th:if="${acaoExtensao.status.name() == 'AGUARDANDO_RELATOR'}">
 		<div th:replace="detalhes/acao/fragments-detalhes-parecer :: aguardando-parecer-relator"></div>
 	</p>
 	

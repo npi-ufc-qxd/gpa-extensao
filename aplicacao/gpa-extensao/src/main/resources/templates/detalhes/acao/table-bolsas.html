@@ -33,11 +33,11 @@
 					<td th:text="${#dates.format(bolsa.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(bolsa.termino, 'dd/MM/yyyy')}"></td>
 					<td th:if="${bolsa.ativo}">
 					
-						<div th:if="(${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')} or !${bolsa.acaoExtensao.ativo}">
+						<div th:if="(${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')} or !${bolsa.acaoExtensao.ativo}">
 							<button class="btn btn-primary btn-flat btn-xs" disabled="disabled" >Ativo</button>
 						</div>
-						<div data-toogle="tooltip" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) and ${bolsa.acaoExtensao.ativo}"> 
-							<a class="btn btn-primary btn-ok btn-pull-right btn-flat btn-xs" data-toggle="modal" title="Encerrar Vínculo"
+						<div data-toogle="tooltip" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')}) and ${bolsa.acaoExtensao.ativo}"> 
+							<a class="btn btn-primary btn-ok btn-pull-right btn-flat btn-xs" data-toggle="modal" title="Encerrar VÃ­nculo"
 								data-target="#confirm-encerrar-bolsa" th:attr="data-id=${bolsa.id}">Ativo</a>
 						</div>
 					</td>
@@ -45,8 +45,8 @@
 						<button class="btn btn-danger btn-flat btn-xs" disabled="disabled" >Inativo</button>
 					</td>
 					
-					<td th:if="(${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')} or !${bolsa.acaoExtensao.ativo}"></td>
-					<td data-toogle="tooltip" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAuthority(''ADMINISTRACAO'')')}) and ${bolsa.acaoExtensao.ativo}"> 
+					<td th:if="(${#authentication.principal.cpf} != ${cpfCoordenador}) and !${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')} or !${bolsa.acaoExtensao.ativo}"></td>
+					<td data-toogle="tooltip" th:if="((${#authentication.principal.cpf} == ${cpfCoordenador}) or ${#authorization.expression('hasAnyAuthority(''ADMINISTRACAO'')')}) and ${bolsa.acaoExtensao.ativo}"> 
 						<a class="btn btn-danger btn-flat btn-xs" data-toggle="modal" title="Excluir"
 							data-target="#confirm-delete-bolsa" th:attr="data-id=${bolsa.id}">
 							<i class="fa fa-trash-o"></i>

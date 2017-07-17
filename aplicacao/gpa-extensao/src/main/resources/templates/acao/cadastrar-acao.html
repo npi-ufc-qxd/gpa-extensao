@@ -130,7 +130,7 @@
 								</div>
 							</div>
 
-							<div sec:authorize="hasAuthority('ADMINISTRACAO')" class="col-md-3" th:if="${action == 'cadastrar'}">
+							<div sec:authorize="hasAnyAuthority('ADMINISTRACAO')" class="col-md-3" th:if="${action == 'cadastrar'}">
 								<div class="form-group">
 									<label for="retroativa">Ação Retroativa?</label> <select
 										id="retroativa" class="form-control">

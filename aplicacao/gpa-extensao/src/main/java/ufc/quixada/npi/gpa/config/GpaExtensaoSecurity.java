@@ -40,9 +40,9 @@ public class GpaExtensaoSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// Utilizado para autenticação via ldap
-		// auth.authenticationProvider(provider);
+		auth.authenticationProvider(provider);
 
 		// Utilizado para autenticação via banco de dados
-		auth.userDetailsService(userDetailsService);
+		//auth.userDetailsService(userDetailsService);
 	}
 }

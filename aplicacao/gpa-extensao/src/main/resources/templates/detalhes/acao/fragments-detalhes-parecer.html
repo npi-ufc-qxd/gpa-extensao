@@ -99,7 +99,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12"
-					th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerTecnico.responsavel != null} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf})">
+					th:if="${#authorization.expression('hasAnyAuthority(''DIRECAO'')')} OR (${acao.parecerTecnico.responsavel != null} AND ${#authentication.name == acao.parecerTecnico.responsavel.cpf})">
 					<label>Observações</label>
 					<p th:text="${acao.parecerTecnico.observacoes} ?: '-'" />
 				</div>
@@ -107,7 +107,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="pull-right">
-						<a sec:authorize="hasAuthority('DIRECAO')"
+						<a sec:authorize="hasAnyAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'}"
 							id="alterar-parecerista-button" class="btn btn-info btn-flat"
 							href="#parecer-tecnico-form" title="Alterar parecerista da ação">Alterar
@@ -126,7 +126,7 @@
 			</div>
 		</div>
 
-		<div id="parecer-tecnico-form" sec:authorize="hasAuthority('DIRECAO')"
+		<div id="parecer-tecnico-form" sec:authorize="hasAnyAuthority('DIRECAO')"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_TECNICO'} OR ${acao.status.name() == 'AGUARDANDO_PARECERISTA'}"
 			th:style="${acao.status.name() != 'AGUARDANDO_PARECERISTA'} ? 'display: none'">
 			<form id="parecerista-form" class="form-horizontal"
@@ -299,7 +299,7 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12"
-					th:if="${#authorization.expression('hasAuthority(''DIRECAO'')')} OR (${acao.parecerRelator.responsavel != null} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf})">
+					th:if="${#authorization.expression('hasAnyAuthority(''DIRECAO'')')} OR (${acao.parecerRelator.responsavel != null} AND ${#authentication.name == acao.parecerRelator.responsavel.cpf})">
 					<label>Observações</label>
 					<p th:text="${acao.parecerRelator.observacoes} ?: '-'" />
 				</div>
@@ -308,7 +308,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="pull-right">
-						<a sec:authorize="hasAuthority('DIRECAO')"
+						<a sec:authorize="hasAnyAuthority('DIRECAO')"
 							th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'}"
 							id="alterar-relator-button" class="btn btn-info btn-flat"
 							href="#parecer-relator-form" title="Alterar relator da ação">Alterar
@@ -327,7 +327,7 @@
 			</div>
 		</div>
 
-		<div id="parecer-relator-form" sec:authorize="hasAuthority('DIRECAO')"
+		<div id="parecer-relator-form" sec:authorize="hasAnyAuthority('DIRECAO')"
 			th:if="${acao.status.name() == 'AGUARDANDO_PARECER_RELATOR'} OR ${acao.status.name() == 'AGUARDANDO_RELATOR'}"
 			th:style="${acao.status.name() != 'AGUARDANDO_RELATOR'} ? 'display: none'">
 			<form id="relator-form" class="form-horizontal" th:object="${acao}"

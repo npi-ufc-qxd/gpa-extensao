@@ -2,6 +2,10 @@
     display: none;
 }
 
+#page-wrapper {
+    background: #e2e5e8;
+}
+
 .error-datas {
 	color: #FF0000;
 }

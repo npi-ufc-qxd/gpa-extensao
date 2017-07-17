@@ -78,9 +78,9 @@
 		</div>
 	</div>
 
-	<div class="row" th:if="${acao.coordenador.cpf == #authentication.name}">
+	<div class="row">
 		<div class="col-sm-12">
-			<label>Download do Documento</label> <a
+			<label>Arquivo</label> <a
 				th:href="@{/documento/download/} + ${acao.anexo.id}"
 				download="acao.anexo.nome">
 				<p th:text="${acao.anexo.nome} ? ${acao.anexo.nome} : '-'"></p>
@@ -100,13 +100,13 @@
 					th:href="@{/acoes/resolver-pendencia/__${acao.id}__}"
 					alt="default" class="btn btn-info waves-effect waves-light m-t-10">Resolver Pendências</a> 
 				
-				<a sec:authorize="hasAuthority('DIRECAO')"
+				<a sec:authorize="hasAnyAuthority('DIRECAO')"
 					th:if="${acao.status.name() == 'AGUARDANDO_HOMOLOGACAO'}" href=""
 					alt="default" data-toggle="modal" data-target="#modalHomologar"
 					class="btn btn-info waves-effect waves-light m-t-10">Homologar
 					Ação</a> 
 				
-				<a  sec:authorize="hasAuthority('DIRECAO') || hasAuthority('ADMINISTRACAO')"
+				<a  sec:authorize="hasAnyAuthority('DIRECAO') || hasAnyAuthority('ADMINISTRACAO')"
 					th:if="${acao.status.name() == 'APROVADO' AND acao.ativo}"
 					href="" alt="default" data-toggle="modal" data-target="#modalBolsasRecebidas"
 					class="btn btn-info waves-effect waves-light m-t-10">Bolsas
@@ -126,12 +126,12 @@
 					th:if="${acao.status.name() == 'APROVADO' AND pessoaLogada.isDirecao() AND acao.isAtivo()}"
 					class="sa-warning btn btn-info waves-effect waves-light m-t-10">Encerrar </a>
 				
-				<a sec:authorize="hasAuthority('SERVIDOR')"
+				<a sec:authorize="hasAnyAuthority('SERVIDOR')"
 					th:if="${acao.status.name() == 'NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:href="@{/acoes/editar/__${acao.id}__}"
 					class="btn btn-info waves-effect waves-light m-t-10">Editar</a>
 				
-				<a sec:authorize="hasAuthority('SERVIDOR')"
+				<a sec:authorize="hasAnyAuthority('SERVIDOR')"
 					th:if="${acao.status.name()=='NOVO' AND acao.coordenador.cpf == #authentication.name}"
 					th:attr="link=@{/acoes/deletar/__${acao.id}__}, action=excluir, redirect = true"
 					class="sa-warning btn waves-effect waves-light btn-danger m-t-10">Excluir</a>
