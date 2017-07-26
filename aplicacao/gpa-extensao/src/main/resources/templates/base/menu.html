@@ -3,8 +3,7 @@
 		<a class="navbar-toggle hidden-sm hidden-md hidden-lg" href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
 		<div class="top-left-part">
 			<a class="logo" href="">
-				<b><img th:src="@{/img/eliteadmin-logo.png}" alt="home" /></b>
-				<span class="hidden-xs"><img th:src="@{/img/eliteadmin-text.png}" alt="home" /></span>
+				<span class="hidden-xs">GPA-Extensão</span>
 			</a>
 		</div>
 		<ul class="nav navbar-top-links navbar-right pull-right">
@@ -22,7 +21,7 @@
                 <ul class="dropdown-menu dropdown-tasks animated slideInUp">
                 	<li th:if="${qtdAguardandoParecer == 0 AND qtdPendenciasParecerTecnico == 0 AND
                     	qtdPendenciasParecerRelator == 0}">
-                    	<a>Não hã notificações!</a>
+                    	<a>Não há notificações!</a>
                    	</li>
                 	<li th:if="${qtdAguardandoParecer > 0}"> <a th:text="'Aguardando parecer (' + ${qtdAguardandoParecer} + ')'"></a> </li>
                 	<li th:if="${qtdPendenciasParecerTecnico > 0}"> <a th:text="'Resolver pendências parecer tecnico (' + ${qtdPendenciasParecerTecnico} + ')'"></a> </li>
@@ -41,7 +40,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-tasks animated slideInUp">
                 	<li th:if="${qtdAcoesPareceristaRelator == 0 AND qtdAcoesHomologacao == 0}">
-                    	<a>Não hã notificações!</a>
+                    	<a>Não há notificações!</a>
                    	</li>
                     <li th:if="${qtdAcoesPareceristaRelator > 0}" sec:authorize="hasAnyAuthority('DIRECAO')"> <a th:text="'Aguardando parecerista/relator (' + ${qtdAcoesPareceristaRelator} + ')'"></a> </li>
                     <li th:if="${qtdAcoesHomologacao > 0}" sec:authorize="hasAnyAuthority('DIRECAO')"> <a th:text="'Aguardando homologação (' + ${qtdAcoesHomologacao} + ')'"></a> </li>
@@ -89,30 +88,3 @@
 		</ul>
 	</div>
 </div>
-
-<!--
-<header class="main-header" th:fragment="menu">
-	<nav class="navbar navbar-static-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a th:href="@{/}" class="navbar-brand"><b>GPA</b> EXTENSÃO</a>
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-					<i class="fa fa-bars"></i>
-				</button>
-			</div>
-
-			<div class="collapse navbar-collapse" id="navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li id="menu-minhas-acoes"><a th:href="@{/acoes/minhas}">Minhas ações</a></li>
-					<li id="menu-acoes" ><a th:href="@{/acoes/}">Ações de extensão</a></li>
-					<li id="menu-acoes-tramitacao" sec:authorize="hasAuthority('COORDENADORIA')"><a th:href="@{/acoes/tramitacao}">Ações em tramitação</a></li>
-					<li id="menu-servidores" ><a th:href="@{/servidores/}">Servidores</a></li>
-					<li id="menu-alunos" sec:authorize="hasAnyAuthority('ADMINISTRACAO, COORDENADORIA')"><a th:href="@{/alunos/}">Alunos</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a th:href="@{/logout}">Sair</a></li>
-				</ul>
-			</div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;
-		</div>&lt;!&ndash; /.container-fluid &ndash;&gt;
-	</nav>
-</header>-->

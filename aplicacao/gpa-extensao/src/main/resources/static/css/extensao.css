@@ -9,3 +9,9 @@
 .error-datas {
 	color: #FF0000;
 }
+
+.top-left-part {
+	margin-top: 20px;
+	margin-left: 20px;
+	font-weight: bold;
+}
