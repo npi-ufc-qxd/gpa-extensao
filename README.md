@@ -1,4 +1,6 @@
-# gpa-extensao
-Sistema de Gestão de Ações de Extensão do Campus da UFC em Quixadá.
+# gpa-extensao - Sistema de Gestão de Ações de Extensão do Campus da UFC em Quixadá.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/58d5a8163a83465685601492b9b63c39)](https://www.codacy.com/app/NPI-UFC/gpa-extensao?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=npi-ufc-qxd/gpa-extensao&amp;utm_campaign=Badge_Grade)
+
+O sistema de controle e gestão de ações de extensão e pesquisa (dividimos em dois módulos) armazena e gerencia as ações de extensão e os projetos de pesquisa desenvolvidos por servidores do Campus da UFC em Quixadá. Além disso, automatiza o processo já existente de submissão e aprovação dessas ações e projetos. Tanto as ações de extensão quanto os projetos de pesquisa têm um(a) coordenador(a) e podem ter outros participantes e parceiros, além de bolsistas. Todas essas informações são utilizadas nos relatórios que o sistema gera. Esses relatórios fornecem informações consolidadas de ações e projetos que foram realizados, como, por exemplo, a quantidade de ações de extensão e projetos de pesquisa realizados em um determinado ano, os projetos e ações desenvolvidos por um determinado servidor, a quantidade de bolsistas de extensão de um determinado ano, entre outros.
+
