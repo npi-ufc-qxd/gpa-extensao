@@ -13,7 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import ufc.quixada.npi.gpa.exception.GpaExtensaoException;;
+import ufc.quixada.npi.gpa.exception.GpaExtensaoException;
 
 
 public class DocumentoEntityListener implements ApplicationContextAware{

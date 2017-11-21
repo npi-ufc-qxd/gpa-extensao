@@ -45,10 +45,10 @@ import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_ACAO_SUBMETIDA_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_CADASTRAR_CODIGO_ERROR;
+import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLVER_PENDENCIAS;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO;
 import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_TRANSFERIR_COORDENACAO_ERROR;
-import static ufc.quixada.npi.gpa.util.Constants.TITULO_MESSAGE_RESOLUCAO_PENDENCIAS_ERROR;
 import static ufc.quixada.npi.gpa.util.PageConstants.CADASTRAR_ACAO;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_ACOES;
 import static ufc.quixada.npi.gpa.util.PageConstants.LISTAR_MINHAS_ACOES;
@@ -97,7 +97,6 @@ import ufc.quixada.npi.gpa.model.Participacao.Instituicao;
 import ufc.quixada.npi.gpa.model.Pendencia;
 import ufc.quixada.npi.gpa.model.Pessoa;
 import ufc.quixada.npi.gpa.model.Servidor;
-import ufc.quixada.npi.gpa.repository.AcaoExtensaoRepository;
 import ufc.quixada.npi.gpa.repository.ParecerRepository;
 import ufc.quixada.npi.gpa.service.AcaoExtensaoService;
 import ufc.quixada.npi.gpa.service.AlunoService;
@@ -116,9 +115,6 @@ public class AcaoExtensaoController {
 
 	@Autowired
 	private PessoaService pessoaService;
-
-	@Autowired
-	private AcaoExtensaoRepository acaoExtensaoRepository;
 
 	@Autowired
 	private ParecerRepository parecerRepository;
@@ -409,7 +405,7 @@ public class AcaoExtensaoController {
 	@RequestMapping(value = "/detalhes/{id}", method = RequestMethod.GET)
 	public String verDetalhes(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 
-		AcaoExtensao acao = acaoExtensaoRepository.findOne(id);
+		AcaoExtensao acao = acaoExtensaoService.findById(id);
 
 		if (acao == null) {
 			redirectAttributes.addFlashAttribute(ERRO, MENSAGEM_ACAO_EXTENSAO_INEXISTENTE);
